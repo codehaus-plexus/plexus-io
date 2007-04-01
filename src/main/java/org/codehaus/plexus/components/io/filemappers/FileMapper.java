@@ -11,7 +11,7 @@ public interface FileMapper
     public static final String ROLE = FileMapper.class.getName();
 
     /**
-     * The identity mappers default role-hint: "default".
+     * The default role-hint: "default".
      */
     public static final String DEFAULT_ROLE_HINT = "default";
 
