@@ -16,5 +16,12 @@
       <version>1.0-alpha-19</version>
     </dependency>
   </dependencies>
-</project>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

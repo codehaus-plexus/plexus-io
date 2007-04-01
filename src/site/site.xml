@@ -21,6 +21,14 @@
       <item name="Plexus" href="http://plexus.codehaus.org/"/>
       <item name="Plexus Components" href="http://plexus.codehaus.org/plexus-components"/>
     </links>  
+
+    <menu name="Plexus IO">
+      <item name="Introduction" href="index.html"/>
+      <item name="File Mappers" href="filemappers.html"/>
+      <item name="File Selectors" href="fileselectors.html"/>
+      <item name="Javadoc API" href="apidocs/index.html"/>
+    </menu>
+
     <menu ref="parent"/>
     <menu ref="reports" inherit="bottom" />
   </body>

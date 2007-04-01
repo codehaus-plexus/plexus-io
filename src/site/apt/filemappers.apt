@@ -1,0 +1,96 @@
+
+ ------------
+ File Mappers
+ ------------
+
+File Mappers
+
+  A file mapper is a plexus component, which allows to convert file
+  names. File mappers are used when creating files. For example,
+  the {{{http://mojo.codehaus.org/xml-maven-plugin}XML Maven Plugin}}
+  allows to specify a file mapper when creating files by XSLT
+  transformation.
+
+  File mappers are implementing the interface
+  {{{apidocs/org/codehaus/plexus/components/io/filemappers/FileMapper.html}FileMapper}}.
+  The idea of file mappers is borrowed from the
+  {{{http://ant.apache.org/manual/CoreTypes/mapper.html}Ant FileMapper}},
+  which serves the same purpose within Ant.
+
+  Available file mappers are
+
+  * The {{{#Identity Mapper}Identity Mapper}}; it uses the role hints
+    "default", or "identity".
+
+  * The {{{#File Extension Mapper}File Extension Mapper}}; its role hint
+    is "fileExtension".
+
+  * The {{{#Flattening File Mapper}Flattening File Mapper}} with the role
+    hint of "flatten".
+
+  * The {{{#Merging File Mapper}Merging File Mapper}}; its role hint is
+    "merge".
+
+* {Identity Mapper}
+
+  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/IdentityMapper.html}identity mapper}}
+  maps any file name to itself. This may be handy, where you want to avoid the value null for
+  file mappers. The identity takes no configuration parameters.
+
+  For example, to use the identity mapper within the XML Maven Plugins <<<transform>>>
+  goal, you would use the following configuration snipped:
+
+-----------------------------------------------------------------------------
+  <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.IdentityMapper"/>
+-----------------------------------------------------------------------------
+
+  The identity mapper uses the role hints "identity", or "default".
+
+* {File Extension Mapper}
+
+  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/FileExtensionMapper.html}file
+  extension mapper}} changes the extension of the created files. For example, if you
+  would use the XML Maven Plugin to convert Docbook into FOP or PDF files, then you would
+  want the generated files to have the extension ".fo", or ".pdf".
+
+  A configuration snippet for using the identity mapper within the XML Maven
+  Plugins <<<transform>>> goal would look like this:
+
+-----------------------------------------------------------------------------
+  <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+    <targetExtension>.pdf</targetExtension>
+  </fileMapper>
+-----------------------------------------------------------------------------
+
+  The file extension mapper uses the role hints "fileExtension".
+
+* {Flattening File Mapper}
+
+  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/FlattenFileMapper.html}flattening
+  file mapper}} is used to flatten a directory structure: It removes all directory
+  components. For example, it would convert the name <<<META-INF/MANIFEST.MF>>> to
+  <<<MANIFEST.MF>>>.
+
+  The flattening file mapper takes no configuration parameters. Consequently,
+  a typical configuration snippet would look like this:
+
+-----------------------------------------------------------------------------
+  <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FlattenFileMapper"/>
+-----------------------------------------------------------------------------
+
+  The flattening file mapper uses the role hint "flatten".
+
+* {Merging File Mapper}
+
+  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/MergeFileMapper.html}merging
+  file mapper}} merges all possible file names into one file name. In other words, it
+  performs a constant mapping. For example, a merging file mapper, which maps all
+  possible file names to <<<theOneAndOnlyFile>>> would be configured as follows:
+
+-----------------------------------------------------------------------------
+  <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+    <targetName>theOneAndOnlyFile</targetName>
+  </fileMapper>
+-----------------------------------------------------------------------------
+
+  The merging file mapper uses the role hint "merge".
