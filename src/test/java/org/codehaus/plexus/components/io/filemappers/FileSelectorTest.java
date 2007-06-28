@@ -2,12 +2,13 @@ package org.codehaus.plexus.components.io.filemappers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector;
-import org.codehaus.plexus.components.io.fileselectors.FileInfo;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
+import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 
 
 /**
@@ -21,29 +22,21 @@ public class FileSelectorTest extends PlexusTestCase
         for ( int i = 0;  i < pInput.length;  i++ )
         {
             final String name = pInput[i];
-            boolean result = pSelector.isSelected( new FileInfo(){
-
-                public InputStream getContents() throws IOException
+            AbstractPlexusIoResource resource = new AbstractPlexusIoResource(){
+                public InputStream getInputStream() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );
                 }
 
-                public String getName()
+                public URL getURL() throws IOException
                 {
-                    return name;
+                    throw new IllegalStateException( "Not implemented" );
                 }
-
-                public boolean isDirectory()
-                {
-                    return false;
-                }
-
-                public boolean isFile()
-                {
-                    return true;
-                }
-                
-            } );
+            };
+            resource.setName( name );
+            resource.setDirectory( false );
+            resource.setFile( true );
+            boolean result = pSelector.isSelected( resource );
             if ( result != pOutput[i] )
             {
                 fail( "Test fails for selector " + pSelector.getClass().getName()

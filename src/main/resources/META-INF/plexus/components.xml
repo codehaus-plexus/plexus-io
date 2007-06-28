@@ -3,74 +3,83 @@
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>identity</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.filemappers.IdentityMapper
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.filemappers.IdentityMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>default</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.filemappers.IdentityMapper
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.filemappers.IdentityMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>fileExtension</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.filemappers.FileExtensionMapper
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.filemappers.FileExtensionMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>flatten</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.filemappers.FlattenFileMapper
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.filemappers.FlattenFileMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>merge</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.filemappers.MergeFileMapper
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.filemappers.MergeFileMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.fileselectors.FileSelector</role>
       <role-hint>default</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector</implementation>
       <instantiation-strategy>singleton</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.fileselectors.FileSelector</role>
       <role-hint>all</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector</implementation>
       <instantiation-strategy>singleton</instantiation-strategy>
       <configuration/>
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.fileselectors.FileSelector</role>
       <role-hint>standard</role-hint>
-      <implementation>
-        org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector
-      </implementation>
+      <implementation>org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector</implementation>
       <instantiation-strategy>singleton</instantiation-strategy>
       <configuration/>
+    </component>
+
+    <component>
+      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
+      <role-hint>default</role-hint>
+      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
+    </component>
+    <component>
+      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
+      <role-hint>files</role-hint>
+      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
+    </component>
+    <component>
+      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
+      <role-hint>zipFile</role-hint>
+      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoZipFileResourceCollection</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
+    </component>
+    <component>
+      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
+      <role-hint>jarFile</role-hint>
+      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoZipFileResourceCollection</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
   </components>
 </component-set>
