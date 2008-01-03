@@ -2,6 +2,8 @@ package org.codehaus.plexus.components.io.resources;
 
 import java.io.IOException;
 
+import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 
 
@@ -25,6 +27,8 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
 
     private boolean includingEmptyDirectories = true;
 
+    private FileMapper[] fileMappers;
+    
     /**
      * Sets a string of patterns, which excluded files
      * should match.
@@ -165,5 +169,38 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
             }
         }
         return true;
+    }
+
+    /**
+     * Returns the file name mappers, which are used to transform
+     * the resource names.
+     */
+    public FileMapper[] getFileMappers()
+    {
+        return fileMappers;
+    }
+
+    /**
+     * Sets the file name mappers, which are used to transform
+     * the resource names.
+     */
+    public void setFileMappers( FileMapper[] fileMappers )
+    {
+        this.fileMappers = fileMappers;
+    }
+
+    public String getName( PlexusIoResource resource )
+        throws IOException
+    {
+        String name = resource.getName();
+        final FileMapper[] mappers = getFileMappers();
+        if ( mappers != null )
+        {
+            for ( int i = 0;  i < mappers.length;  i++ )
+            {
+                name = mappers[i].getMappedFileName( name );
+            }
+        }
+        return PrefixFileMapper.getMappedFileName( getPrefix(), name );
     }
 }

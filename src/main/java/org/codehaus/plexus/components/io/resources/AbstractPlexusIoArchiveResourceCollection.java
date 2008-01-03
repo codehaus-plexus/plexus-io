@@ -15,6 +15,7 @@ import java.util.List;
  *
  */
 public abstract class AbstractPlexusIoArchiveResourceCollection extends AbstractPlexusIoResourceCollection
+    implements PlexusIoArchivedResourceCollection
 {
 
     private File file;

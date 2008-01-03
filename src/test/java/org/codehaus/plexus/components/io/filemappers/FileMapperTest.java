@@ -130,4 +130,25 @@ public class FileMapperTest extends PlexusTestCase
         testMergeMapper( targetName, results, new MergeFileMapper() );
         testMergeMapper( targetName, results, (MergeFileMapper) lookup( FileMapper.ROLE, MergeFileMapper.ROLE_HINT ) );
     }
+
+    public void testPrefixMapper() throws Exception
+    {
+        final String prefix = "x7Rtf";
+        final String[] results = getIdentityResults();
+        testFileMapper( new PrefixFileMapper(), SAMPLES, results );
+        testFileMapper( (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT ), SAMPLES, results );
+        for ( int i = 0;  i < results.length;  i++ )
+        {
+            if  ( results[i] != null )
+            {
+                results[i] = prefix + results[i];
+            }
+        }
+        PrefixFileMapper mapper = new PrefixFileMapper();
+        mapper.setPrefix( prefix );
+        testFileMapper( mapper, SAMPLES, results );
+        mapper = (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT );
+        mapper.setPrefix( prefix );
+        testFileMapper( mapper, SAMPLES, results );
+    }
 }

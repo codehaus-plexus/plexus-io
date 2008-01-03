@@ -36,6 +36,14 @@
       <configuration/>
     </component>
     <component>
+      <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
+      <role-hint>prefix</role-hint>
+      <implementation>org.codehaus.plexus.components.io.filemappers.PrefixFileMapper</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
+      <configuration/>
+    </component>
+
+    <component>
       <role>org.codehaus.plexus.components.io.fileselectors.FileSelector</role>
       <role-hint>default</role-hint>
       <implementation>org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector</implementation>

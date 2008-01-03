@@ -24,5 +24,13 @@ public interface PlexusIoResourceCollection
      * Returns an iterator over the resources in the collection.
      * @throws IOException 
      */
-    public Iterator getResources() throws IOException;
+    Iterator getResources() throws IOException;
+
+    /**
+     * Returns the resources suggested name. This is used for
+     * integrating file mappers.
+     * @param resource A resource, which has been obtained by
+     *   calling {@link #getResources()}.
+     */
+    String getName( PlexusIoResource resource ) throws IOException;
 }

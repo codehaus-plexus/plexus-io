@@ -15,7 +15,7 @@ import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelecto
  * Implementation of {@link PlexusIoResourceCollection} for an archives
  * contents.
  */
-public abstract class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCollection
+public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCollection
 {
     private PlexusIoResourceCollection src;
 
