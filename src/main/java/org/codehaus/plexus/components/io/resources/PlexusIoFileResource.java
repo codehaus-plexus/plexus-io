@@ -17,6 +17,31 @@ public class PlexusIoFileResource implements PlexusIoResource
     private String name;
 
     /**
+     * Creates a new instance.
+     */
+    public PlexusIoFileResource()
+    {
+        // Does nothing
+    }
+
+    /**
+     * Creates a new instance.
+     */
+    public PlexusIoFileResource( File file )
+    {
+        this( file, file.getPath().replace( '\\', '/' ) );
+    }
+
+    /**
+     * Creates a new instance.
+     */
+    public PlexusIoFileResource( File file, String name )
+    {
+        this.file = file;
+        this.name = name;
+    }
+    
+    /**
      * Sets the resources file.
      */
     public void setFile( File file )
@@ -67,7 +92,7 @@ public class PlexusIoFileResource implements PlexusIoResource
 
     public long getSize()
     {
-        if ( isDirectory() || !isExisting() )
+        if ( !isExisting() )
         {
             return PlexusIoResource.UNKNOWN_RESOURCE_SIZE;
         }

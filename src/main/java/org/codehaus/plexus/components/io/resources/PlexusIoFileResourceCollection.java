@@ -71,9 +71,7 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
         {
             String name = resources[i];
             String sourceDir = name.replace( '\\', '/' );
-            PlexusIoFileResource resource = new PlexusIoFileResource();
-            resource.setFile( new File( dir, sourceDir ) );
-            resource.setName( name );
+            PlexusIoFileResource resource = new PlexusIoFileResource( new File( dir, sourceDir ), name );
             if ( isSelected( resource ) )
             {
                 if ( prefix != null )
