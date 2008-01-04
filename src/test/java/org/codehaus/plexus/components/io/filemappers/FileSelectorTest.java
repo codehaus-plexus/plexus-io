@@ -23,7 +23,7 @@ public class FileSelectorTest extends PlexusTestCase
         {
             final String name = pInput[i];
             AbstractPlexusIoResource resource = new AbstractPlexusIoResource(){
-                public InputStream getInputStream() throws IOException
+                public InputStream getContents() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );
                 }

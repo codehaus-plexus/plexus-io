@@ -74,9 +74,9 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
                 final PlexusIoResource r = plexusIoResource;
                 AbstractPlexusIoResource resourceImpl = new AbstractPlexusIoResource( plexusIoResource )
                 {
-                    public InputStream getInputStream() throws IOException
+                    public InputStream getContents() throws IOException
                     {
-                        return r.getInputStream();
+                        return r.getContents();
                     }
 
                     public URL getURL() throws IOException

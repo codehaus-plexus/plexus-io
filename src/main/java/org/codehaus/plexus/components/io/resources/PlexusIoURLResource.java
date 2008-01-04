@@ -9,7 +9,7 @@ public class PlexusIoURLResource extends AbstractPlexusIoResource
     private URL url;
 
     
-    public InputStream getInputStream() throws IOException
+    public InputStream getContents() throws IOException
     {
         return getURL().openStream();
     }

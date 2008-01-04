@@ -13,9 +13,10 @@ import java.io.InputStream;
 public interface FileInfo
 {
     /**
-     * Returns the files name. The name can contain path
-     * information, as in
-     * {@code org/codehaus/plexus/components/io/fileselectors/FileSelector.java}.
+     * Returns the resources name, which may include path components,
+     * like directory names, or something like that. The resources name
+     * is expected to be a relative name and the path components must
+     * be separated by {@link java.io.File#pathSeparator}
      */
     String getName();
 

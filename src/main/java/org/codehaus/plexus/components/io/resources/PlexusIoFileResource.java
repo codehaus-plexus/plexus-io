@@ -100,7 +100,7 @@ public class PlexusIoFileResource implements PlexusIoResource
         return result == 0 ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : result;
     }
 
-    public InputStream getInputStream() throws IOException
+    public InputStream getContents() throws IOException
     {
         return new FileInputStream( getFile() );
     }

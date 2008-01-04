@@ -127,7 +127,7 @@ public class ResourcesTest extends PlexusTestCase
         }
         assertTrue( res.getSize() != PlexusIoResource.UNKNOWN_RESOURCE_SIZE );
         assertEquals( res.getSize(), file.length() );
-        InputStream in = res.getInputStream();
+        InputStream in = res.getContents();
         compare( in, file );
         in.close();
         in = res.getURL().openStream();

@@ -3,7 +3,6 @@ package org.codehaus.plexus.components.io.fileselectors;
 import java.io.File;
 import java.io.IOException;
 
-import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.SelectorUtils;
 
@@ -195,9 +194,9 @@ public class IncludeExcludeFileSelector implements FileSelector
         return false;
     }
 
-    public boolean isSelected( PlexusIoResource plexusIoResource ) throws IOException
+    public boolean isSelected( FileInfo fileInfo ) throws IOException
     {
-        final String name = getCanonicalName( plexusIoResource.getName() );
+        final String name = getCanonicalName( fileInfo.getName() );
         return isIncluded( name ) && !isExcluded( name );
     }
 

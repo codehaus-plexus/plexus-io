@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.codehaus.plexus.components.io.fileselectors.FileInfo;
+
 
 /**
  * A resource is a file-like entity. It may be an actual file,
  * an URL, a zip entry, or something like that.
  */
-public interface PlexusIoResource
+public interface PlexusIoResource extends FileInfo
 {
     /**
      * Unknown resource size.
@@ -22,29 +24,11 @@ public interface PlexusIoResource
     public static final long UNKNOWN_MODIFICATION_DATE = 0;
 
     /**
-     * Returns the resources name, which may include path components,
-     * like directory names, or something like that. The resources name
-     * is expected to be a relative name and the path components must
-     * be separated by {@link java.io.File#pathSeparator}
-     */
-    String getName();
-
-    /**
      * Returns the date, when the resource was last modified, if known.
      * Otherwise, returns {@link #UNKNOWN_MODIFICATION_DATE}.
      * @see java.io.File#lastModified()
      */
     long getLastModified();
-
-    /**
-     * Returns, whether the resource is a file.
-     */
-    boolean isFile();
-
-    /**
-     * Returns, whether the resource is a directory.
-     */
-    boolean isDirectory();
 
     /**
      * Returns, whether the resource exists.
@@ -56,11 +40,6 @@ public interface PlexusIoResource
      * {@link #UNKNOWN_RESOURCE_SIZE}.
      */
     long getSize();
-
-    /**
-     * Returns an {@link InputStream} with the resources contents.
-     */
-    InputStream getInputStream() throws IOException;
 
     /**
      * Returns an {@link URL}, which may be used to reference the
