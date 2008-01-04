@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 
@@ -90,5 +92,24 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
             result.add( plexusIoResource );
         }
         return result.iterator();
+    }
+
+    public String getName( PlexusIoResource resource )
+        throws IOException
+    {
+        String name = resource.getName();
+        final FileMapper[] mappers = getFileMappers();
+        if ( mappers != null )
+        {
+            for ( int i = 0;  i < mappers.length;  i++ )
+            {
+                name = mappers[i].getMappedFileName( name );
+            }
+        }
+        /*
+         * The prefix is applied when creating the resource.
+         * return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+         */
+        return name;
     }
 }

@@ -1,12 +1,10 @@
 package org.codehaus.plexus.components.io.resources;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.zip.GZIPInputStream;
 
 
 /**
@@ -56,11 +54,10 @@ public abstract class PlexusIoCompressedFileResourceCollection
                                    + " does not exist or is no file." ); 
         }
         final PlexusIoResource resource = new PlexusIoFileResource(f, p){
-            public InputStream getInputStream()
+            public InputStream getContents()
                 throws IOException
             {
-                final FileInputStream fis = new FileInputStream( f );
-                return new GZIPInputStream( fis );
+                return getInputStream( f );
             }
         };
         return Collections.singleton( resource ).iterator();
