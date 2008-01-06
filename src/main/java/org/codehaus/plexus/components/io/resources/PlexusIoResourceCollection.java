@@ -22,7 +22,6 @@ public interface PlexusIoResourceCollection
 
     /**
      * Returns an iterator over the resources in the collection.
-     * @throws IOException 
      */
     Iterator getResources() throws IOException;
 
@@ -33,4 +32,16 @@ public interface PlexusIoResourceCollection
      *   calling {@link #getResources()}.
      */
     String getName( PlexusIoResource resource ) throws IOException;
+
+    /**
+     * Returns the collections last modification time. For a
+     * collection of files, this might be the last modification
+     * time of the file, which has been modified at last. For an
+     * archive file, this might be the modification time of the
+     * archive file.
+     * @return {@link PlexusIoResource#UNKNOWN_MODIFICATION_DATE},
+     *   if the collections last modification time is unknown,
+     *   otherwise the last modification time in milliseconds.
+     */
+    long getLastModified() throws IOException;
 }

@@ -1,6 +1,7 @@
 package org.codehaus.plexus.components.io.resources;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
@@ -202,5 +203,26 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
             }
         }
         return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+    }
+
+    public long getLastModified()
+        throws IOException
+    {
+        long lastModified = PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
+        for ( final Iterator iter = getResources();  iter.hasNext();  )
+        {
+            final PlexusIoResource res = (PlexusIoResource) iter.next();
+            long l = res.getLastModified();
+            if ( l == PlexusIoResource.UNKNOWN_MODIFICATION_DATE )
+            {
+                return PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
+            }
+            if ( lastModified == PlexusIoResource.UNKNOWN_MODIFICATION_DATE
+                            ||  l > lastModified )
+            {
+                lastModified = l;
+            }
+        }
+        return lastModified;
     }
 }

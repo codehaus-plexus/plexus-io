@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
-import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 
@@ -111,5 +110,11 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
          * return PrefixFileMapper.getMappedFileName( getPrefix(), name );
          */
         return name;
+    }
+
+    public long getLastModified()
+        throws IOException
+    {
+        return src.getLastModified();
     }
 }

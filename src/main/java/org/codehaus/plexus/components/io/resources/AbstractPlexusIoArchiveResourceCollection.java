@@ -54,4 +54,10 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         }
         return result.iterator();
     }
+
+    public long getLastModified() throws IOException
+    {
+        File f = getFile();
+        return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();
+    }
 }

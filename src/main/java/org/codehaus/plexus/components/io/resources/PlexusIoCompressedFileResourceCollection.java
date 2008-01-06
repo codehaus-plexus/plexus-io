@@ -82,4 +82,10 @@ public abstract class PlexusIoCompressedFileResourceCollection
     {
         return resource.getName();
     }
+
+    public long getLastModified() throws IOException
+    {
+        File f = getFile();
+        return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();
+    }
 }
