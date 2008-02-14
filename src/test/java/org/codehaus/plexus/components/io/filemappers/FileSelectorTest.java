@@ -115,4 +115,19 @@ public class FileSelectorTest extends PlexusTestCase
         testFileSelector( new IncludeExcludeFileSelector() );
         testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE, IncludeExcludeFileSelector.ROLE_HINT ) );
     }
+    
+    public void testIncludeExcludeFileSelector_SetExcludes() throws Exception
+    {
+        IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
+
+        // Test that the setExcludes method does not modify the excludes.
+        selector.setExcludes( SAMPLES );
+        String [] sltrExcludes = selector.getExcludes();
+        assertEquals( SAMPLES.length, sltrExcludes.length );
+        for (int i=0; i<sltrExcludes.length; ++i)
+        {
+            assertEquals( SAMPLES[i], sltrExcludes[i] );
+        }
+        
+    }
 }

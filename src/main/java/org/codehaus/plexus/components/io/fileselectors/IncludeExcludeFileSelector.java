@@ -127,7 +127,7 @@ public class IncludeExcludeFileSelector implements FileSelector
      */
     public void setExcludes( String[] excludes )
     {
-        this.excludes = null;
+        this.excludes = excludes;
         final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : ZERO_EXCLUDES;
         if ( excludes == null )
         {
@@ -136,7 +136,6 @@ public class IncludeExcludeFileSelector implements FileSelector
         else
         {
             computedExcludes = new String[excludes.length + defaultExcludes.length];
-            this.excludes = new String[excludes.length];
             for ( int i = 0; i < excludes.length; i++ )
             {
                 computedExcludes[i] = asPattern( excludes[i] );
