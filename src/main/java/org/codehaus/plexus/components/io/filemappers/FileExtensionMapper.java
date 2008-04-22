@@ -54,8 +54,9 @@ public class FileExtensionMapper extends IdentityMapper
             throw new IllegalStateException( "The target extension has not been set." );
         }
         final String name = super.getMappedFileName( pName ); // Check arguments
-        final int offset = pName.indexOf( '.' );
-        if ( offset == -1 )
+        final int dirSep = Math.max( pName.lastIndexOf( '/' ), pName.lastIndexOf( '\\' ) );
+        final int offset = pName.lastIndexOf( '.' );
+        if ( offset <= dirSep )
         {
             return name + ext;
         }

@@ -57,7 +57,8 @@ public class FileMapperTest extends PlexusTestCase
     }
 
     protected static final String[] SAMPLES =
-        new String[] { null, "", "a", "xyz.gif", "b/a", "b/xyz.gif", "b\\a", "b\\xyz.gif" };
+        new String[] { null, "", "a", "xyz.gif", "b/a", "b/xyz.gif", "b\\a", "b\\xyz.gif", "c.c/a", "c.c/xyz.gif",
+            "c.c\\a", "c.c\\xyz.gif" };
 
     public void testIdentityMapper() throws Exception
     {
@@ -84,11 +85,11 @@ public class FileMapperTest extends PlexusTestCase
     public void testFileExtensionMapper() throws Exception
     {
         final String[] results = getIdentityResults();
-        for ( int i = 2; i <= 6; i += 2 )
+        for ( int i = 2; i <= 10; i += 2 )
         {
             results[i] += ".png";
         }
-        for ( int i = 3; i <= 7; i += 2 )
+        for ( int i = 3; i <= 11; i += 2 )
         {
             results[i] = results[i].substring( 0, results[i].length() - ".gif".length() ) + ".png";
         }
@@ -107,8 +108,8 @@ public class FileMapperTest extends PlexusTestCase
     public void testFlattenMapper() throws Exception
     {
         final String[] results = getIdentityResults();
-        results[4] = results[6] = results[2];
-        results[5] = results[7] = results[3];
+        results[4] = results[6] = results[8] = results[10] = results[2];
+        results[5] = results[7] = results[9] = results[11] = results[3];
         testFileMapper( new FlattenFileMapper(), SAMPLES, results );
         testFileMapper( (FileMapper) lookup( FileMapper.ROLE, FlattenFileMapper.ROLE_HINT ), SAMPLES, results );
     }
