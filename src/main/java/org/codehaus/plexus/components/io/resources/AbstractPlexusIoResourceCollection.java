@@ -6,13 +6,16 @@ import java.util.Iterator;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
+import org.codehaus.plexus.logging.LogEnabled;
+import org.codehaus.plexus.logging.Logger;
 
 
 
 /**
  * Default implementation of a resource collection.
  */
-public abstract class AbstractPlexusIoResourceCollection implements PlexusIoResourceCollection
+public abstract class AbstractPlexusIoResourceCollection
+    implements PlexusIoResourceCollection, LogEnabled
 {
     private String prefix;
 
@@ -29,6 +32,22 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
     private boolean includingEmptyDirectories = true;
 
     private FileMapper[] fileMappers;
+    
+    private Logger logger;
+    
+    protected AbstractPlexusIoResourceCollection()
+    {
+    }
+    
+    protected AbstractPlexusIoResourceCollection( Logger logger )
+    {
+        this.logger = logger;
+    }
+    
+    protected Logger getLogger()
+    {
+        return logger;
+    }
     
     /**
      * Sets a string of patterns, which excluded files
@@ -224,5 +243,10 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
             }
         }
         return lastModified;
+    }
+
+    public void enableLogging( Logger logger )
+    {
+        this.logger = logger;
     }
 }

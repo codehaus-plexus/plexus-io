@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.plexus.logging.Logger;
+
 
 
 /**
@@ -20,6 +22,15 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
     private File file;
 
+    protected AbstractPlexusIoArchiveResourceCollection()
+    {
+    }
+    
+    protected AbstractPlexusIoArchiveResourceCollection( Logger logger )
+    {
+        super( logger );
+    }
+    
     /**
      * Sets the zip file
      */

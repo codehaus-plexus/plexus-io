@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
+import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.DirectoryScanner;
 
 
@@ -24,6 +28,15 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
 
     private boolean isFollowingSymLinks = true;
 
+    public PlexusIoFileResourceCollection()
+    {
+    }
+    
+    public PlexusIoFileResourceCollection( Logger logger )
+    {
+        super( logger );
+    }
+    
     /**
      * Sets the file collections base directory.
      */
@@ -58,7 +71,7 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
         isFollowingSymLinks = pIsFollowingSymLinks;
     }
 
-    private void addResources( List list, String[] resources ) throws IOException
+    private void addResources( List list, String[] resources, Map attributesByPath ) throws IOException
     {
         String prefix = getPrefix();
         if ( prefix != null  &&  prefix.length() == 0 )
@@ -71,7 +84,11 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
         {
             String name = resources[i];
             String sourceDir = name.replace( '\\', '/' );
-            PlexusIoFileResource resource = new PlexusIoFileResource( new File( dir, sourceDir ), name );
+            
+            File f = new File( dir, sourceDir );
+            FileAttributes attrs = (FileAttributes) attributesByPath.get( f.getAbsolutePath() );
+            
+            PlexusIoFileResource resource = new PlexusIoFileResource( f, name, attrs );
             if ( isSelected( resource ) )
             {
                 if ( prefix != null )
@@ -106,15 +123,17 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
         ds.setFollowSymlinks( isFollowingSymLinks() );
         ds.scan();
 
+        Map attributesByPath = PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
+        
         final List result = new ArrayList();
         if ( isIncludingEmptyDirectories() )
         {
             String[] dirs = ds.getIncludedDirectories();
-            addResources( result, dirs );
+            addResources( result, dirs, attributesByPath );
         }
 
         String[] files = ds.getIncludedFiles();
-        addResources( result, files );
+        addResources( result, files, attributesByPath );
         return result.iterator();
     }
 }

@@ -6,15 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+
 
 /**
  * Implementation of {@link PlexusIoResource} for files.
  */
-public class PlexusIoFileResource implements PlexusIoResource
+public class PlexusIoFileResource
+    implements PlexusIoResourceWithAttributes
 {
     private File file;
 
     private String name;
+
+    private PlexusIoResourceAttributes attributes;
 
     /**
      * Creates a new instance.
@@ -35,12 +40,27 @@ public class PlexusIoFileResource implements PlexusIoResource
     /**
      * Creates a new instance.
      */
+    public PlexusIoFileResource( File file, PlexusIoResourceAttributes attrs )
+    {
+        this( file, file.getPath().replace( '\\', '/' ), attrs );
+    }
+
+    /**
+     * Creates a new instance.
+     */
     public PlexusIoFileResource( File file, String name )
     {
         this.file = file;
         this.name = name;
     }
     
+    public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
+    {
+        this.file = file;
+        this.name = name;
+        this.attributes = attrs;
+    }
+
     /**
      * Sets the resources file.
      */
@@ -108,5 +128,15 @@ public class PlexusIoFileResource implements PlexusIoResource
     public URL getURL() throws IOException
     {
         return getFile().toURI().toURL();
+    }
+
+    public PlexusIoResourceAttributes getAttributes()
+    {
+        return attributes;
+    }
+
+    public void setAttributes( PlexusIoResourceAttributes attributes )
+    {
+        this.attributes = attributes;
     }
 }
