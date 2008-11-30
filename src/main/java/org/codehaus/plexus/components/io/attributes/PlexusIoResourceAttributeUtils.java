@@ -346,6 +346,7 @@ public final class PlexusIoResourceAttributeUtils
 
                 if ( parsable )
                 {
+                    // TODO index is 7 if date format "MMM dd HH:mm", but should be 6 for "yyyy-MM-dd HH:mm"
                     int idx = line.indexOf( parts[7] ) + parts[7].length() + 1;
 
                     String path = pathPrefix + line.substring( idx );
