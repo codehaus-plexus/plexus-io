@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.util.Os;
 
 import junit.framework.TestCase;
 
@@ -17,6 +18,12 @@ public class PlexusIoResourceAttributeUtilsTest
     public void testGetAttributesForThisTestClass()
         throws IOException
     {
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            System.out.println( "WARNING: Unsupported OS, skipping test" );
+            return;
+        }
+
         URL resource =
             Thread.currentThread().getContextClassLoader().getResource(
                                                                         getClass().getName().replace( '.', '/' )
