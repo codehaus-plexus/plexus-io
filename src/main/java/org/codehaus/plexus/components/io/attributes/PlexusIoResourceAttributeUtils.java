@@ -244,7 +244,9 @@ public final class PlexusIoResourceAttributeUtils
         { new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
             new SimpleDateFormat( "yyyy-MM-dd HH:mm" ), };
 
-    private static boolean verifyParsability( String line, String[] parts, Logger logger )
+    private static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
+
+    private static int verifyParsability( String line, String[] parts, Logger logger )
     {
         if ( parts.length > 7 )
         {
@@ -254,7 +256,7 @@ public final class PlexusIoResourceAttributeUtils
                 try
                 {
                     LS_DATE_FORMATS[i].parse( dateCandidate );
-                    return true;
+                    return LS_LAST_DATE_PART_INDICES[i];
                 }
                 catch ( ParseException e )
                 {
@@ -273,7 +275,7 @@ public final class PlexusIoResourceAttributeUtils
                 + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
         }
 
-        return false;
+        return -1;
     }
 
     private static final class AttributeParser
@@ -342,12 +344,11 @@ public final class PlexusIoResourceAttributeUtils
             else
             {
                 String[] parts = line.split( "\\s+" );
-                boolean parsable = verifyParsability( line, parts, logger );
+                int lastDatePart = verifyParsability( line, parts, logger );
 
-                if ( parsable )
+                if ( lastDatePart > 0 )
                 {
-                    // TODO index is 7 if date format "MMM dd HH:mm", but should be 6 for "yyyy-MM-dd HH:mm"
-                    int idx = line.indexOf( parts[7] ) + parts[7].length() + 1;
+                    int idx = line.indexOf( parts[lastDatePart] ) + parts[lastDatePart].length() + 1;
 
                     String path = pathPrefix + line.substring( idx );
                     while ( path.length() > 0 && Character.isWhitespace( path.charAt( 0 ) ) )
