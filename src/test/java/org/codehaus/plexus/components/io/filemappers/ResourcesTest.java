@@ -83,6 +83,7 @@ public class ResourcesTest extends PlexusTestCase
                         zos.write( buffer, 0, res );
                     }
                 }
+                fis.close();
                 ze.setTime( f.lastModified() );
                 zos.closeEntry();
             }
