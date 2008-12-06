@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
@@ -16,10 +19,16 @@ import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelecto
  * Implementation of {@link PlexusIoResourceCollection} for an archives
  * contents.
  */
-public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCollection
+public class PlexusIoProxyResourceCollection
+    extends AbstractPlexusIoResourceCollection
+    implements PlexusIOResourceCollectionWithAttributes
 {
     private PlexusIoResourceCollection src;
 
+    private PlexusIoResourceAttributes overrideFileAttributes;
+
+    private PlexusIoResourceAttributes overrideDirAttributes;
+    
     /**
      * Sets the archive to read.
      */
@@ -58,6 +67,22 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
         for ( Iterator iter = getSrc().getResources();  iter.hasNext();  )
         {
             PlexusIoResource plexusIoResource = (PlexusIoResource) iter.next();
+            
+            PlexusIoResourceAttributes attrs = null;
+            if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
+            {
+                attrs = ((PlexusIoResourceWithAttributes)plexusIoResource).getAttributes();
+            }
+
+            if ( plexusIoResource.isDirectory() )
+            {
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs );
+            }
+            else
+            {
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs );
+            }
+            
             if ( !fileSelector.isSelected( plexusIoResource ) )
             {
                 continue;
@@ -116,5 +141,12 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
         throws IOException
     {
         return src.getLastModified();
+    }
+    
+    public void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
+    {
+        overrideFileAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode );
+        
+        overrideDirAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode );
     }
 }

@@ -3,6 +3,8 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
+
 
 /**
  * A resource collection is a set of {@link PlexusIoResource} instances.
@@ -44,4 +46,5 @@ public interface PlexusIoResourceCollection
      *   otherwise the last modification time in milliseconds.
      */
     long getLastModified() throws IOException;
+
 }

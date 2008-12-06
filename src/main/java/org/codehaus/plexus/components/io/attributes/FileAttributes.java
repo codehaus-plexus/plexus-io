@@ -41,7 +41,7 @@ public class FileAttributes
     private String userName;
 
     private char[] mode;
-
+    
     public FileAttributes( int groupId, String groupName, int userId, String userName, char[] mode )
     {
         this.groupId = groupId;
@@ -334,5 +334,4 @@ public class FileAttributes
         setOctalMode( Integer.parseInt( mode, 8 ) );
         return this;
     }
-
 }

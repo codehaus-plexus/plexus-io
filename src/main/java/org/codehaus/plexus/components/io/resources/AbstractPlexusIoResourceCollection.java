@@ -34,7 +34,7 @@ public abstract class AbstractPlexusIoResourceCollection
     private FileMapper[] fileMappers;
     
     private Logger logger;
-    
+
     protected AbstractPlexusIoResourceCollection()
     {
     }

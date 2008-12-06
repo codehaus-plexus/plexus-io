@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.DirectoryScanner;
 
@@ -17,7 +18,9 @@ import org.codehaus.plexus.util.DirectoryScanner;
  * Implementation of {@link PlexusIoResourceCollection} for the set
  * of files in a common directory.
  */
-public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceCollection
+public class PlexusIoFileResourceCollection 
+    extends AbstractPlexusIoResourceCollection
+    implements PlexusIOResourceCollectionWithAttributes
 {
     /**
      * Role hint of this component
@@ -27,6 +30,10 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
     private File baseDir;
 
     private boolean isFollowingSymLinks = true;
+    
+    private FileAttributes overrideFileAttributes;
+    
+    private FileAttributes overrideDirAttributes;
 
     public PlexusIoFileResourceCollection()
     {
@@ -35,6 +42,15 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
     public PlexusIoFileResourceCollection( Logger logger )
     {
         super( logger );
+    }
+    
+    public void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
+    {
+        overrideFileAttributes = new FileAttributes( gid, groupName, uid, userName, new char[]{} );
+        overrideFileAttributes.setOctalMode( fileMode );
+        
+        overrideDirAttributes = new FileAttributes( gid, groupName, uid, userName, new char[]{} );
+        overrideDirAttributes.setOctalMode( dirMode );
     }
     
     /**
@@ -73,12 +89,6 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
 
     private void addResources( List list, String[] resources, Map attributesByPath ) throws IOException
     {
-        String prefix = getPrefix();
-        if ( prefix != null  &&  prefix.length() == 0 )
-        {
-            prefix = null;
-        }
-
         final File dir = getBaseDir();
         for ( int i = 0; i < resources.length; i++ )
         {
@@ -86,15 +96,19 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
             String sourceDir = name.replace( '\\', '/' );
             
             File f = new File( dir, sourceDir );
-            FileAttributes attrs = (FileAttributes) attributesByPath.get( f.getAbsolutePath() );
+            PlexusIoResourceAttributes attrs = (PlexusIoResourceAttributes) attributesByPath.get( f.getAbsolutePath() );
+            if ( f.isDirectory() )
+            {
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs );
+            }
+            else
+            {
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs );
+            }
             
             PlexusIoFileResource resource = new PlexusIoFileResource( f, name, attrs );
             if ( isSelected( resource ) )
             {
-                if ( prefix != null )
-                {
-                    resource.setName( prefix + name );
-                }
                 list.add( resource );
             }
         }

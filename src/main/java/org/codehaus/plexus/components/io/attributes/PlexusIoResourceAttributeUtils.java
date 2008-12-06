@@ -22,6 +22,51 @@ public final class PlexusIoResourceAttributeUtils
     private PlexusIoResourceAttributeUtils()
     {
     }
+    
+    public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override, PlexusIoResourceAttributes base )
+    {
+        if ( override == null )
+        {
+            return base;
+        }
+        SimpleResourceAttributes result;
+        if ( base == null )
+        {
+            result = new SimpleResourceAttributes();
+        }
+        else
+        {
+            result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(), base.getGroupName(),
+                                          base.getOctalMode() );
+        }
+        
+        if ( override.getGroupId() != -1 )
+        {
+            result.setGroupId( override.getGroupId() );
+        }
+        
+        if ( override.getGroupName() != null )
+        {
+            result.setGroupName( override.getGroupName() );
+        }
+        
+        if ( override.getUserId() != -1 )
+        {
+            result.setUserId( override.getUserId() );
+        }
+        
+        if ( override.getUserName() != null )
+        {
+            result.setUserName( override.getUserName() );
+        }
+        
+        if ( override.getOctalMode() > 0 )
+        {
+            result.setOctalMode( override.getOctalMode() );
+        }
+        
+        return result;
+    }
 
     public static boolean isGroupExecutableInOctal( int mode )
     {
