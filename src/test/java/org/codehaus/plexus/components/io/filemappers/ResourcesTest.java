@@ -106,15 +106,22 @@ public class ResourcesTest extends PlexusTestCase
         throws IOException
     {
         InputStream fIn = new FileInputStream( file );
-        for (;;)
+        try
         {
-            int i1 = in.read();
-            int i2 = fIn.read();
-            assertEquals( i2, i1 );
-            if ( i1 == -1 )
+            for ( ;; )
             {
-                break;
+                int i1 = in.read();
+                int i2 = fIn.read();
+                assertEquals( i2, i1 );
+                if ( i1 == -1 )
+                {
+                    break;
+                }
             }
+        }
+        finally
+        {
+            fIn.close();
         }
     }
 
