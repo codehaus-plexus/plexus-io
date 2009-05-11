@@ -17,7 +17,6 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.fileselectors.FileInfo;

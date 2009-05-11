@@ -40,5 +40,5 @@ public interface FileSelector
      *   It is recommended, that the caller creates an instance
      *   of {@link PlexusIoResource}.
      */
-    boolean isSelected(FileInfo fileInfo) throws IOException;
+    boolean isSelected( FileInfo fileInfo ) throws IOException;
 }

@@ -102,7 +102,7 @@ public class IncludeExcludeFileSelector implements FileSelector
 
     private static String getCanonicalName( String pName )
     {
-        return pName.replace( '/', File.separatorChar ).replace('\\', File.separatorChar );
+        return pName.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
     }
 
     private String asPattern( String pPattern )
