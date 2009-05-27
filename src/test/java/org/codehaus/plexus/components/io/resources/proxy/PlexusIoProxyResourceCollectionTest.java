@@ -1,4 +1,4 @@
-package org.codehaus.plexus.components.io.resources;
+package org.codehaus.plexus.components.io.resources.proxy;
 
 /*
  * Copyright 2007 The Codehaus Foundation.
@@ -17,6 +17,7 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxyResourceCollection;
 
 
 /**

@@ -20,6 +20,18 @@ public interface PlexusIOResourceCollectionWithAttributes
 {
 
     /**
+     * Sets the file and directory attributes to use as defaults.
+     * 
+     * @param uid
+     * @param userName
+     * @param gid 
+     * @param groupName
+     * @param fileMode The octal mode to use for files
+     * @param dirMode The octal mode to use for directories
+     */
+    void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode );
+    
+    /**
      * Sets the file and directory attributes to use as overrides.
      * 
      * @param uid

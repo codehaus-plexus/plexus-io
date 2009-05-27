@@ -69,13 +69,16 @@ public abstract class PlexusIoCompressedFileResourceCollection
             throw new IOException( "The archive file " + f.getPath()
                                    + " does not exist or is no file." ); 
         }
-        final PlexusIoResource resource = new PlexusIoFileResource(f, p){
+        
+        final PlexusIoResource resource = new PlexusIoFileResource(f, p)
+        {
             public InputStream getContents()
                 throws IOException
             {
                 return getInputStream( f );
             }
         };
+        
         return Collections.singleton( resource ).iterator();
     }
 

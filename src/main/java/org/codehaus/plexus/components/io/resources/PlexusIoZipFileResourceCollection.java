@@ -36,6 +36,11 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
      * The zip file resource collections role hint for jar files.
      */
     public static final String JAR_ROLE_HINT = "jarFile";
+    
+    public PlexusIoZipFileResourceCollection()
+    {
+        
+    }
 
     protected Iterator getEntries() throws IOException
     {

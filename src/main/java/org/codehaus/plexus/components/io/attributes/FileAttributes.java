@@ -58,7 +58,7 @@ public class FileAttributes
 
     private char[] mode;
     
-    public FileAttributes( int groupId, String groupName, int userId, String userName, char[] mode )
+    public FileAttributes( int userId, String userName, int groupId, String groupName, char[] mode )
     {
         this.groupId = groupId;
         this.groupName = groupName;

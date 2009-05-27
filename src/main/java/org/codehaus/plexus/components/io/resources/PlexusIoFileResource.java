@@ -24,18 +24,14 @@ import java.net.URL;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
-
 /**
  * Implementation of {@link PlexusIoResource} for files.
  */
 public class PlexusIoFileResource
+    extends AbstractPlexusIoResourceWithAttributes
     implements PlexusIoResourceWithAttributes
 {
     private File file;
-
-    private String name;
-
-    private PlexusIoResourceAttributes attributes;
 
     /**
      * Creates a new instance.
@@ -66,15 +62,15 @@ public class PlexusIoFileResource
      */
     public PlexusIoFileResource( File file, String name )
     {
-        this.file = file;
-        this.name = name;
+        setFile( file );
+        setName( name );
     }
-    
+
     public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
     {
-        this.file = file;
-        this.name = name;
-        this.attributes = attrs;
+        setName( name );
+        setAttributes( attrs );
+        setFile( file );
     }
 
     /**
@@ -83,6 +79,11 @@ public class PlexusIoFileResource
     public void setFile( File file )
     {
         this.file = file;
+        setLastModified( file.lastModified() );
+        setSize( file.length() );
+        setFile( file.isFile() );
+        setDirectory( file.isDirectory() );
+        setExisting( file.exists() );
     }
 
     /**
@@ -93,66 +94,16 @@ public class PlexusIoFileResource
         return file;
     }
 
-    /**
-     * Sets the resources name.
-     */
-    public void setName( String name )
-    {
-        this.name = name;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public long getLastModified()
-    {
-        return file.lastModified();
-    }
-
-    public boolean isFile()
-    {
-        return file.isFile();
-    }
-
-    public boolean isDirectory()
-    {
-        return file.isDirectory();
-    }
-
-    public boolean isExisting()
-    {
-        return file.exists();
-    }
-
-    public long getSize()
-    {
-        if ( !isExisting() )
-        {
-            return PlexusIoResource.UNKNOWN_RESOURCE_SIZE;
-        }
-        long result = file.length();
-        return result == 0 ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : result;
-    }
-
-    public InputStream getContents() throws IOException
+    public InputStream getContents()
+        throws IOException
     {
         return new FileInputStream( getFile() );
     }
 
-    public URL getURL() throws IOException
+    public URL getURL()
+        throws IOException
     {
         return getFile().toURI().toURL();
     }
 
-    public PlexusIoResourceAttributes getAttributes()
-    {
-        return attributes;
-    }
-
-    public void setAttributes( PlexusIoResourceAttributes attributes )
-    {
-        this.attributes = attributes;
-    }
 }

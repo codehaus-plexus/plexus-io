@@ -47,6 +47,10 @@ public class PlexusIoFileResourceCollection
 
     private boolean isFollowingSymLinks = true;
     
+    private FileAttributes defaultFileAttributes;
+    
+    private FileAttributes defaultDirAttributes;
+    
     private FileAttributes overrideFileAttributes;
     
     private FileAttributes overrideDirAttributes;
@@ -60,12 +64,21 @@ public class PlexusIoFileResourceCollection
         super( logger );
     }
     
+    public void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
+    {
+        defaultFileAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
+        defaultFileAttributes.setOctalMode( fileMode );
+        
+        defaultDirAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
+        defaultDirAttributes.setOctalMode( dirMode );
+    }
+    
     public void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
     {
-        overrideFileAttributes = new FileAttributes( gid, groupName, uid, userName, new char[]{} );
+        overrideFileAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
         overrideFileAttributes.setOctalMode( fileMode );
         
-        overrideDirAttributes = new FileAttributes( gid, groupName, uid, userName, new char[]{} );
+        overrideDirAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
         overrideDirAttributes.setOctalMode( dirMode );
     }
     
@@ -112,14 +125,20 @@ public class PlexusIoFileResourceCollection
             String sourceDir = name.replace( '\\', '/' );
             
             File f = new File( dir, sourceDir );
-            PlexusIoResourceAttributes attrs = (PlexusIoResourceAttributes) attributesByPath.get( f.getAbsolutePath() );
+            
+            PlexusIoResourceAttributes attrs = (PlexusIoResourceAttributes) attributesByPath.get( name.length() > 0 ? name : "." );
+            if ( attrs == null )
+            {
+                attrs = (PlexusIoResourceAttributes) attributesByPath.get( f.getAbsolutePath() );
+            }
+            
             if ( f.isDirectory() )
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs );
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs, defaultDirAttributes );
             }
             else
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs );
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs, defaultFileAttributes );
             }
             
             PlexusIoFileResource resource = new PlexusIoFileResource( f, name, attrs );

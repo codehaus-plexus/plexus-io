@@ -39,7 +39,9 @@ public final class PlexusIoResourceAttributeUtils
     {
     }
     
-    public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override, PlexusIoResourceAttributes base )
+    public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override,
+                                                              PlexusIoResourceAttributes base,
+                                                              PlexusIoResourceAttributes def )
     {
         if ( override == null )
         {
@@ -61,9 +63,19 @@ public final class PlexusIoResourceAttributeUtils
             result.setGroupId( override.getGroupId() );
         }
         
+        if ( def != null && result.getGroupId() < 0 )
+        {
+            result.setGroupId( def.getGroupId() );
+        }
+        
         if ( override.getGroupName() != null )
         {
             result.setGroupName( override.getGroupName() );
+        }
+        
+        if ( def != null && result.getGroupName() == null )
+        {
+            result.setGroupName( def.getGroupName() );
         }
         
         if ( override.getUserId() != -1 )
@@ -71,14 +83,29 @@ public final class PlexusIoResourceAttributeUtils
             result.setUserId( override.getUserId() );
         }
         
+        if ( def != null && result.getUserId() < 0 )
+        {
+            result.setUserId( def.getUserId() );
+        }
+        
         if ( override.getUserName() != null )
         {
             result.setUserName( override.getUserName() );
         }
         
+        if ( def != null && result.getUserName() == null )
+        {
+            result.setUserName( def.getUserName() );
+        }
+        
         if ( override.getOctalMode() > 0 )
         {
             result.setOctalMode( override.getOctalMode() );
+        }
+        
+        if ( def != null && result.getOctalMode() < 0 )
+        {
+            result.setOctalMode( def.getOctalMode() );
         }
         
         return result;
