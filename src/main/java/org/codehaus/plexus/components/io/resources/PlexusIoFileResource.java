@@ -106,4 +106,50 @@ public class PlexusIoFileResource
         return getFile().toURI().toURL();
     }
 
+    public long getLastModified()
+    {
+        return getFile().lastModified();
+    }
+
+    public long getSize()
+    {
+        return getFile().length();
+    }
+
+    public boolean isDirectory()
+    {
+        return getFile().isDirectory();
+    }
+
+    public boolean isExisting()
+    {
+        return getFile().exists();
+    }
+
+    public boolean isFile()
+    {
+        return getFile().isFile();
+    }
+
+    public void setDirectory( boolean isDirectory )
+    {
+    }
+
+    public void setExisting( boolean isExisting )
+    {
+    }
+
+    public void setFile( boolean isFile )
+    {
+    }
+
+    public void setLastModified( long lastModified )
+    {
+        file.setLastModified( lastModified );
+    }
+
+    public void setSize( long size )
+    {
+    }
+
 }

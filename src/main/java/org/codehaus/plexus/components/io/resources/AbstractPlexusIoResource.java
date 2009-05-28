@@ -36,20 +36,6 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
     }
 
     /**
-     * Creates a new instance. The settings are copied
-     * from the given resource.
-     */
-    public AbstractPlexusIoResource( PlexusIoResource plexusIoResource )
-    {
-        setName( plexusIoResource.getName() );
-        setLastModified( plexusIoResource.getLastModified() );
-        setSize( plexusIoResource.getSize() );
-        setFile( plexusIoResource.isFile() );
-        setDirectory( plexusIoResource.isDirectory() );
-        setExisting( plexusIoResource.isExisting() );
-    }
-
-    /**
      * Sets the date, when the resource was last modified.
      * @param Date of last modification, if known.
      *   Otherwise, {@link #UNKNOWN_MODIFICATION_DATE}.

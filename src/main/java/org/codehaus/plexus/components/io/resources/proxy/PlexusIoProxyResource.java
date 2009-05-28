@@ -15,8 +15,33 @@ public class PlexusIoProxyResource
 
     public PlexusIoProxyResource( PlexusIoResource plexusIoResource )
     {
-        super( plexusIoResource );
         this.src = plexusIoResource;
+        setName( src.getName() );
+    }
+
+    public long getLastModified()
+    {
+        return src.getLastModified();
+    }
+
+    public long getSize()
+    {
+        return src.getSize();
+    }
+
+    public boolean isDirectory()
+    {
+        return src.isDirectory();
+    }
+
+    public boolean isExisting()
+    {
+        return src.isExisting();
+    }
+
+    public boolean isFile()
+    {
+        return src.isFile();
     }
 
     public URL getURL()

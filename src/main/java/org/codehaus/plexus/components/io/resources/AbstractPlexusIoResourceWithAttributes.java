@@ -14,16 +14,6 @@ public abstract class AbstractPlexusIoResourceWithAttributes
         super();
     }
 
-    /**
-     * Creates a new instance. The settings are copied
-     * from the given resource.
-     */
-    public AbstractPlexusIoResourceWithAttributes( PlexusIoResourceWithAttributes plexusIoResource )
-    {
-        super( plexusIoResource );
-        this.attributes = plexusIoResource.getAttributes();
-    }
-    
     public PlexusIoResourceAttributes getAttributes()
     {
         return attributes;
