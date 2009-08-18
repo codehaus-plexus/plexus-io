@@ -19,11 +19,6 @@ package org.codehaus.plexus.components.io.filemappers;
 import java.lang.reflect.UndeclaredThrowableException;
 
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.components.io.filemappers.FileExtensionMapper;
-import org.codehaus.plexus.components.io.filemappers.FileMapper;
-import org.codehaus.plexus.components.io.filemappers.FlattenFileMapper;
-import org.codehaus.plexus.components.io.filemappers.IdentityMapper;
-import org.codehaus.plexus.components.io.filemappers.MergeFileMapper;
 
 /**
  * Test case for the various file mappers.
@@ -66,8 +61,9 @@ public class FileMapperTest extends PlexusTestCase
             }
             if ( !output.equals( result ) )
             {
-                fail( "Mapper " + pMapper.getClass().getName() + " failed for input " + input + ": Expected " + output
-                                + ", got " + result );
+                fail( "Mapper " + pMapper.getClass().getName() + " failed for input nr. " + i
+                		+ ", " + input + ": Expected " + output
+                        + ", got " + result );
             }
         }
     }
@@ -167,5 +163,33 @@ public class FileMapperTest extends PlexusTestCase
         mapper = (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT );
         mapper.setPrefix( prefix );
         testFileMapper( mapper, SAMPLES, results );
+    }
+
+    private RegExpFileMapper configure(RegExpFileMapper pMapper, String pPattern, String pReplacement)
+    {
+    	pMapper.setPattern(pPattern);
+    	pMapper.setReplacement(pReplacement);
+    	return pMapper;
+    }
+
+    public void testRegExpFileMapper() throws Exception
+    {
+        final String[] results = getIdentityResults();
+        results[3] = "xyz.jpg";
+        results[5] = "b/xyz.jpg";
+        results[7] = "b\\xyz.jpg";
+        results[9] = "c.c/xyz.jpg";
+        results[11] = "c.c\\xyz.jpg";
+        testFileMapper( configure(new RegExpFileMapper(), "\\.gif$", ".jpg"), SAMPLES, results );
+        testFileMapper( configure(new RegExpFileMapper(), "^(.*)\\.gif$", "$1.jpg"), SAMPLES, results );
+        testFileMapper( configure((RegExpFileMapper) lookup( FileMapper.ROLE, RegExpFileMapper.ROLE_HINT ), "\\.gif$", ".jpg"), SAMPLES, results );
+        final RegExpFileMapper mapper = configure( new RegExpFileMapper(), "c", "f" );
+        mapper.setReplaceAll( true );
+        final String[] fResults = getIdentityResults();
+        fResults[8] = "f.f/a";
+        fResults[9] = "f.f/xyz.gif";
+        fResults[10] = "f.f\\a";
+        fResults[11] = "f.f\\xyz.gif";
+        testFileMapper( mapper, SAMPLES, fResults );
     }
 }

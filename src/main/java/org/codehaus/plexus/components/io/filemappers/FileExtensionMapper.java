@@ -19,7 +19,7 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * An implementation of {@link FileMapper}, which changes the files extension.
  */
-public class FileExtensionMapper extends IdentityMapper
+public class FileExtensionMapper extends AbstractFileMapper
 {
     /**
      * The file extension mappers role-hint: "fileExtension".

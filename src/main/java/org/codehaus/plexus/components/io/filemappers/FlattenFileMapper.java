@@ -19,7 +19,7 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * Implementation of a flattening file mapper: Removes all directory parts.
  */
-public class FlattenFileMapper extends IdentityMapper
+public class FlattenFileMapper extends AbstractFileMapper
 {
     /**
      * The flatten file mappers role-hint: "flatten".

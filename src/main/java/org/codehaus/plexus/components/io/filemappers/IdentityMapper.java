@@ -19,7 +19,7 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * Default implementation of {@link FileMapper}, which performs the identity mapping: All names are left unchanged.
  */
-public class IdentityMapper implements FileMapper
+public class IdentityMapper extends AbstractFileMapper
 {
     /**
      * The identity mappers role-hint: "identity".

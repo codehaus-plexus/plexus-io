@@ -19,7 +19,7 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * A file mapper, which maps to a constant target name.
  */
-public class MergeFileMapper extends IdentityMapper
+public class MergeFileMapper extends AbstractFileMapper
 {
     /**
      * The merge mappers role-hint: "merge".

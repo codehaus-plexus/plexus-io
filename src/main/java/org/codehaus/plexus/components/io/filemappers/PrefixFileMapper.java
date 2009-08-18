@@ -20,8 +20,7 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * A file mapper, which maps by adding a prefix.
  */
-public class PrefixFileMapper
-    extends IdentityMapper
+public class PrefixFileMapper extends AbstractFileMapper
 {
     /**
      * The merge mappers role-hint: "prefix".
