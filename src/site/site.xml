@@ -1,4 +1,6 @@
-<project name="Plexus IO">
+<project name="Plexus IO" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
   <bannerLeft>
     <name>Plexus</name>
     <href>http://plexus.codehaus.org/</href>
@@ -10,17 +12,17 @@
     <src>http://media.codehaus.org/images/unity-codehaus-logo.png</src>
   </bannerRight -->
   <publishDate format="dd MMM yyyy" position="left" />
-  <version position="left" />  
+  <version position="left" />
   <skin>
     <groupId>org.codehaus.plexus</groupId>
     <artifactId>plexus-stylus-skin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </skin>
   <body>
     <links>
       <item name="Plexus" href="http://plexus.codehaus.org/"/>
       <item name="Plexus Components" href="http://plexus.codehaus.org/plexus-components"/>
-    </links>  
+    </links>
 
     <menu name="Plexus IO">
       <item name="Introduction" href="index.html"/>
