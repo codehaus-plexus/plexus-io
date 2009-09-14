@@ -12,6 +12,12 @@
 
   <name>Plexus IO Components</name>
 
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/plexus/plexus-components/trunk/plexus-io</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/plexus/plexus-components/trunk/plexus-io</developerConnection>
+    <url>http://fisheye.codehaus.org/browse/plexus/plexus-components/trunk/plexus-io</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
