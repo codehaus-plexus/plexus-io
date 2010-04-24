@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
@@ -229,8 +230,7 @@ public final class PlexusIoResourceAttributeUtils
             throw error;
         }
 
-        parser.secondPass = true;
-        parser.extractNames = true;
+        parser.initSecondPass();
         lsOptions = "-1la" + ( recursive ? "R" : "d" );
         try
         {
@@ -328,50 +328,18 @@ public final class PlexusIoResourceAttributeUtils
         }
     }
 
-    private static final SimpleDateFormat[] LS_DATE_FORMATS =
-        { new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
-            new SimpleDateFormat( "yyyy-MM-dd HH:mm" ), };
+    static Pattern totalLinePattern = Pattern.compile( "\\w*\\s\\d*" );
+
 
     private static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
 
-    private static int verifyParsability( String line, String[] parts, Logger logger )
-    {
-        if ( parts.length > 7 )
-        {
-            String dateCandidate = parts[5] + " " + parts[6] + " " + parts[7];
-            for ( int i = 0; i < LS_DATE_FORMATS.length; i++ )
-            {
-                try
-                {
-                    LS_DATE_FORMATS[i].parse( dateCandidate );
-                    return LS_LAST_DATE_PART_INDICES[i];
-                }
-                catch ( ParseException e )
-                {
-                    if ( logger.isDebugEnabled() )
-                    {
-                        logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: "
-                            + LS_DATE_FORMATS[i].toPattern(), e );
-                    }
-                }
-            }
-        }
 
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "Unparseable line: '" + line
-                + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
-        }
-
-        return -1;
-    }
-
-    private static final class AttributeParser
+    static final class AttributeParser
         implements StreamConsumer
     {
         private final StreamConsumer delegate;
 
-        private Map attributesByPath = new LinkedHashMap();
+        private final Map attributesByPath = new LinkedHashMap();
 
         private final Logger logger;
 
@@ -383,15 +351,21 @@ public final class PlexusIoResourceAttributeUtils
 
         private boolean secondPass = false;
 
+        private final SimpleDateFormat[] LS_DATE_FORMATS;
+
         public AttributeParser( StreamConsumer delegate, Logger logger )
         {
             this.delegate = delegate;
             this.logger = logger;
+            LS_DATE_FORMATS =
+                new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
+                    new SimpleDateFormat( "yyyy-MM-dd HH:mm" ), };
+
         }
 
         public void consumeLine( String line )
         {
-            if ( line.startsWith( "total " ) )
+            if ( totalLinePattern.matcher( line ).matches() )
             {
                 // skip it.
             }
@@ -452,29 +426,32 @@ public final class PlexusIoResourceAttributeUtils
                         logger.debug( "gid: '" + parts[3] );
                     }
 
-                    FileAttributes attributes = null;
-                    if ( secondPass )
+                    FileAttributes attributes;
+                    synchronized ( attributesByPath )
                     {
-                        attributes = (FileAttributes) attributesByPath.get( path );
-                    }
-                    else
-                    {
-                        attributes = new FileAttributes();
-                        attributes.setLsModeline( parts[0] );
-                        attributesByPath.put( path, attributes );
-                    }
-
-                    if ( attributes != null )
-                    {
-                        if ( extractNames )
+                        if ( secondPass )
                         {
-                            attributes.setUserName( parts[2] );
-                            attributes.setGroupName( parts[3] );
+                            attributes = (FileAttributes) attributesByPath.get( path );
                         }
                         else
                         {
-                            attributes.setUserId( Integer.parseInt( parts[2] ) );
-                            attributes.setGroupId( Integer.parseInt( parts[3] ) );
+                            attributes = new FileAttributes();
+                            attributes.setLsModeline( parts[0] );
+                            attributesByPath.put( path, attributes );
+                        }
+
+                        if ( attributes != null )
+                        {
+                            if ( extractNames )
+                            {
+                                attributes.setUserName( parts[2] );
+                                attributes.setGroupName( parts[3] );
+                            }
+                            else
+                            {
+                                attributes.setUserId( Integer.parseInt( parts[2] ) );
+                                attributes.setGroupId( Integer.parseInt( parts[3] ) );
+                            }
                         }
                     }
                 }
@@ -482,5 +459,51 @@ public final class PlexusIoResourceAttributeUtils
 
             delegate.consumeLine( line );
         }
+
+        public void initSecondPass()
+        {
+            secondPass = true;
+            extractNames = true;
+            nextIsPathPrefix = false;
+            pathPrefix = "";
+        }
+
+        public Map getAttributesByPath()
+        {
+            return attributesByPath;
+        }
+
+        private int verifyParsability( String line, String[] parts, Logger logger )
+        {
+            if ( parts.length > 7 )
+            {
+                String dateCandidate = parts[5] + " " + parts[6] + " " + parts[7];
+                for ( int i = 0; i < LS_DATE_FORMATS.length; i++ )
+                {
+                    try
+                    {
+                        LS_DATE_FORMATS[i].parse( dateCandidate );
+                        return LS_LAST_DATE_PART_INDICES[i];
+                    }
+                    catch ( ParseException e )
+                    {
+                        if ( logger.isDebugEnabled() )
+                        {
+                            logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: " +
+                                LS_DATE_FORMATS[i].toPattern(), e );
+                        }
+                    }
+                }
+            }
+
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "Unparseable line: '" + line +
+                    "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
+            }
+
+            return -1;
+        }
+
     }
 }

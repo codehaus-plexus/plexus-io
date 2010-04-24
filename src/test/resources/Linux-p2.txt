@@ -1,0 +1,77 @@
+src/main/java/org/codehaus/plexus/components:
+totalt 12
+drwxrwxr-x 3 kristian sveis 4096 2010-04-21 08:58 .
+drwxrwxr-x 3 kristian sveis 4096 2010-04-21 08:58 ..
+drwxrwxr-x 6 kristian sveis 4096 2010-04-21 08:58 io
+
+src/main/java/org/codehaus/plexus/components/io:
+totalt 24
+drwxrwxr-x 6 kristian sveis 4096 2010-04-21 08:58 .
+drwxrwxr-x 3 kristian sveis 4096 2010-04-21 08:58 ..
+drwxrwxr-x 2 kristian sveis 4096 2010-04-22 21:19 attributes
+drwxrwxr-x 2 kristian sveis 4096 2010-04-21 20:06 filemappers
+drwxrwxr-x 2 kristian sveis 4096 2010-04-21 20:06 fileselectors
+drwxrwxr-x 3 kristian sveis 4096 2010-04-21 20:06 resources
+
+src/main/java/org/codehaus/plexus/components/io/attributes:
+totalt 56
+drwxrwxr-x 2 kristian sveis     4096 2010-04-22 21:19 .
+drwxrwxr-x 6 kristian sveis     4096 2010-04-21 08:58 ..
+-rw-rw-r-- 1 kristian kristian  1242 2010-04-21 20:06 AttributeConstants.java
+-rw-rw-r-- 1 kristian kristian  9565 2010-04-21 20:06 FileAttributes.java
+-rw-rw-r-- 1 kristian kristian  2179 2010-04-21 20:06 PlexusIoResourceAttributes.java
+-rw-rw-r-- 1 kristian kristian 17872 2010-04-22 23:30 PlexusIoResourceAttributeUtils.java
+-rw-rw-r-- 1 kristian kristian  5266 2010-04-21 20:06 SimpleResourceAttributes.java
+
+src/main/java/org/codehaus/plexus/components/io/filemappers:
+totalt 44
+drwxrwxr-x 2 kristian sveis    4096 2010-04-21 20:06 .
+drwxrwxr-x 6 kristian sveis    4096 2010-04-21 08:58 ..
+-rw-rw-r-- 1 kristian kristian 1293 2010-04-21 20:06 AbstractFileMapper.java
+-rw-rw-r-- 1 kristian kristian 2516 2010-04-21 20:06 FileExtensionMapper.java
+-rw-rw-r-- 1 kristian kristian 1358 2010-04-21 20:06 FileMapper.java
+-rw-rw-r-- 1 kristian kristian 1384 2010-04-21 20:06 FlattenFileMapper.java
+-rw-rw-r-- 1 kristian kristian 1216 2010-04-21 20:06 IdentityMapper.java
+-rw-rw-r-- 1 kristian kristian 2013 2010-04-21 20:06 MergeFileMapper.java
+-rw-rw-r-- 1 kristian kristian  877 2010-04-21 20:06 package.html
+-rw-rw-r-- 1 kristian kristian 1665 2010-04-21 20:06 PrefixFileMapper.java
+-rw-rw-r-- 1 kristian kristian 2497 2010-04-21 20:06 RegExpFileMapper.java
+
+src/main/java/org/codehaus/plexus/components/io/fileselectors:
+totalt 32
+drwxrwxr-x 2 kristian sveis    4096 2010-04-21 20:06 .
+drwxrwxr-x 6 kristian sveis    4096 2010-04-21 08:58 ..
+-rw-rw-r-- 1 kristian kristian 1035 2010-04-21 20:06 AllFilesFileSelector.java
+-rw-rw-r-- 1 kristian kristian 1761 2010-04-21 20:06 FileInfo.java
+-rw-rw-r-- 1 kristian kristian 1377 2010-04-21 20:06 FileSelector.java
+-rw-rw-r-- 1 kristian kristian 8145 2010-04-21 20:06 IncludeExcludeFileSelector.java
+-rw-rw-r-- 1 kristian kristian  616 2010-04-21 20:06 package.html
+
+src/main/java/org/codehaus/plexus/components/io/resources:
+totalt 80
+drwxrwxr-x 3 kristian sveis    4096 2010-04-21 20:06 .
+drwxrwxr-x 6 kristian sveis    4096 2010-04-21 08:58 ..
+-rw-rw-r-- 1 kristian kristian 2277 2010-04-21 20:06 AbstractPlexusIoArchiveResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 6776 2010-04-21 20:06 AbstractPlexusIoResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 2884 2010-04-21 20:06 AbstractPlexusIoResource.java
+-rw-rw-r-- 1 kristian kristian 1243 2010-04-21 20:06 AbstractPlexusIoResourceWithAttributes.java
+-rw-rw-r-- 1 kristian kristian  534 2010-04-21 20:06 package.html
+-rw-rw-r-- 1 kristian kristian 1042 2010-04-21 20:06 PlexusIoArchivedResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 2980 2010-04-21 20:06 PlexusIoCompressedFileResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 6054 2010-04-21 20:06 PlexusIoFileResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 3355 2010-04-21 20:06 PlexusIoFileResource.java
+-rw-rw-r-- 1 kristian kristian 2127 2010-04-21 20:06 PlexusIoResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 1542 2010-04-21 20:06 PlexusIOResourceCollectionWithAttributes.java
+-rw-rw-r-- 1 kristian kristian 1911 2010-04-21 20:06 PlexusIoResource.java
+-rw-rw-r-- 1 kristian kristian  949 2010-04-21 20:06 PlexusIoResourceWithAttributes.java
+-rw-rw-r-- 1 kristian kristian 1089 2010-04-21 20:06 PlexusIoURLResource.java
+-rw-rw-r-- 1 kristian kristian 2856 2010-04-21 20:06 PlexusIoZipFileResourceCollection.java
+drwxrwxr-x 2 kristian sveis    4096 2010-04-21 20:06 proxy
+
+src/main/java/org/codehaus/plexus/components/io/resources/proxy:
+totalt 24
+drwxrwxr-x 2 kristian sveis    4096 2010-04-21 20:06 .
+drwxrwxr-x 3 kristian sveis    4096 2010-04-21 20:06 ..
+-rw-rw-r-- 1 kristian kristian 6701 2010-04-21 20:06 PlexusIoProxyResourceCollection.java
+-rw-rw-r-- 1 kristian kristian 1753 2010-04-21 20:06 PlexusIoProxyResource.java
+-rw-rw-r-- 1 kristian kristian 1897 2010-04-21 20:06 PlexusIoProxyResourceWithAttributes.java

@@ -1,0 +1,76 @@
+total 2
+drwxr-xr-x  3 3391  3391  3 Apr 23 06:57 .
+drwxr-xr-x  3 3391  3391  3 Apr 23 06:57 ..
+drwxr-xr-x  6 3391  3391  6 Apr 23 06:57 io
+
+src/main/java/org/codehaus/plexus/components/io:
+total 3
+drwxr-xr-x  6 3391  3391   6 Apr 23 06:57 .
+drwxr-xr-x  3 3391  3391   3 Apr 23 06:57 ..
+drwxr-xr-x  2 3391  3391   7 Apr 23 06:57 attributes
+drwxr-xr-x  2 3391  3391  11 Apr 23 06:57 filemappers
+drwxr-xr-x  2 3391  3391   7 Apr 23 06:57 fileselectors
+drwxr-xr-x  3 3391  3391  18 Apr 23 06:57 resources
+
+src/main/java/org/codehaus/plexus/components/io/attributes:
+total 4
+drwxr-xr-x  2 3391  3391      7 Apr 23 06:57 .
+drwxr-xr-x  6 3391  3391      6 Apr 23 06:57 ..
+-rw-r--r--  1 3391  3391   1242 Apr 23 06:57 AttributeConstants.java
+-rw-r--r--  1 3391  3391   9565 Apr 23 06:57 FileAttributes.java
+-rw-r--r--  1 3391  3391  17872 Apr 23 06:57 PlexusIoResourceAttributeUtils.java
+-rw-r--r--  1 3391  3391   2179 Apr 23 06:57 PlexusIoResourceAttributes.java
+-rw-r--r--  1 3391  3391   5266 Apr 23 06:57 SimpleResourceAttributes.java
+
+src/main/java/org/codehaus/plexus/components/io/filemappers:
+total 6
+drwxr-xr-x  2 3391  3391    11 Apr 23 06:57 .
+drwxr-xr-x  6 3391  3391     6 Apr 23 06:57 ..
+-rw-r--r--  1 3391  3391  1293 Apr 23 06:57 AbstractFileMapper.java
+-rw-r--r--  1 3391  3391  2516 Apr 23 06:57 FileExtensionMapper.java
+-rw-r--r--  1 3391  3391  1358 Apr 23 06:57 FileMapper.java
+-rw-r--r--  1 3391  3391  1384 Apr 23 06:57 FlattenFileMapper.java
+-rw-r--r--  1 3391  3391  1216 Apr 23 06:57 IdentityMapper.java
+-rw-r--r--  1 3391  3391  2013 Apr 23 06:57 MergeFileMapper.java
+-rw-r--r--  1 3391  3391  1665 Apr 23 06:57 PrefixFileMapper.java
+-rw-r--r--  1 3391  3391  2497 Apr 23 06:57 RegExpFileMapper.java
+-rw-r--r--  1 3391  3391   877 Apr 23 06:57 package.html
+
+src/main/java/org/codehaus/plexus/components/io/fileselectors:
+total 4
+drwxr-xr-x  2 3391  3391     7 Apr 23 06:57 .
+drwxr-xr-x  6 3391  3391     6 Apr 23 06:57 ..
+-rw-r--r--  1 3391  3391  1035 Apr 23 06:57 AllFilesFileSelector.java
+-rw-r--r--  1 3391  3391  1761 Apr 23 06:57 FileInfo.java
+-rw-r--r--  1 3391  3391  1377 Apr 23 06:57 FileSelector.java
+-rw-r--r--  1 3391  3391  8145 Apr 23 06:57 IncludeExcludeFileSelector.java
+-rw-r--r--  1 3391  3391   616 Apr 23 06:57 package.html
+
+src/main/java/org/codehaus/plexus/components/io/resources:
+total 9
+drwxr-xr-x  3 3391  3391    18 Apr 23 06:57 .
+drwxr-xr-x  6 3391  3391     6 Apr 23 06:57 ..
+-rw-r--r--  1 3391  3391  2277 Apr 23 06:57 AbstractPlexusIoArchiveResourceCollection.java
+-rw-r--r--  1 3391  3391  2884 Apr 23 06:57 AbstractPlexusIoResource.java
+-rw-r--r--  1 3391  3391  6776 Apr 23 06:57 AbstractPlexusIoResourceCollection.java
+-rw-r--r--  1 3391  3391  1243 Apr 23 06:57 AbstractPlexusIoResourceWithAttributes.java
+-rw-r--r--  1 3391  3391  1542 Apr 23 06:57 PlexusIOResourceCollectionWithAttributes.java
+-rw-r--r--  1 3391  3391  1042 Apr 23 06:57 PlexusIoArchivedResourceCollection.java
+-rw-r--r--  1 3391  3391  2980 Apr 23 06:57 PlexusIoCompressedFileResourceCollection.java
+-rw-r--r--  1 3391  3391  3355 Apr 23 06:57 PlexusIoFileResource.java
+-rw-r--r--  1 3391  3391  6054 Apr 23 06:57 PlexusIoFileResourceCollection.java
+-rw-r--r--  1 3391  3391  1911 Apr 23 06:57 PlexusIoResource.java
+-rw-r--r--  1 3391  3391  2127 Apr 23 06:57 PlexusIoResourceCollection.java
+-rw-r--r--  1 3391  3391   949 Apr 23 06:57 PlexusIoResourceWithAttributes.java
+-rw-r--r--  1 3391  3391  1089 Apr 23 06:57 PlexusIoURLResource.java
+-rw-r--r--  1 3391  3391  2856 Apr 23 06:57 PlexusIoZipFileResourceCollection.java
+-rw-r--r--  1 3391  3391   534 Apr 23 06:57 package.html
+drwxr-xr-x  2 3391  3391     5 Apr 23 06:57 proxy
+
+src/main/java/org/codehaus/plexus/components/io/resources/proxy:
+total 3
+drwxr-xr-x  2 3391  3391     5 Apr 23 06:57 .
+drwxr-xr-x  3 3391  3391    18 Apr 23 06:57 ..
+-rw-r--r--  1 3391  3391  1753 Apr 23 06:57 PlexusIoProxyResource.java
+-rw-r--r--  1 3391  3391  6701 Apr 23 06:57 PlexusIoProxyResourceCollection.java
+-rw-r--r--  1 3391  3391  1897 Apr 23 06:57 PlexusIoProxyResourceWithAttributes.java
