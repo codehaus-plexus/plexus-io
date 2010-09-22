@@ -34,10 +34,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
- * Implementation of {@link PlexusIoResourceCollection} for an archives
- * contents.
+ * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
  */
 public class PlexusIoProxyResourceCollection
     extends AbstractPlexusIoResourceCollection
@@ -46,17 +44,17 @@ public class PlexusIoProxyResourceCollection
     private PlexusIoResourceCollection src;
 
     private SimpleResourceAttributes defaultFileAttributes;
-    
+
     private SimpleResourceAttributes defaultDirAttributes;
-    
+
     private PlexusIoResourceAttributes overrideFileAttributes;
 
     private PlexusIoResourceAttributes overrideDirAttributes;
-    
+
     /**
      * Sets the archive to read.
      */
-    public void setSrc( PlexusIoResourceCollection src )
+    public void setSrc( final PlexusIoResourceCollection src )
     {
         this.src = src;
     }
@@ -71,7 +69,7 @@ public class PlexusIoProxyResourceCollection
 
     protected FileSelector getDefaultFileSelector()
     {
-        IncludeExcludeFileSelector fileSelector = new IncludeExcludeFileSelector();
+        final IncludeExcludeFileSelector fileSelector = new IncludeExcludeFileSelector();
         fileSelector.setIncludes( getIncludes() );
         fileSelector.setExcludes( getExcludes() );
         fileSelector.setCaseSensitive( isCaseSensitive() );
@@ -79,34 +77,38 @@ public class PlexusIoProxyResourceCollection
         return fileSelector;
     }
 
-    public Iterator getResources() throws IOException
+    public Iterator getResources()
+        throws IOException
     {
         final List result = new ArrayList();
         final FileSelector fileSelector = getDefaultFileSelector();
         String prefix = getPrefix();
-        if ( prefix != null  &&  prefix.length() == 0 )
+        if ( prefix != null && prefix.length() == 0 )
         {
             prefix = null;
         }
-        for ( Iterator iter = getSrc().getResources();  iter.hasNext();  )
+        for ( final Iterator iter = getSrc().getResources(); iter.hasNext(); )
         {
             PlexusIoResource plexusIoResource = (PlexusIoResource) iter.next();
-            
+
             PlexusIoResourceAttributes attrs = null;
             if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
             {
-                attrs = ((PlexusIoResourceWithAttributes)plexusIoResource).getAttributes();
+                attrs = ( (PlexusIoResourceWithAttributes) plexusIoResource ).getAttributes();
             }
 
             if ( plexusIoResource.isDirectory() )
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs, defaultDirAttributes );
+                attrs =
+                    PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs, defaultDirAttributes );
             }
             else
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs, defaultFileAttributes );
+                attrs =
+                    PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs,
+                                                                    defaultFileAttributes );
             }
-            
+
             if ( !fileSelector.isSelected( plexusIoResource ) )
             {
                 continue;
@@ -121,40 +123,40 @@ public class PlexusIoProxyResourceCollection
             }
             if ( prefix != null )
             {
-                String name = plexusIoResource.getName();
-                
+                final String name = plexusIoResource.getName();
+
                 if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
                 {
-                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( (PlexusIoResourceWithAttributes) plexusIoResource );
+                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs );
                 }
                 else
                 {
-                    plexusIoResource = new PlexusIoProxyResource( plexusIoResource );
+                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs );
                 }
-                
+
                 ( (AbstractPlexusIoResource) plexusIoResource ).setName( prefix + name );
             }
-            
+
             result.add( plexusIoResource );
         }
         return result.iterator();
     }
 
-    public String getName( PlexusIoResource resource )
+    public String getName( final PlexusIoResource resource )
         throws IOException
     {
         String name = resource.getName();
         final FileMapper[] mappers = getFileMappers();
         if ( mappers != null )
         {
-            for ( int i = 0;  i < mappers.length;  i++ )
+            for ( int i = 0; i < mappers.length; i++ )
             {
                 name = mappers[i].getMappedFileName( name );
             }
         }
         /*
-         * The prefix is applied when creating the resource.
-         * return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+         * The prefix is applied when creating the resource. return PrefixFileMapper.getMappedFileName( getPrefix(),
+         * name );
          */
         return name;
     }
@@ -164,20 +166,22 @@ public class PlexusIoProxyResourceCollection
     {
         return src.getLastModified();
     }
-    
-    public void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
+
+    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                      final int fileMode, final int dirMode )
     {
         defaultFileAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode );
         defaultFileAttributes.setOctalMode( fileMode );
-        
+
         defaultDirAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode );
         defaultDirAttributes.setOctalMode( dirMode );
     }
-    
-    public void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
+
+    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                       final int fileMode, final int dirMode )
     {
         overrideFileAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode );
-        
+
         overrideDirAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode );
     }
 }

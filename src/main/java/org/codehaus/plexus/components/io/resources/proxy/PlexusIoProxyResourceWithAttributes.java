@@ -16,7 +16,9 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceWithAttributes;
+import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
 
 import java.io.IOException;
@@ -27,13 +29,21 @@ public class PlexusIoProxyResourceWithAttributes
     extends AbstractPlexusIoResourceWithAttributes
 {
 
-    private final PlexusIoResourceWithAttributes src;
+    private final PlexusIoResource src;
 
-    public PlexusIoProxyResourceWithAttributes( PlexusIoResourceWithAttributes plexusIoResource )
+    public PlexusIoProxyResourceWithAttributes( final PlexusIoResourceWithAttributes plexusIoResource )
     {
-        this.src = plexusIoResource;
+        src = plexusIoResource;
         setName( src.getName() );
-        setAttributes( src.getAttributes() );
+        setAttributes( plexusIoResource.getAttributes() );
+    }
+
+    public PlexusIoProxyResourceWithAttributes( final PlexusIoResource plexusIoResource,
+                                                final PlexusIoResourceAttributes attrs )
+    {
+        src = plexusIoResource;
+        setName( src.getName() );
+        setAttributes( attrs );
     }
 
     public long getLastModified()
