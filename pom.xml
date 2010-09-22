@@ -8,14 +8,14 @@
   </parent>
 
   <artifactId>plexus-io</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
 
   <name>Plexus IO Components</name>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/plexus/plexus-components/trunk/plexus-io</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/plexus/plexus-components/trunk/plexus-io</developerConnection>
-    <url>http://fisheye.codehaus.org/browse/plexus/plexus-components/trunk/plexus-io</url>
+    <connection>scm:svn:http://svn.codehaus.org/plexus/plexus-components/tags/plexus-io-1.0.1</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/plexus/plexus-components/tags/plexus-io-1.0.1</developerConnection>
+    <url>http://fisheye.codehaus.org/browse/plexus/plexus-components/tags/plexus-io-1.0.1</url>
   </scm>
 
   <dependencies>
