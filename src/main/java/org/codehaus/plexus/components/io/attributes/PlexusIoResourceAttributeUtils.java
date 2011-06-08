@@ -334,6 +334,8 @@ public final class PlexusIoResourceAttributeUtils
     private static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
 
 
+    private static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+"  );
+
     static final class AttributeParser
         implements StreamConsumer
     {
@@ -405,7 +407,7 @@ public final class PlexusIoResourceAttributeUtils
             }
             else
             {
-                String[] parts = line.split( "\\s+" );
+                String[] parts = LINE_SPLITTER.split( line );
                 int lastDatePart = verifyParsability( line, parts, logger );
 
                 if ( lastDatePart > 0 )
