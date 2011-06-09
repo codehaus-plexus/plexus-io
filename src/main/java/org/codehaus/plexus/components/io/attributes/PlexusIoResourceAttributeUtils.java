@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.Os;
@@ -40,7 +39,7 @@ public final class PlexusIoResourceAttributeUtils
     private PlexusIoResourceAttributeUtils()
     {
     }
-    
+
     public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override,
                                                               PlexusIoResourceAttributes base,
                                                               PlexusIoResourceAttributes def )
@@ -56,60 +55,62 @@ public final class PlexusIoResourceAttributeUtils
         }
         else
         {
-            result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(), base.getGroupName(),
-                                          base.getOctalMode() );
+            result = new SimpleResourceAttributes( base.hasUserId() ? new Integer( base.getUserId() ) : null,
+                                                   base.getUserName(),
+                                                   base.hasGroupId() ? new Integer( base.getGroupId() ) : null,
+                                                   base.getGroupName(), base.getOctalMode() );
         }
-        
+
         if ( override.getGroupId() != -1 )
         {
             result.setGroupId( override.getGroupId() );
         }
-        
+
         if ( def != null && result.getGroupId() < 0 )
         {
             result.setGroupId( def.getGroupId() );
         }
-        
+
         if ( override.getGroupName() != null )
         {
             result.setGroupName( override.getGroupName() );
         }
-        
+
         if ( def != null && result.getGroupName() == null )
         {
             result.setGroupName( def.getGroupName() );
         }
-        
+
         if ( override.getUserId() != -1 )
         {
             result.setUserId( override.getUserId() );
         }
-        
+
         if ( def != null && result.getUserId() < 0 )
         {
             result.setUserId( def.getUserId() );
         }
-        
+
         if ( override.getUserName() != null )
         {
             result.setUserName( override.getUserName() );
         }
-        
+
         if ( def != null && result.getUserName() == null )
         {
             result.setUserName( def.getUserName() );
         }
-        
+
         if ( override.getOctalMode() > 0 )
         {
             result.setOctalMode( override.getOctalMode() );
         }
-        
+
         if ( def != null && result.getOctalMode() < 0 )
         {
             result.setOctalMode( def.getOctalMode() );
         }
-        
+
         return result;
     }
 
@@ -205,7 +206,6 @@ public final class PlexusIoResourceAttributeUtils
     {
         return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true );
     }
-    
     public static Map<String, FileAttributes> getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
         throws IOException
     {
@@ -222,7 +222,7 @@ public final class PlexusIoResourceAttributeUtils
         LoggerStreamConsumer loggerConsumer = new LoggerStreamConsumer( logger, logLevel );
 
         AttributeParser parser = new AttributeParser( loggerConsumer, logger );
-        
+
         String lsOptions = "-1nla" + ( recursive ? "R" : "d" );
         try
         {
@@ -258,8 +258,8 @@ public final class PlexusIoResourceAttributeUtils
         return !Os.isFamily( Os.FAMILY_WINDOWS ) && !Os.isFamily( Os.FAMILY_WIN9X );
     }
 
-    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer,
-                                   StreamConsumer parser, Logger logger )
+    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer, StreamConsumer parser,
+                                   Logger logger )
         throws IOException, CommandLineException
     {
         Commandline numericCli = new Commandline();
@@ -284,8 +284,8 @@ public final class PlexusIoResourceAttributeUtils
 
             if ( result != 0 )
             {
-                throw new IOException( "Failed to retrieve numeric file attributes using: '" + numericCli.toString()
-                    + "'" );
+                throw new IOException(
+                    "Failed to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
             }
         }
         catch ( CommandLineException e )
@@ -340,7 +340,7 @@ public final class PlexusIoResourceAttributeUtils
     private static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
 
 
-    private static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+"  );
+    private static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+" );
 
     static final class AttributeParser
         implements StreamConsumer
@@ -457,8 +457,8 @@ public final class PlexusIoResourceAttributeUtils
                             }
                             else
                             {
-                                attributes.setUserId( Integer.parseInt( parts[2] ) );
-                                attributes.setGroupId( Integer.parseInt( parts[3] ) );
+                                attributes.setUserId( (int) Long.parseLong( parts[2] ) );
+                                attributes.setGroupId( (int) Long.parseLong( parts[3] ) );
                             }
                         }
                     }
@@ -497,8 +497,8 @@ public final class PlexusIoResourceAttributeUtils
                     {
                         if ( logger.isDebugEnabled() )
                         {
-                            logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: " +
-                                LS_DATE_FORMATS[i].toPattern(), e );
+                            logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: "
+                                              + LS_DATE_FORMATS[i].toPattern(), e );
                         }
                     }
                 }
@@ -506,8 +506,8 @@ public final class PlexusIoResourceAttributeUtils
 
             if ( logger.isDebugEnabled() )
             {
-                logger.debug( "Unparseable line: '" + line +
-                    "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
+                logger.debug( "Unparseable line: '" + line
+                                  + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
             }
 
             return -1;

@@ -32,11 +32,12 @@ public abstract class AbstractResourceAttributesTCK
     {
         PlexusIoResourceAttributes attrs = newAttributes();
         
-        assertEquals( -1, attrs.getUserId() );
+        assertFalse( attrs.hasUserId());
         
         int uid = 501;
         attrs.setUserId( uid );
         
+        assertTrue( attrs.hasUserId());
         assertEquals( uid, attrs.getUserId() );
     }
     
@@ -44,11 +45,12 @@ public abstract class AbstractResourceAttributesTCK
     {
         PlexusIoResourceAttributes attrs = newAttributes();
         
-        assertEquals( -1, attrs.getGroupId() );
-        
+        assertFalse( attrs.hasGroupId());
+
         int gid = 501;
         attrs.setGroupId( gid );
         
+        assertTrue( attrs.hasGroupId());
         assertEquals( gid, attrs.getGroupId() );
     }
     

@@ -16,18 +16,23 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import junit.framework.TestCase;
 
 public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
@@ -99,6 +104,16 @@ public class PlexusIoResourceAttributeUtilsTest
     {
         String output =
             "-rw-r--r-- 1 1003 1002 1533 2010-04-23 14:34 /home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1W/checkout/spi/pom.xml";
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
+        PlexusIoResourceAttributeUtils.AttributeParser parser = getParser();
+        parse( byteArrayInputStream, parser );
+    }
+
+    public void testOddLinuxFormatWithExtermelyLargeNumericsSingleLine()
+        throws Exception
+    {
+        String output =
+            "-rw-rw-r-- 1 4294967294 4294967294 7901 2011-06-07 18:39 /mnt/work/src/maven-plugins-trunk/maven-compiler-plugin/pom.xml";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
         PlexusIoResourceAttributeUtils.AttributeParser parser = getParser();
         parse( byteArrayInputStream, parser );

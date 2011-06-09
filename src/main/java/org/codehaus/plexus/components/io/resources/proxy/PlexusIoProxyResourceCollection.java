@@ -16,6 +16,10 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
@@ -28,11 +32,6 @@ import org.codehaus.plexus.components.io.resources.PlexusIOResourceCollectionWit
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
@@ -170,18 +169,18 @@ public class PlexusIoProxyResourceCollection
     public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
                                       final int fileMode, final int dirMode )
     {
-        defaultFileAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode );
+        defaultFileAttributes = new SimpleResourceAttributes( new Integer( uid), userName, new Integer( gid), groupName, fileMode );
         defaultFileAttributes.setOctalMode( fileMode );
 
-        defaultDirAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode );
+        defaultDirAttributes = new SimpleResourceAttributes( new Integer( uid), userName,new Integer(  gid), groupName, dirMode );
         defaultDirAttributes.setOctalMode( dirMode );
     }
 
     public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
                                        final int fileMode, final int dirMode )
     {
-        overrideFileAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode );
+        overrideFileAttributes = new SimpleResourceAttributes(  new Integer( uid), userName, new Integer( gid), groupName, fileMode );
 
-        overrideDirAttributes = new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode );
+        overrideDirAttributes = new SimpleResourceAttributes(  new Integer( uid), userName, new Integer( gid), groupName, dirMode );
     }
 }

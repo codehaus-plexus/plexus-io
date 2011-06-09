@@ -19,18 +19,18 @@ package org.codehaus.plexus.components.io.attributes;
 public class SimpleResourceAttributes
     implements PlexusIoResourceAttributes
 {
-    
-    private int gid = -1;
-    
-    private int uid = -1;
-    
+
+    private Integer gid;
+
+    private Integer uid;
+
     private String userName;
-    
+
     private String groupName;
-    
+
     private int mode;
-    
-    public SimpleResourceAttributes( int uid, String userName, int gid, String groupName, int mode )
+
+    public SimpleResourceAttributes( Integer uid, String userName, Integer gid, String groupName, int mode )
     {
         this.uid = uid;
         this.userName = userName;
@@ -38,7 +38,7 @@ public class SimpleResourceAttributes
         this.groupName = groupName;
         this.mode = mode;
     }
-    
+
     public SimpleResourceAttributes()
     {
     }
@@ -48,9 +48,18 @@ public class SimpleResourceAttributes
         return mode;
     }
 
+    public boolean hasGroupId()
+    {
+        return gid != null;
+    }
+
     public int getGroupId()
     {
-        return gid;
+        if ( !hasGroupId() )
+        {
+            throw new IllegalStateException( "Cannot get the groupid because it has not been set" );
+        }
+        return gid.intValue();
     }
 
     public String getGroupName()
@@ -58,10 +67,21 @@ public class SimpleResourceAttributes
         return groupName;
     }
 
+
+    public boolean hasUserId()
+    {
+        return uid != null;
+    }
     public int getUserId()
     {
-        return uid;
+        if ( !hasUserId() )
+        {
+            throw new IllegalStateException( "Cannot get the userid because it has not been set" );
+        }
+        return uid.intValue();
     }
+
+
 
     public String getUserName()
     {
@@ -129,10 +149,10 @@ public class SimpleResourceAttributes
         set( AttributeConstants.OCTAL_GROUP_EXECUTE, flag );
         return this;
     }
-    
+
     public PlexusIoResourceAttributes setGroupId( int gid )
     {
-        this.gid = gid;
+        this.gid = new Integer( gid);
         return this;
     }
 
@@ -174,7 +194,7 @@ public class SimpleResourceAttributes
 
     public PlexusIoResourceAttributes setUserId( int uid )
     {
-        this.uid = uid;
+        this.uid = new Integer( uid);
         return this;
     }
 

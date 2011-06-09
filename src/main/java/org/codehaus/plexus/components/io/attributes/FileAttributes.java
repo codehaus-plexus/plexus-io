@@ -21,13 +21,13 @@ import java.util.Arrays;
 public class FileAttributes
     implements PlexusIoResourceAttributes
 {
-    
+
     protected static final char VALUE_DISABLED_MODE = '-';
-    
+
     protected static final char VALUE_WRITABLE_MODE = 'w';
-    
+
     protected static final char VALUE_READABLE_MODE = 'r';
-    
+
     protected static final char VALUE_EXECUTABLE_MODE = 'x';
 
     protected static final int INDEX_WORLD_EXECUTE = 9;
@@ -48,31 +48,31 @@ public class FileAttributes
 
     protected static final int INDEX_OWNER_READ = 1;
 
-    private int groupId = -1;
+    private Integer groupId;
 
     private String groupName;
 
-    private int userId = -1;
+    private Integer userId;
 
     private String userName;
 
     private char[] mode;
-    
+
     public FileAttributes( int userId, String userName, int groupId, String groupName, char[] mode )
     {
-        this.groupId = groupId;
+        this.groupId = new Integer( groupId );
         this.groupName = groupName;
-        this.userId = userId;
+        this.userId = new Integer( userId );
         this.userName = userName;
         setLsModeParts( mode );
     }
-    
+
     public FileAttributes()
     {
         mode = new char[10];
         Arrays.fill( mode, VALUE_DISABLED_MODE );
     }
-    
+
     protected char[] getLsModeParts()
     {
         return mode;
@@ -80,7 +80,7 @@ public class FileAttributes
 
     protected void setLsModeParts( char[] mode )
     {
-        if( mode.length < 10 )
+        if ( mode.length < 10 )
         {
             this.mode = new char[10];
             System.arraycopy( mode, 0, this.mode, 0, mode.length );
@@ -97,7 +97,11 @@ public class FileAttributes
 
     public int getGroupId()
     {
-        return groupId;
+        if ( !hasGroupId() )
+        {
+            throw new IllegalStateException( "Cannot get the group id because it has not been set" );
+        }
+        return groupId.intValue();
     }
 
     public String getGroupName()
@@ -107,7 +111,22 @@ public class FileAttributes
 
     public int getUserId()
     {
-        return userId;
+        if ( !hasUserId() )
+        {
+            throw new IllegalStateException( "Cannot get the user id because it has not been set" );
+        }
+
+        return userId.intValue();
+    }
+
+    public boolean hasGroupId()
+    {
+        return groupId != null;
+    }
+
+    public boolean hasUserId()
+    {
+        return userId != null;
     }
 
     public String getUserName()
@@ -173,64 +192,64 @@ public class FileAttributes
         sb.append( "\ngroup: " );
         sb.append( groupName == null ? "" : groupName );
         sb.append( "\nuid: " );
-        sb.append( userId == -1 ? "" : Integer.toString( userId ) );
+        sb.append( hasUserId() ?  userId.toString() : "");
         sb.append( "\ngid: " );
-        sb.append( groupId == -1 ? "" : Integer.toString( groupId ) );
+        sb.append( hasGroupId() ? groupId.toString() : "");
         sb.append( "\nmode: " );
         sb.append( mode == null ? "" : String.valueOf( mode ) );
-        
+
         return sb.toString();
     }
 
     public int getOctalMode()
     {
         int result = 0;
-        
+
         if ( isOwnerReadable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_READ;
         }
-        
+
         if ( isOwnerWritable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_WRITE;
         }
-        
+
         if ( isOwnerExecutable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_EXECUTE;
         }
-        
+
         if ( isGroupReadable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_READ;
         }
-        
+
         if ( isGroupWritable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_WRITE;
         }
-        
+
         if ( isGroupExecutable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_EXECUTE;
         }
-        
+
         if ( isWorldReadable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_READ;
         }
-        
+
         if ( isWorldWritable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_WRITE;
         }
-        
+
         if ( isWorldExecutable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_EXECUTE;
         }
-        
+
         return result;
     }
 
@@ -238,7 +257,7 @@ public class FileAttributes
     {
         return Integer.toString( getOctalMode(), 8 );
     }
-    
+
     public PlexusIoResourceAttributes setGroupExecutable( boolean flag )
     {
         setMode( flag ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, INDEX_GROUP_EXECUTE );
@@ -247,7 +266,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setGroupId( int gid )
     {
-        this.groupId = gid;
+        this.groupId = new Integer( gid );
         return this;
     }
 
@@ -289,7 +308,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setUserId( int uid )
     {
-        this.userId = uid;
+        this.userId = new Integer( uid );
         return this;
     }
 
@@ -316,21 +335,21 @@ public class FileAttributes
         setMode( flag ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, INDEX_WORLD_WRITE );
         return this;
     }
-    
+
     public PlexusIoResourceAttributes setLsModeline( String modeLine )
     {
         setLsModeParts( modeLine.toCharArray() );
         return this;
     }
-    
+
     private void setMode( char value, int modeIdx )
     {
         char[] mode = getLsModeParts();
         mode[modeIdx] = value;
-        
+
         setLsModeParts( mode );
     }
-    
+
     public PlexusIoResourceAttributes setOctalMode( int mode )
     {
         setGroupExecutable( PlexusIoResourceAttributeUtils.isGroupExecutableInOctal( mode ) );
@@ -344,7 +363,7 @@ public class FileAttributes
         setWorldWritable( PlexusIoResourceAttributeUtils.isWorldWritableInOctal( mode ) );
         return this;
     }
-    
+
     public PlexusIoResourceAttributes setOctalModeString( String mode )
     {
         setOctalMode( Integer.parseInt( mode, 8 ) );

@@ -39,7 +39,11 @@ public interface PlexusIoResourceAttributes
     int getUserId();
     
     int getGroupId();
+
+    boolean hasGroupId();
     
+    boolean hasUserId();
+
     String getUserName();
     
     String getGroupName();
