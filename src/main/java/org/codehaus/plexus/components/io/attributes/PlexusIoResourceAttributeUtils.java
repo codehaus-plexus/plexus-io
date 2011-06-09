@@ -20,12 +20,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -206,9 +209,12 @@ public final class PlexusIoResourceAttributeUtils
     {
         return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true );
     }
-    public static Map<String, FileAttributes> getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
         throws IOException
     {
+        if ( Java7Reflector.isJava7() ){
+            return getFileAttributesByPathJava7( dir, recursive );
+        }
         if ( !enabledOnCurrentOperatingSystem() )
         {
             //noinspection unchecked
@@ -253,13 +259,37 @@ public final class PlexusIoResourceAttributeUtils
         return parser.attributesByPath;
     }
 
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir, boolean recursive )
+        throws IOException
+    {
+        final List fileAndDirectoryNames;
+        if (dir.isDirectory()){
+            fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames( dir, null, null, true, true, true, true );
+        } else {
+            fileAndDirectoryNames = Collections.singletonList(  dir.getAbsolutePath() );
+        }
+
+
+        final Map<String, PlexusIoResourceAttributes> attributesByPath =
+            new LinkedHashMap<String, PlexusIoResourceAttributes>();
+
+        for ( Object fileAndDirectoryName : fileAndDirectoryNames )
+        {
+            String fileName = (String) fileAndDirectoryName;
+            attributesByPath.put( fileName, new Java7FileAttributes( new File( fileName ) ) );
+        }
+        return attributesByPath;
+    }
+
+
     private static boolean enabledOnCurrentOperatingSystem()
     {
         return !Os.isFamily( Os.FAMILY_WINDOWS ) && !Os.isFamily( Os.FAMILY_WIN9X );
     }
 
-    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer, StreamConsumer parser,
-                                   Logger logger )
+
+    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer,
+                                   StreamConsumer parser, Logger logger )
         throws IOException, CommandLineException
     {
         Commandline numericCli = new Commandline();
@@ -297,6 +327,7 @@ public final class PlexusIoResourceAttributeUtils
             throw error;
         }
     }
+
 
     private static final class LoggerStreamConsumer
         implements StreamConsumer
@@ -347,7 +378,7 @@ public final class PlexusIoResourceAttributeUtils
     {
         private final StreamConsumer delegate;
 
-        private final Map<String, FileAttributes> attributesByPath = new LinkedHashMap<String, FileAttributes>();
+        private final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
         private final Logger logger;
 
@@ -439,7 +470,7 @@ public final class PlexusIoResourceAttributeUtils
                     {
                         if ( secondPass )
                         {
-                            attributes = attributesByPath.get( path );
+                            attributes = (FileAttributes) attributesByPath.get( path );
                         }
                         else
                         {

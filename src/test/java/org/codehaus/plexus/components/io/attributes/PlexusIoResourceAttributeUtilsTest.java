@@ -62,7 +62,7 @@ public class PlexusIoResourceAttributeUtilsTest
             PlexusIoResourceAttributeUtils.getFileAttributesByPath( f, new ConsoleLogger( Logger.LEVEL_INFO, "test" ),
                                                                     Logger.LEVEL_DEBUG );
 
-        FileAttributes fileAttrs = (FileAttributes) attrs.get( f.getAbsolutePath() );
+        PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
 
         System.out.println( "Got attributes for: " + f.getAbsolutePath() + fileAttrs );
 
@@ -70,6 +70,34 @@ public class PlexusIoResourceAttributeUtilsTest
         assertTrue( fileAttrs.isOwnerReadable() );
         assertEquals( System.getProperty( "user.name" ), fileAttrs.getUserName() );
     }
+
+    public void testFolderJava7()
+        throws IOException
+    {
+
+        URL resource = Thread.currentThread().getContextClassLoader().getResource(
+            getClass().getName().replace( '.', '/' ) + ".class" );
+
+        if ( resource == null )
+        {
+            throw new IllegalStateException(
+                "SOMETHING IS VERY WRONG. CANNOT FIND THIS TEST CLASS IN THE CLASSLOADER." );
+        }
+
+        File f = new File( resource.getPath().replaceAll( "%20", " " ) );
+        final File aDir = f.getParentFile().getParentFile().getParentFile();
+
+        Map attrs =
+            PlexusIoResourceAttributeUtils.getFileAttributesByPath( aDir, new ConsoleLogger( Logger.LEVEL_INFO, "test" ),
+                                                                    Logger.LEVEL_DEBUG );
+
+        PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
+
+        System.out.println( "Got attributes for: " + f.getAbsolutePath() + fileAttrs );
+
+        assertNotNull( fileAttrs );
+    }
+
 
     public void testAttributeParsers()
     {
@@ -202,7 +230,7 @@ public class PlexusIoResourceAttributeUtilsTest
         implements StreamConsumer
     {
 
-        final List lines = new Vector(); // Thread safe
+        final List<String> lines = new Vector<String>(); // Thread safe
 
         public void consumeLine( String line )
         {
@@ -216,7 +244,7 @@ public class PlexusIoResourceAttributeUtilsTest
 
         public String toString()
         {
-            StringBuffer resp = new StringBuffer();
+            StringBuilder resp = new StringBuilder();
             Iterator iterator = iterator();
             while ( iterator.hasNext() )
             {
