@@ -83,7 +83,7 @@ public class PlexusIoFileResourceCollection
     }
     
     /**
-     * Sets the file collections base directory.
+     * @param baseDir The base directory of the file collection
      */
     public void setBaseDir( File baseDir )
     {
@@ -91,7 +91,7 @@ public class PlexusIoFileResourceCollection
     }
 
     /**
-     * Returns the file collections base directory.
+     * @return Returns the file collections base directory.
      */
     public File getBaseDir()
     {
@@ -99,7 +99,7 @@ public class PlexusIoFileResourceCollection
     }
 
     /**
-     * Returns, whether symbolic links should be followed.
+     * @return Returns, whether symbolic links should be followed.
      * Defaults to true.
      */
     public boolean isFollowingSymLinks()
@@ -108,39 +108,41 @@ public class PlexusIoFileResourceCollection
     }
 
     /**
-     * Returns, whether symbolic links should be followed.
-     * Defaults to true.
+     * @param pIsFollowingSymLinks whether symbolic links should be followed
      */
+    @SuppressWarnings( { "UnusedDeclaration" } )
     public void setFollowingSymLinks( boolean pIsFollowingSymLinks )
     {
         isFollowingSymLinks = pIsFollowingSymLinks;
     }
 
-    private void addResources( List list, String[] resources, Map attributesByPath ) throws IOException
+    private void addResources( List<PlexusIoResource> list, String[] resources, Map attributesByPath ) throws IOException
     {
         final File dir = getBaseDir();
-        for ( int i = 0; i < resources.length; i++ )
+        for ( String name : resources )
         {
-            String name = resources[i];
             String sourceDir = name.replace( '\\', '/' );
-            
+
             File f = new File( dir, sourceDir );
-            
-            PlexusIoResourceAttributes attrs = (PlexusIoResourceAttributes) attributesByPath.get( name.length() > 0 ? name : "." );
+
+            PlexusIoResourceAttributes attrs =
+                (PlexusIoResourceAttributes) attributesByPath.get( name.length() > 0 ? name : "." );
             if ( attrs == null )
             {
                 attrs = (PlexusIoResourceAttributes) attributesByPath.get( f.getAbsolutePath() );
             }
-            
+
             if ( f.isDirectory() )
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs, defaultDirAttributes );
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideDirAttributes, attrs,
+                                                                        defaultDirAttributes );
             }
             else
             {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs, defaultFileAttributes );
+                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( overrideFileAttributes, attrs,
+                                                                        defaultFileAttributes );
             }
-            
+
             PlexusIoFileResource resource = new PlexusIoFileResource( f, name, attrs );
             if ( isSelected( resource ) )
             {
@@ -149,7 +151,7 @@ public class PlexusIoFileResourceCollection
         }
     }
 
-    public Iterator getResources() throws IOException
+    public Iterator<PlexusIoResource> getResources() throws IOException
     {
         final DirectoryScanner ds = new DirectoryScanner();
         final File dir = getBaseDir();
@@ -174,7 +176,7 @@ public class PlexusIoFileResourceCollection
 
         Map attributesByPath = PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
         
-        final List result = new ArrayList();
+        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
         if ( isIncludingEmptyDirectories() )
         {
             String[] dirs = ds.getIncludedDirectories();

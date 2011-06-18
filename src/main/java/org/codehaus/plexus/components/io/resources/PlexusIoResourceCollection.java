@@ -38,14 +38,18 @@ public interface PlexusIoResourceCollection
 
     /**
      * Returns an iterator over the resources in the collection.
+     * @return An iterator
+     * @throws java.io.IOException .
      */
-    Iterator getResources() throws IOException;
+    Iterator<PlexusIoResource> getResources() throws IOException;
 
     /**
      * Returns the resources suggested name. This is used for
      * integrating file mappers.
      * @param resource A resource, which has been obtained by
      *   calling {@link #getResources()}.
+     * @return The resource name
+     * @throws java.io.IOException .
      */
     String getName( PlexusIoResource resource ) throws IOException;
 
@@ -58,6 +62,7 @@ public interface PlexusIoResourceCollection
      * @return {@link PlexusIoResource#UNKNOWN_MODIFICATION_DATE},
      *   if the collections last modification time is unknown,
      *   otherwise the last modification time in milliseconds.
+     * @throws java.io.IOException .
      */
     long getLastModified() throws IOException;
 

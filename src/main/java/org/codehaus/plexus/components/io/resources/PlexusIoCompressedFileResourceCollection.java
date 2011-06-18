@@ -55,7 +55,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         
     }
 
-    public Iterator getResources()
+    public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
         final File f = getFile();

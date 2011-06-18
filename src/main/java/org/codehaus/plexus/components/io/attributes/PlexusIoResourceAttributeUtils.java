@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+@SuppressWarnings( { "NullableProblems" } )
 public final class PlexusIoResourceAttributeUtils
 {
 
@@ -162,6 +163,7 @@ public final class PlexusIoResourceAttributeUtils
         return ( mode & targetMode ) != 0;
     }
 
+    @SuppressWarnings( { "UnusedDeclaration" } )
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
@@ -169,6 +171,7 @@ public final class PlexusIoResourceAttributeUtils
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
+    @SuppressWarnings( { "UnusedDeclaration" } )
     public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger )
         throws IOException
     {
@@ -176,6 +179,7 @@ public final class PlexusIoResourceAttributeUtils
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
+    @SuppressWarnings( { "UnusedDeclaration" } )
     public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger, int logLevel )
         throws IOException
     {
@@ -189,6 +193,7 @@ public final class PlexusIoResourceAttributeUtils
         return getFileAttributesByPath( dir, null, Logger.LEVEL_DEBUG, true );
     }
 
+    @SuppressWarnings( { "UnusedDeclaration" } )
     public static Map getFileAttributesByPath( File dir, Logger logger )
         throws IOException
     {
@@ -201,11 +206,12 @@ public final class PlexusIoResourceAttributeUtils
         return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true );
     }
     
-    public static Map getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
+    public static Map<String, FileAttributes> getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
         throws IOException
     {
         if ( !enabledOnCurrentOperatingSystem() )
         {
+            //noinspection unchecked
             return Collections.EMPTY_MAP;
         }
 
@@ -341,7 +347,7 @@ public final class PlexusIoResourceAttributeUtils
     {
         private final StreamConsumer delegate;
 
-        private final Map attributesByPath = new LinkedHashMap();
+        private final Map<String, FileAttributes> attributesByPath = new LinkedHashMap<String, FileAttributes>();
 
         private final Logger logger;
 
@@ -433,7 +439,7 @@ public final class PlexusIoResourceAttributeUtils
                     {
                         if ( secondPass )
                         {
-                            attributes = (FileAttributes) attributesByPath.get( path );
+                            attributes = attributesByPath.get( path );
                         }
                         else
                         {

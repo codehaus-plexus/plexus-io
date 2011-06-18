@@ -77,10 +77,10 @@ public class PlexusIoProxyResourceCollection
         return fileSelector;
     }
 
-    public Iterator getResources()
+    public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
-        final List result = new ArrayList();
+        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
         final FileSelector fileSelector = getDefaultFileSelector();
         String prefix = getPrefix();
         if ( prefix != null && prefix.length() == 0 )
@@ -149,9 +149,9 @@ public class PlexusIoProxyResourceCollection
         final FileMapper[] mappers = getFileMappers();
         if ( mappers != null )
         {
-            for ( int i = 0; i < mappers.length; i++ )
+            for ( FileMapper mapper : mappers )
             {
-                name = mappers[i].getMappedFileName( name );
+                name = mapper.getMappedFileName( name );
             }
         }
         /*
