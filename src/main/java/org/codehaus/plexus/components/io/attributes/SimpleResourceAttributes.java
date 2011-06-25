@@ -48,18 +48,9 @@ public class SimpleResourceAttributes
         return mode;
     }
 
-    public boolean hasGroupId()
+    public Integer getGroupId()
     {
-        return gid != null;
-    }
-
-    public int getGroupId()
-    {
-        if ( !hasGroupId() )
-        {
-            throw new IllegalStateException( "Cannot get the groupid because it has not been set" );
-        }
-        return gid.intValue();
+        return gid;
     }
 
     public String getGroupName()
@@ -68,20 +59,10 @@ public class SimpleResourceAttributes
     }
 
 
-    public boolean hasUserId()
+    public Integer getUserId()
     {
-        return uid != null;
+        return uid;
     }
-    public int getUserId()
-    {
-        if ( !hasUserId() )
-        {
-            throw new IllegalStateException( "Cannot get the userid because it has not been set" );
-        }
-        return uid.intValue();
-    }
-
-
 
     public String getUserName()
     {
@@ -150,9 +131,9 @@ public class SimpleResourceAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupId( int gid )
+    public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
-        this.gid = new Integer( gid);
+        this.gid = gid;
         return this;
     }
 
@@ -192,9 +173,9 @@ public class SimpleResourceAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setUserId( int uid )
+    public PlexusIoResourceAttributes setUserId( Integer uid )
     {
-        this.uid = new Integer( uid);
+        this.uid = uid;
         return this;
     }
 

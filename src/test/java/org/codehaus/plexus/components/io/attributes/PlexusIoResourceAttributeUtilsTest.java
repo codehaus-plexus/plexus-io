@@ -94,8 +94,8 @@ public class PlexusIoResourceAttributeUtilsTest
 
         // -rw-r--r--  1 1020 1030   11108 Mar 16 22:42 build.xml
         assertEquals( "-rw-rw-r--", new String( o.getLsModeParts() ) );
-        assertEquals( 1020, o.getUserId() );
-        assertEquals( 1030, o.getGroupId() );
+        assertEquals( 1020, o.getUserId().intValue() );
+        assertEquals( 1030, o.getGroupId().intValue() );
         // Should probably test pass 2 too...
     }
 
@@ -128,8 +128,8 @@ public class PlexusIoResourceAttributeUtilsTest
 
         // -rw-r--r--  1 1020 1030   11108 Mar 16 22:42 build.xml
         assertEquals( "-rw-r--r--", new String( o.getLsModeParts() ) );
-        assertEquals( 203222, o.getUserId() );
-        assertEquals( 10513, o.getGroupId() );
+        assertEquals( 203222, o.getUserId().intValue() );
+        assertEquals( 10513, o.getGroupId().intValue() );
     }
 
     public void testParserSolaris()

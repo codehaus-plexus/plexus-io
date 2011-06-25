@@ -95,13 +95,9 @@ public class FileAttributes
         }
     }
 
-    public int getGroupId()
+    public Integer getGroupId()
     {
-        if ( !hasGroupId() )
-        {
-            throw new IllegalStateException( "Cannot get the group id because it has not been set" );
-        }
-        return groupId.intValue();
+        return groupId;
     }
 
     public String getGroupName()
@@ -109,24 +105,9 @@ public class FileAttributes
         return groupName;
     }
 
-    public int getUserId()
+    public Integer getUserId()
     {
-        if ( !hasUserId() )
-        {
-            throw new IllegalStateException( "Cannot get the user id because it has not been set" );
-        }
-
-        return userId.intValue();
-    }
-
-    public boolean hasGroupId()
-    {
-        return groupId != null;
-    }
-
-    public boolean hasUserId()
-    {
-        return userId != null;
+        return userId;
     }
 
     public String getUserName()
@@ -192,9 +173,9 @@ public class FileAttributes
         sb.append( "\ngroup: " );
         sb.append( groupName == null ? "" : groupName );
         sb.append( "\nuid: " );
-        sb.append( hasUserId() ?  userId.toString() : "");
+        sb.append( userId != null ?  userId.toString() : "");
         sb.append( "\ngid: " );
-        sb.append( hasGroupId() ? groupId.toString() : "");
+        sb.append( groupId != null ? groupId.toString() : "");
         sb.append( "\nmode: " );
         sb.append( mode == null ? "" : String.valueOf( mode ) );
 
@@ -264,7 +245,7 @@ public class FileAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupId( int gid )
+    public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
         this.groupId = new Integer( gid );
         return this;
@@ -306,7 +287,7 @@ public class FileAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setUserId( int uid )
+    public PlexusIoResourceAttributes setUserId( Integer uid )
     {
         this.userId = new Integer( uid );
         return this;

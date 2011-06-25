@@ -55,9 +55,9 @@ public final class PlexusIoResourceAttributeUtils
         }
         else
         {
-            result = new SimpleResourceAttributes( base.hasUserId() ? new Integer( base.getUserId() ) : null,
+            result = new SimpleResourceAttributes( base.getUserId(),
                                                    base.getUserName(),
-                                                   base.hasGroupId() ? new Integer( base.getGroupId() ) : null,
+                                                   base.getGroupId(),
                                                    base.getGroupName(), base.getOctalMode() );
         }
 

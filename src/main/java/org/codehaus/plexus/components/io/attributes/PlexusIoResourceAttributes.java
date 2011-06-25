@@ -35,14 +35,18 @@ public interface PlexusIoResourceAttributes
     boolean isWorldWritable();
     
     boolean isWorldExecutable();
-    
-    int getUserId();
-    
-    int getGroupId();
 
-    boolean hasGroupId();
+    /**
+     * Gets the unix user id.
+     * @return The unix user id, may be null ("not set"), even on unix
+     */
+    Integer getUserId();
     
-    boolean hasUserId();
+    /**
+     * Gets the unix group id.
+     * @return The unix group id, may be null ("not set"), even on unix
+     */
+    Integer getGroupId();
 
     String getUserName();
     
@@ -70,9 +74,9 @@ public interface PlexusIoResourceAttributes
 
     PlexusIoResourceAttributes setWorldExecutable( boolean flag );
 
-    PlexusIoResourceAttributes setUserId( int uid );
+    PlexusIoResourceAttributes setUserId( Integer uid );
 
-    PlexusIoResourceAttributes setGroupId( int gid );
+    PlexusIoResourceAttributes setGroupId( Integer gid );
 
     PlexusIoResourceAttributes setUserName( String name );
 
