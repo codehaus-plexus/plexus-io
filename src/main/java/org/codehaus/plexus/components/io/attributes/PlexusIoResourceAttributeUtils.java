@@ -18,18 +18,18 @@ package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.regex.Pattern;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.CommandLineCallable;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -58,9 +58,7 @@ public final class PlexusIoResourceAttributeUtils
         }
         else
         {
-            result = new SimpleResourceAttributes( base.getUserId(),
-                                                   base.getUserName(),
-                                                   base.getGroupId(),
+            result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(),
                                                    base.getGroupName(), base.getOctalMode() );
         }
 
@@ -171,7 +169,7 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, null, Logger.LEVEL_DEBUG, false );
+        Map byPath = getFileAttributesByPath( file, null, Logger.LEVEL_DEBUG, false, true );
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
@@ -179,7 +177,7 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, logger, Logger.LEVEL_DEBUG, false );
+        Map byPath = getFileAttributesByPath( file, logger, Logger.LEVEL_DEBUG, false, true );
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
@@ -187,32 +185,36 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger, int logLevel )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, logger, logLevel, false );
+        Map byPath = getFileAttributesByPath( file, logger, logLevel, false, true );
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
     public static Map getFileAttributesByPath( File dir )
         throws IOException
     {
-        return getFileAttributesByPath( dir, null, Logger.LEVEL_DEBUG, true );
+        return getFileAttributesByPath( dir, null, Logger.LEVEL_DEBUG, true, true );
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )
     public static Map getFileAttributesByPath( File dir, Logger logger )
         throws IOException
     {
-        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true );
+        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
     }
 
     public static Map getFileAttributesByPath( File dir, Logger logger, int logLevel )
         throws IOException
     {
-        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true );
+        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
     }
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger, int logLevel, boolean recursive )
+
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger,
+                                                                                   int logLevel, boolean recursive,
+                                                                                   boolean includeNumericUserId )
         throws IOException
     {
-        if ( Java7Reflector.isJava7() ){
+        if ( Java7Reflector.isJava7() )
+        {
             return getFileAttributesByPathJava7( dir, recursive );
         }
         if ( !enabledOnCurrentOperatingSystem() )
@@ -227,12 +229,72 @@ public final class PlexusIoResourceAttributeUtils
         }
         LoggerStreamConsumer loggerConsumer = new LoggerStreamConsumer( logger, logLevel );
 
-        AttributeParser parser = new AttributeParser( loggerConsumer, logger );
+        AttributeParser.NumericUserIDAttributeParser numericIdParser = null;
+        FutureTask<Integer> integerFutureTask = null;
+        Commandline numericCli = null;
+        if ( includeNumericUserId )
+        {
+            numericIdParser = new AttributeParser.NumericUserIDAttributeParser( loggerConsumer, logger );
 
-        String lsOptions = "-1nla" + ( recursive ? "R" : "d" );
+            String lsOptions1 = "-1nla" + ( recursive ? "R" : "d" );
+            try
+            {
+                numericCli = setupCommandLine( dir, lsOptions1, logger );
+
+                CommandLineCallable commandLineCallable =
+                    CommandLineUtils.executeCommandLineAsCallable( numericCli, null, numericIdParser, loggerConsumer,
+                                                                   0 );
+
+                integerFutureTask = new FutureTask<Integer>( commandLineCallable );
+                new Thread( integerFutureTask ).start();
+            }
+            catch ( CommandLineException e )
+            {
+                IOException error = new IOException( "Failed to quote directory: '" + dir + "'" );
+                error.initCause( e );
+                throw error;
+            }
+        }
+
+        AttributeParser.SymbolicUserIDAttributeParser userId = getNameBasedParser( dir, logger, recursive, loggerConsumer );
+
+        if ( includeNumericUserId)
+        {
+            final Integer result;
+            try
+            {
+                result = integerFutureTask.get();
+            }
+            catch ( InterruptedException e )
+            {
+                throw new RuntimeException( e );
+            }
+            catch ( ExecutionException e )
+            {
+                throw new RuntimeException( e );
+            }
+
+            if ( result != 0 )
+            {
+                throw new IOException(
+                    "Failed to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+            }
+        }
+
+        return userId.merge( numericIdParser );
+    }
+
+    private static AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser( File dir, Logger logger, boolean recursive,
+                                                                     LoggerStreamConsumer loggerConsumer )
+        throws IOException
+    {
+        AttributeParser.SymbolicUserIDAttributeParser
+            userId = new AttributeParser.SymbolicUserIDAttributeParser( loggerConsumer, logger );
+
+        String lsOptions2 = "-1la" + ( recursive ? "R" : "d" );
         try
         {
-            executeLs( dir, lsOptions, loggerConsumer, parser, logger );
+            executeLs( dir, lsOptions2, loggerConsumer, userId, logger );
         }
         catch ( CommandLineException e )
         {
@@ -241,34 +303,22 @@ public final class PlexusIoResourceAttributeUtils
 
             throw error;
         }
-
-        parser.initSecondPass();
-        lsOptions = "-1la" + ( recursive ? "R" : "d" );
-        try
-        {
-            executeLs( dir, lsOptions, loggerConsumer, parser, logger );
-        }
-        catch ( CommandLineException e )
-        {
-            IOException error = new IOException( "Failed to quote directory: '" + dir + "'" );
-            error.initCause( e );
-
-            throw error;
-        }
-
-        return parser.attributesByPath;
+        return userId;
     }
 
     public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir, boolean recursive )
         throws IOException
     {
         final List fileAndDirectoryNames;
-        if (dir.isDirectory()){
+        if ( dir.isDirectory() )
+        {
+            // Seems like we're always recursive. Need to check that out wrt non-recusive use cases.
             fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames( dir, null, null, true, true, true, true );
-        } else {
-            fileAndDirectoryNames = Collections.singletonList(  dir.getAbsolutePath() );
         }
-
+        else
+        {
+            fileAndDirectoryNames = Collections.singletonList( dir.getAbsolutePath() );
+        }
 
         final Map<String, PlexusIoResourceAttributes> attributesByPath =
             new LinkedHashMap<String, PlexusIoResourceAttributes>();
@@ -288,25 +338,11 @@ public final class PlexusIoResourceAttributeUtils
     }
 
 
-    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer,
-                                   StreamConsumer parser, Logger logger )
+    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer, StreamConsumer parser,
+                                   Logger logger )
         throws IOException, CommandLineException
     {
-        Commandline numericCli = new Commandline();
-
-        numericCli.getShell().setQuotedArgumentsEnabled( true );
-        numericCli.getShell().setQuotedExecutableEnabled( false );
-
-        numericCli.setExecutable( "ls" );
-
-        numericCli.createArg().setLine( options );
-
-        numericCli.createArg().setValue( dir.getAbsolutePath() );
-
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "Executing:\n\n" + numericCli.toString() + "\n" );
-        }
+        Commandline numericCli = setupCommandLine( dir, options, logger );
 
         try
         {
@@ -328,13 +364,33 @@ public final class PlexusIoResourceAttributeUtils
         }
     }
 
+    private static Commandline setupCommandLine( File dir, String options, Logger logger )
+    {
+        Commandline numericCli = new Commandline();
+
+        numericCli.getShell().setQuotedArgumentsEnabled( true );
+        numericCli.getShell().setQuotedExecutableEnabled( false );
+
+        numericCli.setExecutable( "ls" );
+
+        numericCli.createArg().setLine( options );
+
+        numericCli.createArg().setValue( dir.getAbsolutePath() );
+
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Executing:\n\n" + numericCli.toString() + "\n" );
+        }
+        return numericCli;
+    }
+
 
     private static final class LoggerStreamConsumer
         implements StreamConsumer
     {
-        private Logger logger;
+        private final Logger logger;
 
-        private int level;
+        private final int level;
 
         public LoggerStreamConsumer( Logger logger, int level )
         {
@@ -366,183 +422,4 @@ public final class PlexusIoResourceAttributeUtils
     }
 
     static Pattern totalLinePattern = Pattern.compile( "\\w*\\s\\d*" );
-
-
-    private static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
-
-
-    private static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+" );
-
-    static final class AttributeParser
-        implements StreamConsumer
-    {
-        private final StreamConsumer delegate;
-
-        private final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
-
-        private final Logger logger;
-
-        private boolean nextIsPathPrefix = false;
-
-        private String pathPrefix = "";
-
-        private boolean extractNames = false;
-
-        private boolean secondPass = false;
-
-        private final SimpleDateFormat[] LS_DATE_FORMATS;
-
-        public AttributeParser( StreamConsumer delegate, Logger logger )
-        {
-            this.delegate = delegate;
-            this.logger = logger;
-            LS_DATE_FORMATS =
-                new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
-                    new SimpleDateFormat( "yyyy-MM-dd HH:mm" ), };
-
-        }
-
-        public void consumeLine( String line )
-        {
-            if ( totalLinePattern.matcher( line ).matches() )
-            {
-                // skip it.
-            }
-            else if ( line.trim().length() == 0 )
-            {
-                nextIsPathPrefix = true;
-
-                if ( logger.isDebugEnabled() )
-                {
-                    logger.debug( "Anticipating path prefix in next line" );
-                }
-            }
-            else if ( nextIsPathPrefix )
-            {
-                if ( !line.endsWith( ":" ) )
-                {
-                    if ( logger.isDebugEnabled() )
-                    {
-                        logger.debug( "Path prefix not found. Checking next line." );
-                    }
-                }
-                else
-                {
-                    nextIsPathPrefix = false;
-                    pathPrefix = line.substring( 0, line.length() - 1 );
-
-                    if ( !pathPrefix.endsWith( "/" ) )
-                    {
-                        pathPrefix += "/";
-                    }
-
-                    if ( logger.isDebugEnabled() )
-                    {
-                        logger.debug( "Set path prefix to: " + pathPrefix );
-                    }
-                }
-            }
-            else
-            {
-                String[] parts = LINE_SPLITTER.split( line );
-                int lastDatePart = verifyParsability( line, parts, logger );
-
-                if ( lastDatePart > 0 )
-                {
-                    int idx = line.indexOf( parts[lastDatePart] ) + parts[lastDatePart].length() + 1;
-
-                    String path = pathPrefix + line.substring( idx );
-                    while ( path.length() > 0 && Character.isWhitespace( path.charAt( 0 ) ) )
-                    {
-                        path = path.substring( 1 );
-                    }
-
-                    if ( logger.isDebugEnabled() )
-                    {
-                        logger.debug( "path: '" + path + "'" );
-                        logger.debug( "mode: '" + parts[0] + "'" );
-                        logger.debug( "uid: '" + parts[2] );
-                        logger.debug( "gid: '" + parts[3] );
-                    }
-
-                    FileAttributes attributes;
-                    synchronized ( attributesByPath )
-                    {
-                        if ( secondPass )
-                        {
-                            attributes = (FileAttributes) attributesByPath.get( path );
-                        }
-                        else
-                        {
-                            attributes = new FileAttributes();
-                            attributes.setLsModeline( parts[0] );
-                            attributesByPath.put( path, attributes );
-                        }
-
-                        if ( attributes != null )
-                        {
-                            if ( extractNames )
-                            {
-                                attributes.setUserName( parts[2] );
-                                attributes.setGroupName( parts[3] );
-                            }
-                            else
-                            {
-                                attributes.setUserId( (int) Long.parseLong( parts[2] ) );
-                                attributes.setGroupId( (int) Long.parseLong( parts[3] ) );
-                            }
-                        }
-                    }
-                }
-            }
-
-            delegate.consumeLine( line );
-        }
-
-        public void initSecondPass()
-        {
-            secondPass = true;
-            extractNames = true;
-            nextIsPathPrefix = false;
-            pathPrefix = "";
-        }
-
-        public Map getAttributesByPath()
-        {
-            return attributesByPath;
-        }
-
-        private int verifyParsability( String line, String[] parts, Logger logger )
-        {
-            if ( parts.length > 7 )
-            {
-                String dateCandidate = parts[5] + " " + parts[6] + " " + parts[7];
-                for ( int i = 0; i < LS_DATE_FORMATS.length; i++ )
-                {
-                    try
-                    {
-                        LS_DATE_FORMATS[i].parse( dateCandidate );
-                        return LS_LAST_DATE_PART_INDICES[i];
-                    }
-                    catch ( ParseException e )
-                    {
-                        if ( logger.isDebugEnabled() )
-                        {
-                            logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: "
-                                              + LS_DATE_FORMATS[i].toPattern(), e );
-                        }
-                    }
-                }
-            }
-
-            if ( logger.isDebugEnabled() )
-            {
-                logger.debug( "Unparseable line: '" + line
-                                  + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
-            }
-
-            return -1;
-        }
-
-    }
 }

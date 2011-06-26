@@ -133,7 +133,7 @@ public class PlexusIoResourceAttributeUtilsTest
         String output =
             "-rw-r--r-- 1 1003 1002 1533 2010-04-23 14:34 /home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1W/checkout/spi/pom.xml";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        PlexusIoResourceAttributeUtils.AttributeParser parser = getParser();
+        AttributeParser parser = getNumericParser();
         parse( byteArrayInputStream, parser );
     }
 
@@ -143,7 +143,7 @@ public class PlexusIoResourceAttributeUtilsTest
         String output =
             "-rw-rw-r-- 1 4294967294 4294967294 7901 2011-06-07 18:39 /mnt/work/src/maven-plugins-trunk/maven-compiler-plugin/pom.xml";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        PlexusIoResourceAttributeUtils.AttributeParser parser = getParser();
+        AttributeParser parser = getNumericParser();
         parse( byteArrayInputStream, parser );
     }
 
@@ -186,24 +186,35 @@ public class PlexusIoResourceAttributeUtilsTest
     private Map checkStream( String baseName )
         throws Exception
     {
-        PlexusIoResourceAttributeUtils.AttributeParser parser = getParser();
 
+
+        AttributeParser.NumericUserIDAttributeParser numericParser = getNumericParser();
         InputStream phase1 = getStream( baseName + "-p1.txt" );
-        parse( phase1, parser );
+        parse( phase1, numericParser );
+
+
+        final AttributeParser.SymbolicUserIDAttributeParser nameBasedParser = getNameBasedParser();
         InputStream phase2 = getStream( baseName + "-p2.txt" );
-        parser.initSecondPass();
-        parse( phase2, parser );
-        return parser.getAttributesByPath();
+        parse( phase2, nameBasedParser );
+
+        return nameBasedParser.merge( numericParser );
     }
 
-    private PlexusIoResourceAttributeUtils.AttributeParser getParser()
+    private AttributeParser.NumericUserIDAttributeParser getNumericParser()
     {
         BufferingStreamConsumer target = new BufferingStreamConsumer();
         Logger logger = new ConsoleLogger( 1, "UnitTest" );
-        return new PlexusIoResourceAttributeUtils.AttributeParser( target, logger );
+        return new AttributeParser.NumericUserIDAttributeParser( target, logger );
     }
 
-    private void parse( InputStream stream, PlexusIoResourceAttributeUtils.AttributeParser parser )
+    private AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser()
+    {
+        BufferingStreamConsumer target = new BufferingStreamConsumer();
+        Logger logger = new ConsoleLogger( 1, "UnitTest" );
+        return new AttributeParser.SymbolicUserIDAttributeParser( target, logger );
+    }
+
+    private void parse( InputStream stream, AttributeParser parser )
         throws Exception
     {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( stream ) );
