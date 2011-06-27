@@ -42,7 +42,7 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         
     }
 
-    protected Iterator getEntries() throws IOException
+    protected Iterator<PlexusIoResource> getEntries() throws IOException
     {
         final File f = getFile();
         if ( f == null )
@@ -52,12 +52,12 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         final URL url = new URL( "jar:" + f.toURI().toURL() + "!/");
         final ZipFile zipFile = new ZipFile( f );
         final Enumeration en = zipFile.entries();
-        return new Iterator(){
+        return new Iterator<PlexusIoResource>(){
             public boolean hasNext()
             {
                 return en.hasMoreElements();
             }
-            public Object next()
+            public PlexusIoResource next()
             {
                 final ZipEntry entry = (ZipEntry) en.nextElement();
                 final PlexusIoURLResource res = new PlexusIoURLResource(){

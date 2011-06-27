@@ -65,12 +65,14 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
     /**
      * Returns an iterator over the archives entries.
+     * @return An iterator
+     * @throws java.io.IOException an IOException, doh
      */
-    protected abstract Iterator getEntries() throws IOException;
+    protected abstract Iterator<PlexusIoResource> getEntries() throws IOException;
 
-    public Iterator getResources() throws IOException
+    public Iterator<PlexusIoResource> getResources() throws IOException
     {
-        final List result = new ArrayList();
+        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
         for (Iterator it = getEntries();  it.hasNext();  )
         {
             final PlexusIoResource res = (PlexusIoResource) it.next();
