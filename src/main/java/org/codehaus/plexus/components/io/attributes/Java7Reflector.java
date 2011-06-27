@@ -110,26 +110,11 @@ public class Java7Reflector
     public static Object getPosixFileAttributes( File file )
         throws IOException
     {
-/*        final Path path = file.toPath();
-
-        final PosixFileAttributes posixFileAttributes =
-            Files.readAttributes( path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
-  */
         final Object path = invoke( pathMethod, file );
 
         return invoke( readAttributes, null, path, posixFileAttributes, arr );
     }
 
-    /*
-          final UserPrincipal ownerUserPrincipal = posixFileAttributes.owner();
-          this.userName = ownerUserPrincipal.getName();
-          this.groupName = posixFileAttributes.group().getName();
-
-          final Set<PosixFilePermission> permissions = posixFileAttributes.permissions();
-          mode = PosixFilePermissions.toString( permissions ).toCharArray();
-
-
-    */
     public static String getOwnerUserName( Object posixFileAttributes )
     {
         /*

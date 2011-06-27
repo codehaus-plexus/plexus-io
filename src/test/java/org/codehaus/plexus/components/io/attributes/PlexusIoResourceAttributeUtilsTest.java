@@ -75,6 +75,10 @@ public class PlexusIoResourceAttributeUtilsTest
         throws IOException
     {
 
+        if (Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X )){
+            return; // Nothing to do here.
+        }
+
         URL resource = Thread.currentThread().getContextClassLoader().getResource(
             getClass().getName().replace( '.', '/' ) + ".class" );
 
