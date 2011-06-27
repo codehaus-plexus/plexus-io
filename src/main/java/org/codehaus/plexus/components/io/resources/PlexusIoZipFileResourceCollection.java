@@ -63,7 +63,13 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
                 final PlexusIoURLResource res = new PlexusIoURLResource(){
                     public URL getURL() throws IOException
                     {
-                        return new URL( url, entry.getName() );
+                        String spec = entry.getName();
+                        //check if path starts with a nameless directory
+                        if( spec.startsWith( "/" ) )
+                        {
+                            spec = "./" + spec;
+                        }
+                        return new URL( url, spec );
                     }
                 };
                 final boolean dir = entry.isDirectory();
