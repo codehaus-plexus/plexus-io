@@ -46,7 +46,7 @@ public class PlexusIoFileResource
      */
     public PlexusIoFileResource( File file )
     {
-        this( file, file.getPath().replace( '\\', '/' ) );
+        this( file, getName( file ) );
     }
 
     /**
@@ -54,32 +54,58 @@ public class PlexusIoFileResource
      */
     public PlexusIoFileResource( File file, PlexusIoResourceAttributes attrs )
     {
-        this( file, file.getPath().replace( '\\', '/' ), attrs );
+        this( file, getName( file ), attrs );
     }
+
 
     /**
      * Creates a new instance.
      */
     public PlexusIoFileResource( File file, String name )
     {
-        setFile( file );
-        setName( name );
+        this( file, name, null, true );
     }
 
     public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
     {
+        this( file, name, attrs, true );
+    }
+
+    protected PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs,
+                                    boolean setPhysicalFileAttribute )
+    {
         setName( name );
-        setAttributes( attrs );
-        setFile( file );
+        if (attrs != null)
+        {
+            setAttributes( attrs );
+        }
+        setFile( file, setPhysicalFileAttribute );
+    }
+    private static String getName( File file )
+    {
+        return file.getPath().replace( '\\', '/' );
+    }
+
+    public static PlexusIoFileResource readFromDisk(File file, String name, PlexusIoResourceAttributes attrs)
+    {
+        return new PlexusIoFileResource( file, name, attrs, false );
+    }
+
+    public static PlexusIoFileResource existingFile( File file, PlexusIoResourceAttributes attrs )
+    {
+        return new PlexusIoFileResource( file, getName( file ), attrs, false );
     }
 
     /**
      * Sets the resources file.
      */
-    public void setFile( File file )
+    private void setFile( File file, boolean setPhysicalFileAttribute)
     {
         this.file = file;
-        setLastModified( file.lastModified() );
+        if (setPhysicalFileAttribute)
+        {
+            setLastModified( file.lastModified() );
+        }
         setSize( file.length() );
         setFile( file.isFile() );
         setDirectory( file.isDirectory() );
