@@ -21,7 +21,7 @@ Plexus IO
   Plexus IO components are typically very simple components, who could
   very well live as part of the {{{http://plexus.codehaus.org/plexus-utils}
   Plexus Utils}}. They do not, because Plexus Utils is a dependency of the
-  {{{http://plexus.codehaus.org/plexus-container-default}Plexus Component API}},
+  {{{http://plexus.codehaus.org/plexus-containers/plexus-container-default}Plexus Component API}},
   which is in turn a dependency of the Plexus IO test suite (of course,
   a Plexus container is required to test components, even if they are
   POJO's). In other words, Plexus Utils cannot contain components, because
