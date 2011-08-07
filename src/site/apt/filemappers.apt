@@ -12,7 +12,7 @@ File Mappers
   transformation.
 
   File mappers are implementing the interface
-  {{{apidocs/org/codehaus/plexus/components/io/filemappers/FileMapper.html}FileMapper}}.
+  {{{./apidocs/org/codehaus/plexus/components/io/filemappers/FileMapper.html}FileMapper}}.
   The idea of file mappers is borrowed from the
   {{{http://ant.apache.org/manual/CoreTypes/mapper.html}Ant FileMapper}},
   which serves the same purpose within Ant.
@@ -33,7 +33,7 @@ File Mappers
 
 * {Identity Mapper}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/IdentityMapper.html}identity mapper}}
+  The {{{./apidocs/org/codehaus/plexus/components/io/filemappers/IdentityMapper.html}identity mapper}}
   maps any file name to itself. This may be handy, where you want to avoid the value null for
   file mappers. The identity takes no configuration parameters.
 
@@ -48,7 +48,7 @@ File Mappers
 
 * {File Extension Mapper}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/FileExtensionMapper.html}file
+  The {{{./apidocs/org/codehaus/plexus/components/io/filemappers/FileExtensionMapper.html}file
   extension mapper}} changes the extension of the created files. For example, if you
   would use the XML Maven Plugin to convert Docbook into FOP or PDF files, then you would
   want the generated files to have the extension ".fo", or ".pdf".
@@ -66,7 +66,7 @@ File Mappers
 
 * {Flattening File Mapper}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/FlattenFileMapper.html}flattening
+  The {{{./apidocs/org/codehaus/plexus/components/io/filemappers/FlattenFileMapper.html}flattening
   file mapper}} is used to flatten a directory structure: It removes all directory
   components. For example, it would convert the name <<<META-INF/MANIFEST.MF>>> to
   <<<MANIFEST.MF>>>.
@@ -82,7 +82,7 @@ File Mappers
 
 * {Merging File Mapper}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/filemappers/MergeFileMapper.html}merging
+  The {{{./apidocs/org/codehaus/plexus/components/io/filemappers/MergeFileMapper.html}merging
   file mapper}} merges all possible file names into one file name. In other words, it
   performs a constant mapping. For example, a merging file mapper, which maps all
   possible file names to <<<theOneAndOnlyFile>>> would be configured as follows:

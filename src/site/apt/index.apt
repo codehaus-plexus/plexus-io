@@ -12,9 +12,9 @@ Plexus IO
 
   The following component groups are currently available:
 
-  * {{{filemappers.html}File Mappers}}
+  * {{{./filemappers.html}File Mappers}}
 
-  * {{{fileselectors.html}File Selectors}}
+  * {{{./fileselectors.html}File Selectors}}
 
   Plexus IO components are typically very simple components, who could
   very well live as part of the {{{http://plexus.codehaus.org/plexus-utils}

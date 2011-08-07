@@ -11,7 +11,7 @@ File Selectors
   Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
 
   File mappers are implementing the interface
-  {{{apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html}FileSelector}}.
+  {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html}FileSelector}}.
 
   Available file selectors are
 
@@ -23,7 +23,7 @@ File Selectors
 
 * {All Files Selector}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.html}selector
+  The {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.html}selector
   for all files}} doesn't exclude any files. It is mainly useful when you want to avoid the
   value null for a file selector.
 
@@ -37,7 +37,7 @@ File Selectors
 
 * {Standard File Selector}
 
-  The {{{apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector}
+  The {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector}
   standard file selector}} selects files based on include/exclude patterns.
 
   A configuration snippet for using the standard file selector would look like this:
