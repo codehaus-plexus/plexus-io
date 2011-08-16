@@ -131,6 +131,11 @@ public class Java7FileAttributes
         return mode != null && mode[idx] != disabledValue;
     }
 
+    private boolean hasFlag( int idx )
+    {
+        return mode.length > idx;
+    }
+
     public boolean isGroupReadable()
     {
         return checkFlag( '-', INDEX_GROUP_READ );
@@ -158,7 +163,7 @@ public class Java7FileAttributes
 
     public boolean isWorldExecutable()
     {
-        return checkFlag( '-', INDEX_WORLD_EXECUTE );
+        return hasFlag(INDEX_WORLD_EXECUTE) && checkFlag( '-', INDEX_WORLD_EXECUTE );
     }
 
     public boolean isWorldReadable()
@@ -232,7 +237,7 @@ public class Java7FileAttributes
             result |= AttributeConstants.OCTAL_WORLD_WRITE;
         }
         
-        if ( isWorldExecutable() )
+        if ( isWorldExecutable())
         {
             result |= AttributeConstants.OCTAL_WORLD_EXECUTE;
         }
