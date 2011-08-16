@@ -97,8 +97,6 @@ public class PlexusIoResourceAttributeUtilsTest
 
         PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
 
-        System.out.println( "Got attributes for: " + f.getAbsolutePath() + fileAttrs );
-
         assertNotNull( fileAttrs );
     }
 
