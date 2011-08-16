@@ -66,7 +66,7 @@ public class Java7FileAttributes
 
         this.userName = Java7Reflector.getOwnerUserName( posixFileAttributes );
         this.groupName = Java7Reflector.getOwnerGroupName( posixFileAttributes );
-        mode = Java7Reflector.getPermissions( posixFileAttributes ).toCharArray();
+        setLsModeParts( Java7Reflector.getPermissions( posixFileAttributes ).toCharArray());
     }
     
     protected char[] getLsModeParts()
@@ -76,19 +76,9 @@ public class Java7FileAttributes
 
     protected void setLsModeParts( char[] mode )
     {
-        if( mode.length < 10 )
-        {
-            this.mode = new char[10];
-            System.arraycopy( mode, 0, this.mode, 0, mode.length );
-            for ( int i = mode.length; i < 10; i++ )
-            {
-                this.mode[i] = VALUE_DISABLED_MODE;
-            }
-        }
-        else
-        {
-            this.mode = mode;
-        }
+        this.mode = new char[10];
+        this.mode[0] = VALUE_DISABLED_MODE;
+        System.arraycopy( mode, 0, this.mode, 1, mode.length );
     }
 
     public Integer getGroupId()
@@ -131,11 +121,6 @@ public class Java7FileAttributes
         return mode != null && mode[idx] != disabledValue;
     }
 
-    private boolean hasFlag( int idx )
-    {
-        return mode.length > idx;
-    }
-
     public boolean isGroupReadable()
     {
         return checkFlag( '-', INDEX_GROUP_READ );
@@ -163,7 +148,7 @@ public class Java7FileAttributes
 
     public boolean isWorldExecutable()
     {
-        return hasFlag(INDEX_WORLD_EXECUTE) && checkFlag( '-', INDEX_WORLD_EXECUTE );
+        return checkFlag( '-', INDEX_WORLD_EXECUTE );
     }
 
     public boolean isWorldReadable()
