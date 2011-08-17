@@ -16,23 +16,21 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import junit.framework.TestCase;
+import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.*;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import junit.framework.TestCase;
 
 public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
@@ -72,8 +70,7 @@ public class PlexusIoResourceAttributeUtilsTest
     }
 
     public void testFolderJava7()
-        throws IOException
-    {
+            throws IOException, CommandLineException {
 
         if (Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X )){
             return; // Nothing to do here.
@@ -91,13 +88,29 @@ public class PlexusIoResourceAttributeUtilsTest
         File f = new File( resource.getPath().replaceAll( "%20", " " ) );
         final File aDir = f.getParentFile().getParentFile().getParentFile();
 
+        Commandline commandLine = new Commandline("chmod");
+        commandLine.addArguments(new String[]{"763", f.getAbsolutePath()});
+
+        CommandLineUtils.executeCommandLine(commandLine, null , null);
         Map attrs =
             PlexusIoResourceAttributeUtils.getFileAttributesByPath( aDir, new ConsoleLogger( Logger.LEVEL_INFO, "test" ),
                                                                     Logger.LEVEL_DEBUG );
 
         PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
 
-        assertNotNull( fileAttrs );
+        assertTrue( fileAttrs.isGroupReadable());
+        assertTrue( fileAttrs.isGroupWritable());
+        assertFalse( fileAttrs.isGroupExecutable());
+
+        assertTrue( fileAttrs.isOwnerExecutable());
+        assertTrue( fileAttrs.isOwnerReadable());
+        assertTrue( fileAttrs.isOwnerWritable());
+
+        assertTrue( fileAttrs.isWorldExecutable());
+        assertFalse( fileAttrs.isWorldReadable());
+        assertTrue( fileAttrs.isWorldWritable());
+
+        assertNotNull(fileAttrs);
     }
 
 
