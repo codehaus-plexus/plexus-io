@@ -189,20 +189,22 @@ public final class PlexusIoResourceAttributeUtils
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
-    public static Map getFileAttributesByPath( File dir )
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir )
         throws IOException
     {
         return getFileAttributesByPath( dir, null, Logger.LEVEL_DEBUG, true, true );
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )
-    public static Map getFileAttributesByPath( File dir, Logger logger )
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger )
         throws IOException
     {
         return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
     }
 
-    public static Map getFileAttributesByPath( File dir, Logger logger, int logLevel )
+    @SuppressWarnings( "UnusedParameters" )
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger,
+                                                                                   int logLevel )
         throws IOException
     {
         return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
@@ -221,7 +223,7 @@ public final class PlexusIoResourceAttributeUtils
 
         if ( Java7Reflector.isJava7() )
         {
-            return getFileAttributesByPathJava7( dir, recursive );
+            return getFileAttributesByPathJava7( dir );
         }
 
         if ( logger == null )
@@ -257,9 +259,10 @@ public final class PlexusIoResourceAttributeUtils
             }
         }
 
-        AttributeParser.SymbolicUserIDAttributeParser userId = getNameBasedParser( dir, logger, recursive, loggerConsumer );
+        AttributeParser.SymbolicUserIDAttributeParser userId =
+            getNameBasedParser( dir, logger, recursive, loggerConsumer );
 
-        if ( includeNumericUserId)
+        if ( includeNumericUserId )
         {
             final Integer result;
             try
@@ -285,12 +288,13 @@ public final class PlexusIoResourceAttributeUtils
         return userId.merge( numericIdParser );
     }
 
-    private static AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser( File dir, Logger logger, boolean recursive,
-                                                                     LoggerStreamConsumer loggerConsumer )
+    private static AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser( File dir, Logger logger,
+                                                                                     boolean recursive,
+                                                                                     LoggerStreamConsumer loggerConsumer )
         throws IOException
     {
-        AttributeParser.SymbolicUserIDAttributeParser
-            userId = new AttributeParser.SymbolicUserIDAttributeParser( loggerConsumer, logger );
+        AttributeParser.SymbolicUserIDAttributeParser userId =
+            new AttributeParser.SymbolicUserIDAttributeParser( loggerConsumer, logger );
 
         String lsOptions2 = "-1la" + ( recursive ? "R" : "d" );
         try
@@ -307,7 +311,7 @@ public final class PlexusIoResourceAttributeUtils
         return userId;
     }
 
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir, boolean recursive )
+    private static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir )
         throws IOException
     {
         final List fileAndDirectoryNames;
