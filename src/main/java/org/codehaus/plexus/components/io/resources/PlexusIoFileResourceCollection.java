@@ -116,7 +116,7 @@ public class PlexusIoFileResourceCollection
         isFollowingSymLinks = pIsFollowingSymLinks;
     }
 
-    private void addResources( List<PlexusIoResource> list, String[] resources, Map attributesByPath ) throws IOException
+    private void addResources( List<PlexusIoResource> list, String[] resources, Map<String, PlexusIoResourceAttributes> attributesByPath ) throws IOException
     {
         final File dir = getBaseDir();
         for ( String name : resources )
@@ -174,8 +174,8 @@ public class PlexusIoFileResourceCollection
         ds.setFollowSymlinks( isFollowingSymLinks() );
         ds.scan();
 
-        Map attributesByPath = PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
-        
+        Map<String, PlexusIoResourceAttributes> attributesByPath = PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
+
         final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
         if ( isIncludingEmptyDirectories() )
         {
