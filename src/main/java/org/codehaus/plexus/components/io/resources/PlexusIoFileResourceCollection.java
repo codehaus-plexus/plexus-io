@@ -67,19 +67,31 @@ public class PlexusIoFileResourceCollection
     public void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
     {
         defaultFileAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
-        defaultFileAttributes.setOctalMode( fileMode );
+        if ( fileMode >= 0 )
+        {
+            defaultFileAttributes.setOctalMode( fileMode );
+        }
         
         defaultDirAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
-        defaultDirAttributes.setOctalMode( dirMode );
+        if ( dirMode >= 0 )
+        {
+            defaultDirAttributes.setOctalMode( dirMode );
+        }
     }
     
     public void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode )
     {
         overrideFileAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
-        overrideFileAttributes.setOctalMode( fileMode );
+        if ( fileMode >= 0 )
+        {
+            overrideFileAttributes.setOctalMode( fileMode );
+        }
         
         overrideDirAttributes = new FileAttributes( uid, userName, gid, groupName, new char[]{} );
-        overrideDirAttributes.setOctalMode( dirMode );
+        if ( dirMode >= 0 )
+        {
+            overrideDirAttributes.setOctalMode( dirMode );
+        }
     }
     
     /**
