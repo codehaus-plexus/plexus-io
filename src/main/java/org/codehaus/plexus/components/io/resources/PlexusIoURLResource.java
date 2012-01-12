@@ -20,17 +20,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class PlexusIoURLResource extends AbstractPlexusIoResource
+public class PlexusIoURLResource
+    extends AbstractPlexusIoResource
 {
     private URL url;
 
-    
-    public InputStream getContents() throws IOException
+
+    public InputStream getContents()
+        throws IOException
     {
-        return getURL().openStream();
+        try
+        {
+            return getURL().openStream();
+        }
+        catch ( IOException e )
+        {
+            throw new IOException( url.toExternalForm(), e );
+        }
     }
 
-    public URL getURL() throws IOException
+    public URL getURL()
+        throws IOException
     {
         return url;
     }
