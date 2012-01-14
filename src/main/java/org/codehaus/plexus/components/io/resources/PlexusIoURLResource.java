@@ -35,7 +35,7 @@ public class PlexusIoURLResource
         }
         catch ( IOException e )
         {
-            throw new IOException( url.toExternalForm(), e );
+            throw new IOException( url.toExternalForm());
         }
     }
 
