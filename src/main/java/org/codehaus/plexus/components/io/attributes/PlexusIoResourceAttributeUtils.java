@@ -62,12 +62,12 @@ public final class PlexusIoResourceAttributeUtils
                                                    base.getGroupName(), base.getOctalMode() );
         }
 
-        if ( override.getGroupId() != -1 )
+        if ( override.getGroupId() != null && override.getGroupId() != -1 )
         {
             result.setGroupId( override.getGroupId() );
         }
 
-        if ( def != null && result.getGroupId() < 0 )
+        if ( def != null && result.getGroupId() != null && result.getGroupId() < 0 )
         {
             result.setGroupId( def.getGroupId() );
         }
@@ -82,12 +82,12 @@ public final class PlexusIoResourceAttributeUtils
             result.setGroupName( def.getGroupName() );
         }
 
-        if ( override.getUserId() != -1 )
+        if ( override.getUserId() != null && override.getUserId() != -1 )
         {
             result.setUserId( override.getUserId() );
         }
 
-        if ( def != null && result.getUserId() < 0 )
+        if ( def != null && result.getUserId() != null && result.getUserId() < 0 )
         {
             result.setUserId( def.getUserId() );
         }

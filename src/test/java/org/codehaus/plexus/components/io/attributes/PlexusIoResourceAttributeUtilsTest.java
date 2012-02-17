@@ -27,6 +27,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -191,6 +192,17 @@ public class PlexusIoResourceAttributeUtilsTest
         throws Exception
     {
         checkStream( "FreeBSD" );
+    }
+
+    public void testMergeAttributesWithNullBase() {
+
+        char[] mode = new char[10];
+        Arrays.fill(mode, (char) 0);
+
+        FileAttributes override = new FileAttributes(1001, "myUser", 1001, "test", new char[] {0, 0});
+        FileAttributes defaults = new FileAttributes(1001, "myUser", 1001, "test", new char[] {0, 0});
+
+        PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
     }
 
     private InputStream getStream( String s )
