@@ -16,6 +16,12 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -25,15 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.regex.Pattern;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.cli.CommandLineCallable;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 @SuppressWarnings( { "NullableProblems" } )
 public final class PlexusIoResourceAttributeUtils
@@ -67,7 +64,7 @@ public final class PlexusIoResourceAttributeUtils
             result.setGroupId( override.getGroupId() );
         }
 
-        if ( def != null && result.getGroupId() != null && result.getGroupId() < 0 )
+        if ( def != null && (result.getGroupId() == null || result.getGroupId() < 0) )
         {
             result.setGroupId( def.getGroupId() );
         }
@@ -87,7 +84,7 @@ public final class PlexusIoResourceAttributeUtils
             result.setUserId( override.getUserId() );
         }
 
-        if ( def != null && result.getUserId() != null && result.getUserId() < 0 )
+        if ( def != null && ( result.getUserId() == null || result.getUserId() < 0 ) )
         {
             result.setUserId( def.getUserId() );
         }

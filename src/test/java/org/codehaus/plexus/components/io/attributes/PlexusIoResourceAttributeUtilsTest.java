@@ -27,11 +27,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.*;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
@@ -199,10 +195,28 @@ public class PlexusIoResourceAttributeUtilsTest
         char[] mode = new char[10];
         Arrays.fill(mode, (char) 0);
 
-        FileAttributes override = new FileAttributes(1001, "myUser", 1001, "test", new char[] {0, 0});
-        FileAttributes defaults = new FileAttributes(1001, "myUser", 1001, "test", new char[] {0, 0});
+        FileAttributes override = new FileAttributes(1001, "myUser", 1001, "test", mode);
+        FileAttributes defaults = new FileAttributes(1000, "defaultUser", 1000, "defaultTest", mode);
 
-        PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
+        PlexusIoResourceAttributes attributes
+                = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
+
+        assertEquals(attributes.getGroupId(), new Integer(1001));
+        assertEquals(attributes.getUserId(), new Integer(1001));
+    }
+
+    public void testMergeAttributesWithNullOverrideGroup() {
+        char[] mode = new char[10];
+        Arrays.fill(mode, (char) 0);
+
+        FileAttributes override = new FileAttributes(1001, "myUser", -1, null, mode);
+        FileAttributes defaults = new FileAttributes(1000, "defaultUser", 1000, "defaultGroup", mode);
+
+        PlexusIoResourceAttributes attributes
+                = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
+
+        assertEquals(new Integer(1000), attributes.getGroupId());
+        assertEquals(new Integer(1001), attributes.getUserId());
     }
 
     private InputStream getStream( String s )
