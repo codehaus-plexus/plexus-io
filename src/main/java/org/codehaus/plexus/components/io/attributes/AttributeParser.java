@@ -34,7 +34,7 @@ abstract class AttributeParser
     implements StreamConsumer
 {
     protected static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+" );
-    protected static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6 };
+    protected static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6, 7, 7 };
 
     protected final StreamConsumer delegate;
 
@@ -56,7 +56,11 @@ abstract class AttributeParser
         this.logger = logger;
         LS_DATE_FORMATS =
             new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
-                new SimpleDateFormat( "yyyy-MM-dd HH:mm" ), };
+                new SimpleDateFormat( "yyyy-MM-dd HH:mm" ),
+                // month-day order is reversed for most non-US locales on MacOSX and FreeBSD
+                new SimpleDateFormat( "dd MMM HH:mm" ),
+                new SimpleDateFormat( "dd MMM yyyy" )
+            };
     }
 
     public void consumeLine( String line )

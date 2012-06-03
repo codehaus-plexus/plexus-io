@@ -17,6 +17,8 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import junit.framework.TestCase;
+
+import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.Os;
@@ -33,6 +35,25 @@ public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
 {
 
+    private Locale origSystemLocale;
+
+    @Override
+    protected void setUp()
+        throws Exception
+    {
+       this.origSystemLocale = Locale.getDefault();
+       // sample ls output files have US date format and we use SimpleDateFormt with system locale for ls date format parsing 
+       // otherwise test could fail on systems with non-US locales
+       Locale.setDefault( Locale.US );
+    }
+    
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        Locale.setDefault( origSystemLocale );
+    }
+    
     public void testGetAttributesForThisTestClass()
         throws IOException
     {
@@ -147,6 +168,32 @@ public class PlexusIoResourceAttributeUtilsTest
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
         AttributeParser parser = getNumericParser();
         parse( byteArrayInputStream, parser );
+}
+    
+    public void testReversedMonthDayOrder()
+        throws Exception
+    {
+        String output = //
+            "-rw-r--r--   1 501  80  7683 31 May 10:06 pom_newer.xml\n" + //
+            "-rwxr--r--   1 502  81  7683  1 Jun 2010  pom_older.xml";
+        InputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
+        NumericUserIDAttributeParser parser = getNumericParser();
+        parse( byteArrayInputStream, parser );
+        Map<String, PlexusIoResourceAttributes> map = parser.getAttributesByPath();
+        
+        // 6 months or newer ls date format
+        FileAttributes newerFileAttr = (FileAttributes) map.get( "pom_newer.xml" );
+        assertNotNull( newerFileAttr );
+        assertEquals( "-rw-r--r--", new String( newerFileAttr.getLsModeParts() ) );
+        assertEquals( 501, newerFileAttr.getUserId().intValue() );
+        assertEquals( 80, newerFileAttr.getGroupId().intValue() );
+        
+        // older than 6 months ls date format
+        FileAttributes olderFileAttr = (FileAttributes) map.get( "pom_older.xml" );
+        assertNotNull( olderFileAttr );
+        assertEquals( "-rwxr--r--", new String( olderFileAttr.getLsModeParts() ) );
+        assertEquals( 502, olderFileAttr.getUserId().intValue() );
+        assertEquals( 81, olderFileAttr.getGroupId().intValue() );
     }
 
     public void testOddLinuxFormatWithExtermelyLargeNumericsSingleLine()
