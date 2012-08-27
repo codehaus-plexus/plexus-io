@@ -215,7 +215,7 @@ public final class PlexusIoResourceAttributeUtils
         if ( !enabledOnCurrentOperatingSystem() )
         {
             //noinspection unchecked
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
 
         if ( Java7Reflector.isJava7() )
