@@ -6,4 +6,4 @@ bin
 *.ipr
 *.iml
 *.iws
-
+.idea
