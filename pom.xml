@@ -4,7 +4,7 @@
   <parent>
     <artifactId>plexus-components</artifactId>
     <groupId>org.codehaus.plexus</groupId>
-    <version>1.1.19</version>
+    <version>1.2</version>
   </parent>
 
   <artifactId>plexus-io</artifactId>
@@ -26,7 +26,6 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.4</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -40,16 +39,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.2.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
