@@ -18,6 +18,10 @@ package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermissions;
 
 public class Java7FileAttributes
     implements PlexusIoResourceAttributes
@@ -62,13 +66,20 @@ public class Java7FileAttributes
     public Java7FileAttributes(File file)
         throws IOException
     {
-        Object posixFileAttributes = Java7Reflector.getPosixFileAttributes(  file );
+        PosixFileAttributes posixFileAttributes = getPosixFileAttributes( file );
 
-        this.userName = Java7Reflector.getOwnerUserName( posixFileAttributes );
-        this.groupName = Java7Reflector.getOwnerGroupName( posixFileAttributes );
-        setLsModeParts( Java7Reflector.getPermissions( posixFileAttributes ).toCharArray());
+        this.userName = posixFileAttributes.owner().getName();
+        this.groupName = posixFileAttributes.group().getName();
+        setLsModeParts( PosixFilePermissions.toString( posixFileAttributes.permissions()).toCharArray() );
     }
-    
+
+    @SuppressWarnings( { "NullableProblems" } )
+    static PosixFileAttributes getPosixFileAttributes( File file )
+        throws IOException
+    {
+        return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+    }
+
     protected char[] getLsModeParts()
     {
         return mode;
