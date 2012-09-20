@@ -16,13 +16,12 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import org.codehaus.plexus.util.Os;
 
-import java.io.File;
-import java.nio.file.attribute.PosixFileAttributes;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * @author Kristian Rosenvold
@@ -34,14 +33,21 @@ public class Java7FileAttributesTest
         throws Exception
     {
 
-        if (Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X )){
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X ) )
+        {
             return;
         }
-        if (!Java7Reflector.isJava7()) return;
+        if ( !Java7Reflector.isJava7() )
+        {
+            return;
+        }
 
         File file = new File( "." );
-        Java7FileAttributes fa = new Java7FileAttributes(file);
-        assertNotNull(  fa );
+        Map<Integer, String> userCache = new HashMap<Integer, String>();
+        Map<Integer, String> groupCache = new HashMap<Integer, String>();
+
+        Java7FileAttributes fa = new Java7FileAttributes( file, userCache, groupCache );
+        assertNotNull( fa );
         String permissions = fa.getOctalModeString();
     }
 }

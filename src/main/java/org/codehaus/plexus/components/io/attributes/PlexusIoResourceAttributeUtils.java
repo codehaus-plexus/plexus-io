@@ -25,6 +25,7 @@ import org.codehaus.plexus.util.cli.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -311,6 +312,8 @@ public final class PlexusIoResourceAttributeUtils
     private static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir )
         throws IOException
     {
+        Map<Integer, String> userCache = new HashMap<Integer, String>();
+        Map<Integer, String> groupCache = new HashMap<Integer, String>();
         final List fileAndDirectoryNames;
         if ( dir.isDirectory() )
         {
@@ -328,7 +331,7 @@ public final class PlexusIoResourceAttributeUtils
         for ( Object fileAndDirectoryName : fileAndDirectoryNames )
         {
             String fileName = (String) fileAndDirectoryName;
-            attributesByPath.put( fileName, new Java7FileAttributes( new File( fileName ) ) );
+            attributesByPath.put( fileName, new Java7FileAttributes( new File( fileName ), userCache, groupCache ) );
         }
         return attributesByPath;
     }

@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Map;
 
 public class Java7FileAttributes
     implements PlexusIoResourceAttributes
@@ -63,14 +64,36 @@ public class Java7FileAttributes
 
     private char[] mode;
 
-    public Java7FileAttributes(File file)
+    public Java7FileAttributes( File file, Map<Integer, String> userCache, Map<Integer, String> groupCache )
         throws IOException
     {
+
         PosixFileAttributes posixFileAttributes = getPosixFileAttributes( file );
 
-        this.userName = posixFileAttributes.owner().getName();
-        this.groupName = posixFileAttributes.group().getName();
-        setLsModeParts( PosixFilePermissions.toString( posixFileAttributes.permissions()).toCharArray() );
+        Integer uid = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
+        String userName = userCache.get( uid );
+        if ( userName != null )
+        {
+            this.userName = userName;
+        }
+        else
+        {
+            this.userName = posixFileAttributes.owner().getName();
+            userCache.put( uid, this.userName );
+        }
+        Integer gid = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
+        String groupName = groupCache.get( gid );
+        if ( groupName != null )
+        {
+            this.groupName = groupName;
+        }
+        else
+        {
+            this.groupName = posixFileAttributes.group().getName();
+            groupCache.put( gid, this.groupName );
+        }
+
+        setLsModeParts( PosixFilePermissions.toString( posixFileAttributes.permissions() ).toCharArray() );
     }
 
     @SuppressWarnings( { "NullableProblems" } )
@@ -185,59 +208,59 @@ public class Java7FileAttributes
         sb.append( hasGroupId() ? Integer.toString( groupId ) : "" );
         sb.append( "\nmode: " );
         sb.append( mode == null ? "" : String.valueOf( mode ) );
-        
+
         return sb.toString();
     }
 
     public int getOctalMode()
     {
         int result = 0;
-        
+
         if ( isOwnerReadable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_READ;
         }
-        
+
         if ( isOwnerWritable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_WRITE;
         }
-        
+
         if ( isOwnerExecutable() )
         {
             result |= AttributeConstants.OCTAL_OWNER_EXECUTE;
         }
-        
+
         if ( isGroupReadable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_READ;
         }
-        
+
         if ( isGroupWritable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_WRITE;
         }
-        
+
         if ( isGroupExecutable() )
         {
             result |= AttributeConstants.OCTAL_GROUP_EXECUTE;
         }
-        
+
         if ( isWorldReadable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_READ;
         }
-        
+
         if ( isWorldWritable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_WRITE;
         }
-        
-        if ( isWorldExecutable())
+
+        if ( isWorldExecutable() )
         {
             result |= AttributeConstants.OCTAL_WORLD_EXECUTE;
         }
-        
+
         return result;
     }
 
@@ -245,7 +268,7 @@ public class Java7FileAttributes
     {
         return Integer.toString( getOctalMode(), 8 );
     }
-    
+
     public PlexusIoResourceAttributes setGroupExecutable( boolean flag )
     {
         setMode( flag ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, INDEX_GROUP_EXECUTE );
@@ -328,10 +351,10 @@ public class Java7FileAttributes
     {
         char[] mode = getLsModeParts();
         mode[modeIdx] = value;
-        
+
         setLsModeParts( mode );
     }
-    
+
     public PlexusIoResourceAttributes setOctalMode( int mode )
     {
         setGroupExecutable( PlexusIoResourceAttributeUtils.isGroupExecutableInOctal( mode ) );
@@ -345,7 +368,7 @@ public class Java7FileAttributes
         setWorldWritable( PlexusIoResourceAttributeUtils.isWorldWritableInOctal( mode ) );
         return this;
     }
-    
+
     public PlexusIoResourceAttributes setOctalModeString( String mode )
     {
         setOctalMode( Integer.parseInt( mode, 8 ) );
