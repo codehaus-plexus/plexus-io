@@ -19,4 +19,14 @@ public class PlexusIoZipFileResourceCollectionTest
         BufferedReader d = new BufferedReader(new InputStreamReader(entry.getContents()));
         assertEquals( "dummy content", d.readLine() );
     }
+
+    public void testDescriptionForError() throws Exception {
+        PlexusIoZipFileResourceCollection resourceCollection = new PlexusIoZipFileResourceCollection();
+        resourceCollection.setFile( getTestFile( "src/test/jars/namelessrootfolder.jar" ) );
+        Iterator iterator = resourceCollection.getEntries();
+        PlexusIoURLResource entry = (PlexusIoURLResource) iterator.next();
+        String descriptionForError = entry.getDescriptionForError();
+        assertTrue(descriptionForError.endsWith( "namelessrootfolder.jar!//dummy.txt" ));
+    }
+
 }

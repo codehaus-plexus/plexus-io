@@ -35,8 +35,12 @@ public class PlexusIoURLResource
         }
         catch ( IOException e )
         {
-            throw new IOException( url.toExternalForm());
+            throw new IOException( getDescriptionForError());
         }
+    }
+
+    protected String getDescriptionForError(){
+        return url != null ? url.toExternalForm() : "url=null";
     }
 
     public URL getURL()

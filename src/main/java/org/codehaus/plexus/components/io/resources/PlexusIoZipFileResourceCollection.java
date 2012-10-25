@@ -71,6 +71,12 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
                         }
                         return new URL( url, spec );
                     }
+
+                    @Override
+                    protected String getDescriptionForError()
+                    {
+                        return "" + url + "" + entry.getName();
+                    }
                 };
                 final boolean dir = entry.isDirectory();
                 res.setName( entry.getName() );
