@@ -65,7 +65,7 @@ public final class PlexusIoResourceAttributeUtils
             result.setGroupId( override.getGroupId() );
         }
 
-        if ( def != null && (result.getGroupId() == null || result.getGroupId() < 0) )
+        if ( def != null && def.getGroupId() >= 0 && (result.getGroupId() == null || result.getGroupId() < 0) )
         {
             result.setGroupId( def.getGroupId() );
         }
@@ -85,7 +85,7 @@ public final class PlexusIoResourceAttributeUtils
             result.setUserId( override.getUserId() );
         }
 
-        if ( def != null && ( result.getUserId() == null || result.getUserId() < 0 ) )
+        if ( def != null && def.getUserId() >= 0 && ( result.getUserId() == null || result.getUserId() < 0 ) )
         {
             result.setUserId( def.getUserId() );
         }

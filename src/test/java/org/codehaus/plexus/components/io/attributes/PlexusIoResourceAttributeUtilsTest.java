@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
-
 import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
@@ -27,9 +25,20 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Vector;
+
+import junit.framework.TestCase;
 
 public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
@@ -237,33 +246,204 @@ public class PlexusIoResourceAttributeUtilsTest
         checkStream( "FreeBSD" );
     }
 
-    public void testMergeAttributesWithNullBase() {
+    public void testMergeAttributesWithNullBase()
+    {
+        PlexusIoResourceAttributes override =
+            new SimpleResourceAttributes( 1001, "myUser", 1001, "test", 0 );
+        PlexusIoResourceAttributes defaults =
+            new SimpleResourceAttributes( 1000, "defaultUser", 1000, "defaultTest", 0 );
 
-        char[] mode = new char[10];
-        Arrays.fill(mode, (char) 0);
+        PlexusIoResourceAttributes attributes;
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, null, defaults );
 
-        FileAttributes override = new FileAttributes(1001, "myUser", 1001, "test", mode);
-        FileAttributes defaults = new FileAttributes(1000, "defaultUser", 1000, "defaultTest", mode);
-
-        PlexusIoResourceAttributes attributes
-                = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
-
-        assertEquals(attributes.getGroupId(), new Integer(1001));
-        assertEquals(attributes.getUserId(), new Integer(1001));
+        assertEquals( Integer.valueOf( 1001 ), attributes.getGroupId() );
+        assertEquals( Integer.valueOf( 1001 ), attributes.getUserId() );
     }
 
-    public void testMergeAttributesWithNullOverrideGroup() {
-        char[] mode = new char[10];
-        Arrays.fill(mode, (char) 0);
-
-        FileAttributes override = new FileAttributes(1001, "myUser", -1, null, mode);
-        FileAttributes defaults = new FileAttributes(1000, "defaultUser", 1000, "defaultGroup", mode);
+    public void testMergeAttributesWithNullOverrideGroup()
+    {
+        final PlexusIoResourceAttributes override =
+            new SimpleResourceAttributes( 1001, "myUser", -1, null, 0 );
+        final PlexusIoResourceAttributes defaults =
+            new SimpleResourceAttributes( 1000, "defaultUser", 1000, "defaultGroup", 0 );
 
         PlexusIoResourceAttributes attributes
-                = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, defaults);
+            = PlexusIoResourceAttributeUtils.mergeAttributes( override, null, defaults );
 
-        assertEquals(new Integer(1000), attributes.getGroupId());
-        assertEquals(new Integer(1001), attributes.getUserId());
+        assertEquals( attributes.getGroupId(), Integer.valueOf( 1000 ) );
+        assertEquals( attributes.getUserId(), Integer.valueOf( 1001 ) );
+    }
+
+    public void testMergeAttributesOverride()
+    {
+        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
+        final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes( -1, null, -1, null, -1 );
+        final PlexusIoResourceAttributes override =
+            new SimpleResourceAttributes( 1111, "testUser", 2222, "testGroup", 0777 );
+        final PlexusIoResourceAttributes defaults =
+            new SimpleResourceAttributes( 3333, "defaultUser", 4444, "defaultGroup", 0444 );
+        final PlexusIoResourceAttributes base =
+            new SimpleResourceAttributes( 5555, "baseUser", 6666, "baseGroup", 0111 );
+
+        PlexusIoResourceAttributes attributes;
+
+        // When override is null, base is returned verbatim
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( null, null, null );
+        assertNull( attributes );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( null, null, defaults );
+        assertNull( attributes );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( null, base, null );
+        assertSame( base, attributes );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( null, base, defaults );
+        assertSame( base, attributes );
+
+        // Test cases when override is non-null
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, null, null );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, base, null );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, null, defaults );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, base, defaults );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(
+            override, blank, null );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, invalid, null );
+
+        assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
+        assertEquals( "testUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 2222 ), attributes.getGroupId() );
+        assertEquals( "testGroup", attributes.getGroupName() );
+        assertEquals( 0777, attributes.getOctalMode() );
+
+        // Test cases when override has only blank values
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, base, null );
+
+        assertEquals( Integer.valueOf( 5555 ), attributes.getUserId() );
+        assertEquals( "baseUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 6666 ), attributes.getGroupId() );
+        assertEquals( "baseGroup", attributes.getGroupName() );
+        assertEquals( 0111, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( invalid, base, null );
+
+        assertEquals( Integer.valueOf( 5555 ), attributes.getUserId() );
+        assertEquals( "baseUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 6666 ), attributes.getGroupId() );
+        assertEquals( "baseGroup", attributes.getGroupName() );
+        assertEquals( 0111, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, base, defaults );
+
+        assertEquals( Integer.valueOf( 5555 ), attributes.getUserId() );
+        assertEquals( "baseUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 6666 ), attributes.getGroupId() );
+        assertEquals( "baseGroup", attributes.getGroupName() );
+        assertEquals( 0111, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( invalid, base, defaults );
+
+        assertEquals( Integer.valueOf( 5555 ), attributes.getUserId() );
+        assertEquals( "baseUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 6666 ), attributes.getGroupId() );
+        assertEquals( "baseGroup", attributes.getGroupName() );
+        assertEquals( 0111, attributes.getOctalMode() );
+    }
+
+    public void testMergeAttributesDefault()
+    {
+        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
+        final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes( -1, null, -1, null, -1 );
+        final PlexusIoResourceAttributes defaults =
+            new SimpleResourceAttributes( 3333, "defaultUser", 4444, "defaultGroup", 0444 );
+
+        PlexusIoResourceAttributes attributes;
+
+        // Test cases when override and base have blank values
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, blank, defaults );
+
+        assertEquals( Integer.valueOf( 3333 ), attributes.getUserId() );
+        assertEquals( "defaultUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 4444 ), attributes.getGroupId() );
+        assertEquals( "defaultGroup", attributes.getGroupName() );
+        // 0 is a borderline case, for backwards compatibility it is not overridden by value from defaults
+        assertEquals( 0, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( invalid, blank, defaults );
+
+        assertEquals( Integer.valueOf( 3333 ), attributes.getUserId() );
+        assertEquals( "defaultUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 4444 ), attributes.getGroupId() );
+        assertEquals( "defaultGroup", attributes.getGroupName() );
+        // 0 is a borderline case, for backwards compatibility it is not overridden by value from defaults
+        assertEquals( 0, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, invalid, defaults );
+
+        assertEquals( Integer.valueOf( 3333 ), attributes.getUserId() );
+        assertEquals( "defaultUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 4444 ), attributes.getGroupId() );
+        assertEquals( "defaultGroup", attributes.getGroupName() );
+        assertEquals( 0444, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( invalid, invalid, defaults );
+
+        assertEquals( Integer.valueOf( 3333 ), attributes.getUserId() );
+        assertEquals( "defaultUser", attributes.getUserName() );
+        assertEquals( Integer.valueOf( 4444 ), attributes.getGroupId() );
+        assertEquals( "defaultGroup", attributes.getGroupName() );
+        assertEquals( 0444, attributes.getOctalMode() );
+
+        // Test cases when invalid defaults should not override blank values
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, blank, invalid );
+
+        assertNull( attributes.getUserId() );
+        assertNull( attributes.getUserName() );
+        assertNull( attributes.getGroupId() );
+        assertNull( attributes.getGroupName() );
+        assertEquals( 0, attributes.getOctalMode() );
+
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( invalid, blank, invalid );
+
+        assertNull( attributes.getUserId() );
+        assertNull( attributes.getUserName() );
+        assertNull( attributes.getGroupId() );
+        assertNull( attributes.getGroupName() );
+        assertEquals( 0, attributes.getOctalMode() );
     }
 
     private InputStream getStream( String s )
