@@ -82,6 +82,6 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
             new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode > 0 ? fileMode : 0 );
 
         overrideDirAttributes =
-            new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode > 0 ? fileMode : 0 );
+            new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode > 0 ? dirMode : 0 );
     }
 }
