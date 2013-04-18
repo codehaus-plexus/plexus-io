@@ -18,6 +18,7 @@ package org.codehaus.plexus.components.io.resources.proxy;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
@@ -54,6 +55,22 @@ public class PlexusIoProxyResourceCollection
     public PlexusIoResourceCollection getSrc()
     {
         return src;
+    }
+
+    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                      final int fileMode, final int dirMode )
+    {
+        setDefaultFileAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+
+        setDefaultDirAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+    }
+
+    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                       final int fileMode, final int dirMode )
+    {
+        setOverrideFileAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+
+        setOverrideDirAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode ) );
     }
 
     protected FileSelector getDefaultFileSelector()

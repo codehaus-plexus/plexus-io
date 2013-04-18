@@ -17,7 +17,6 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.logging.Logger;
 
 /**
@@ -50,9 +49,19 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
         return defaultFileAttributes;
     }
 
+    protected void setDefaultFileAttributes( final PlexusIoResourceAttributes defaultFileAttributes )
+    {
+        this.defaultFileAttributes = defaultFileAttributes;
+    }
+
     protected PlexusIoResourceAttributes getDefaultDirAttributes()
     {
         return defaultDirAttributes;
+    }
+
+    protected void setDefaultDirAttributes( final PlexusIoResourceAttributes defaultDirAttributes )
+    {
+        this.defaultDirAttributes = defaultDirAttributes;
     }
 
     protected PlexusIoResourceAttributes getOverrideFileAttributes()
@@ -60,28 +69,18 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
         return overrideFileAttributes;
     }
 
+    protected void setOverrideFileAttributes( final PlexusIoResourceAttributes overrideFileAttributes )
+    {
+        this.overrideFileAttributes = overrideFileAttributes;
+    }
+
     protected PlexusIoResourceAttributes getOverrideDirAttributes()
     {
         return overrideDirAttributes;
     }
 
-    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                      final int fileMode, final int dirMode )
+    protected void setOverrideDirAttributes( final PlexusIoResourceAttributes overrideDirAttributes )
     {
-        defaultFileAttributes =
-            new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode > 0 ? fileMode : 0 );
-
-        defaultDirAttributes =
-            new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode > 0 ? dirMode : 0 );
-    }
-
-    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                       final int fileMode, final int dirMode )
-    {
-        overrideFileAttributes =
-            new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode > 0 ? fileMode : 0 );
-
-        overrideDirAttributes =
-            new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode > 0 ? dirMode : 0 );
+        this.overrideDirAttributes = overrideDirAttributes;
     }
 }

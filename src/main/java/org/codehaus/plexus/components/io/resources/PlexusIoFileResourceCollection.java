@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.logging.Logger;
@@ -85,6 +86,34 @@ public class PlexusIoFileResourceCollection
     public void setFollowingSymLinks( boolean pIsFollowingSymLinks )
     {
         isFollowingSymLinks = pIsFollowingSymLinks;
+    }
+
+    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                      final int fileMode, final int dirMode )
+    {
+        setDefaultFileAttributes( createResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+
+        setDefaultDirAttributes( createResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+    }
+
+    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
+                                       final int fileMode, final int dirMode )
+    {
+        setOverrideFileAttributes( createResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+
+        setOverrideDirAttributes( createResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+    }
+
+    private static PlexusIoResourceAttributes createResourceAttributes( final int uid, final String userName,
+                                                                        final int gid, final String groupName,
+                                                                        final int mode )
+    {
+        final FileAttributes fileAttributes = new FileAttributes( uid, userName, gid, groupName, new char[] {} );
+        if ( mode >= 0 )
+        {
+            fileAttributes.setOctalMode( mode );
+        }
+        return fileAttributes;
     }
 
     private void addResources( List<PlexusIoResource> list, String[] resources, Map<String, PlexusIoResourceAttributes> attributesByPath ) throws IOException
