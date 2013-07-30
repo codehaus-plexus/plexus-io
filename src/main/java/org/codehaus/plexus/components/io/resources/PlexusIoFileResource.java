@@ -16,10 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
@@ -123,7 +120,8 @@ public class PlexusIoFileResource
     public InputStream getContents()
         throws IOException
     {
-        return new FileInputStream( getFile() );
+        FileInputStream fileInputStream = new FileInputStream(getFile());
+        return new BufferedInputStream(fileInputStream, 32768);
     }
 
     public URL getURL()
