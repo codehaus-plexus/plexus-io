@@ -167,7 +167,7 @@ public class FileAttributes
 
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append( "\nFile Attributes:\n------------------------------\nuser: " );
         sb.append( userName == null ? "" : userName );
         sb.append( "\ngroup: " );
