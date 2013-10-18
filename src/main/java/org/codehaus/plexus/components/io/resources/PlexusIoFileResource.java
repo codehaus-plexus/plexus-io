@@ -63,23 +63,23 @@ public class PlexusIoFileResource
      */
     public PlexusIoFileResource( File file, String name )
     {
-        this( file, name, null, true );
+        this( file, name, null, false );
     }
 
     public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
     {
-        this( file, name, attrs, true );
+        this( file, name, attrs, false );
     }
 
     protected PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs,
-                                    boolean setPhysicalFileAttribute )
+                                    boolean ignored )
     {
         setName( name );
         if (attrs != null)
         {
             setAttributes( attrs );
         }
-        setFile( file, setPhysicalFileAttribute );
+        setFile( file );
     }
     private static String getName( File file )
     {
@@ -99,13 +99,9 @@ public class PlexusIoFileResource
     /**
      * Sets the resources file.
      */
-    private void setFile( File file, boolean setPhysicalFileAttribute)
+    private void setFile( File file )
     {
         this.file = file;
-        if (setPhysicalFileAttribute)
-        {
-            setLastModified( file.lastModified() );
-        }
         setSize( file.length() );
         setFile( file.isFile() );
         setDirectory( file.isDirectory() );
