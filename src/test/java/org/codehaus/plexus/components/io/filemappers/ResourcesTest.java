@@ -76,36 +76,28 @@ public class ResourcesTest extends PlexusTestCase
     {
         final String prefix = path == null ? "" : (path + "/");
         File[] files = dir.listFiles();
-        for ( int i = 0;  i < files.length;  i++ )
-        {
-            File f = files[i];
+        for (File f : files) {
             final String entryName = prefix + f.getName();
-            ZipEntry ze = new ZipEntry( entryName );
-            if ( f.isFile() )
-            {
-                ze.setSize( f.length() );
-                zos.putNextEntry( ze );
-                FileInputStream fis = new FileInputStream( f );
-                byte[] buffer = new byte[ 1024 ];
-                for (;;)
-                {
-                    int res = fis.read( buffer );
-                    if ( res == -1 )
-                    {
+            ZipEntry ze = new ZipEntry(entryName);
+            if (f.isFile()) {
+                ze.setSize(f.length());
+                zos.putNextEntry(ze);
+                FileInputStream fis = new FileInputStream(f);
+                byte[] buffer = new byte[1024];
+                for (; ; ) {
+                    int res = fis.read(buffer);
+                    if (res == -1) {
                         break;
                     }
-                    if ( res > 0 )
-                    {
-                        zos.write( buffer, 0, res );
+                    if (res > 0) {
+                        zos.write(buffer, 0, res);
                     }
                 }
                 fis.close();
-                ze.setTime( f.lastModified() );
+                ze.setTime(f.lastModified());
                 zos.closeEntry();
-            }
-            else
-            {
-                addDirToZipFile( zos, f, entryName );
+            } else {
+                addDirToZipFile(zos, f, entryName);
             }
         }
     }

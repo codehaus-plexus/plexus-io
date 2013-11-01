@@ -59,10 +59,8 @@ public class IncludeExcludeFileSelector implements FileSelector
      */
     protected boolean isExcluded( String name )
     {
-        for ( int i = 0; i < computedExcludes.length; i++ )
-        {
-            if ( matchPath( computedExcludes[i], name, isCaseSensitive ) )
-            {
+        for (String computedExclude : computedExcludes) {
+            if (matchPath(computedExclude, name, isCaseSensitive)) {
                 return true;
             }
         }
@@ -199,10 +197,8 @@ public class IncludeExcludeFileSelector implements FileSelector
      */
     protected boolean isIncluded( String name )
     {
-        for ( int i = 0; i < computedIncludes.length; i++ )
-        {
-            if ( matchPath( computedIncludes[i], name, isCaseSensitive ) )
-            {
+        for (String computedInclude : computedIncludes) {
+            if (matchPath(computedInclude, name, isCaseSensitive)) {
                 return true;
             }
         }

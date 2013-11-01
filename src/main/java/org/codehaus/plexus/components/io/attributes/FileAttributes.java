@@ -60,9 +60,9 @@ public class FileAttributes
 
     public FileAttributes( int userId, String userName, int groupId, String groupName, char[] mode )
     {
-        this.groupId = new Integer( groupId );
+        this.groupId = groupId;
         this.groupName = groupName;
-        this.userId = new Integer( userId );
+        this.userId = userId;
         this.userName = userName;
         setLsModeParts( mode );
     }
@@ -247,7 +247,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
-        this.groupId = new Integer( gid );
+        this.groupId = (int) gid;
         return this;
     }
 
@@ -289,7 +289,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setUserId( Integer uid )
     {
-        this.userId = new Integer( uid );
+        this.userId = (int) uid;
         return this;
     }
 

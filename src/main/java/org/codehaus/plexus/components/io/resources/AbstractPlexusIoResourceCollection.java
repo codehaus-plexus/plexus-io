@@ -196,10 +196,8 @@ public abstract class AbstractPlexusIoResourceCollection
         FileSelector[] fileSelectors = getFileSelectors();
         if ( fileSelectors != null )
         {
-            for ( int i = 0;  i < fileSelectors.length;  i++ )
-            {
-                if ( !fileSelectors[i].isSelected( plexusIoResource ) )
-                {
+            for (FileSelector fileSelector : fileSelectors) {
+                if (!fileSelector.isSelected(plexusIoResource)) {
                     return false;
                 }
             }
@@ -232,9 +230,8 @@ public abstract class AbstractPlexusIoResourceCollection
         final FileMapper[] mappers = getFileMappers();
         if ( mappers != null )
         {
-            for ( int i = 0;  i < mappers.length;  i++ )
-            {
-                name = mappers[i].getMappedFileName( name );
+            for (FileMapper mapper : mappers) {
+                name = mapper.getMappedFileName(name);
             }
         }
         return PrefixFileMapper.getMappedFileName( getPrefix(), name );

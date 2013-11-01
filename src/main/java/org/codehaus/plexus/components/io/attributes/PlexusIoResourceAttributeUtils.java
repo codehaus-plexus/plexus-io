@@ -426,5 +426,5 @@ public final class PlexusIoResourceAttributeUtils
         }
     }
 
-    static Pattern totalLinePattern = Pattern.compile( "\\w*\\s\\d*" );
+    static final Pattern totalLinePattern = Pattern.compile( "\\w*\\s\\d*" );
 }
