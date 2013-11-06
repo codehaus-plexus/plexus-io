@@ -21,7 +21,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 
+import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
 /**
@@ -130,7 +135,20 @@ public class PlexusIoFileResource
 
     public long getLastModified()
     {
-        return getFile().lastModified();
+        if ( Java7Reflector.isJava7()){
+            try
+            {
+                BasicFileAttributes basicFileAttributes =
+                    Files.readAttributes( getFile().toPath(), BasicFileAttributes.class );
+                return basicFileAttributes.lastModifiedTime().toMillis();
+            }
+            catch ( IOException e )
+            {
+                throw new RuntimeException( e );
+            }
+        } else {
+            return getFile().lastModified();
+        }
     }
 
     public long getSize()
