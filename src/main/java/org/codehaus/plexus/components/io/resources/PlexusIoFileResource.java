@@ -26,6 +26,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
@@ -136,16 +137,7 @@ public class PlexusIoFileResource
     public long getLastModified()
     {
         if ( Java7Reflector.isJava7()){
-            try
-            {
-                BasicFileAttributes basicFileAttributes =
-                    Files.readAttributes( getFile().toPath(), BasicFileAttributes.class );
-                return basicFileAttributes.lastModifiedTime().toMillis();
-            }
-            catch ( IOException e )
-            {
-                throw new RuntimeException( e );
-            }
+            return Java7AttributeUtils.getLastModified( getFile() );
         } else {
             return getFile().lastModified();
         }
