@@ -122,7 +122,7 @@ public class FileAttributes
 
     private boolean checkFlag( char disabledValue, int idx )
     {
-        return mode == null ? false : mode[idx] != disabledValue;
+        return mode != null && mode[idx] != disabledValue;
     }
 
     public boolean isGroupReadable()
@@ -247,7 +247,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
-        this.groupId = (int) gid;
+        this.groupId = gid;
         return this;
     }
 
@@ -289,7 +289,7 @@ public class FileAttributes
 
     public PlexusIoResourceAttributes setUserId( Integer uid )
     {
-        this.userId = (int) uid;
+        this.userId = uid;
         return this;
     }
 
