@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -52,46 +53,71 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         final URL url = new URL( "jar:" + f.toURI().toURL() + "!/");
         final ZipFile zipFile = new ZipFile( f );
         final Enumeration en = zipFile.entries();
-        return new Iterator<PlexusIoResource>(){
-            public boolean hasNext()
-            {
-                return en.hasMoreElements();
-            }
-            public PlexusIoResource next()
-            {
-                final ZipEntry entry = (ZipEntry) en.nextElement();
-                final PlexusIoURLResource res = new PlexusIoURLResource(){
-                    public URL getURL() throws IOException
-                    {
-                        String spec = entry.getName();
-                        //check if path starts with a nameless directory
-                        if( spec.startsWith( "/" ) )
-                        {
-                            spec = "./" + spec;
-                        }
-                        return new URL( url, spec );
-                    }
+        return new ZipFileResourceIterator( en, url, zipFile );
+    }
 
-                    @Override
-                    protected String getDescriptionForError()
+    private static class ZipFileResourceIterator
+        implements Iterator<PlexusIoResource>, Closeable
+    {
+        private final Enumeration en;
+
+        private final URL url;
+
+        private final ZipFile zipFile;
+
+        public ZipFileResourceIterator( Enumeration en, URL url, ZipFile zipFile )
+        {
+            this.en = en;
+            this.url = url;
+            this.zipFile = zipFile;
+        }
+
+        public boolean hasNext()
+        {
+            return en.hasMoreElements();
+        }
+
+        public PlexusIoResource next()
+        {
+            final ZipEntry entry = (ZipEntry) en.nextElement();
+            final PlexusIoURLResource res = new PlexusIoURLResource(){
+                public URL getURL() throws IOException
+                {
+                    String spec = entry.getName();
+                    //check if path starts with a nameless directory
+                    if( spec.startsWith( "/" ) )
                     {
-                        return "" + url + "" + entry.getName();
+                        spec = "./" + spec;
                     }
-                };
-                final boolean dir = entry.isDirectory();
-                res.setName( entry.getName() );
-                res.setDirectory( dir );
-                res.setExisting( true );
-                res.setFile( !dir );
-                long l = entry.getTime();
-                res.setLastModified( l == -1 ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : l );
-                res.setSize( dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize() );
-                return res;
-            }
-            public void remove()
-            {
-                throw new UnsupportedOperationException( "Removing isn't implemented." );
-            }
-        };
+                    return new URL( url, spec );
+                }
+
+                @Override
+                protected String getDescriptionForError()
+                {
+                    return "" + url + "" + entry.getName();
+                }
+            };
+            final boolean dir = entry.isDirectory();
+            res.setName( entry.getName() );
+            res.setDirectory( dir );
+            res.setExisting( true );
+            res.setFile( !dir );
+            long l = entry.getTime();
+            res.setLastModified( l == -1 ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : l );
+            res.setSize( dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize() );
+            return res;
+        }
+
+        public void remove()
+        {
+            throw new UnsupportedOperationException( "Removing isn't implemented." );
+        }
+
+        public void close()
+            throws IOException
+        {
+            zipFile.close();
+        }
     }
 }

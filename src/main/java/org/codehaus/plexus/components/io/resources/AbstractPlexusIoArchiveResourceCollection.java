@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.codehaus.plexus.logging.Logger;
-
 
 
 /**
@@ -65,7 +65,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
     /**
      * Returns an iterator over the archives entries.
-     * @return An iterator
+     * @return An iterator, may be java.io.Closeable
      * @throws java.io.IOException an IOException, doh
      */
     protected abstract Iterator<PlexusIoResource> getEntries() throws IOException;
@@ -73,13 +73,18 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     public Iterator<PlexusIoResource> getResources() throws IOException
     {
         final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
-        for (Iterator it = getEntries();  it.hasNext();  )
+        final Iterator<PlexusIoResource> it = getEntries();
+        while( it.hasNext())
         {
-            final PlexusIoResource res = (PlexusIoResource) it.next();
+            final PlexusIoResource res = it.next();
             if ( isSelected( res ) )
             {
                 result.add( res );
             }
+        }
+        if (it instanceof Closeable )
+        {
+            ((Closeable)it).close();
         }
         return result.iterator();
     }

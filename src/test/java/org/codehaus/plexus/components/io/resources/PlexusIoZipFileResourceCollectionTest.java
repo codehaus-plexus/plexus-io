@@ -13,7 +13,7 @@ public class PlexusIoZipFileResourceCollectionTest
     public void testNamelessRootFolder() throws Exception {
         PlexusIoZipFileResourceCollection resourceCollection = new PlexusIoZipFileResourceCollection();
         resourceCollection.setFile( getTestFile( "src/test/jars/namelessrootfolder.jar" ) );
-        Iterator iterator = resourceCollection.getEntries();
+        Iterator iterator = resourceCollection.getResources();
         PlexusIoURLResource entry = (PlexusIoURLResource) iterator.next();
         assertEquals( "/dummy.txt", entry.getName() );
         BufferedReader d = new BufferedReader(new InputStreamReader(entry.getContents()));
@@ -23,7 +23,7 @@ public class PlexusIoZipFileResourceCollectionTest
     public void testDescriptionForError() throws Exception {
         PlexusIoZipFileResourceCollection resourceCollection = new PlexusIoZipFileResourceCollection();
         resourceCollection.setFile( getTestFile( "src/test/jars/namelessrootfolder.jar" ) );
-        Iterator iterator = resourceCollection.getEntries();
+        Iterator iterator = resourceCollection.getResources();
         PlexusIoURLResource entry = (PlexusIoURLResource) iterator.next();
         String descriptionForError = entry.getDescriptionForError();
         assertTrue(descriptionForError.endsWith( "namelessrootfolder.jar!//dummy.txt" ));
