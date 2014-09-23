@@ -68,4 +68,9 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
     {
         return isFile;
     }
+
+    public boolean isSymbolicLink()
+    {
+        return false;
+    }
 }

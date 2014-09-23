@@ -26,157 +26,11 @@ public abstract class AbstractResourceAttributesTCK
     {
     }
     
-    protected abstract PlexusIoResourceAttributes newAttributes();
-    
-    public void testSetAndGetUserId()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertNull( attrs.getUserId());
-        
-        int uid = 501;
-        attrs.setUserId( uid );
-        
-        assertNotNull( attrs.getUserId());
-        assertEquals( uid, attrs.getUserId().intValue() );
-    }
-    
-    public final void testSetAndGetGroupId()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertNull( attrs.getGroupId());
+    protected abstract PlexusIoResourceAttributes newAttributes( int mode );
 
-        int gid = 501;
-        attrs.setGroupId( gid );
+    protected abstract PlexusIoResourceAttributes newAttributes( String mode );
 
-        assertNotNull( attrs.getGroupId());
-        assertEquals( gid, attrs.getGroupId().intValue() );
-    }
-    
-    public final void testSetAndGetUserName()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertNull( attrs.getUserName() );
-        
-        String name = "me";
-        attrs.setUserName( name );
-        
-        assertEquals( name, attrs.getUserName() );
-    }
-    
-    public final void testSetAndGetGroupName()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertNull( attrs.getGroupName() );
-        
-        String name = "me";
-        attrs.setGroupName( name );
-        
-        assertEquals( name, attrs.getGroupName() );
-    }
-    
-    public final void testSetAndGetOwnerReadable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isOwnerReadable() );
-        
-        attrs.setOwnerReadable( true );
-        
-        assertTrue( attrs.isOwnerReadable() );
-    }
-    
-    public final void testSetAndGetOwnerWritable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isOwnerWritable() );
-        
-        attrs.setOwnerWritable( true );
-        
-        assertTrue( attrs.isOwnerWritable() );
-    }
-    
-    public final void testSetAndGetOwnerExecutable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isOwnerExecutable() );
-        
-        attrs.setOwnerExecutable( true );
-        
-        assertTrue( attrs.isOwnerExecutable() );
-    }
-    
-    public final void testSetAndGetGroupReadable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isGroupReadable() );
-        
-        attrs.setGroupReadable( true );
-        
-        assertTrue( attrs.isGroupReadable() );
-    }
-    
-    public final void testSetAndGetGroupWritable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isGroupWritable() );
-        
-        attrs.setGroupWritable( true );
-        
-        assertTrue( attrs.isGroupWritable() );
-    }
-    
-    public final void testSetAndGetGroupExecutable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isGroupExecutable() );
-        
-        attrs.setGroupExecutable( true );
-        
-        assertTrue( attrs.isGroupExecutable() );
-    }
-    
-    public final void testSetAndGetWorldReadable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isWorldReadable() );
-        
-        attrs.setWorldReadable( true );
-        
-        assertTrue( attrs.isWorldReadable() );
-    }
-    
-    public final void testSetAndGetWorldWritable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isWorldWritable() );
-        
-        attrs.setWorldWritable( true );
-        
-        assertTrue( attrs.isWorldWritable() );
-    }
-    
-    public final void testSetAndGetWorldExecutable()
-    {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isWorldExecutable() );
-        
-        attrs.setWorldExecutable( true );
-        
-        assertTrue( attrs.isWorldExecutable() );
-    }
-    
+
     public final void testSetOctalModeString_OwnerModes()
     {
         verifyStringOctalModeSet( "700", new boolean[]{ true, true, true, false, false, false, false, false, false } );
@@ -227,21 +81,7 @@ public abstract class AbstractResourceAttributesTCK
 
     private void verifyStringOctalModeSet( String mode, boolean[] checkValues )
     {
-        PlexusIoResourceAttributes attrs = newAttributes();
-        
-        assertFalse( attrs.isOwnerReadable() );
-        assertFalse( attrs.isOwnerWritable() );
-        assertFalse( attrs.isOwnerExecutable() );
-        
-        assertFalse( attrs.isGroupReadable() );
-        assertFalse( attrs.isGroupWritable() );
-        assertFalse( attrs.isGroupExecutable() );
-        
-        assertFalse( attrs.isWorldReadable() );
-        assertFalse( attrs.isWorldWritable() );
-        assertFalse( attrs.isWorldExecutable() );
-        
-        attrs.setOctalModeString( mode );
+        PlexusIoResourceAttributes attrs = newAttributes( Integer.parseInt( mode, 8 ) );
         
         assertEquals( checkValues[0], attrs.isOwnerReadable() );
         assertEquals( checkValues[1], attrs.isOwnerWritable() );
@@ -258,22 +98,9 @@ public abstract class AbstractResourceAttributesTCK
     
     private void verifyOctalModeSet( String mode, boolean[] checkValues )
     {
-        PlexusIoResourceAttributes attrs = newAttributes();
+        PlexusIoResourceAttributes attrs = newAttributes(Integer.parseInt( mode, 8 ));
         
-        assertFalse( attrs.isOwnerReadable() );
-        assertFalse( attrs.isOwnerWritable() );
-        assertFalse( attrs.isOwnerExecutable() );
-        
-        assertFalse( attrs.isGroupReadable() );
-        assertFalse( attrs.isGroupWritable() );
-        assertFalse( attrs.isGroupExecutable() );
-        
-        assertFalse( attrs.isWorldReadable() );
-        assertFalse( attrs.isWorldWritable() );
-        assertFalse( attrs.isWorldExecutable() );
-        
-        attrs.setOctalMode( Integer.parseInt( mode, 8 ) );
-        
+
         assertEquals( checkValues[0], attrs.isOwnerReadable() );
         assertEquals( checkValues[1], attrs.isOwnerWritable() );
         assertEquals( checkValues[2], attrs.isOwnerExecutable() );

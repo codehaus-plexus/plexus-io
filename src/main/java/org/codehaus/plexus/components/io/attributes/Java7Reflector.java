@@ -43,7 +43,7 @@ public class Java7Reflector
     }
 
 
-    public static boolean isJava7()
+    public static boolean isAtLeastJava7()
     {
         return isJava7;
     }

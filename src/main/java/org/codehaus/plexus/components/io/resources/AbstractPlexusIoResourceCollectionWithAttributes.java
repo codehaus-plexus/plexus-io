@@ -24,7 +24,6 @@ import org.codehaus.plexus.logging.Logger;
  */
 public abstract class AbstractPlexusIoResourceCollectionWithAttributes
     extends AbstractPlexusIoResourceCollection
-    implements PlexusIOResourceCollectionWithAttributes
 {
 
     private PlexusIoResourceAttributes defaultFileAttributes;

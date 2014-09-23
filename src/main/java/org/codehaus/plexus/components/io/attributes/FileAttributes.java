@@ -18,6 +18,11 @@ package org.codehaus.plexus.components.io.attributes;
 
 import java.util.Arrays;
 
+import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.*;
+
+/**
+ * Attributes that are read by legacy-style attribute parsing.
+ */
 public class FileAttributes
     implements PlexusIoResourceAttributes
 {
@@ -58,19 +63,17 @@ public class FileAttributes
 
     private char[] mode;
 
-    public FileAttributes( int userId, String userName, int groupId, String groupName, char[] mode )
-    {
-        this.groupId = groupId;
-        this.groupName = groupName;
-        this.userId = userId;
-        this.userName = userName;
-        setLsModeParts( mode );
+    public FileAttributes(int mode){
+        this.mode = new char[10];
+        Arrays.fill( this.mode, VALUE_DISABLED_MODE );
+        setOctalMode( mode );
     }
 
-    public FileAttributes()
+    public FileAttributes(String lsMOdeLine)
     {
         mode = new char[10];
         Arrays.fill( mode, VALUE_DISABLED_MODE );
+        setLsModeline( lsMOdeLine );
     }
 
     protected char[] getLsModeParts()
@@ -78,7 +81,7 @@ public class FileAttributes
         return mode;
     }
 
-    protected void setLsModeParts( char[] mode )
+    private void setLsModeParts( char[] mode )
     {
         if ( mode.length < 10 )
         {
@@ -239,12 +242,6 @@ public class FileAttributes
         return Integer.toString( getOctalMode(), 8 );
     }
 
-    public PlexusIoResourceAttributes setGroupExecutable( boolean flag )
-    {
-        setMode( flag ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, INDEX_GROUP_EXECUTE );
-        return this;
-    }
-
     public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
         this.groupId = gid;
@@ -257,36 +254,6 @@ public class FileAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupReadable( boolean flag )
-    {
-        setMode( flag ? VALUE_READABLE_MODE : VALUE_DISABLED_MODE, INDEX_GROUP_READ );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setGroupWritable( boolean flag )
-    {
-        setMode( flag ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, INDEX_GROUP_WRITE );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerExecutable( boolean flag )
-    {
-        setMode( flag ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, INDEX_OWNER_EXECUTE );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerReadable( boolean flag )
-    {
-        setMode( flag ? VALUE_READABLE_MODE : VALUE_DISABLED_MODE, INDEX_OWNER_READ );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerWritable( boolean flag )
-    {
-        setMode( flag ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, INDEX_OWNER_WRITE );
-        return this;
-    }
-
     public PlexusIoResourceAttributes setUserId( Integer uid )
     {
         this.userId = uid;
@@ -296,24 +263,6 @@ public class FileAttributes
     public PlexusIoResourceAttributes setUserName( String name )
     {
         this.userName = name;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldExecutable( boolean flag )
-    {
-        setMode( flag ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, INDEX_WORLD_EXECUTE );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldReadable( boolean flag )
-    {
-        setMode( flag ? VALUE_READABLE_MODE : VALUE_DISABLED_MODE, INDEX_WORLD_READ );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldWritable( boolean flag )
-    {
-        setMode( flag ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, INDEX_WORLD_WRITE );
         return this;
     }
 
@@ -331,23 +280,37 @@ public class FileAttributes
         setLsModeParts( mode );
     }
 
-    public PlexusIoResourceAttributes setOctalMode( int mode )
+    private void setOctalMode( int mode )
     {
-        setGroupExecutable( PlexusIoResourceAttributeUtils.isGroupExecutableInOctal( mode ) );
-        setGroupReadable( PlexusIoResourceAttributeUtils.isGroupReadableInOctal( mode ) );
-        setGroupWritable( PlexusIoResourceAttributeUtils.isGroupWritableInOctal( mode ) );
-        setOwnerExecutable( PlexusIoResourceAttributeUtils.isOwnerExecutableInOctal( mode ) );
-        setOwnerReadable( PlexusIoResourceAttributeUtils.isOwnerReadableInOctal( mode ) );
-        setOwnerWritable( PlexusIoResourceAttributeUtils.isOwnerWritableInOctal( mode ) );
-        setWorldExecutable( PlexusIoResourceAttributeUtils.isWorldExecutableInOctal( mode ) );
-        setWorldReadable( PlexusIoResourceAttributeUtils.isWorldReadableInOctal( mode ) );
-        setWorldWritable( PlexusIoResourceAttributeUtils.isWorldWritableInOctal( mode ) );
-        return this;
+        setExecutable( INDEX_OWNER_EXECUTE, isOwnerExecutableInOctal( mode ));
+        setExecutable( INDEX_GROUP_EXECUTE, isGroupExecutableInOctal( mode ) );
+        setExecutable( INDEX_WORLD_EXECUTE, isWorldExecutableInOctal( mode ));
+
+        setReadable( INDEX_OWNER_READ, isOwnerReadableInOctal( mode ));
+        setReadable( INDEX_GROUP_READ, isGroupReadableInOctal( mode ) );
+        setReadable( INDEX_WORLD_READ, isWorldReadableInOctal( mode ));
+
+        setWriteable( INDEX_OWNER_WRITE, isOwnerWritableInOctal( mode ));
+        setWriteable( INDEX_GROUP_WRITE, isGroupWritableInOctal( mode ) );
+        setWriteable( INDEX_WORLD_WRITE, isWorldWritableInOctal( mode ));
     }
 
-    public PlexusIoResourceAttributes setOctalModeString( String mode )
+    private void setExecutable( int index, boolean executable )
     {
-        setOctalMode( Integer.parseInt( mode, 8 ) );
-        return this;
+        setMode( executable ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, index );
+    }
+
+    private void setReadable( int index, boolean readable )
+    {
+        setMode( readable ? VALUE_READABLE_MODE : VALUE_DISABLED_MODE, index );
+    }
+    private void setWriteable( int index, boolean writable )
+    {
+        setMode( writable ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, index );
+    }
+    // Legacy mode does not support symlinks
+    public boolean isSymbolicLink()
+    {
+        return false;
     }
 }

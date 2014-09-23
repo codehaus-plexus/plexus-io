@@ -219,7 +219,7 @@ public final class PlexusIoResourceAttributeUtils
             return Collections.emptyMap();
         }
 
-        if ( Java7Reflector.isJava7() )
+        if ( Java7Reflector.isAtLeastJava7() )
         {
             return getFileAttributesByPathJava7( dir );
         }
@@ -314,7 +314,7 @@ public final class PlexusIoResourceAttributeUtils
     {
         Map<Integer, String> userCache = new HashMap<Integer, String>();
         Map<Integer, String> groupCache = new HashMap<Integer, String>();
-        final List fileAndDirectoryNames;
+        final List<String> fileAndDirectoryNames;
         if ( dir.isDirectory() )
         {
             // Seems like we're always recursive. Need to check that out wrt non-recusive use cases.
@@ -328,10 +328,10 @@ public final class PlexusIoResourceAttributeUtils
         final Map<String, PlexusIoResourceAttributes> attributesByPath =
             new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
-        for ( Object fileAndDirectoryName : fileAndDirectoryNames )
+        for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {
-            String fileName = (String) fileAndDirectoryName;
-            attributesByPath.put( fileName, new Java7FileAttributes( new File( fileName ), userCache, groupCache ) );
+            attributesByPath.put(
+                fileAndDirectoryName, new Java7FileAttributes( new File( fileAndDirectoryName ), userCache, groupCache ) );
         }
         return attributesByPath;
     }

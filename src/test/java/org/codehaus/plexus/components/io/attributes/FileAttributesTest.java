@@ -21,11 +21,16 @@ public class FileAttributesTest
     extends AbstractResourceAttributesTCK
 {
 
-    protected PlexusIoResourceAttributes newAttributes()
+    protected PlexusIoResourceAttributes newAttributes( int mode )
     {
-        return new FileAttributes();
+        return new FileAttributes(mode);
     }
-    
+
+    protected PlexusIoResourceAttributes newAttributes( String lsModeLine )
+    {
+        return new FileAttributes(lsModeLine);
+    }
+
     public void testSetLsMode_OwnerModes()
     {
         verifyLsModeSet( "-rwS------", new boolean[]{ true, true, true, false, false, false, false, false, false } );
@@ -54,22 +59,9 @@ public class FileAttributesTest
 
     private void verifyLsModeSet( String mode, boolean[] checkValues )
     {
-        FileAttributes attrs = (FileAttributes) newAttributes();
+        PlexusIoResourceAttributes attrs = newAttributes( mode );
         
-        assertFalse( attrs.isOwnerReadable() );
-        assertFalse( attrs.isOwnerWritable() );
-        assertFalse( attrs.isOwnerExecutable() );
-        
-        assertFalse( attrs.isGroupReadable() );
-        assertFalse( attrs.isGroupWritable() );
-        assertFalse( attrs.isGroupExecutable() );
-        
-        assertFalse( attrs.isWorldReadable() );
-        assertFalse( attrs.isWorldWritable() );
-        assertFalse( attrs.isWorldExecutable() );
-        
-        attrs.setLsModeline( mode );
-        
+
         assertEquals( checkValues[0], attrs.isOwnerReadable() );
         assertEquals( checkValues[1], attrs.isOwnerWritable() );
         assertEquals( checkValues[2], attrs.isOwnerExecutable() );

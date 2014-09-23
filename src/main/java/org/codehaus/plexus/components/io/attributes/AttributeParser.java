@@ -24,6 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -129,8 +131,7 @@ abstract class AttributeParser
                 FileAttributes attributes;
                 synchronized ( attributesByPath )
                 {
-                    attributes = new FileAttributes();
-                    attributes.setLsModeline( parts[0] );
+                    attributes = new FileAttributes(parts[0]);
                     attributesByPath.put( path, attributes );
                     processAttributes( attributes, parts);
                 }
@@ -232,15 +233,37 @@ abstract class AttributeParser
                 if ( thisAttribute == null )
                 { // Slight workaround because symbolic parsing is failure prone
                     thisAttribute = otherAttribute;
+                    result.put( key, thisAttribute);
                 }
                 if ( thisAttribute != null && otherAttribute != null )
                 {
-                    thisAttribute.setUserId( otherAttribute.getUserId() );
-                    thisAttribute.setGroupId( otherAttribute.getGroupId() );
+                    result.put( key, new MergedAttributes( thisAttribute, otherAttribute ));
                 }
-                result.put( key, thisAttribute);
             }
             return result;
         }
+    }
+
+    static class MergedAttributes
+        extends PlexusIoProxyResourceAttributes
+    {
+        PlexusIoResourceAttributes otherAttr;
+
+        public MergedAttributes( PlexusIoResourceAttributes thisAttr, PlexusIoResourceAttributes otherAttr )
+        {
+            super(thisAttr);
+            this.otherAttr = otherAttr;
+        }
+
+        public Integer getGroupId()
+        {
+            return otherAttr.getGroupId();
+        }
+
+        public Integer getUserId()
+        {
+            return otherAttr.getUserId();
+        }
+
     }
 }

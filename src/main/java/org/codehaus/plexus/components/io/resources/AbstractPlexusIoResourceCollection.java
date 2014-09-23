@@ -60,7 +60,7 @@ public abstract class AbstractPlexusIoResourceCollection
         this.logger = logger;
     }
     
-    protected Logger getLogger()
+    private Logger getLogger()
     {
         return logger;
     }

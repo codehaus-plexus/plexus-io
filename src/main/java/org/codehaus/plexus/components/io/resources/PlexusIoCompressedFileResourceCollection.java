@@ -16,6 +16,9 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.functions.InputStreamSupplier;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,6 +58,12 @@ public abstract class PlexusIoCompressedFileResourceCollection
         
     }
 
+
+    // return the file attributes of the uncompressed file
+    // may be null.
+    protected abstract PlexusIoResourceAttributes getAttributes(File f) throws IOException;
+
+
     public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
@@ -69,16 +78,22 @@ public abstract class PlexusIoCompressedFileResourceCollection
             throw new IOException( "The archive file " + f.getPath()
                                    + " does not exist or is no file." ); 
         }
-        
-        final PlexusIoResource resource = new PlexusIoFileResource(f, p)
+
+
+        final PlexusIoResourceAttributes attributes = getAttributes( f );
+
+        final InputStreamSupplier inputStreamSupplier = new InputStreamSupplier()
         {
-            public InputStream getContents()
+            public InputStream get()
                 throws IOException
             {
                 return getInputStream( f );
             }
         };
-        
+
+        final PlexusIoResource resource =
+            ResourceFactory.createResource(f, p, attributes, inputStreamSupplier );
+
         return Collections.singleton( resource ).iterator();
     }
 

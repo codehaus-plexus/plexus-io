@@ -21,9 +21,17 @@ public class SimpleResourceAttributesTest
     extends AbstractResourceAttributesTCK
 {
 
-    protected PlexusIoResourceAttributes newAttributes()
+    protected PlexusIoResourceAttributes newAttributes( int mode )
     {
-        return new SimpleResourceAttributes();
+        final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
+        simpleResourceAttributes.setOctalMode( mode );
+        return simpleResourceAttributes;
     }
 
+    protected PlexusIoResourceAttributes newAttributes( String mode )
+    {
+        final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
+        simpleResourceAttributes.setOctalModeString( mode );
+        return simpleResourceAttributes;
+    }
 }

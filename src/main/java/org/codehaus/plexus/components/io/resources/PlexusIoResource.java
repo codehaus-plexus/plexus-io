@@ -82,7 +82,7 @@ public interface PlexusIoResource extends FileInfo
      * Returns an {@link URL}, which may be used to reference the
      * resource, if possible.
      * @return An URL referencing the resource, if possible, or null.
-     *   In the latter case, you are forced to use {@link #getInputStream()}.
+     *   In the latter case, you are forced to use {@link #getContents()}.
      */
     URL getURL() throws IOException;
 }

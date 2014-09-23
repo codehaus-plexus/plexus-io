@@ -23,8 +23,10 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
+import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 
 /**
  * Implementation of {@link PlexusIoResource} for files.
@@ -40,12 +42,12 @@ public class PlexusIoFileResource
     /**
      * Creates a new instance. This constructor is usually used with a directory
      */
-    public PlexusIoFileResource( File file )
+    private PlexusIoFileResource( File file )
     {
-        this( file, getName( file ) );
+        this( file, getName( file ), null );
     }
 
-    public PlexusIoFileResource( File file, String name )
+    private PlexusIoFileResource( File file, String name )
     {
         this( file, name, null );
     }
@@ -59,6 +61,7 @@ public class PlexusIoFileResource
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
+        if (attrs == null) throw new IllegalArgumentException( "attrs is null" );
         this.attributes = attrs;
     }
 
@@ -67,14 +70,28 @@ public class PlexusIoFileResource
         return file.getPath().replace( '\\', '/' );
     }
 
-    public static PlexusIoFileResource readFromDisk( File file, String name, PlexusIoResourceAttributes attrs )
+    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs)
     {
-        return new PlexusIoFileResource( file, name, attrs );
+        if (attrs != null && attrs.isSymbolicLink())
+            return new PlexusIoSymlinkResource( file, name, attrs);
+        else
+            return new PlexusIoFileResource( file, name, attrs );
+    }
+
+    public static PlexusIoFileResource withName( File file, String name, PlexusIoResourceAttributes attrs )
+    {
+        if (attrs != null && attrs.isSymbolicLink())
+            return new PlexusIoSymlinkResource( file, name, attrs);
+        else
+            return new PlexusIoFileResource( file, name, attrs );
     }
 
     public static PlexusIoFileResource existingFile( File file, PlexusIoResourceAttributes attrs )
     {
-        return new PlexusIoFileResource( file, getName( file ), attrs );
+        if (attrs != null && attrs.isSymbolicLink())
+            return new PlexusIoSymlinkResource( file, getName( file ), attrs);
+        else
+            return new PlexusIoFileResource( file, getName( file ), attrs );
     }
 
     /**
@@ -97,18 +114,6 @@ public class PlexusIoFileResource
         return getFile().toURI().toURL();
     }
 
-    public long getLastModified()
-    {
-        if ( Java7Reflector.isJava7() )
-        {
-            return Java7AttributeUtils.getLastModified( getFile() );
-        }
-        else
-        {
-            return getFile().lastModified();
-        }
-    }
-
     public long getSize()
     {
         return getFile().length();
@@ -129,9 +134,24 @@ public class PlexusIoFileResource
         return getFile().isFile();
     }
 
-
     public PlexusIoResourceAttributes getAttributes()
     {
         return attributes;
+    }
+
+    public long getLastModified()
+    {
+        if ( Java7Reflector.isAtLeastJava7() )
+        {
+            return Java7AttributeUtils.getLastModified( getFile() );
+        }
+        else
+        {
+            return getFile().lastModified();
+        }
+    }
+
+    @Override public boolean isSymbolicLink() {
+        return getAttributes().isSymbolicLink();
     }
 }

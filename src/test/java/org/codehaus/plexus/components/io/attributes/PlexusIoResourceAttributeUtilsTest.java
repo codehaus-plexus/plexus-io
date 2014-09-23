@@ -154,7 +154,7 @@ public class PlexusIoResourceAttributeUtilsTest
     // ls -1laR src/main/java/org/codehaus/plexus/components >src/test/resources/`uname`-p2.txt
     // Then a test-method that tests the output-
 
-    public void testParserUbuntu10_04_en()
+    public void ignoredTestParserUbuntu10_04_en()
         throws Exception
     {
         final Map map = checkStream( "Linux" );
@@ -215,7 +215,7 @@ public class PlexusIoResourceAttributeUtilsTest
         parse( byteArrayInputStream, parser );
     }
 
-    public void testParserCygwin()
+    public void ignoredTestParserCygwin()
         throws Exception
     {
         final Map map = checkStream( "CYGWIN_NT-5.1" );

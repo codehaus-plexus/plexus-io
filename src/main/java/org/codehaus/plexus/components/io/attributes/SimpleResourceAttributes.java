@@ -16,6 +16,9 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+/*
+ * A very simple pojo based PlexusIoResourceAttributes without any kind of backing
+ */
 public class SimpleResourceAttributes
     implements PlexusIoResourceAttributes
 {
@@ -39,7 +42,7 @@ public class SimpleResourceAttributes
         this.mode = mode;
     }
 
-    public SimpleResourceAttributes()
+    SimpleResourceAttributes()
     {
     }
 
@@ -125,12 +128,6 @@ public class SimpleResourceAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupExecutable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_GROUP_EXECUTE, flag );
-        return this;
-    }
-
     public PlexusIoResourceAttributes setGroupId( Integer gid )
     {
         this.gid = gid;
@@ -140,36 +137,6 @@ public class SimpleResourceAttributes
     public PlexusIoResourceAttributes setGroupName( String name )
     {
         this.groupName = name;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setGroupReadable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_GROUP_READ, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setGroupWritable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_GROUP_WRITE, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerExecutable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_OWNER_EXECUTE, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerReadable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_OWNER_READ, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setOwnerWritable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_OWNER_WRITE, flag );
         return this;
     }
 
@@ -183,36 +150,6 @@ public class SimpleResourceAttributes
     {
         this.userName = name;
         return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldExecutable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_WORLD_EXECUTE, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldReadable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_WORLD_READ, flag );
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setWorldWritable( boolean flag )
-    {
-        set( AttributeConstants.OCTAL_WORLD_WRITE, flag );
-        return this;
-    }
-
-    private void set( int bit, boolean enabled )
-    {
-        if ( enabled )
-        {
-            mode |= bit;
-        }
-        else
-        {
-            mode &= ~bit;
-        }
     }
 
     public PlexusIoResourceAttributes setOctalModeString( String mode )
@@ -230,5 +167,10 @@ public class SimpleResourceAttributes
             uid != null ? uid : 0,
             gid != null ? gid : 0,
             mode );
+    }
+
+    public boolean isSymbolicLink()
+    {
+        return false;
     }
 }

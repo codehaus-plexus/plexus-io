@@ -73,4 +73,9 @@ public class PlexusIoProxyResource
 	public String getName() {
 		return src.getName();
 	}
+
+    public boolean isSymbolicLink()
+    {
+        return src.isSymbolicLink();
+    }
 }

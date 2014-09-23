@@ -37,7 +37,7 @@ public class Java7FileAttributesTest
         {
             return;
         }
-        if ( !Java7Reflector.isJava7() )
+        if ( !Java7Reflector.isAtLeastJava7() )
         {
             return;
         }
@@ -46,8 +46,9 @@ public class Java7FileAttributesTest
         Map<Integer, String> userCache = new HashMap<Integer, String>();
         Map<Integer, String> groupCache = new HashMap<Integer, String>();
 
-        Java7FileAttributes fa = new Java7FileAttributes( file, userCache, groupCache );
+        PlexusIoResourceAttributes fa = new Java7FileAttributes( file, userCache, groupCache );
         assertNotNull( fa );
         String permissions = fa.getOctalModeString();
     }
+
 }

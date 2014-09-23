@@ -52,4 +52,10 @@ public interface FileInfo
      * Returns, whether the {@link FileInfo} refers to a directory.
      */
     boolean isDirectory();
+
+    /**
+     * Returns, whether the {@link FileInfo} refers to a symlink.
+     * This method will return "false" for java versions prior to java7.
+     */
+    boolean isSymbolicLink();
 }

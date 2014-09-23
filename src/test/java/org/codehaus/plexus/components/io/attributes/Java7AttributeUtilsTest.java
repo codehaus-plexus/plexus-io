@@ -54,12 +54,12 @@ public class Java7AttributeUtilsTest
         final File bxx = File.createTempFile( "bxx", "ff" );
         System.out.println( "bxx = " + bxx );
         Java7AttributeUtils.chmod( bxx, 0422 );
-        Java7FileAttributes firstAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
+        PlexusIoResourceAttributes firstAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
         assertTrue( firstAttrs.isOwnerReadable() );
         assertFalse( firstAttrs.isOwnerWritable() );
         assertFalse( firstAttrs.isOwnerExecutable() );
         Java7AttributeUtils.chmod( bxx, 0777 );
-        Java7FileAttributes secondAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
+        PlexusIoResourceAttributes secondAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
         assertTrue( secondAttrs.isOwnerReadable() );
         assertTrue( secondAttrs.isOwnerWritable() );
         assertTrue( secondAttrs.isOwnerExecutable() );

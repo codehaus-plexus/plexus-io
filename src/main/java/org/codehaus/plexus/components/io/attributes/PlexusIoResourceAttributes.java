@@ -55,34 +55,11 @@ public interface PlexusIoResourceAttributes
     int getOctalMode();
     
     String getOctalModeString();
-    
-    PlexusIoResourceAttributes setOwnerReadable( boolean flag );
 
-    PlexusIoResourceAttributes setOwnerWritable( boolean flag );
-
-    PlexusIoResourceAttributes setOwnerExecutable( boolean flag );
-
-    PlexusIoResourceAttributes setGroupReadable( boolean flag );
-
-    PlexusIoResourceAttributes setGroupWritable( boolean flag );
-
-    PlexusIoResourceAttributes setGroupExecutable( boolean flag );
-
-    PlexusIoResourceAttributes setWorldReadable( boolean flag );
-
-    PlexusIoResourceAttributes setWorldWritable( boolean flag );
-
-    PlexusIoResourceAttributes setWorldExecutable( boolean flag );
-
-    PlexusIoResourceAttributes setUserId( Integer uid );
-
-    PlexusIoResourceAttributes setGroupId( Integer gid );
-
-    PlexusIoResourceAttributes setUserName( String name );
-
-    PlexusIoResourceAttributes setGroupName( String name );
-    
-    PlexusIoResourceAttributes setOctalMode( int mode );
-    
-    PlexusIoResourceAttributes setOctalModeString( String mode );
+    /**
+     * Indicates if this is a symnbolic link element.
+     * For file-based resource attributes this value may be always "false" for versions prior to java7.
+     * @return True if the file is a symlink or false if not.
+     */
+    boolean isSymbolicLink();
 }
