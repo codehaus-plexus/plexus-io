@@ -21,10 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 
 import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
@@ -34,84 +30,51 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
  * Implementation of {@link PlexusIoResource} for files.
  */
 public class PlexusIoFileResource
-    extends AbstractPlexusIoResourceWithAttributes
+    extends AbstractPlexusIoResource
     implements PlexusIoResourceWithAttributes
 {
-    private File file;
+    private final File file;
+
+    private final PlexusIoResourceAttributes attributes;
 
     /**
-     * Creates a new instance.
-     */
-    public PlexusIoFileResource()
-    {
-        // Does nothing
-    }
-
-    /**
-     * Creates a new instance.
+     * Creates a new instance. This constructor is usually used with a directory
      */
     public PlexusIoFileResource( File file )
     {
         this( file, getName( file ) );
     }
 
-    /**
-     * Creates a new instance.
-     */
+    public PlexusIoFileResource( File file, String name )
+    {
+        this( file, name, null );
+    }
+
     public PlexusIoFileResource( File file, PlexusIoResourceAttributes attrs )
     {
         this( file, getName( file ), attrs );
     }
 
-
-    /**
-     * Creates a new instance.
-     */
-    public PlexusIoFileResource( File file, String name )
-    {
-        this( file, name, null, false );
-    }
-
     public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
     {
-        this( file, name, attrs, false );
+        super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
+        this.file = file;
+        this.attributes = attrs;
     }
 
-    protected PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs,
-                                    boolean ignored )
-    {
-        setName( name );
-        if (attrs != null)
-        {
-            setAttributes( attrs );
-        }
-        setFile( file );
-    }
     private static String getName( File file )
     {
         return file.getPath().replace( '\\', '/' );
     }
 
-    public static PlexusIoFileResource readFromDisk(File file, String name, PlexusIoResourceAttributes attrs)
+    public static PlexusIoFileResource readFromDisk( File file, String name, PlexusIoResourceAttributes attrs )
     {
-        return new PlexusIoFileResource( file, name, attrs, false );
+        return new PlexusIoFileResource( file, name, attrs );
     }
 
     public static PlexusIoFileResource existingFile( File file, PlexusIoResourceAttributes attrs )
     {
-        return new PlexusIoFileResource( file, getName( file ), attrs, false );
-    }
-
-    /**
-     * Sets the resources file.
-     */
-    private void setFile( File file )
-    {
-        this.file = file;
-        setSize( file.length() );
-        setFile( file.isFile() );
-        setDirectory( file.isDirectory() );
-        setExisting( file.exists() );
+        return new PlexusIoFileResource( file, getName( file ), attrs );
     }
 
     /**
@@ -136,9 +99,12 @@ public class PlexusIoFileResource
 
     public long getLastModified()
     {
-        if ( Java7Reflector.isJava7()){
+        if ( Java7Reflector.isJava7() )
+        {
             return Java7AttributeUtils.getLastModified( getFile() );
-        } else {
+        }
+        else
+        {
             return getFile().lastModified();
         }
     }
@@ -163,25 +129,9 @@ public class PlexusIoFileResource
         return getFile().isFile();
     }
 
-    public void setDirectory( boolean isDirectory )
-    {
-    }
 
-    public void setExisting( boolean isExisting )
+    public PlexusIoResourceAttributes getAttributes()
     {
+        return attributes;
     }
-
-    public void setFile( boolean isFile )
-    {
-    }
-
-    public void setLastModified( long lastModified )
-    {
-        file.setLastModified( lastModified );
-    }
-
-    public void setSize( long size )
-    {
-    }
-
 }

@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 
 import java.io.IOException;
@@ -24,15 +23,14 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class PlexusIoProxyResource
-    extends AbstractPlexusIoResource
+    implements PlexusIoResource
 {
 
     private final PlexusIoResource src;
 
-    public PlexusIoProxyResource( PlexusIoResource plexusIoResource )
+    protected PlexusIoProxyResource( PlexusIoResource plexusIoResource )
     {
         this.src = plexusIoResource;
-        setName( src.getName() );
     }
 
     public long getLastModified()
@@ -72,4 +70,7 @@ public class PlexusIoProxyResource
         return src.getContents();
     }
 
+	public String getName() {
+		return src.getName();
+	}
 }

@@ -19,6 +19,7 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -80,33 +81,14 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         public PlexusIoResource next()
         {
             final ZipEntry entry = (ZipEntry) en.nextElement();
-            final PlexusIoURLResource res = new PlexusIoURLResource(){
-                public URL getURL() throws IOException
-                {
-                    String spec = entry.getName();
-                    //check if path starts with a nameless directory
-                    if( spec.startsWith( "/" ) )
-                    {
-                        spec = "./" + spec;
-                    }
-                    return new URL( url, spec );
-                }
-
-                @Override
-                protected String getDescriptionForError()
-                {
-                    return "" + url + "" + entry.getName();
-                }
-            };
-            final boolean dir = entry.isDirectory();
-            res.setName( entry.getName() );
-            res.setDirectory( dir );
-            res.setExisting( true );
-            res.setFile( !dir );
             long l = entry.getTime();
-            res.setLastModified( l == -1 ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : l );
-            res.setSize( dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize() );
-            return res;
+            final long lastModified = l == -1 ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : l;
+            final boolean dir = entry.isDirectory();
+            final long size = dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize();
+
+            return new PlexusIoURLResource(url, entry.getName(), lastModified,size,
+                                                                    !dir,
+                                                                    dir, true );
         }
 
         public void remove()

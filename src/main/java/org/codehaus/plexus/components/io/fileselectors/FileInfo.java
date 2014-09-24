@@ -40,9 +40,6 @@ public interface FileInfo
      * Creates an {@link InputStream}, which may be used to read
      * the files contents. This is useful, if the file selector
      * comes to a decision based on the files contents.
-     *
-     * Please note that this InputStream is unbuffered. Clients should wrap this in a
-     * BufferedInputStream or attempt reading reasonably large chunks (8K+).
      */
     InputStream getContents() throws IOException;
 

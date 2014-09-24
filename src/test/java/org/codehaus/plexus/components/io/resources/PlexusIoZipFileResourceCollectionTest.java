@@ -23,9 +23,9 @@ public class PlexusIoZipFileResourceCollectionTest
     public void testDescriptionForError() throws Exception {
         PlexusIoZipFileResourceCollection resourceCollection = new PlexusIoZipFileResourceCollection();
         resourceCollection.setFile( getTestFile( "src/test/jars/namelessrootfolder.jar" ) );
-        Iterator iterator = resourceCollection.getResources();
+        Iterator<PlexusIoResource> iterator = resourceCollection.getResources();
         PlexusIoURLResource entry = (PlexusIoURLResource) iterator.next();
-        String descriptionForError = entry.getDescriptionForError();
+        String descriptionForError = entry.getDescriptionForError(entry.getURL());
         assertTrue(descriptionForError.endsWith( "namelessrootfolder.jar!//dummy.txt" ));
     }
 

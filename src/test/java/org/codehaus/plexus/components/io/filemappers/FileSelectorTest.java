@@ -38,7 +38,7 @@ public class FileSelectorTest extends PlexusTestCase
         for ( int i = 0;  i < pInput.length;  i++ )
         {
             final String name = pInput[i];
-            AbstractPlexusIoResource resource = new AbstractPlexusIoResource(){
+            AbstractPlexusIoResource resource = new AbstractPlexusIoResource(name, 0, 0, true, false, true){
                 public InputStream getContents() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );
@@ -49,9 +49,6 @@ public class FileSelectorTest extends PlexusTestCase
                     throw new IllegalStateException( "Not implemented" );
                 }
             };
-            resource.setName( name );
-            resource.setDirectory( false );
-            resource.setFile( true );
             boolean result = pSelector.isSelected( resource );
             if ( result != pOutput[i] )
             {

@@ -31,7 +31,7 @@ public class PlexusIoProxyResourceCollectionTest extends PlexusTestCase
     
     public void testGetDefaultFileSelector() throws Exception
     {
-        PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection();
+        PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection(null);
 
         // This will throw an exception if there is a bug
         resCol.getDefaultFileSelector();

@@ -17,6 +17,7 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.fileselectors.FileInfo;
@@ -55,6 +56,27 @@ public interface PlexusIoResource extends FileInfo
      * {@link #UNKNOWN_RESOURCE_SIZE}.
      */
     long getSize();
+
+
+    /**
+     * Returns, whether the {@link FileInfo} refers to a file.
+     */
+    boolean isFile();
+
+    /**
+     * Returns, whether the {@link FileInfo} refers to a directory.
+     */
+    boolean isDirectory();
+
+    /**
+     * Creates an {@link java.io.InputStream}, which may be used to read
+     * the files contents. This is useful, if the file selector
+     * comes to a decision based on the files contents.
+     *
+     * Please note that this InputStream is unbuffered. Clients should wrap this in a
+     * BufferedInputStream or attempt reading reasonably large chunks (8K+).
+     */
+    InputStream getContents() throws IOException;
 
     /**
      * Returns an {@link URL}, which may be used to reference the

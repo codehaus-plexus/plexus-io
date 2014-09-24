@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.plexus.logging.Logger;
-
 
 /**
  * Default implementation of {@link PlexusIoFileResourceCollection} for
@@ -41,13 +39,8 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     protected AbstractPlexusIoArchiveResourceCollection()
     {
     }
-    
-    protected AbstractPlexusIoArchiveResourceCollection( Logger logger )
-    {
-        super( logger );
-    }
-    
-    /**
+
+	/**
      * Sets the zip file
      */
     public void setFile( File file )

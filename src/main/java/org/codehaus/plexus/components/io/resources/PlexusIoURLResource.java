@@ -23,35 +23,43 @@ import java.net.URL;
 public class PlexusIoURLResource
     extends AbstractPlexusIoResource
 {
-    private URL url;
+    private URL base;
 
+    protected PlexusIoURLResource( URL base, String name, long lastModified, long size, boolean isFile,
+                                   boolean isDirectory, boolean isExisting )
+    {
+        super( name, lastModified, size, isFile, isDirectory, isExisting );
+        this.base = base;
+    }
 
     public InputStream getContents()
         throws IOException
     {
+        final URL url = getURL();
         try
         {
-            return getURL().openStream();
+            return url.openStream();
         }
         catch ( IOException e )
         {
-            throw new IOException( getDescriptionForError(), e);
+            throw new IOException( getDescriptionForError( url ), e );
         }
     }
 
-    protected String getDescriptionForError(){
+    String getDescriptionForError( URL url )
+    {
         return url != null ? url.toExternalForm() : "url=null";
     }
 
     public URL getURL()
         throws IOException
     {
-        return url;
-    }
-
-    public void setURL( URL pUrl )
-    {
-        url = pUrl;
+        String spec = getName();
+        if ( spec.startsWith( "/" ) )
+        {
+            spec = "./" + spec;
+        }
+        return new URL( base, spec );
     }
 
 }

@@ -29,7 +29,7 @@ public interface PlexusIOResourceCollectionWithAttributes
      * @param fileMode The octal mode to use for files
      * @param dirMode The octal mode to use for directories
      */
-    void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode );
+  //  void setDefaultAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode );
     
     /**
      * Sets the file and directory attributes to use as overrides.
@@ -41,6 +41,6 @@ public interface PlexusIOResourceCollectionWithAttributes
      * @param fileMode The octal mode to use for files
      * @param dirMode The octal mode to use for directories
      */
-    void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode );
+ //   void setOverrideAttributes( int uid, String userName, int gid, String groupName, int fileMode, int dirMode );
     
 }

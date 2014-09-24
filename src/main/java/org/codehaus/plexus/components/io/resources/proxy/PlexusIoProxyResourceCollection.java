@@ -41,15 +41,13 @@ public class PlexusIoProxyResourceCollection
 {
     private PlexusIoResourceCollection src;
 
-    /**
-     * Sets the archive to read.
-     */
-    public void setSrc( final PlexusIoResourceCollection src )
+
+    public PlexusIoProxyResourceCollection( PlexusIoResourceCollection src )
     {
         this.src = src;
     }
 
-    /**
+	/**
      * Returns the archive to read.
      */
     public PlexusIoResourceCollection getSrc()
@@ -83,16 +81,21 @@ public class PlexusIoProxyResourceCollection
         return fileSelector;
     }
 
+	private String getNonEmptyPrfix(){
+		String prefix = getPrefix();
+		if ( prefix != null && prefix.length() == 0 )
+		{
+			return null;
+		}
+		return prefix;
+
+	}
     public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
         final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
         final FileSelector fileSelector = getDefaultFileSelector();
-        String prefix = getPrefix();
-        if ( prefix != null && prefix.length() == 0 )
-        {
-            prefix = null;
-        }
+        final String prefix = getNonEmptyPrfix();
         for ( final Iterator<PlexusIoResource> iter = getSrc().getResources(); iter.hasNext(); )
         {
             PlexusIoResource plexusIoResource = iter.next();
@@ -134,14 +137,20 @@ public class PlexusIoProxyResourceCollection
 
                 if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
                 {
-                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs );
+                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs ){
+						@Override public String getName() {
+							return prefix + name;
+						}
+					};
                 }
                 else
                 {
-                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs );
+                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs ){
+						@Override public String getName() {
+							return prefix + name;
+						}
+					};
                 }
-
-                ( (AbstractPlexusIoResource) plexusIoResource ).setName( prefix + name );
             }
 
             result.add( plexusIoResource );

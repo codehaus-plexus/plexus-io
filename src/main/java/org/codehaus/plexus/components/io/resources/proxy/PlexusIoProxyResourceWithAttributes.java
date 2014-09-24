@@ -17,70 +17,25 @@ package org.codehaus.plexus.components.io.resources.proxy;
  */
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceWithAttributes;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
 public class PlexusIoProxyResourceWithAttributes
-    extends AbstractPlexusIoResourceWithAttributes
+	extends PlexusIoProxyResource
+    implements PlexusIoResourceWithAttributes
 {
 
-    private final PlexusIoResource src;
+    private final PlexusIoResourceAttributes src;
 
-    public PlexusIoProxyResourceWithAttributes( final PlexusIoResourceWithAttributes plexusIoResource )
-    {
-        src = plexusIoResource;
-        setName( src.getName() );
-        setAttributes( plexusIoResource.getAttributes() );
-    }
-
-    public PlexusIoProxyResourceWithAttributes( final PlexusIoResource plexusIoResource,
+	public PlexusIoProxyResourceWithAttributes( final PlexusIoResource plexusIoResource,
                                                 final PlexusIoResourceAttributes attrs )
     {
-        src = plexusIoResource;
-        setName( src.getName() );
-        setAttributes( attrs );
+        super(plexusIoResource);
+		this.src = attrs;
     }
 
-    public long getLastModified()
-    {
-        return src.getLastModified();
-    }
 
-    public long getSize()
-    {
-        return src.getSize();
-    }
-
-    public boolean isDirectory()
-    {
-        return src.isDirectory();
-    }
-
-    public boolean isExisting()
-    {
-        return src.isExisting();
-    }
-
-    public boolean isFile()
-    {
-        return src.isFile();
-    }
-
-    public URL getURL()
-        throws IOException
-    {
-        return src.getURL();
-    }
-
-    public InputStream getContents()
-        throws IOException
-    {
-        return src.getContents();
-    }
-
+	public PlexusIoResourceAttributes getAttributes() {
+		return src;
+	}
 }
