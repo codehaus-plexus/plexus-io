@@ -139,7 +139,7 @@ public class ResourcesTest extends PlexusTestCase
         assertTrue( res.getLastModified() != PlexusIoResource.UNKNOWN_MODIFICATION_DATE );
         if ( res instanceof PlexusIoFileResource )
         {
-            assertEquals( res.getLastModified(), file.lastModified() );
+            assertEquals( res.getLastModified() / 1000, file.lastModified() / 1000 );
         }
         assertTrue( res.getSize() != PlexusIoResource.UNKNOWN_RESOURCE_SIZE );
         assertEquals( res.getSize(), file.length() );
