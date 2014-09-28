@@ -167,8 +167,14 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, null, Logger.LEVEL_DEBUG, false, true );
-        return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
+        Map<String, PlexusIoResourceAttributes>  byPath = getFileAttributesByPath( file, null, Logger.LEVEL_DEBUG, false, true );
+        final PlexusIoResourceAttributes o = byPath.get( file.getAbsolutePath() );
+        if (o == null ){
+            // We're on a crappy old java version (5) or the OS from hell. Just "fail".
+            return SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
+
+        }
+        return o;
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )

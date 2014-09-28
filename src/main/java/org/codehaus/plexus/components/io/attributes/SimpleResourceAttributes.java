@@ -42,6 +42,11 @@ public class SimpleResourceAttributes
         this.mode = mode;
     }
 
+    public static PlexusIoResourceAttributes lastResortDummyAttributesForBrokenOS()
+    {
+        return new SimpleResourceAttributes(  );
+    }
+
     SimpleResourceAttributes()
     {
     }
