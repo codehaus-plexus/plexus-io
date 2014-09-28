@@ -112,4 +112,18 @@ public class Java7AttributeUtils
         return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
+    public static BasicFileAttributes getFileAttributes( File file )
+        throws IOException
+    {
+        try
+        {
+            return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+        }
+        catch ( UnsupportedOperationException e )
+        {
+            // Ok, this could probably be smarter. Query file system maybe ?
+            return Files.readAttributes( file.toPath(), BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+        }
+    }
+
 }

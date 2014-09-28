@@ -19,6 +19,8 @@ package org.codehaus.plexus.components.io.attributes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileOwnerAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
@@ -41,50 +43,76 @@ public class Java7FileAttributes
 
     private final boolean symbolicLink;
 
-    private final PosixFileAttributes posixFileAttributes;
+    private final BasicFileAttributes basicFileAttributes;
 
     public Java7FileAttributes( File file, Map<Integer, String> userCache, Map<Integer, String> groupCache )
         throws IOException
     {
-        this( file, Java7AttributeUtils.getPosixFileAttributes( file ), userCache, groupCache);
+        this( file, Java7AttributeUtils.getFileAttributes( file ), userCache, groupCache );
     }
 
-    public Java7FileAttributes( File file, PosixFileAttributes posixFileAttributes, Map<Integer, String> userCache, Map<Integer, String> groupCache )
+    public Java7FileAttributes( File file, BasicFileAttributes posixFileAttributes, Map<Integer, String> userCache,
+                                Map<Integer, String> groupCache )
         throws IOException
     {
-        this.posixFileAttributes = posixFileAttributes;
+        this.basicFileAttributes = posixFileAttributes;
 
-        userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
-        String userName = userCache.get( userId );
-        if ( userName != null )
+        if ( posixFileAttributes instanceof PosixFileAttributes )
         {
-            this.userName = userName;
+            groupId = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
+
+            String groupName = groupCache.get( groupId );
+            if ( groupName != null )
+            {
+                this.groupName = groupName;
+            }
+            else
+            {
+                this.groupName = ( (PosixFileAttributes) posixFileAttributes ).group().getName();
+                groupCache.put( groupId, this.groupName );
+            }
+            userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
+            String userName = userCache.get( userId );
+            if ( userName != null )
+            {
+                this.userName = userName;
+            }
+            else
+            {
+                this.userName = ( (PosixFileAttributes) posixFileAttributes ).owner().getName();
+                userCache.put( userId, this.userName );
+            }
+        } else  if ( posixFileAttributes instanceof FileOwnerAttributeView )
+        {
+            userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
+            String userName = userCache.get( userId );
+            if ( userName != null )
+            {
+                this.userName = userName;
+            }
+            else
+            {
+                this.userName = ( (FileOwnerAttributeView) posixFileAttributes ).getOwner().getName();
+                userCache.put( userId, this.userName );
+            }
+            groupName = null;
+            groupId = 0;
         }
         else
         {
-            this.userName = this.posixFileAttributes.owner().getName();
-            userCache.put( userId, this.userName );
-        }
-        groupId = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
-        String groupName = groupCache.get( groupId );
-        if ( groupName != null )
-        {
-            this.groupName = groupName;
-        }
-        else
-        {
-            this.groupName = this.posixFileAttributes.group().getName();
-            groupCache.put( groupId, this.groupName );
+            userName = null;
+            userId = 0;
+            groupName = null;
+            groupId = 0;
         }
 
-        symbolicLink = this.posixFileAttributes.isSymbolicLink();
+        symbolicLink = this.basicFileAttributes.isSymbolicLink();
     }
 
     public static PlexusIoResourceAttributes uncached( File file )
         throws IOException
     {
-        return new Java7FileAttributes( file, new HashMap<Integer, String>(),
-                                                        new HashMap<Integer, String>() );
+        return new Java7FileAttributes( file, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
     }
 
 
@@ -126,7 +154,8 @@ public class Java7FileAttributes
 
     private boolean containsPermission( PosixFilePermission groupExecute )
     {
-        return posixFileAttributes.permissions().contains( groupExecute );
+        return basicFileAttributes instanceof PosixFileAttributes
+            && ( (PosixFileAttributes) basicFileAttributes ).permissions().contains( groupExecute );
     }
 
     public boolean isGroupReadable()
