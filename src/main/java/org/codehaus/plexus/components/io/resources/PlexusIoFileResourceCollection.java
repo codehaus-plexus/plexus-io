@@ -110,7 +110,7 @@ public class PlexusIoFileResourceCollection
     private static PlexusIoResourceAttributes createDefaults( final int uid, final String userName, final int gid,
                                                               final String groupName, final int mode )
     {
-        return new SimpleResourceAttributes( uid, userName, gid, groupName, mode >= 0 ? mode : 0 );
+        return new SimpleResourceAttributes( uid, userName, gid, groupName, mode >= 0 ? mode : -1 );
     }
 
     private void addResources( List<PlexusIoResource> result, String[] resources,

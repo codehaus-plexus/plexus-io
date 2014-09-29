@@ -43,6 +43,8 @@ public class Java7FileAttributes
 
     private final boolean symbolicLink;
 
+    private final int octalMode;
+
     private final BasicFileAttributes basicFileAttributes;
 
     public Java7FileAttributes( File file, Map<Integer, String> userCache, Map<Integer, String> groupCache )
@@ -82,6 +84,7 @@ public class Java7FileAttributes
                 this.userName = ( (PosixFileAttributes) posixFileAttributes ).owner().getName();
                 userCache.put( userId, this.userName );
             }
+            octalMode = calculatePosixOctalMode();
         } else  if ( posixFileAttributes instanceof FileOwnerAttributeView )
         {
             userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
@@ -97,6 +100,7 @@ public class Java7FileAttributes
             }
             groupName = null;
             groupId = 0;
+            octalMode = -1;
         }
         else
         {
@@ -104,6 +108,7 @@ public class Java7FileAttributes
             userId = 0;
             groupName = null;
             groupId = 0;
+            octalMode = -1;
         }
 
         symbolicLink = this.basicFileAttributes.isSymbolicLink();
@@ -215,6 +220,11 @@ public class Java7FileAttributes
     }
 
     public int getOctalMode()
+    {
+        return octalMode;
+    }
+
+    public int calculatePosixOctalMode()
     {
         int result = 0;
 
