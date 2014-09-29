@@ -52,11 +52,8 @@ public class Java7AttributeUtils
         throws IOException
     {
         final Path path = file.toPath();
-        if (Files.isSymbolicLink( path )){
-            if (Files.readSymbolicLink( path ).toFile().exists()){
-                Files.setPosixFilePermissions( path, getPermissions( mode ) );
-            }
-        } else {
+        if ( !Files.isSymbolicLink( path ) )
+        {
             Files.setPosixFilePermissions( path, getPermissions( mode ) );
         }
     }
