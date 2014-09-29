@@ -1,6 +1,7 @@
 package org.codehaus.plexus.components.io.attributes;
 
 import junit.framework.TestCase;
+import org.codehaus.plexus.util.Os;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,8 +52,8 @@ public class Java7AttributeUtilsTest
     public void testChmodBackAndForth()
         throws IOException
     {
+        if ( Os.isFamily( Os.FAMILY_WINDOWS )) return;
         final File bxx = File.createTempFile( "bxx", "ff" );
-        System.out.println( "bxx = " + bxx );
         Java7AttributeUtils.chmod( bxx, 0422 );
         PlexusIoResourceAttributes firstAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
         assertTrue( firstAttrs.isOwnerReadable() );
