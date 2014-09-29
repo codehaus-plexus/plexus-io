@@ -10,6 +10,7 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
 import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
+import org.codehaus.plexus.util.Os;
 
 public class PlexusIoFileResourceTest extends TestCase {
 
@@ -17,6 +18,7 @@ public class PlexusIoFileResourceTest extends TestCase {
         throws IOException
     {
         if (!Java7Reflector.isAtLeastJava7()) return;
+        if ( Os.isFamily(Os.FAMILY_WINDOWS)) return;
         final File file = new File( "src/test/resources/symlinks/src/symDir" );
         PlexusIoResourceAttributes attrs = Java7FileAttributes.uncached( file );
         assertTrue(attrs.isSymbolicLink());
