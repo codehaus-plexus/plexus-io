@@ -19,6 +19,7 @@ public class PlexusIoFileResourceTest extends TestCase {
         if (!Java7Reflector.isAtLeastJava7()) return;
         final File file = new File( "src/test/resources/symlinks/src/symDir" );
         PlexusIoResourceAttributes attrs = Java7FileAttributes.uncached( file );
+        assertTrue(attrs.isSymbolicLink());
         PlexusIoFileResource r = new PlexusIoFileResource( file,  attrs);
         assertTrue(r.isSymbolicLink());
         final File target = SymlinkUtils.readSymbolicLink( file );
