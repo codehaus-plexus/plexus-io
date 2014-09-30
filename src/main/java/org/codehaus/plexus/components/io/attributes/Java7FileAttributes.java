@@ -33,11 +33,11 @@ import java.util.Map;
 public class Java7FileAttributes
     implements PlexusIoResourceAttributes
 {
-    private final int groupId;
+    private final Integer groupId;
 
     private final String groupName;
 
-    private final int userId;
+    private final Integer userId;
 
     private final String userName;
 
@@ -47,19 +47,14 @@ public class Java7FileAttributes
 
     private final BasicFileAttributes basicFileAttributes;
 
-    public Java7FileAttributes( File file, Map<Integer, String> userCache, Map<Integer, String> groupCache )
-        throws IOException
-    {
-        this( file, Java7AttributeUtils.getFileAttributes( file ), userCache, groupCache );
-    }
-
-    public Java7FileAttributes( File file, BasicFileAttributes posixFileAttributes, Map<Integer, String> userCache,
+    public Java7FileAttributes( File file, Map<Integer, String> userCache,
                                 Map<Integer, String> groupCache )
         throws IOException
     {
-        this.basicFileAttributes = posixFileAttributes;
 
-        if ( posixFileAttributes instanceof PosixFileAttributes )
+        this.basicFileAttributes = Java7AttributeUtils.getFileAttributes( file );
+
+        if ( basicFileAttributes instanceof PosixFileAttributes )
         {
             groupId = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
 
@@ -70,7 +65,7 @@ public class Java7FileAttributes
             }
             else
             {
-                this.groupName = ( (PosixFileAttributes) posixFileAttributes ).group().getName();
+                this.groupName = ( (PosixFileAttributes) basicFileAttributes ).group().getName();
                 groupCache.put( groupId, this.groupName );
             }
             userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
@@ -81,33 +76,16 @@ public class Java7FileAttributes
             }
             else
             {
-                this.userName = ( (PosixFileAttributes) posixFileAttributes ).owner().getName();
+                this.userName = ( (PosixFileAttributes) basicFileAttributes ).owner().getName();
                 userCache.put( userId, this.userName );
             }
             octalMode = calculatePosixOctalMode();
-        } else  if ( posixFileAttributes instanceof FileOwnerAttributeView )
-        {
-            userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
-            String userName = userCache.get( userId );
-            if ( userName != null )
-            {
-                this.userName = userName;
-            }
-            else
-            {
-                this.userName = ( (FileOwnerAttributeView) posixFileAttributes ).getOwner().getName();
-                userCache.put( userId, this.userName );
-            }
-            groupName = null;
-            groupId = 0;
-            octalMode = -1;
-        }
-        else
-        {
-            userName = null;
-            userId = 0;
-            groupName = null;
-            groupId = 0;
+        } else {
+            FileOwnerAttributeView fa = Java7AttributeUtils.getFileOwnershipInfo( file );
+            this.userName = fa.getOwner().getName();
+            userId = null;
+            this.groupName = null;
+            this.groupId = null;
             octalMode = -1;
         }
 

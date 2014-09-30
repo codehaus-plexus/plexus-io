@@ -48,13 +48,21 @@ public interface PlexusIoResourceAttributes
      */
     Integer getGroupId();
 
+    /**
+     * Returns the user name of the user owning the file. Probably not null :)
+     * @return The user name
+     */
     String getUserName();
-    
+
+    /**
+     * The group name. May be null if groups are unsupported
+     * @return
+     */
     String getGroupName();
 
     /*
-     * Octal mode attributes. Should be value -1 if unsupported by file system.
-     * Some sunny day this could be converted to an Integer object instead.
+     * Octal mode attributes.
+     * -1 if unsupported on current file/file system
      */
     int getOctalMode();
     
