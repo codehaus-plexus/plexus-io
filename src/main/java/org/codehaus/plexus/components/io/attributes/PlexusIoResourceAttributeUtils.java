@@ -227,7 +227,7 @@ public final class PlexusIoResourceAttributeUtils
 
         if ( Java7Reflector.isAtLeastJava7() )
         {
-            return getFileAttributesByPathJava7( dir );
+            return getFileAttributesByPathJava7( dir, recursive );
         }
 
         if ( logger == null )
@@ -315,15 +315,14 @@ public final class PlexusIoResourceAttributeUtils
         return userId;
     }
 
-    private static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir )
+    private static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir, boolean recursive )
         throws IOException
     {
         Map<Integer, String> userCache = new HashMap<Integer, String>();
         Map<Integer, String> groupCache = new HashMap<Integer, String>();
         final List<String> fileAndDirectoryNames;
-        if ( dir.isDirectory() )
+        if ( recursive && dir.isDirectory() )
         {
-            // Seems like we're always recursive. Need to check that out wrt non-recusive use cases.
             fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames( dir, null, null, true, true, true, true );
         }
         else
@@ -331,8 +330,7 @@ public final class PlexusIoResourceAttributeUtils
             fileAndDirectoryNames = Collections.singletonList( dir.getAbsolutePath() );
         }
 
-        final Map<String, PlexusIoResourceAttributes> attributesByPath =
-            new LinkedHashMap<String, PlexusIoResourceAttributes>();
+        final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
         for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {

@@ -51,7 +51,11 @@ public interface PlexusIoResourceAttributes
     String getUserName();
     
     String getGroupName();
-    
+
+    /*
+     * Octal mode attributes. Should be value -1 if unsupported by file system.
+     * Some sunny day this could be converted to an Integer object instead.
+     */
     int getOctalMode();
     
     String getOctalModeString();
