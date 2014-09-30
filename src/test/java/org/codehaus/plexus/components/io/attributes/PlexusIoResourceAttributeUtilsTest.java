@@ -393,12 +393,14 @@ public class PlexusIoResourceAttributeUtilsTest
         PlexusIoResourceAttributes attrs = getFileAttributes( new File( "src/test/resources/symlinks/src/fileW.txt" ) );
         assertFalse( attrs.isSymbolicLink() );
         assertTrue( StringUtils.isNotEmpty( attrs.getUserName()));
-        assertTrue( StringUtils.isNotEmpty( attrs.getGroupName()));
-        assertNotNull(  attrs.getGroupId() );
-        assertNotNull(  attrs.getUserId() );
-
-
+        if (! Os.isFamily(Os.FAMILY_WINDOWS))
+        {
+            assertTrue( StringUtils.isNotEmpty( attrs.getGroupName()));
+            assertNotNull(  attrs.getGroupId() );
+            assertNotNull(  attrs.getUserId() );
+        }
     }
+
     public void testMergeAttributesDefault()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();

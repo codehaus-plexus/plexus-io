@@ -219,15 +219,15 @@ public final class PlexusIoResourceAttributeUtils
                                                                                    boolean includeNumericUserId )
         throws IOException
     {
+        if ( Java7Reflector.isAtLeastJava7() )
+        {
+            return getFileAttributesByPathJava7( dir, recursive );
+        }
+
         if ( !enabledOnCurrentOperatingSystem() )
         {
             //noinspection unchecked
             return Collections.emptyMap();
-        }
-
-        if ( Java7Reflector.isAtLeastJava7() )
-        {
-            return getFileAttributesByPathJava7( dir, recursive );
         }
 
         if ( logger == null )
