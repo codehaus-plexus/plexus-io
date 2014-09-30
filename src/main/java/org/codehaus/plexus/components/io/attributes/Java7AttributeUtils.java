@@ -113,15 +113,20 @@ public class Java7AttributeUtils
     public static BasicFileAttributes getFileAttributes( File file )
         throws IOException
     {
-        try
+        final Path path = file.toPath();
+        if (path.getFileSystem().supportedFileAttributeViews().contains( "posix" ))
         {
-            return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+
+            try
+            {
+                return Files.readAttributes( path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+            }
+            catch ( UnsupportedOperationException ignore )
+            {
+                // Maybe ignoring is dramatic. Maybe not. But we do get the basic attrs anyqway
+            }
         }
-        catch ( UnsupportedOperationException e )
-        {
-            // Ok, this could probably be smarter. Query file system maybe ?
-            return Files.readAttributes( file.toPath(), BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
-        }
+        return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
     public static FileOwnerAttributeView getFileOwnershipInfo( File file )
