@@ -20,6 +20,7 @@ import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserI
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -39,6 +40,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import junit.framework.TestCase;
+
+import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
 
 public class PlexusIoResourceAttributeUtilsTest
     extends TestCase
@@ -384,6 +387,18 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( 0111, attributes.getOctalMode() );
     }
 
+    public void testFileAttributes()
+        throws IOException
+    {
+        PlexusIoResourceAttributes attrs = getFileAttributes( new File( "src/test/resources/symlinks/src/fileW.txt" ) );
+        assertFalse( attrs.isSymbolicLink() );
+        assertTrue( StringUtils.isNotEmpty( attrs.getUserName()));
+        assertTrue( StringUtils.isNotEmpty( attrs.getGroupName()));
+        assertNotNull(  attrs.getGroupId() );
+        assertNotNull(  attrs.getUserId() );
+
+
+    }
     public void testMergeAttributesDefault()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
