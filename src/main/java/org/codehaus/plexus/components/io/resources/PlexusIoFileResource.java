@@ -61,7 +61,7 @@ public class PlexusIoFileResource
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
-        if (attrs == null) throw new IllegalArgumentException( "attrs is null" );
+        if (attrs == null) throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
         this.attributes = attrs;
     }
 

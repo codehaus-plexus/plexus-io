@@ -16,11 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
-import org.codehaus.plexus.components.io.attributes.Java7Reflector;
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
+import org.codehaus.plexus.components.io.attributes.*;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.DirectoryScanner;
 
@@ -129,6 +125,10 @@ public class PlexusIoFileResourceCollection
             if ( attrs == null )
             {
                 attrs = attributesByPath.get( f.getAbsolutePath() );
+            }
+            if ( attrs == null )
+            {
+                attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
             }
 
             if ( f.isDirectory() )
