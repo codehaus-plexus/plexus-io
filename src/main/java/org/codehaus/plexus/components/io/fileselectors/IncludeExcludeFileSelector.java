@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.MatchPatterns;
 import org.codehaus.plexus.util.SelectorUtils;
 
 
@@ -27,15 +28,16 @@ import org.codehaus.plexus.util.SelectorUtils;
  * This file selector uses a set of patterns for including/excluding
  * files.
  */
-public class IncludeExcludeFileSelector implements FileSelector
+public class
+    IncludeExcludeFileSelector implements FileSelector
 {
     /**
      * The include/exclude file selectors role-hint: "standard".
      */
     public static final String ROLE_HINT = "standard";
 
-    private static final String[] ALL_INCLUDES = new String[]{ getCanonicalName( "**/*" ) };
-    private static final String[] ZERO_EXCLUDES = new String[0];
+    private static final MatchPatterns ALL_INCLUDES = MatchPatterns.from( getCanonicalName( "**/*" ));
+    private static final MatchPatterns ZERO_EXCLUDES = MatchPatterns.from( );
 
     private boolean isCaseSensitive = true;
 
@@ -45,9 +47,9 @@ public class IncludeExcludeFileSelector implements FileSelector
 
     private String[] excludes;
 
-    private String[] computedIncludes = ALL_INCLUDES;
+    private MatchPatterns computedIncludes = ALL_INCLUDES;
 
-    private String[] computedExcludes = ZERO_EXCLUDES;
+    private MatchPatterns computedExcludes = ZERO_EXCLUDES;
 
     /**
      * Tests whether or not a name matches against at least one exclude
@@ -59,12 +61,7 @@ public class IncludeExcludeFileSelector implements FileSelector
      */
     protected boolean isExcluded( String name )
     {
-        for (String computedExclude : computedExcludes) {
-            if (matchPath(computedExclude, name, isCaseSensitive)) {
-                return true;
-            }
-        }
-        return false;
+        return computedExcludes.matches( name, isCaseSensitive );
     }
 
     /**
@@ -89,12 +86,13 @@ public class IncludeExcludeFileSelector implements FileSelector
         }
         else
         {
-            computedIncludes = new String[includes.length];
+            String [] cleaned;
+            cleaned = new String[includes.length];
             for ( int i = 0; i < includes.length; i++ )
             {
-                String pattern = asPattern( includes[i] );
-                computedIncludes[i] = pattern;
+                cleaned[i] = asPattern( includes[i] );
             }
+            computedIncludes = MatchPatterns.from( cleaned );
         }
     }
 
@@ -142,22 +140,25 @@ public class IncludeExcludeFileSelector implements FileSelector
     public void setExcludes( String[] excludes )
     {
         this.excludes = excludes;
-        final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : ZERO_EXCLUDES;
+        final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String []{};
         if ( excludes == null )
         {
-            computedExcludes = defaultExcludes;
+            computedExcludes = MatchPatterns.from( defaultExcludes);
         }
         else
         {
-            computedExcludes = new String[excludes.length + defaultExcludes.length];
+            String[] temp = new String[excludes.length + defaultExcludes.length];
             for ( int i = 0; i < excludes.length; i++ )
             {
-                computedExcludes[i] = asPattern( excludes[i] );
+                temp[i] = asPattern( excludes[i] );
             }
+
             if ( defaultExcludes.length > 0 )
             {
-                System.arraycopy( defaultExcludes, 0, computedExcludes, excludes.length, defaultExcludes.length );
+                System.arraycopy( defaultExcludes, 0, temp, excludes.length, defaultExcludes.length );
             }
+            computedExcludes = MatchPatterns.from(  temp );
+
         }
     }
 
@@ -197,12 +198,7 @@ public class IncludeExcludeFileSelector implements FileSelector
      */
     protected boolean isIncluded( String name )
     {
-        for (String computedInclude : computedIncludes) {
-            if (matchPath(computedInclude, name, isCaseSensitive)) {
-                return true;
-            }
-        }
-        return false;
+        return computedIncludes.matches( name, isCaseSensitive );
     }
 
     public boolean isSelected( FileInfo fileInfo ) throws IOException
