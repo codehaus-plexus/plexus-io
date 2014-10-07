@@ -23,8 +23,10 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileOwnerAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /*
  * File attributes for a java7 file that are backed on disk by a file.
@@ -47,6 +49,8 @@ public class Java7FileAttributes
 
     private final BasicFileAttributes basicFileAttributes;
 
+    private final Set<PosixFilePermission> permissions;
+
     public Java7FileAttributes( File file, Map<Integer, String> userCache,
                                 Map<Integer, String> groupCache )
         throws IOException
@@ -56,6 +60,7 @@ public class Java7FileAttributes
 
         if ( basicFileAttributes instanceof PosixFileAttributes )
         {
+            this.permissions = ( (PosixFileAttributes) basicFileAttributes ).permissions();
             groupId = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
 
             String groupName = groupCache.get( groupId );
@@ -87,6 +92,7 @@ public class Java7FileAttributes
             this.groupName = null;
             this.groupId = null;
             octalMode = -1;
+            permissions = Collections.emptySet();
         }
 
         symbolicLink = this.basicFileAttributes.isSymbolicLink();
@@ -137,8 +143,7 @@ public class Java7FileAttributes
 
     private boolean containsPermission( PosixFilePermission groupExecute )
     {
-        return basicFileAttributes instanceof PosixFileAttributes
-            && ( (PosixFileAttributes) basicFileAttributes ).permissions().contains( groupExecute );
+        return permissions.contains( groupExecute );
     }
 
     public boolean isGroupReadable()
