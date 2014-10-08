@@ -285,7 +285,7 @@ public final class PlexusIoResourceAttributeUtils
             if ( result != 0 )
             {
                 throw new IOException(
-                    "Failed to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+                    "Failed (3) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
             }
         }
 
@@ -360,13 +360,13 @@ public final class PlexusIoResourceAttributeUtils
             if ( result != 0 )
             {
                 throw new IOException(
-                    "Failed to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+                    "Failed (1) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
             }
         }
         catch ( CommandLineException e )
         {
             IOException error =
-                new IOException( "Failed to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+                new IOException( "Failed (2) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
             error.initCause( e );
 
             throw error;
