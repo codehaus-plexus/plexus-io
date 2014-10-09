@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
@@ -51,10 +52,12 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         {
             throw new IOException( "The zip file has not been set." );
         }
+        final URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { f.toURI().toURL() });
+
         final URL url = new URL( "jar:" + f.toURI().toURL() + "!/");
         final ZipFile zipFile = new ZipFile( f );
         final Enumeration en = zipFile.entries();
-        return new ZipFileResourceIterator( en, url, zipFile );
+        return new ZipFileResourceIterator( en, url, zipFile, urlClassLoader );
     }
 
     private static class ZipFileResourceIterator
@@ -66,11 +69,14 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
 
         private final ZipFile zipFile;
 
-        public ZipFileResourceIterator( Enumeration en, URL url, ZipFile zipFile )
+        private final URLClassLoader urlClassLoader;
+
+        public ZipFileResourceIterator( Enumeration en, URL url, ZipFile zipFile, URLClassLoader urlClassLoader )
         {
             this.en = en;
             this.url = url;
             this.zipFile = zipFile;
+            this.urlClassLoader = urlClassLoader;
         }
 
         public boolean hasNext()
@@ -86,9 +92,23 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
             final boolean dir = entry.isDirectory();
             final long size = dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize();
 
-            return new PlexusIoURLResource(url, entry.getName(), lastModified,size,
+            return new PlexusIoURLResource(entry.getName(), lastModified,size,
                                                                     !dir,
-                                                                    dir, true );
+                                                                    dir, true ){
+                public URL getURL() throws IOException
+                {
+                    String spec = getName();
+                    if (spec.startsWith( "/" )){
+                        // Code path for PLXCOMP-170. Note that urlClassloader does not seem to produce correct
+                        // urls for this. Which again means files loaded via this path cannot have file names
+                        // requiring url encoding
+                        spec = "./" + spec;
+                        return new URL( url, spec );
+                    }
+
+                    return urlClassLoader.getResource(spec);
+                }
+            };
         }
 
         public void remove()

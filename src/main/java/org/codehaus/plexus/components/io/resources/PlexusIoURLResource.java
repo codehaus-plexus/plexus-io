@@ -20,16 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class PlexusIoURLResource
+public abstract class PlexusIoURLResource
     extends AbstractPlexusIoResource
 {
-    private URL base;
-
-    protected PlexusIoURLResource( URL base, String name, long lastModified, long size, boolean isFile,
-                                   boolean isDirectory, boolean isExisting )
+    protected PlexusIoURLResource( String name, long lastModified, long size, boolean isFile, boolean isDirectory,
+                                   boolean isExisting )
     {
         super( name, lastModified, size, isFile, isDirectory, isExisting );
-        this.base = base;
     }
 
     public InputStream getContents()
@@ -51,15 +48,5 @@ public class PlexusIoURLResource
         return url != null ? url.toExternalForm() : "url=null";
     }
 
-    public URL getURL()
-        throws IOException
-    {
-        String spec = getName();
-        if ( spec.startsWith( "/" ) )
-        {
-            spec = "./" + spec;
-        }
-        return new URL( base, spec );
-    }
-
+    public abstract URL getURL() throws IOException;
 }
