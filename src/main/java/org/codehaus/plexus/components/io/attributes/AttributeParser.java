@@ -16,6 +16,9 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -24,10 +27,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-
-import org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
 * @author Kristian Rosenvold
@@ -38,13 +37,12 @@ abstract class AttributeParser
     protected static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+" );
     protected static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6, 7, 7 };
 
-    protected final StreamConsumer delegate;
 
     protected final Map<String, PlexusIoResourceAttributes>
         attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
 
-    private final Logger logger;
+    private final StreamConsumer logger;
 
     private boolean nextIsPathPrefix = false;
 
@@ -52,9 +50,8 @@ abstract class AttributeParser
 
     private final SimpleDateFormat[] LS_DATE_FORMATS;
 
-    public AttributeParser( StreamConsumer delegate, Logger logger )
+    public AttributeParser( StreamConsumer logger )
     {
-        this.delegate = delegate;
         this.logger = logger;
         LS_DATE_FORMATS =
             new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
@@ -67,78 +64,51 @@ abstract class AttributeParser
 
     public void consumeLine( String line )
     {
-        if ( PlexusIoResourceAttributeUtils.totalLinePattern.matcher( line ).matches() )
+        if ( !PlexusIoResourceAttributeUtils.totalLinePattern.matcher( line ).matches() )
         {
-            // skip it.
-        }
-        else if ( line.trim().length() == 0 )
-        {
-            nextIsPathPrefix = true;
-
-            if ( logger.isDebugEnabled() )
+            if ( line.trim().length() == 0 )
             {
-                logger.debug( "Anticipating path prefix in next line" );
+                nextIsPathPrefix = true;
             }
-        }
-        else if ( nextIsPathPrefix )
-        {
-            if ( !line.endsWith( ":" ) )
+            else if ( nextIsPathPrefix )
             {
-                if ( logger.isDebugEnabled() )
+                if ( line.endsWith( ":" ) )
                 {
-                    logger.debug( "Path prefix not found. Checking next line." );
+                    nextIsPathPrefix = false;
+                    pathPrefix = line.substring( 0, line.length() - 1 );
+
+                    if ( !pathPrefix.endsWith( "/" ) )
+                    {
+                        pathPrefix += "/";
+                    }
                 }
             }
             else
             {
-                nextIsPathPrefix = false;
-                pathPrefix = line.substring( 0, line.length() - 1 );
+                String[] parts = LINE_SPLITTER.split( line );
+                int lastDatePart = verifyParsability( line, parts, logger );
 
-                if ( !pathPrefix.endsWith( "/" ) )
+                if ( lastDatePart > 0 )
                 {
-                    pathPrefix += "/";
-                }
+                    int idx = line.indexOf( parts[lastDatePart] ) + parts[lastDatePart].length() + 1;
 
-                if ( logger.isDebugEnabled() )
-                {
-                    logger.debug( "Set path prefix to: " + pathPrefix );
-                }
-            }
-        }
-        else
-        {
-            String[] parts = LINE_SPLITTER.split( line );
-            int lastDatePart = verifyParsability( line, parts, logger );
+                    String path = pathPrefix + line.substring( idx );
+                    while ( path.length() > 0 && Character.isWhitespace( path.charAt( 0 ) ) )
+                    {
+                        path = path.substring( 1 );
+                    }
 
-            if ( lastDatePart > 0 )
-            {
-                int idx = line.indexOf( parts[lastDatePart] ) + parts[lastDatePart].length() + 1;
-
-                String path = pathPrefix + line.substring( idx );
-                while ( path.length() > 0 && Character.isWhitespace( path.charAt( 0 ) ) )
-                {
-                    path = path.substring( 1 );
-                }
-
-                if ( logger.isDebugEnabled() )
-                {
-                    logger.debug( "path: '" + path + "'" );
-                    logger.debug( "mode: '" + parts[0] + "'" );
-                    logger.debug( "uid: '" + parts[2] );
-                    logger.debug( "gid: '" + parts[3] );
-                }
-
-                FileAttributes attributes;
-                synchronized ( attributesByPath )
-                {
-                    attributes = new FileAttributes(parts[0]);
-                    attributesByPath.put( path, attributes );
-                    processAttributes( attributes, parts);
+                    FileAttributes attributes;
+                    synchronized ( attributesByPath )
+                    {
+                        attributes = new FileAttributes(parts[0]);
+                        attributesByPath.put( path, attributes );
+                        processAttributes( attributes, parts);
+                    }
                 }
             }
         }
-
-        delegate.consumeLine( line );
+        logger.consumeLine( line );
     }
 
     protected abstract void processAttributes( FileAttributes attributes, String[] parts );
@@ -148,7 +118,7 @@ abstract class AttributeParser
         return attributesByPath;
     }
 
-    private int verifyParsability( String line, String[] parts, Logger logger )
+    private int verifyParsability( String line, String[] parts, StreamConsumer logger )
     {
         if ( parts.length > 7 )
         {
@@ -162,30 +132,23 @@ abstract class AttributeParser
                 }
                 catch ( ParseException e )
                 {
-                    if ( logger.isDebugEnabled() )
-                    {
-                        logger.debug( "Failed to parse date: '" + dateCandidate + "' using format: "
-                                          + LS_DATE_FORMATS[i].toPattern(), e );
-                    }
+                        logger.consumeLine( "Failed to parse date: '" + dateCandidate + "' using format: "
+                                                + LS_DATE_FORMATS[i].toPattern() + e.getMessage() );
                 }
             }
         }
 
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "Unparseable line: '" + line
-                              + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
-        }
-
+            logger.consumeLine( "Unparseable line: '" + line
+                                    + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
         return -1;
     }
 
     static class NumericUserIDAttributeParser
         extends AttributeParser
     {
-        NumericUserIDAttributeParser( StreamConsumer delegate, Logger logger )
+        NumericUserIDAttributeParser( StreamConsumer logger )
         {
-            super( delegate, logger );
+            super( logger );
         }
 
         @Override
@@ -200,9 +163,9 @@ abstract class AttributeParser
     static class SymbolicUserIDAttributeParser
         extends AttributeParser
     {
-        SymbolicUserIDAttributeParser( StreamConsumer delegate, Logger logger )
+        SymbolicUserIDAttributeParser( StreamConsumer logger )
         {
-            super( delegate, logger );
+            super( logger );
         }
 
         @Override

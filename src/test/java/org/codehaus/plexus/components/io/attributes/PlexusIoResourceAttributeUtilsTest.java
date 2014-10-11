@@ -17,8 +17,6 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -87,8 +85,7 @@ public class PlexusIoResourceAttributeUtilsTest
         File f = new File( resource.getPath().replaceAll( "%20", " " ) );
 
         Map attrs =
-            PlexusIoResourceAttributeUtils.getFileAttributesByPath( f, new ConsoleLogger( Logger.LEVEL_INFO, "test" ),
-                                                                    Logger.LEVEL_DEBUG );
+            PlexusIoResourceAttributeUtils.getFileAttributesByPath( f, true, true );
 
         PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
 
@@ -122,9 +119,7 @@ public class PlexusIoResourceAttributeUtilsTest
         commandLine.addArguments(new String[]{"763", f.getAbsolutePath()});
 
         CommandLineUtils.executeCommandLine(commandLine, null , null);
-        Map attrs =
-            PlexusIoResourceAttributeUtils.getFileAttributesByPath( aDir, new ConsoleLogger( Logger.LEVEL_INFO, "test" ),
-                                                                    Logger.LEVEL_DEBUG );
+        Map attrs = PlexusIoResourceAttributeUtils.getFileAttributesByPath( aDir, true, true );
 
         PlexusIoResourceAttributes fileAttrs = (PlexusIoResourceAttributes) attrs.get( f.getAbsolutePath() );
 
@@ -181,7 +176,18 @@ public class PlexusIoResourceAttributeUtilsTest
         AttributeParser parser = getNumericParser();
         parse( byteArrayInputStream, parser );
 }
-    
+
+    public void testPermissionDenied()
+    {
+        File dir = new File("src/test/lsPerms");
+        try {
+            PlexusIoResourceAttributeUtils.getFileAttributesByPathScreenScrape( dir, true,
+                                                                                true );
+            // We could search for permission denied here and throw some kind of specialized exception.
+            fail("We were supposed to get an io exceptions");
+        } catch (IOException ignore){}
+    }
+
     public void testReversedMonthDayOrder()
         throws Exception
     {
@@ -487,16 +493,23 @@ public class PlexusIoResourceAttributeUtilsTest
 
     private AttributeParser.NumericUserIDAttributeParser getNumericParser()
     {
-        BufferingStreamConsumer target = new BufferingStreamConsumer();
-        Logger logger = new ConsoleLogger( 1, "UnitTest" );
-        return new AttributeParser.NumericUserIDAttributeParser( target, logger );
+        return new AttributeParser.NumericUserIDAttributeParser( createConsoleLogger() );
     }
 
     private AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser()
     {
-        BufferingStreamConsumer target = new BufferingStreamConsumer();
-        Logger logger = new ConsoleLogger( 1, "UnitTest" );
-        return new AttributeParser.SymbolicUserIDAttributeParser( target, logger );
+        return new AttributeParser.SymbolicUserIDAttributeParser( createConsoleLogger() );
+    }
+
+    private StreamConsumer createConsoleLogger()
+    {
+        return new StreamConsumer()
+        {
+            public void consumeLine( String line )
+            {
+                System.out.println(line);
+            }
+        };
     }
 
     private void parse( InputStream stream, AttributeParser parser )
@@ -521,34 +534,4 @@ public class PlexusIoResourceAttributeUtilsTest
             throw e;
         }
     }
-
-    static final class BufferingStreamConsumer
-        implements StreamConsumer
-    {
-
-        final List<String> lines = new Vector<String>(); // Thread safe
-
-        public void consumeLine( String line )
-        {
-            lines.add( line );
-        }
-
-        public Iterator iterator()
-        {
-            return lines.iterator();
-        }
-
-        public String toString()
-        {
-            StringBuilder resp = new StringBuilder();
-            Iterator iterator = iterator();
-            while ( iterator.hasNext() )
-            {
-                resp.append( iterator.next() );
-                resp.append( "\n" );
-            }
-            return "BufferingStreamConsumer{" + resp.toString() + "}";
-        }
-    }
-
 }

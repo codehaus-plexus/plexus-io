@@ -17,10 +17,13 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.cli.*;
+import org.codehaus.plexus.util.cli.CommandLineCallable;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +43,7 @@ public final class PlexusIoResourceAttributeUtils
     private PlexusIoResourceAttributeUtils()
     {
     }
+
 
     public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override,
                                                               PlexusIoResourceAttributes base,
@@ -65,7 +69,7 @@ public final class PlexusIoResourceAttributeUtils
             result.setGroupId( override.getGroupId() );
         }
 
-        if ( def != null && def.getGroupId() >= 0 && (result.getGroupId() == null || result.getGroupId() < 0) )
+        if ( def != null && def.getGroupId() >= 0 && ( result.getGroupId() == null || result.getGroupId() < 0 ) )
         {
             result.setGroupId( def.getGroupId() );
         }
@@ -167,9 +171,10 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
-        Map<String, PlexusIoResourceAttributes>  byPath = getFileAttributesByPath( file, null, Logger.LEVEL_DEBUG, false, true );
+        Map<String, PlexusIoResourceAttributes> byPath = getFileAttributesByPath( file, false, true );
         final PlexusIoResourceAttributes o = byPath.get( file.getAbsolutePath() );
-        if (o == null ){
+        if ( o == null )
+        {
             // We're on a crappy old java version (5) or the OS from hell. Just "fail".
             return SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
 
@@ -178,44 +183,35 @@ public final class PlexusIoResourceAttributeUtils
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )
-    public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger )
+    static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, logger, Logger.LEVEL_DEBUG, false, true );
+        Map byPath = getFileAttributesByPath( file, false, true );
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )
-    public static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger, int logLevel )
+    static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger, int logLevel )
         throws IOException
     {
-        Map byPath = getFileAttributesByPath( file, logger, logLevel, false, true );
+        Map byPath = getFileAttributesByPath( file, false, true );
         return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
     }
 
     public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir )
         throws IOException
     {
-        return getFileAttributesByPath( dir, null, Logger.LEVEL_DEBUG, true, true );
+        return getFileAttributesByPath( dir, true, true );
     }
 
     @SuppressWarnings( { "UnusedDeclaration" } )
     public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger )
         throws IOException
     {
-        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
+        return getFileAttributesByPath( dir, true, true );
     }
 
-    @SuppressWarnings( "UnusedParameters" )
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger,
-                                                                                   int logLevel )
-        throws IOException
-    {
-        return getFileAttributesByPath( dir, logger, Logger.LEVEL_DEBUG, true, true );
-    }
-
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger,
-                                                                                   int logLevel, boolean recursive,
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, boolean recursive,
                                                                                    boolean includeNumericUserId )
         throws IOException
     {
@@ -230,18 +226,22 @@ public final class PlexusIoResourceAttributeUtils
             return Collections.emptyMap();
         }
 
-        if ( logger == null )
-        {
-            logger = new ConsoleLogger( Logger.LEVEL_INFO, "Internal" );
-        }
-        LoggerStreamConsumer loggerConsumer = new LoggerStreamConsumer( logger, logLevel );
+        return getFileAttributesByPathScreenScrape( dir, recursive, includeNumericUserId );
+    }
+
+    static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathScreenScrape( File dir, boolean recursive,
+                                                                                        boolean includeNumericUserId )
+        throws IOException
+    {
+        StringBuilder loggerCache = new StringBuilder();
+        StreamConsumer logger = createStringBuilderStreamConsumer( loggerCache );
 
         AttributeParser.NumericUserIDAttributeParser numericIdParser = null;
         FutureTask<Integer> integerFutureTask = null;
-        Commandline numericCli = null;
+        Commandline numericCli;
         if ( includeNumericUserId )
         {
-            numericIdParser = new AttributeParser.NumericUserIDAttributeParser( loggerConsumer, logger );
+            numericIdParser = new AttributeParser.NumericUserIDAttributeParser( logger );
 
             String lsOptions1 = "-1nla" + ( recursive ? "R" : "d" );
             try
@@ -249,22 +249,21 @@ public final class PlexusIoResourceAttributeUtils
                 numericCli = setupCommandLine( dir, lsOptions1, logger );
 
                 CommandLineCallable commandLineCallable =
-                    CommandLineUtils.executeCommandLineAsCallable( numericCli, null, numericIdParser, loggerConsumer,
-                                                                   0 );
+                    CommandLineUtils.executeCommandLineAsCallable( numericCli, null, numericIdParser, logger, 0 );
 
                 integerFutureTask = new FutureTask<Integer>( commandLineCallable );
                 new Thread( integerFutureTask ).start();
             }
             catch ( CommandLineException e )
             {
-                IOException error = new IOException( "Failed to quote directory: '" + dir + "'" );
+                IOException error =
+                    new IOException( "Failed to quote directory: '" + dir + "'\n" + logger.toString() );
                 error.initCause( e );
                 throw error;
             }
         }
 
-        AttributeParser.SymbolicUserIDAttributeParser userId =
-            getNameBasedParser( dir, logger, recursive, loggerConsumer );
+        AttributeParser.SymbolicUserIDAttributeParser userId = getNameBasedParser( dir, logger, recursive );
 
         if ( includeNumericUserId )
         {
@@ -285,29 +284,29 @@ public final class PlexusIoResourceAttributeUtils
             if ( result != 0 )
             {
                 throw new IOException(
-                    "Failed (3) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+                    "Failed (3) to retrieve numeric file attributes using:\n"
+                        + logger.toString() );
             }
         }
 
         return userId.merge( numericIdParser );
     }
 
-    private static AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser( File dir, Logger logger,
-                                                                                     boolean recursive,
-                                                                                     LoggerStreamConsumer loggerConsumer )
+    private static AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser( File dir, StreamConsumer logger,
+                                                                                     boolean recursive )
         throws IOException
     {
         AttributeParser.SymbolicUserIDAttributeParser userId =
-            new AttributeParser.SymbolicUserIDAttributeParser( loggerConsumer, logger );
+            new AttributeParser.SymbolicUserIDAttributeParser( logger );
 
         String lsOptions2 = "-1la" + ( recursive ? "R" : "d" );
         try
         {
-            executeLs( dir, lsOptions2, loggerConsumer, userId, logger );
+            executeLs( dir, lsOptions2, userId, logger );
         }
         catch ( CommandLineException e )
         {
-            IOException error = new IOException( "Failed to quote directory: '" + dir + "'" );
+            IOException error = new IOException( "Failed to quote directory: '" + dir + "'\n" + logger.toString() );
             error.initCause( e );
 
             throw error;
@@ -330,12 +329,13 @@ public final class PlexusIoResourceAttributeUtils
             fileAndDirectoryNames = Collections.singletonList( dir.getAbsolutePath() );
         }
 
-        final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
+        final Map<String, PlexusIoResourceAttributes> attributesByPath =
+            new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
         for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {
-            attributesByPath.put(
-                fileAndDirectoryName, new Java7FileAttributes( new File( fileAndDirectoryName ), userCache, groupCache ) );
+            attributesByPath.put( fileAndDirectoryName,
+                                  new Java7FileAttributes( new File( fileAndDirectoryName ), userCache, groupCache ) );
         }
         return attributesByPath;
     }
@@ -347,33 +347,32 @@ public final class PlexusIoResourceAttributeUtils
     }
 
 
-    private static void executeLs( File dir, String options, LoggerStreamConsumer loggerConsumer, StreamConsumer parser,
-                                   Logger logger )
+    private static void executeLs( File dir, String options, StreamConsumer parser, StreamConsumer logger )
         throws IOException, CommandLineException
     {
         Commandline numericCli = setupCommandLine( dir, options, logger );
 
         try
         {
-            int result = CommandLineUtils.executeCommandLine( numericCli, parser, loggerConsumer );
+            int result = CommandLineUtils.executeCommandLine( numericCli, parser, logger );
 
             if ( result != 0 )
             {
                 throw new IOException(
-                    "Failed (1) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+                    "Failed (1) to screen scrape numeric file attributes:\n" + logger.toString() );
             }
         }
         catch ( CommandLineException e )
         {
-            IOException error =
-                new IOException( "Failed (2) to retrieve numeric file attributes using: '" + numericCli.toString() + "'" );
+            IOException error = new IOException(
+                "Failed (2) to retrieve numeric file attributes using:\n" + logger.toString());
             error.initCause( e );
 
             throw error;
         }
     }
 
-    private static Commandline setupCommandLine( File dir, String options, Logger logger )
+    private static Commandline setupCommandLine( File dir, String options, StreamConsumer logger )
     {
         Commandline numericCli = new Commandline();
 
@@ -386,48 +385,25 @@ public final class PlexusIoResourceAttributeUtils
 
         numericCli.createArg().setValue( dir.getAbsolutePath() );
 
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "Executing:\n\n" + numericCli.toString() + "\n" );
-        }
+        logger.consumeLine( "\nExecuting: " + numericCli.toString() + "\n" );
         return numericCli;
     }
 
 
-    private static final class LoggerStreamConsumer
-        implements StreamConsumer
+    private static StreamConsumer createStringBuilderStreamConsumer( final StringBuilder sb )
     {
-        private final Logger logger;
-
-        private final int level;
-
-        public LoggerStreamConsumer( Logger logger, int level )
+        return new StreamConsumer()
         {
-            this.logger = logger;
-            this.level = level;
-        }
-
-        public void consumeLine( String line )
-        {
-            switch ( level )
+            public void consumeLine( String line )
             {
-                case Logger.LEVEL_DEBUG:
-                    logger.debug( line );
-                    break;
-                case Logger.LEVEL_ERROR:
-                    logger.error( line );
-                    break;
-                case Logger.LEVEL_FATAL:
-                    logger.fatalError( line );
-                    break;
-                case Logger.LEVEL_WARN:
-                    logger.warn( line );
-                    break;
-                default:
-                    logger.info( line );
-                    break;
+                sb.append( line ).append( "\n" );
             }
-        }
+
+            public String toString()
+            {
+                return sb.toString();
+            }
+        };
     }
 
     static final Pattern totalLinePattern = Pattern.compile( "\\w*\\s\\d*" );

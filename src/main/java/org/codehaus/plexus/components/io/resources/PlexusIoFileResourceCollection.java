@@ -223,7 +223,7 @@ public class PlexusIoFileResourceCollection
         else
         {
             Map<String, PlexusIoResourceAttributes> attributesByPath =
-                PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
+                PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir(), getLogger() );
 
             final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
             if ( isIncludingEmptyDirectories() )
