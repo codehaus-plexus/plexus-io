@@ -239,6 +239,7 @@ public final class PlexusIoResourceAttributeUtils
             }
         }
 
+        loggerCache.setLength( 0 );
         AttributeParser.SymbolicUserIDAttributeParser userId = getNameBasedParser( dir, logger, recursive );
 
         if ( includeNumericUserId )
