@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineCallable;
@@ -182,30 +181,7 @@ public final class PlexusIoResourceAttributeUtils
         return o;
     }
 
-    @SuppressWarnings( { "UnusedDeclaration" } )
-    static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger )
-        throws IOException
-    {
-        Map byPath = getFileAttributesByPath( file, false, true );
-        return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
-    }
-
-    @SuppressWarnings( { "UnusedDeclaration" } )
-    static PlexusIoResourceAttributes getFileAttributes( File file, Logger logger, int logLevel )
-        throws IOException
-    {
-        Map byPath = getFileAttributesByPath( file, false, true );
-        return (PlexusIoResourceAttributes) byPath.get( file.getAbsolutePath() );
-    }
-
     public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir )
-        throws IOException
-    {
-        return getFileAttributesByPath( dir, true, true );
-    }
-
-    @SuppressWarnings( { "UnusedDeclaration" } )
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( File dir, Logger logger )
         throws IOException
     {
         return getFileAttributesByPath( dir, true, true );

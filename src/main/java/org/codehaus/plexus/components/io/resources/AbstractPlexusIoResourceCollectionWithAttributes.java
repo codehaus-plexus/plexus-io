@@ -17,7 +17,6 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.logging.Logger;
 
 /**
  * Default implementation of a resource collection with attributes.
@@ -36,11 +35,6 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
 
     protected AbstractPlexusIoResourceCollectionWithAttributes()
     {
-    }
-
-    protected AbstractPlexusIoResourceCollectionWithAttributes( final Logger logger )
-    {
-        super( logger );
     }
 
     protected PlexusIoResourceAttributes getDefaultFileAttributes()

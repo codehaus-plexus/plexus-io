@@ -16,8 +16,11 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.attributes.*;
-import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
+import org.codehaus.plexus.components.io.attributes.Java7Reflector;
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.util.DirectoryScanner;
 
 import java.io.File;
@@ -46,11 +49,6 @@ public class PlexusIoFileResourceCollection
 
     public PlexusIoFileResourceCollection()
     {
-    }
-
-    public PlexusIoFileResourceCollection( Logger logger )
-    {
-        super( logger );
     }
 
     /**
@@ -223,7 +221,7 @@ public class PlexusIoFileResourceCollection
         else
         {
             Map<String, PlexusIoResourceAttributes> attributesByPath =
-                PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir(), getLogger() );
+                PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
 
             final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
             if ( isIncludingEmptyDirectories() )
