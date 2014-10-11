@@ -24,22 +24,24 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
-* @author Kristian Rosenvold
-*/
+ * @author Kristian Rosenvold
+ */
 abstract class AttributeParser
     implements StreamConsumer
 {
     protected static final Pattern LINE_SPLITTER = Pattern.compile( "\\s+" );
-    protected static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 6, 7, 7 };
+
+    protected static final int[] LS_LAST_DATE_PART_INDICES = { 7, 7, 7, 7, 6, 7, 7, 7, 7 };
 
 
-    protected final Map<String, PlexusIoResourceAttributes>
-        attributesByPath = new LinkedHashMap<String, PlexusIoResourceAttributes>();
+    protected final Map<String, PlexusIoResourceAttributes> attributesByPath =
+        new LinkedHashMap<String, PlexusIoResourceAttributes>();
 
 
     private final StreamConsumer logger;
@@ -53,13 +55,12 @@ abstract class AttributeParser
     public AttributeParser( StreamConsumer logger )
     {
         this.logger = logger;
-        LS_DATE_FORMATS =
-            new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ), new SimpleDateFormat( "MMM dd HH:mm" ),
-                new SimpleDateFormat( "yyyy-MM-dd HH:mm" ),
-                // month-day order is reversed for most non-US locales on MacOSX and FreeBSD
-                new SimpleDateFormat( "dd MMM HH:mm" ),
-                new SimpleDateFormat( "dd MMM yyyy" )
-            };
+        LS_DATE_FORMATS = new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ),
+            new SimpleDateFormat( "MMM dd yyyy", Locale.ENGLISH ), new SimpleDateFormat( "MMM dd HH:mm" ),
+            new SimpleDateFormat( "MMM dd HH:mm", Locale.ENGLISH ), new SimpleDateFormat( "yyyy-MM-dd HH:mm" ),
+            // month-day order is reversed for most non-US locales on MacOSX and FreeBSD
+            new SimpleDateFormat( "dd MMM HH:mm" ), new SimpleDateFormat( "dd MMM HH:mm", Locale.ENGLISH ),
+            new SimpleDateFormat( "dd MMM yyyy" ), new SimpleDateFormat( "dd MMM yyyy", Locale.ENGLISH ) };
     }
 
     public void consumeLine( String line )
@@ -101,9 +102,9 @@ abstract class AttributeParser
                     FileAttributes attributes;
                     synchronized ( attributesByPath )
                     {
-                        attributes = new FileAttributes(parts[0]);
+                        attributes = new FileAttributes( parts[0] );
                         attributesByPath.put( path, attributes );
-                        processAttributes( attributes, parts);
+                        processAttributes( attributes, parts );
                     }
                 }
             }
@@ -132,14 +133,12 @@ abstract class AttributeParser
                 }
                 catch ( ParseException e )
                 {
-                        logger.consumeLine( "Failed to parse date: '" + dateCandidate + "' using format: "
-                                                + LS_DATE_FORMATS[i].toPattern() + e.getMessage() );
                 }
             }
         }
 
-            logger.consumeLine( "Unparseable line: '" + line
-                                    + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
+        logger.consumeLine( "Unparseable line: '" + line
+                                + "'\nReason: unrecognized date format; ambiguous start-index for path in listing." );
         return -1;
     }
 
@@ -182,12 +181,12 @@ abstract class AttributeParser
             {
                 return attributes;
             }
-            final Map<String, PlexusIoResourceAttributes> result  = new HashMap<String, PlexusIoResourceAttributes>(  );
+            final Map<String, PlexusIoResourceAttributes> result = new HashMap<String, PlexusIoResourceAttributes>();
 
             final Map<String, PlexusIoResourceAttributes> otherAttributes = otherParser.getAttributesByPath();
             PlexusIoResourceAttributes thisAttribute, otherAttribute;
 
-            Set<String> allKeys = new HashSet<String>(attributes.keySet());
+            Set<String> allKeys = new HashSet<String>( attributes.keySet() );
             allKeys.addAll( otherAttributes.keySet() );
             for ( String key : allKeys )
             {
@@ -196,11 +195,11 @@ abstract class AttributeParser
                 if ( thisAttribute == null )
                 { // Slight workaround because symbolic parsing is failure prone
                     thisAttribute = otherAttribute;
-                    result.put( key, thisAttribute);
+                    result.put( key, thisAttribute );
                 }
                 if ( thisAttribute != null && otherAttribute != null )
                 {
-                    result.put( key, new MergedAttributes( thisAttribute, otherAttribute ));
+                    result.put( key, new MergedAttributes( thisAttribute, otherAttribute ) );
                 }
             }
             return result;
@@ -214,7 +213,7 @@ abstract class AttributeParser
 
         public MergedAttributes( PlexusIoResourceAttributes thisAttr, PlexusIoResourceAttributes otherAttr )
         {
-            super(thisAttr);
+            super( thisAttr );
             this.otherAttr = otherAttr;
         }
 

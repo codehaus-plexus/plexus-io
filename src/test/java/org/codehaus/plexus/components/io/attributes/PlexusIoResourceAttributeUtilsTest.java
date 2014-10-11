@@ -167,6 +167,15 @@ public class PlexusIoResourceAttributeUtilsTest
         // Should probably test pass 2 too...
     }
 
+    public void testANotherOneWithTrouble()
+        throws Exception
+    {
+        String output = "drwxr-xr-x+ 13 kristian  staff  442 Oct 11 14:14 ..";
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
+        AttributeParser parser = getNameBasedParser();
+        parse( byteArrayInputStream, parser );
+
+    }
     public void testSingleLine()
         throws Exception
     {
@@ -185,7 +194,10 @@ public class PlexusIoResourceAttributeUtilsTest
                                                                                 true );
             // We could search for permission denied here and throw some kind of specialized exception.
             fail("We were supposed to get an io exceptions");
-        } catch (IOException ignore){}
+        } catch (IOException ignore)
+        {
+            ignore.printStackTrace();
+        }
     }
 
     public void testReversedMonthDayOrder()
@@ -224,6 +236,15 @@ public class PlexusIoResourceAttributeUtilsTest
         parse( byteArrayInputStream, parser );
     }
 
+    public void testMacOsLine()
+        throws Exception
+    {
+        String line = "drwxr-xr-x+ 3 1000  20  102 Oct 11 14:24 ..";
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( line.getBytes() );
+        AttributeParser parser = getNumericParser();
+        parse( byteArrayInputStream, parser );
+
+    }
     public void ignoredTestParserCygwin()
         throws Exception
     {

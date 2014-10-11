@@ -205,6 +205,25 @@ public final class PlexusIoResourceAttributeUtils
         return getFileAttributesByPathScreenScrape( dir, recursive, includeNumericUserId );
     }
 
+    public static void main( String[] args )
+        throws IOException
+    {
+        if ( args.length < 0 )
+        {
+            System.out.println( "You must supply one directory to scan:" );
+            return;
+        }
+        File dir = new File( args[0] );
+        final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
+            getFileAttributesByPathScreenScrape( dir, true, true );
+        for ( String s : fileAttributesByPathScreenScrape.keySet() )
+        {
+            System.out.println( s + ":" + fileAttributesByPathScreenScrape.get( s ) );
+        }
+
+
+    }
+
     static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathScreenScrape( File dir, boolean recursive,
                                                                                         boolean includeNumericUserId )
         throws IOException
@@ -220,26 +239,27 @@ public final class PlexusIoResourceAttributeUtils
             numericIdParser = new AttributeParser.NumericUserIDAttributeParser( logger );
 
             String lsOptions1 = "-1nla" + ( recursive ? "R" : "d" );
+            StreamConsumer stdErr = new ErrorMessageStreamConsumer();
             try
             {
                 numericCli = setupCommandLine( dir, lsOptions1, logger );
 
                 CommandLineCallable commandLineCallable =
-                    CommandLineUtils.executeCommandLineAsCallable( numericCli, null, numericIdParser, logger, 0 );
+                    CommandLineUtils.executeCommandLineAsCallable( numericCli, null, numericIdParser, stdErr, 0 );
 
                 integerFutureTask = new FutureTask<Integer>( commandLineCallable );
                 new Thread( integerFutureTask ).start();
             }
             catch ( CommandLineException e )
             {
-                IOException error =
-                    new IOException( "Failed to quote directory: '" + dir + "'\n" + logger.toString() );
+                IOException error = new IOException(
+                    "Failed to quote directory: '" + dir + "'\n" + stdErr.toString() + logger.toString() );
                 error.initCause( e );
                 throw error;
             }
         }
 
-        loggerCache.setLength( 0 );
+//        loggerCache.setLength( 0 );
         AttributeParser.SymbolicUserIDAttributeParser userId = getNameBasedParser( dir, logger, recursive );
 
         if ( includeNumericUserId )
@@ -260,9 +280,7 @@ public final class PlexusIoResourceAttributeUtils
 
             if ( result != 0 )
             {
-                throw new IOException(
-                    "Failed (3) to retrieve numeric file attributes using:\n"
-                        + logger.toString() );
+                throw new IOException( "Failed (3) to retrieve numeric file attributes using:\n" + logger.toString() );
             }
         }
 
@@ -276,6 +294,7 @@ public final class PlexusIoResourceAttributeUtils
         AttributeParser.SymbolicUserIDAttributeParser userId =
             new AttributeParser.SymbolicUserIDAttributeParser( logger );
 
+        StreamConsumer stdErr = new ErrorMessageStreamConsumer();
         String lsOptions2 = "-1la" + ( recursive ? "R" : "d" );
         try
         {
@@ -283,7 +302,8 @@ public final class PlexusIoResourceAttributeUtils
         }
         catch ( CommandLineException e )
         {
-            IOException error = new IOException( "Failed to quote directory: '" + dir + "'\n" + logger.toString() );
+            IOException error =
+                new IOException( "Failed to quote directory: '" + dir + "'\n" + stdErr.toString() + logger.toString() );
             error.initCause( e );
 
             throw error;
@@ -329,20 +349,22 @@ public final class PlexusIoResourceAttributeUtils
     {
         Commandline numericCli = setupCommandLine( dir, options, logger );
 
+        StreamConsumer stdErr = new ErrorMessageStreamConsumer();
         try
         {
-            int result = CommandLineUtils.executeCommandLine( numericCli, parser, logger );
+            int result = CommandLineUtils.executeCommandLine( numericCli, parser, stdErr );
 
             if ( result != 0 )
             {
-                throw new IOException(
-                    "Failed (1) to screen scrape numeric file attributes:\n" + logger.toString() );
+                throw new IOException( stdErr.toString() +
+                                           "When scraping numeric file attributes:\n" + logger.toString() );
             }
         }
         catch ( CommandLineException e )
         {
             IOException error = new IOException(
-                "Failed (2) to retrieve numeric file attributes using:\n" + logger.toString());
+                "Failed (2) to retrieve numeric file attributes using:\n" + stdErr.toString() + "\n"
+                    + logger.toString() );
             error.initCause( e );
 
             throw error;
@@ -366,6 +388,27 @@ public final class PlexusIoResourceAttributeUtils
         return numericCli;
     }
 
+    static class ErrorMessageStreamConsumer
+        implements StreamConsumer
+    {
+
+        StringBuilder errorOutput = new StringBuilder();
+
+        public void consumeLine( String line )
+        {
+            errorOutput.append( line ).append( "\n" );
+        }
+
+        public boolean hasErrorContent()
+        {
+            return errorOutput.length() > 0;
+        }
+
+        public String toString()
+        {
+            return errorOutput.toString();
+        }
+    }
 
     private static StreamConsumer createStringBuilderStreamConsumer( final StringBuilder sb )
     {
