@@ -24,6 +24,8 @@ import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.util.DirectoryScanner;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,18 +112,10 @@ public class PlexusIoFileResourceCollection
     }
 
 
-    public String getName( PlexusIoResource resource )
-        throws IOException
-    {
-        String name = resource.getName();
-        final FileMapper[] mappers = getFileMappers();
-        if ( mappers != null )
-        {
-            for (FileMapper mapper : mappers) {
-                name = mapper.getMappedFileName(name);
-            }
-        }
-        return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+    @Override
+    public void setPrefix(String prefix) {
+        char nonSeparator = File.separatorChar == '/' ?'\\' : '/';
+        super.setPrefix(StringUtils.replace( prefix, nonSeparator, File.separatorChar));
     }
 
     private void addResources( List<PlexusIoResource> result, String[] resources,

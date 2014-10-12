@@ -14,15 +14,17 @@ public class PlexusIoFileResourceCollectionTest
     public void testGetName()
         throws Exception
     {
-        PlexusIoFileResourceCollection coll = new PlexusIoFileResourceCollection();
+        PlexusIoFileResourceCollection
+                coll = new PlexusIoFileResourceCollection();
+        char nonSeparator = File.separatorChar == '/' ?'\\' : '/';
+        coll.setPrefix("fud" + nonSeparator );
 
         coll.setBaseDir(new File("src/test/resources/symlinks") );
         final Iterator<PlexusIoResource> resources = coll.getResources();
         while (resources.hasNext()){
             final PlexusIoResource next = resources.next();
             final String name = coll.getName( next );
-            System.out.println( "next.getName()=" + next.getName() + ",name=" + name );
+            assertTrue( name.indexOf(nonSeparator) < 0);
         }
-
     }
 }
