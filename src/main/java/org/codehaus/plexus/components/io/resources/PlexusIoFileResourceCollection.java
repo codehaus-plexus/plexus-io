@@ -21,6 +21,8 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
+import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.util.DirectoryScanner;
 
 import java.io.File;
@@ -105,6 +107,21 @@ public class PlexusIoFileResourceCollection
                                                               final String groupName, final int mode )
     {
         return new SimpleResourceAttributes( uid, userName, gid, groupName, mode >= 0 ? mode : -1 );
+    }
+
+
+    public String getName( PlexusIoResource resource )
+        throws IOException
+    {
+        String name = resource.getName();
+        final FileMapper[] mappers = getFileMappers();
+        if ( mappers != null )
+        {
+            for (FileMapper mapper : mappers) {
+                name = mapper.getMappedFileName(name);
+            }
+        }
+        return PrefixFileMapper.getMappedFileName( getPrefix(), name );
     }
 
     private void addResources( List<PlexusIoResource> result, String[] resources,

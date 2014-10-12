@@ -48,7 +48,7 @@ public interface PlexusIoResourceCollection
      * integrating file mappers.
      * @param resource A resource, which has been obtained by
      *   calling {@link #getResources()}.
-     * @return The resource name
+     * @return The resource name. If it is a file, it should be normalized to platform separators
      * @throws java.io.IOException .
      */
     String getName( PlexusIoResource resource ) throws IOException;
