@@ -19,6 +19,7 @@ package org.codehaus.plexus.components.io.resources;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.InputStreamSupplier;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,6 +85,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
         final InputStreamSupplier inputStreamSupplier = new InputStreamSupplier()
         {
+            @Nonnull
             public InputStream get()
                 throws IOException
             {
@@ -109,7 +111,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
     protected abstract String getDefaultExtension();
 
-    protected abstract InputStream getInputStream( File file ) throws IOException;
+    protected abstract @Nonnull InputStream getInputStream( File file ) throws IOException;
 
     public String getName( PlexusIoResource resource )
         throws IOException

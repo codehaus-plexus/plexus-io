@@ -19,7 +19,6 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;

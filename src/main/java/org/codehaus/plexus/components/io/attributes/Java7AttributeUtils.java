@@ -15,6 +15,8 @@
  */
 package org.codehaus.plexus.components.io.attributes;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,7 +37,7 @@ public class Java7AttributeUtils
     /*
     Reads last-modified with proper failure handling if something goes wrong.
      */
-    public static long getLastModified( File file )
+    public static long getLastModified( @Nonnull File file )
     {
         try
         {
@@ -49,7 +51,7 @@ public class Java7AttributeUtils
 
     }
 
-    public static void chmod( File file, int mode )
+    public static void chmod( @Nonnull File file, int mode )
         throws IOException
     {
         final Path path = file.toPath();
@@ -59,7 +61,7 @@ public class Java7AttributeUtils
         }
     }
 
-    public static Set<PosixFilePermission> getPermissions( int mode )
+    public static @Nonnull Set<PosixFilePermission> getPermissions( int mode )
     {
         Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
         //add owners permission
@@ -104,13 +106,13 @@ public class Java7AttributeUtils
         return perms;
     }
 
-    public static PosixFileAttributes getPosixFileAttributes( File file )
+    public static @Nonnull PosixFileAttributes getPosixFileAttributes( @Nonnull File file )
         throws IOException
     {
         return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
-    public static BasicFileAttributes getFileAttributes( File file )
+    public static @Nonnull BasicFileAttributes getFileAttributes( @Nonnull File file )
         throws IOException
     {
         final Path path = file.toPath();
@@ -129,7 +131,7 @@ public class Java7AttributeUtils
         return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
-    public static FileOwnerAttributeView getFileOwnershipInfo( File file )
+    public static @Nullable FileOwnerAttributeView getFileOwnershipInfo( @Nonnull File file )
         throws IOException
     {
         try

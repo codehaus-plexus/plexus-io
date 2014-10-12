@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
 /**
  * A file mapper, which maps to a constant target name.
  */
@@ -58,7 +60,7 @@ public class MergeFileMapper extends AbstractFileMapper
         return targetName;
     }
 
-    public String getMappedFileName( String pName )
+    @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         final String name = getTargetName();
         if ( name == null )

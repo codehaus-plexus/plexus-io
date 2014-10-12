@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 
@@ -40,5 +41,5 @@ public interface FileSelector
      *   It is recommended, that the caller creates an instance
      *   of {@link PlexusIoResource}.
      */
-    boolean isSelected( FileInfo fileInfo ) throws IOException;
+    boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException;
 }

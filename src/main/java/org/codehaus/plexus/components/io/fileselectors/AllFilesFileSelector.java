@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 
@@ -29,7 +30,7 @@ public class AllFilesFileSelector implements FileSelector
      */
     public static final String ROLE_HINT = "all";
 
-    public boolean isSelected( FileInfo fileInfo ) throws IOException
+    public boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException
     {
         return true;
     }

@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 
 import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.*;
@@ -69,7 +71,7 @@ public class FileAttributes
         setOctalMode( mode );
     }
 
-    public FileAttributes(String lsMOdeLine)
+    public FileAttributes(@Nonnull String lsMOdeLine)
     {
         mode = new char[10];
         Arrays.fill( mode, VALUE_DISABLED_MODE );
@@ -81,7 +83,7 @@ public class FileAttributes
         return mode;
     }
 
-    private void setLsModeParts( char[] mode )
+    private void setLsModeParts( @Nonnull char[] mode )
     {
         if ( mode.length < 10 )
         {
@@ -98,12 +100,12 @@ public class FileAttributes
         }
     }
 
-    public Integer getGroupId()
+    @Nullable public Integer getGroupId()
     {
         return groupId;
     }
 
-    public String getGroupName()
+    @Nullable public String getGroupName()
     {
         return groupName;
     }
@@ -266,7 +268,7 @@ public class FileAttributes
         return this;
     }
 
-    public PlexusIoResourceAttributes setLsModeline( String modeLine )
+    public PlexusIoResourceAttributes setLsModeline( @Nonnull String modeLine )
     {
         setLsModeParts( modeLine.toCharArray() );
         return this;

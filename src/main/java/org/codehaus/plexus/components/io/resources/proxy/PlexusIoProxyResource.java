@@ -18,6 +18,7 @@ package org.codehaus.plexus.components.io.resources.proxy;
 
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -28,7 +29,7 @@ public class PlexusIoProxyResource
 
     private final PlexusIoResource src;
 
-    protected PlexusIoProxyResource( PlexusIoResource plexusIoResource )
+    protected PlexusIoProxyResource( @Nonnull PlexusIoResource plexusIoResource )
     {
         this.src = plexusIoResource;
     }
@@ -64,6 +65,7 @@ public class PlexusIoProxyResource
         return src.getURL();
     }
 
+    @Nonnull
     public InputStream getContents()
         throws IOException
     {

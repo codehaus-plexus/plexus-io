@@ -17,6 +17,8 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 
+import javax.annotation.Nonnull;
+
 /**
  * A file mapper, which maps by adding a prefix.
  */
@@ -29,7 +31,7 @@ public class PrefixFileMapper extends AbstractFileMapper
 
     private String prefix;
 
-    public String getMappedFileName( String name )
+    @Nonnull public String getMappedFileName( @Nonnull String name )
     {
         final String s = super.getMappedFileName( name ); // Check for null, etc.
         return getMappedFileName( prefix, s );

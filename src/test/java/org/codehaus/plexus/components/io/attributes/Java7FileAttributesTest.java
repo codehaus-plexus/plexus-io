@@ -48,7 +48,6 @@ public class Java7FileAttributesTest
 
         PlexusIoResourceAttributes fa = new Java7FileAttributes( file, userCache, groupCache );
         assertNotNull( fa );
-        String permissions = fa.getOctalModeString();
     }
 
 }

@@ -20,6 +20,8 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
 
+import javax.annotation.Nonnull;
+
 public class PlexusIoProxyResourceWithAttributes
 	extends PlexusIoProxyResource
     implements PlexusIoResourceWithAttributes
@@ -27,7 +29,7 @@ public class PlexusIoProxyResourceWithAttributes
 
     private final PlexusIoResourceAttributes src;
 
-	public PlexusIoProxyResourceWithAttributes( final PlexusIoResource plexusIoResource,
+	public PlexusIoProxyResourceWithAttributes( @Nonnull final PlexusIoResource plexusIoResource,
                                                 final PlexusIoResourceAttributes attrs )
     {
         super(plexusIoResource);

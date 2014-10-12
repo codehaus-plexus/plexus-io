@@ -15,6 +15,7 @@
  */
 package org.codehaus.plexus.components.io.attributes;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,14 +35,14 @@ public class SymlinkUtils
      * @throws java.io.IOException
      */
 
-    public static File readSymbolicLink( File symlink )
+    public static @Nonnull File readSymbolicLink( @Nonnull File symlink )
         throws IOException
     {
         final java.nio.file.Path path = java.nio.file.Files.readSymbolicLink( symlink.toPath() );
         return path.toFile();
     }
 
-    public static File createSymbolicLink( File symlink, File target )
+    public static @Nonnull File createSymbolicLink( @Nonnull File symlink, File target )
         throws IOException
     {
         Path link = symlink.toPath();

@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,10 +37,13 @@ import java.util.Set;
 public class Java7FileAttributes
     implements PlexusIoResourceAttributes
 {
+    @Nullable
     private final Integer groupId;
 
+    @Nullable
     private final String groupName;
 
+    @Nullable
     private final Integer userId;
 
     private final String userName;
@@ -47,16 +52,14 @@ public class Java7FileAttributes
 
     private final int octalMode;
 
-    private final BasicFileAttributes basicFileAttributes;
-
     private final Set<PosixFilePermission> permissions;
 
-    public Java7FileAttributes( File file, Map<Integer, String> userCache,
-                                Map<Integer, String> groupCache )
+    public Java7FileAttributes( @Nonnull File file,  @Nonnull Map<Integer, String> userCache,
+                                @Nonnull Map<Integer, String> groupCache )
         throws IOException
     {
 
-        this.basicFileAttributes = Java7AttributeUtils.getFileAttributes( file );
+        BasicFileAttributes basicFileAttributes = Java7AttributeUtils.getFileAttributes( file );
 
         if ( basicFileAttributes instanceof PosixFileAttributes )
         {
@@ -95,17 +98,17 @@ public class Java7FileAttributes
             permissions = Collections.emptySet();
         }
 
-        symbolicLink = this.basicFileAttributes.isSymbolicLink();
+        symbolicLink = basicFileAttributes.isSymbolicLink();
     }
 
-    public static PlexusIoResourceAttributes uncached( File file )
+    public static  @Nonnull PlexusIoResourceAttributes uncached(  @Nonnull File file )
         throws IOException
     {
         return new Java7FileAttributes( file, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
     }
 
 
-    public Integer getGroupId()
+    @Nullable public Integer getGroupId()
     {
 
         return groupId;
@@ -121,7 +124,7 @@ public class Java7FileAttributes
         return false;
     }
 
-    public String getGroupName()
+    @Nullable public String getGroupName()
     {
         return groupName;
     }

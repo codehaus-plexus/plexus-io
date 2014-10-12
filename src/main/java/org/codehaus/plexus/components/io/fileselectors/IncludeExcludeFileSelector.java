@@ -23,6 +23,9 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.MatchPatterns;
 import org.codehaus.plexus.util.SelectorUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 
 /**
  * This file selector uses a set of patterns for including/excluding
@@ -59,7 +62,7 @@ public class
      * @return <code>true</code> when the name matches against at least one
      *         exclude pattern, or <code>false</code> otherwise.
      */
-    protected boolean isExcluded( String name )
+    protected boolean isExcluded( @Nonnull String name )
     {
         return computedExcludes.matches( name, isCaseSensitive );
     }
@@ -77,7 +80,7 @@ public class
      *                 list is given, all elements must be
      * non-<code>null</code>.
      */
-    public void setIncludes( String[] includes )
+    public void setIncludes( @Nullable String[] includes )
     {
         this.includes = includes;
         if ( includes == null )
@@ -96,12 +99,12 @@ public class
         }
     }
 
-    private static String getCanonicalName( String pName )
+    private static @Nonnull String getCanonicalName( @Nonnull String pName )
     {
         return pName.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
     }
 
-    private String asPattern( String pPattern )
+    private String asPattern( @Nonnull String pPattern )
     {
         String pattern = getCanonicalName( pPattern.trim() );
         if ( pattern.endsWith( File.separator ) )
@@ -120,7 +123,7 @@ public class
      *         list is given, all elements must be
      *         non-<code>null</code>.
      */
-    public String[] getIncludes()
+    public @Nullable String[] getIncludes()
     {
         return includes;
     }
@@ -137,7 +140,7 @@ public class
      *                 should be excluded. If a non-<code>null</code> list is
      *                 given, all elements must be non-<code>null</code>.
      */
-    public void setExcludes( String[] excludes )
+    public void setExcludes( @Nullable String[] excludes )
     {
         this.excludes = excludes;
         final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String []{};
@@ -170,7 +173,7 @@ public class
      *         should be excluded. If a non-<code>null</code> list is
      *         given, all elements must be non-<code>null</code>.
      */
-    public String[] getExcludes()
+    public @Nullable String[] getExcludes()
     {
         return excludes;
     }
@@ -182,7 +185,7 @@ public class
      * @param isCaseSensitive Whether the pattern is case sensitive.
      * @return True, if the pattern matches, otherwise false
      */
-    protected boolean matchPath( String pattern, String name,
+    protected boolean matchPath( @Nonnull String pattern, @Nonnull String name,
                                  boolean isCaseSensitive )
     {
         return SelectorUtils.matchPath( pattern, name, isCaseSensitive );
@@ -196,12 +199,12 @@ public class
      * @return <code>true</code> when the name matches against at least one
      *         include pattern, or <code>false</code> otherwise.
      */
-    protected boolean isIncluded( String name )
+    protected boolean isIncluded( @Nonnull String name )
     {
         return computedIncludes.matches( name, isCaseSensitive );
     }
 
-    public boolean isSelected( FileInfo fileInfo ) throws IOException
+    public boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException
     {
         final String name = getCanonicalName( fileInfo.getName() );
         return isIncluded( name ) && !isExcluded( name );

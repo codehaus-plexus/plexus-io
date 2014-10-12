@@ -16,6 +16,9 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public interface PlexusIoResourceAttributes
 {
     boolean isOwnerReadable();
@@ -46,18 +49,21 @@ public interface PlexusIoResourceAttributes
      * Gets the unix group id.
      * @return The unix group id, may be null ("not set"), even on unix
      */
+    @Nullable
     Integer getGroupId();
 
     /**
      * Returns the user name of the user owning the file. Probably not null :)
      * @return The user name
      */
+    @Nullable
     String getUserName();
 
     /**
      * The group name. May be null if groups are unsupported
-     * @return
+     * @return the group names
      */
+    @Nullable
     String getGroupName();
 
     /*
@@ -65,8 +71,9 @@ public interface PlexusIoResourceAttributes
      * -1 if unsupported on current file/file system
      */
     int getOctalMode();
-    
-    String getOctalModeString();
+
+    @Nonnull
+   //String getOctalModeString();
 
     /**
      * Indicates if this is a symnbolic link element.

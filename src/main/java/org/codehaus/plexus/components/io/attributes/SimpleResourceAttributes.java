@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import javax.annotation.Nullable;
+
 /*
  * A very simple pojo based PlexusIoResourceAttributes without any kind of backing
  */
@@ -56,12 +58,12 @@ public class SimpleResourceAttributes
         return mode;
     }
 
-    public Integer getGroupId()
+    @Nullable public Integer getGroupId()
     {
         return gid;
     }
 
-    public String getGroupName()
+    @Nullable public String getGroupName()
     {
         return groupName;
     }

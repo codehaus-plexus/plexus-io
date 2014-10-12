@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
 /**
  * Default implementation of {@link FileMapper}, which performs the identity mapping: All names are left unchanged.
  */
@@ -26,7 +28,7 @@ public class IdentityMapper extends AbstractFileMapper
      */
     public static final String ROLE_HINT = "identity";
 
-    public String getMappedFileName( String pName )
+    @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         if ( pName == null || pName.length() == 0 )
         {

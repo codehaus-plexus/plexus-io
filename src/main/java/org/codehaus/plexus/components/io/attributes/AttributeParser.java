@@ -19,6 +19,8 @@ package org.codehaus.plexus.components.io.attributes;
 import org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -52,7 +54,7 @@ abstract class AttributeParser
 
     private final SimpleDateFormat[] LS_DATE_FORMATS;
 
-    public AttributeParser( StreamConsumer logger )
+    public AttributeParser( @Nonnull StreamConsumer logger )
     {
         this.logger = logger;
         LS_DATE_FORMATS = new SimpleDateFormat[]{ new SimpleDateFormat( "MMM dd yyyy" ),
@@ -63,7 +65,7 @@ abstract class AttributeParser
             new SimpleDateFormat( "dd MMM yyyy" ), new SimpleDateFormat( "dd MMM yyyy", Locale.ENGLISH ) };
     }
 
-    public void consumeLine( String line )
+    public void consumeLine( @Nonnull String line )
     {
         if ( !PlexusIoResourceAttributeUtils.totalLinePattern.matcher( line ).matches() )
         {
@@ -112,14 +114,14 @@ abstract class AttributeParser
         logger.consumeLine( line );
     }
 
-    protected abstract void processAttributes( FileAttributes attributes, String[] parts );
+    protected abstract void processAttributes( @Nonnull FileAttributes attributes, @Nonnull String[] parts );
 
     public Map<String, PlexusIoResourceAttributes> getAttributesByPath()
     {
         return attributesByPath;
     }
 
-    private int verifyParsability( String line, String[] parts, StreamConsumer logger )
+    private int verifyParsability( String line, @Nonnull String[] parts, @Nonnull StreamConsumer logger )
     {
         if ( parts.length > 7 )
         {
@@ -131,7 +133,7 @@ abstract class AttributeParser
                     LS_DATE_FORMATS[i].parse( dateCandidate );
                     return LS_LAST_DATE_PART_INDICES[i];
                 }
-                catch ( ParseException e )
+                catch ( ParseException ignore )
                 {
                 }
             }
@@ -151,7 +153,7 @@ abstract class AttributeParser
         }
 
         @Override
-        protected void processAttributes( FileAttributes attributes, String[] parts )
+        protected void processAttributes( @Nonnull FileAttributes attributes, @Nonnull String[] parts )
         {
             attributes.setUserId( (int) Long.parseLong( parts[2] ) );
             attributes.setGroupId( (int) Long.parseLong( parts[3] ) );
@@ -168,7 +170,7 @@ abstract class AttributeParser
         }
 
         @Override
-        protected void processAttributes( FileAttributes attributes, String[] parts )
+        protected void processAttributes( @Nonnull FileAttributes attributes, @Nonnull String[] parts )
         {
             attributes.setUserName( parts[2] );
             attributes.setGroupName( parts[3] );
@@ -217,7 +219,7 @@ abstract class AttributeParser
             this.otherAttr = otherAttr;
         }
 
-        public Integer getGroupId()
+        @Nullable public Integer getGroupId()
         {
             return otherAttr.getGroupId();
         }

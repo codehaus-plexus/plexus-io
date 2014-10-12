@@ -2,6 +2,8 @@ package org.codehaus.plexus.components.io.attributes.proxy;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
+import javax.annotation.Nullable;
+
 public class PlexusIoProxyResourceAttributes
     implements PlexusIoResourceAttributes
 
@@ -39,7 +41,7 @@ public class PlexusIoProxyResourceAttributes
         return target.isWorldExecutable();
     }
 
-    public Integer getGroupId()
+    @Nullable public Integer getGroupId()
     {
         return target.getGroupId();
     }
@@ -54,11 +56,11 @@ public class PlexusIoProxyResourceAttributes
         return target.getUserId();
     }
 
-    public String getOctalModeString()
+/*    public String getOctalModeString()
     {
         return target.getOctalModeString();
     }
-
+*/
     public boolean isOwnerWritable()
     {
         return target.isOwnerWritable();
@@ -84,7 +86,7 @@ public class PlexusIoProxyResourceAttributes
         return target.isWorldWritable();
     }
 
-    public String getGroupName()
+    @Nullable public String getGroupName()
     {
         return target.getGroupName();
     }

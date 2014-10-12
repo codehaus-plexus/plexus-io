@@ -24,6 +24,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -311,7 +312,7 @@ public final class PlexusIoResourceAttributeUtils
         return userId;
     }
 
-    private static Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( File dir, boolean recursive )
+    private static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPathJava7( @Nonnull File dir, boolean recursive )
         throws IOException
     {
         Map<Integer, String> userCache = new HashMap<Integer, String>();
@@ -371,7 +372,7 @@ public final class PlexusIoResourceAttributeUtils
         }
     }
 
-    private static Commandline setupCommandLine( File dir, String options, StreamConsumer logger )
+    private static Commandline setupCommandLine( @Nonnull File dir, String options, StreamConsumer logger )
     {
         Commandline numericCli = new Commandline();
 
@@ -399,18 +400,13 @@ public final class PlexusIoResourceAttributeUtils
             errorOutput.append( line ).append( "\n" );
         }
 
-        public boolean hasErrorContent()
-        {
-            return errorOutput.length() > 0;
-        }
-
         public String toString()
         {
             return errorOutput.toString();
         }
     }
 
-    private static StreamConsumer createStringBuilderStreamConsumer( final StringBuilder sb )
+    private static @Nonnull StreamConsumer createStringBuilderStreamConsumer( @Nonnull final StringBuilder sb )
     {
         return new StreamConsumer()
         {

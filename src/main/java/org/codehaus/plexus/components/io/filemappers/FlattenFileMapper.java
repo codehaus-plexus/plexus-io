@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
 /**
  * Implementation of a flattening file mapper: Removes all directory parts.
  */
@@ -26,7 +28,7 @@ public class FlattenFileMapper extends AbstractFileMapper
      */
     public static final String ROLE_HINT = "flatten";
 
-    public String getMappedFileName( String pName )
+    @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         String name = super.getMappedFileName( pName ); // Check for null, etc.
         int offset = pName.lastIndexOf( '/' );

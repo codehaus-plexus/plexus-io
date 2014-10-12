@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -23,12 +24,13 @@ import java.net.URL;
 public abstract class PlexusIoURLResource
     extends AbstractPlexusIoResource
 {
-    protected PlexusIoURLResource( String name, long lastModified, long size, boolean isFile, boolean isDirectory,
+    protected PlexusIoURLResource( @Nonnull String name, long lastModified, long size, boolean isFile, boolean isDirectory,
                                    boolean isExisting )
     {
         super( name, lastModified, size, isFile, isDirectory, isExisting );
     }
 
+    @Nonnull
     public InputStream getContents()
         throws IOException
     {

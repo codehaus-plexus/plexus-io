@@ -28,6 +28,7 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ public class PlexusIoProxyResourceCollection
     private PlexusIoResourceCollection src;
 
 
-    public PlexusIoProxyResourceCollection( PlexusIoResourceCollection src )
+    public PlexusIoProxyResourceCollection( @Nonnull PlexusIoResourceCollection src )
     {
         this.src = src;
     }

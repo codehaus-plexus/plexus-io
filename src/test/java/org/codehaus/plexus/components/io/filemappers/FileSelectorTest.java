@@ -26,6 +26,8 @@ import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 
+import javax.annotation.Nonnull;
+
 
 /**
  * Test case for implementations of {@link FileSelector}.
@@ -39,6 +41,7 @@ public class FileSelectorTest extends PlexusTestCase
         {
             final String name = pInput[i];
             AbstractPlexusIoResource resource = new AbstractPlexusIoResource(name, 0, 0, true, false, true){
+                @Nonnull
                 public InputStream getContents() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );

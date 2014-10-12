@@ -28,6 +28,8 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 
+import javax.annotation.Nonnull;
+
 /**
  * Implementation of {@link PlexusIoResource} for files.
  */
@@ -35,29 +37,31 @@ public class PlexusIoFileResource
     extends AbstractPlexusIoResource
     implements PlexusIoResourceWithAttributes
 {
+    @Nonnull
     private final File file;
 
+    @Nonnull
     private final PlexusIoResourceAttributes attributes;
 
     /**
      * Creates a new instance. This constructor is usually used with a directory
      */
-    private PlexusIoFileResource( File file )
+    private PlexusIoFileResource( @Nonnull File file )
     {
         this( file, getName( file ), null );
     }
 
-    private PlexusIoFileResource( File file, String name )
+    private PlexusIoFileResource( @Nonnull File file, String name )
     {
         this( file, name, null );
     }
 
-    public PlexusIoFileResource( File file, PlexusIoResourceAttributes attrs )
+    public PlexusIoFileResource( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
     {
         this( file, getName( file ), attrs );
     }
 
-    public PlexusIoFileResource( File file, String name, PlexusIoResourceAttributes attrs )
+    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
@@ -70,25 +74,25 @@ public class PlexusIoFileResource
         return file.getPath().replace( '\\', '/' );
     }
 
-    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs)
+    public static PlexusIoFileResource fileOnDisk(File file, String name, @Nonnull PlexusIoResourceAttributes attrs)
     {
-        if (attrs != null && attrs.isSymbolicLink())
+        if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, name, attrs);
         else
             return new PlexusIoFileResource( file, name, attrs );
     }
 
-    public static PlexusIoFileResource withName( File file, String name, PlexusIoResourceAttributes attrs )
+    public static PlexusIoFileResource withName( File file, String name, @Nonnull PlexusIoResourceAttributes attrs )
     {
-        if (attrs != null && attrs.isSymbolicLink())
+        if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, name, attrs);
         else
             return new PlexusIoFileResource( file, name, attrs );
     }
 
-    public static PlexusIoFileResource existingFile( File file, PlexusIoResourceAttributes attrs )
+    public static PlexusIoFileResource existingFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
     {
-        if (attrs != null && attrs.isSymbolicLink())
+        if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, getName( file ), attrs);
         else
             return new PlexusIoFileResource( file, getName( file ), attrs );
@@ -97,17 +101,20 @@ public class PlexusIoFileResource
     /**
      * Returns the resources file.
      */
+    @Nonnull
     public File getFile()
     {
         return file;
     }
 
+    @Nonnull
     public InputStream getContents()
         throws IOException
     {
         return new FileInputStream( getFile() );
     }
 
+    @Nonnull
     public URL getURL()
         throws IOException
     {
@@ -134,7 +141,7 @@ public class PlexusIoFileResource
         return getFile().isFile();
     }
 
-    public PlexusIoResourceAttributes getAttributes()
+    @Nonnull public PlexusIoResourceAttributes getAttributes()
     {
         return attributes;
     }
