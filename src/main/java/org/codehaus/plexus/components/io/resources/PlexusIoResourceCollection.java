@@ -17,13 +17,14 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 
 /**
  * A resource collection is a set of {@link PlexusIoResource} instances.
  */
-public interface PlexusIoResourceCollection
+public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
 {
     /**
      * Role of the ResourceCollection component.
@@ -65,5 +66,14 @@ public interface PlexusIoResourceCollection
      * @throws java.io.IOException .
      */
     long getLastModified() throws IOException;
+
+    /**
+     * Returns an input stream for the provided resource, with stream transformers applied
+     * @param resource The resources
+     * @return A possibly transformed resource
+     * @throws IOException when something goes bad
+     */
+    InputStream getInputStream( PlexusIoResource resource ) throws IOException;
+
 
 }

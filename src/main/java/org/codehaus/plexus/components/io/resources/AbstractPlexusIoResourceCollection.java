@@ -16,13 +16,15 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**
@@ -31,6 +33,8 @@ import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 public abstract class AbstractPlexusIoResourceCollection
     implements PlexusIoResourceCollection
 {
+    private static final InputStreamTransformer[] empty = new InputStreamTransformer[0];
+
     private String prefix;
 
     private String[] includes;
@@ -46,11 +50,13 @@ public abstract class AbstractPlexusIoResourceCollection
     private boolean includingEmptyDirectories = true;
 
     private FileMapper[] fileMappers;
-    
+
+    private InputStreamTransformer[] streamTransformers = empty;
+
     protected AbstractPlexusIoResourceCollection()
     {
     }
-    
+
     /**
      * Sets a string of patterns, which excluded files
      * should match.
@@ -85,6 +91,17 @@ public abstract class AbstractPlexusIoResourceCollection
     public FileSelector[] getFileSelectors()
     {
         return fileSelectors;
+    }
+
+    public InputStreamTransformer[] getStreamTransformers()
+    {
+        return streamTransformers;
+    }
+
+    public void addStreamTransformer( InputStreamTransformer streamTransformer )
+    {
+        streamTransformers = Arrays.copyOf( this.streamTransformers, this.streamTransformers.length + 1 );
+        streamTransformers[streamTransformers.length -1] = streamTransformer;
     }
 
     /**
@@ -177,13 +194,16 @@ public abstract class AbstractPlexusIoResourceCollection
         return includingEmptyDirectories;
     }
 
-    protected boolean isSelected( PlexusIoResource plexusIoResource ) throws IOException
+    protected boolean isSelected( PlexusIoResource plexusIoResource )
+        throws IOException
     {
         FileSelector[] fileSelectors = getFileSelectors();
         if ( fileSelectors != null )
         {
-            for (FileSelector fileSelector : fileSelectors) {
-                if (!fileSelector.isSelected(plexusIoResource)) {
+            for ( FileSelector fileSelector : fileSelectors )
+            {
+                if ( !fileSelector.isSelected( plexusIoResource ) )
+                {
                     return false;
                 }
             }
@@ -209,6 +229,18 @@ public abstract class AbstractPlexusIoResourceCollection
         this.fileMappers = fileMappers;
     }
 
+    public Iterator<PlexusIoResource> iterator()
+    {
+        try
+        {
+            return getResources();
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
+
     public String getName( PlexusIoResource resource )
         throws IOException
     {
@@ -216,18 +248,31 @@ public abstract class AbstractPlexusIoResourceCollection
         final FileMapper[] mappers = getFileMappers();
         if ( mappers != null )
         {
-            for (FileMapper mapper : mappers) {
-                name = mapper.getMappedFileName(name);
+            for ( FileMapper mapper : mappers )
+            {
+                name = mapper.getMappedFileName( name );
             }
         }
         return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+    }
+
+
+    public InputStream getInputStream( PlexusIoResource resource )
+        throws IOException
+    {
+        InputStream contents = resource.getContents();
+        for ( InputStreamTransformer streamTransformer : streamTransformers )
+        {
+            contents = streamTransformer.transform( resource, contents );
+        }
+        return contents;
     }
 
     public long getLastModified()
         throws IOException
     {
         long lastModified = PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
-        for ( final Iterator iter = getResources();  iter.hasNext();  )
+        for ( final Iterator iter = getResources(); iter.hasNext(); )
         {
             final PlexusIoResource res = (PlexusIoResource) iter.next();
             long l = res.getLastModified();
@@ -235,8 +280,7 @@ public abstract class AbstractPlexusIoResourceCollection
             {
                 return PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
             }
-            if ( lastModified == PlexusIoResource.UNKNOWN_MODIFICATION_DATE
-                            ||  l > lastModified )
+            if ( lastModified == PlexusIoResource.UNKNOWN_MODIFICATION_DATE || l > lastModified )
             {
                 lastModified = l;
             }
