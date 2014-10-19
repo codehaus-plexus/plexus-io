@@ -18,11 +18,13 @@ package org.codehaus.plexus.components.io.resources;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.InputStreamSupplier;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -32,10 +34,12 @@ import java.util.Iterator;
  * resource collections.
  */
 public abstract class PlexusIoCompressedFileResourceCollection
-    implements PlexusIoArchivedResourceCollection
+    implements PlexusIoArchivedResourceCollection, Iterable<PlexusIoResource>
 {
     private File file;
     private String path;
+    private InputStreamTransformer[] streamTransformers = AbstractPlexusIoResourceCollection.empty;
+
 
     public File getFile()
     {
@@ -63,6 +67,17 @@ public abstract class PlexusIoCompressedFileResourceCollection
     // return the file attributes of the uncompressed file
     // may be null.
     protected abstract PlexusIoResourceAttributes getAttributes(File f) throws IOException;
+
+    public void addStreamTransformer( InputStreamTransformer streamTransformer )
+    {
+        streamTransformers = Arrays.copyOf( this.streamTransformers, this.streamTransformers.length + 1 );
+        streamTransformers[streamTransformers.length -1] = streamTransformer;
+    }
+
+    public void setStreamTransformers( InputStreamTransformer... streamTransformers )
+    {
+        this.streamTransformers = streamTransformers;
+    }
 
 
     public Iterator<PlexusIoResource> getResources()
@@ -112,6 +127,31 @@ public abstract class PlexusIoCompressedFileResourceCollection
     protected abstract String getDefaultExtension();
 
     protected abstract @Nonnull InputStream getInputStream( File file ) throws IOException;
+
+    public InputStream getInputStream( PlexusIoResource resource )
+        throws IOException
+    {
+        InputStream contents = resource.getContents();
+        for ( InputStreamTransformer streamTransformer : streamTransformers )
+        {
+            final InputStream transformed = streamTransformer.transform( resource, contents );
+            contents = new ClosingInputStream( transformed, contents );
+        }
+        return contents;
+    }
+
+
+    public Iterator<PlexusIoResource> iterator()
+    {
+        try
+        {
+            return getResources();
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
 
     public String getName( PlexusIoResource resource )
         throws IOException

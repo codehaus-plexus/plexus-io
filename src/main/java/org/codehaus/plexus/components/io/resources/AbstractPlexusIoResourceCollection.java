@@ -33,7 +33,7 @@ import java.util.Iterator;
 public abstract class AbstractPlexusIoResourceCollection
     implements PlexusIoResourceCollection
 {
-    private static final InputStreamTransformer[] empty = new InputStreamTransformer[0];
+    public static final InputStreamTransformer[] empty = new InputStreamTransformer[0];
 
     private String prefix;
 
@@ -99,6 +99,10 @@ public abstract class AbstractPlexusIoResourceCollection
         streamTransformers[streamTransformers.length -1] = streamTransformer;
     }
 
+    public void setStreamTransformers( InputStreamTransformer... streamTransformers )
+    {
+        this.streamTransformers = streamTransformers;
+    }
     /**
      * Sets a string of patterns, which included files
      * should match.
@@ -284,67 +288,4 @@ public abstract class AbstractPlexusIoResourceCollection
         return lastModified;
     }
 
-    class ClosingInputStream extends InputStream {
-        private final InputStream target;
-        private final InputStream other;
-
-        ClosingInputStream( InputStream target, InputStream other )
-        {
-            this.target = target;
-            this.other = other;
-        }
-
-        @Override public int read()
-            throws IOException
-        {
-            return target.read();
-        }
-
-        @Override public int read( byte[] b )
-            throws IOException
-        {
-            return target.read( b );
-        }
-
-        @Override public int read( byte[] b, int off, int len )
-            throws IOException
-        {
-            return target.read( b, off, len );
-        }
-
-        @Override public long skip( long n )
-            throws IOException
-        {
-            return target.skip( n );
-        }
-
-        @Override public int available()
-            throws IOException
-        {
-            return target.available();
-        }
-
-        @Override public void close()
-            throws IOException
-        {
-            other.close();
-            target.close();
-        }
-
-        @Override public void mark( int readlimit )
-        {
-            target.mark( readlimit );
-        }
-
-        @Override public void reset()
-            throws IOException
-        {
-            target.reset();
-        }
-
-        @Override public boolean markSupported()
-        {
-            return target.markSupported();
-        }
-    }
 }
