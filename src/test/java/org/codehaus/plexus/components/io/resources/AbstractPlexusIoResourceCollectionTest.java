@@ -37,14 +37,7 @@ public class AbstractPlexusIoResourceCollectionTest
                 final byte[] buf = new byte[2];
                 buf[0] = (byte) inputStream.read();
                 buf[1] = (byte) inputStream.read();
-                return new ByteArrayInputStream( buf ){
-                    @Override public void close()
-                        throws IOException
-                    {
-                        inputStream.close();
-                        super.close();
-                    }
-                };
+                return new ByteArrayInputStream( buf );
             }
         } );
 
@@ -53,6 +46,7 @@ public class AbstractPlexusIoResourceCollectionTest
         inputStream.read();
         inputStream.read();
         assertEquals( -1, inputStream.read());
+        inputStream.close();
 
     }
 
