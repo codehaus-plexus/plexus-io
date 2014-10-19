@@ -93,11 +93,6 @@ public abstract class AbstractPlexusIoResourceCollection
         return fileSelectors;
     }
 
-    public InputStreamTransformer[] getStreamTransformers()
-    {
-        return streamTransformers;
-    }
-
     public void addStreamTransformer( InputStreamTransformer streamTransformer )
     {
         streamTransformers = Arrays.copyOf( this.streamTransformers, this.streamTransformers.length + 1 );
