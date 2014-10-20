@@ -42,9 +42,12 @@ public class Java7Reflector
         isJava7 = isJava7x;
     }
 
+    public static boolean isLanguageDowngrade(){
+        return System.getProperty("java.language.downgrade") != null;
+    }
 
     public static boolean isAtLeastJava7()
     {
-        return isJava7;
+        return !isLanguageDowngrade() && isJava7;
     }
 }

@@ -236,6 +236,16 @@ public class PlexusIoResourceAttributeUtilsTest
         parse( byteArrayInputStream, parser );
     }
 
+    public void testMacOsWithSpace() throws Exception {
+        String output =
+                "-rwxrw--wx  1 kristian  DOMZZZ\\Domain Users  15387 Oct 20 15:30 /Users/kristian/lsrc/plexus/plexus-io/target/test-classes/org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributeUtilsTest.class";
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
+        AttributeParser parser = getNameBasedParser();
+        parse( byteArrayInputStream, parser );
+        final Map<String, PlexusIoResourceAttributes> attributesByPath = parser.getAttributesByPath();
+        String path = "/Users/kristian/lsrc/plexus/plexus-io/target/test-classes/org/codehaus/plexus/components/io/attributes/";
+    }
+
     public void testMacOsLine()
         throws Exception
     {
