@@ -23,10 +23,7 @@ import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Iterator;
-
-import javax.annotation.Nonnull;
 
 
 /**
@@ -35,8 +32,16 @@ import javax.annotation.Nonnull;
 public abstract class AbstractPlexusIoResourceCollection
     implements PlexusIoResourceCollection
 {
-    public static final InputStreamTransformer[] empty = new InputStreamTransformer[0];
 
+    static class IdentityTransformer implements InputStreamTransformer {
+        public InputStream transform( PlexusIoResource resource, InputStream inputStream )
+            throws IOException
+        {
+            return inputStream;
+        }
+    }
+
+    public static final InputStreamTransformer identityTransformer = new IdentityTransformer();
     private String prefix;
 
     private String[] includes;
@@ -53,7 +58,7 @@ public abstract class AbstractPlexusIoResourceCollection
 
     private FileMapper[] fileMappers;
 
-    private InputStreamTransformer[] streamTransformers = empty;
+    private InputStreamTransformer streamTransformer = identityTransformer;
 
     protected AbstractPlexusIoResourceCollection()
     {
@@ -95,17 +100,17 @@ public abstract class AbstractPlexusIoResourceCollection
         return fileSelectors;
     }
 
-    public void addStreamTransformers( @Nonnull InputStreamTransformer... streamTransformer )
+    public void setStreamTransformer( InputStreamTransformer streamTransformer )
     {
-        final int orgLength = this.streamTransformers.length;
-        streamTransformers = Arrays.copyOf( this.streamTransformers, orgLength + streamTransformer.length );
-        System.arraycopy(streamTransformer, 0, streamTransformers, orgLength, streamTransformer.length);
+        if (streamTransformer == null) this.streamTransformer = identityTransformer;
+        else this.streamTransformer = streamTransformer;
     }
 
-    public void setStreamTransformers( InputStreamTransformer... streamTransformers )
+    protected InputStreamTransformer getStreamTransformer()
     {
-        this.streamTransformers = streamTransformers;
+        return streamTransformer;
     }
+
     /**
      * Sets a string of patterns, which included files
      * should match.
@@ -263,12 +268,7 @@ public abstract class AbstractPlexusIoResourceCollection
         throws IOException
     {
         InputStream contents = resource.getContents();
-        for ( InputStreamTransformer streamTransformer : streamTransformers )
-        {
-            final InputStream transformed = streamTransformer.transform( resource, contents );
-            contents = new ClosingInputStream( transformed, contents );
-        }
-        return contents;
+        return new ClosingInputStream( streamTransformer.transform(resource, contents ), contents);
     }
 
     public long getLastModified()

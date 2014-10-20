@@ -38,7 +38,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
 {
     private File file;
     private String path;
-    private InputStreamTransformer[] streamTransformers = AbstractPlexusIoResourceCollection.empty;
+    private InputStreamTransformer streamTransformers = AbstractPlexusIoResourceCollection.identityTransformer;
 
 
     public File getFile()
@@ -68,17 +68,10 @@ public abstract class PlexusIoCompressedFileResourceCollection
     // may be null.
     protected abstract PlexusIoResourceAttributes getAttributes(File f) throws IOException;
 
-    public void addStreamTransformer( InputStreamTransformer streamTransformer )
-    {
-        streamTransformers = Arrays.copyOf( this.streamTransformers, this.streamTransformers.length + 1 );
-        streamTransformers[streamTransformers.length -1] = streamTransformer;
-    }
-
-    public void setStreamTransformers( InputStreamTransformer... streamTransformers )
+    public void setStreamTransformer( InputStreamTransformer streamTransformers )
     {
         this.streamTransformers = streamTransformers;
     }
-
 
     public Iterator<PlexusIoResource> getResources()
         throws IOException
@@ -109,7 +102,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         };
 
         final PlexusIoResource resource =
-            ResourceFactory.createResource(f, p, attributes, inputStreamSupplier );
+            ResourceFactory.createResource(f, p, attributes, inputStreamSupplier, streamTransformers );
 
         return Collections.singleton( resource ).iterator();
     }
@@ -132,12 +125,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         throws IOException
     {
         InputStream contents = resource.getContents();
-        for ( InputStreamTransformer streamTransformer : streamTransformers )
-        {
-            final InputStream transformed = streamTransformer.transform( resource, contents );
-            contents = new ClosingInputStream( transformed, contents );
-        }
-        return contents;
+        return new ClosingInputStream( streamTransformers.transform(  resource, contents ), contents);
     }
 
 

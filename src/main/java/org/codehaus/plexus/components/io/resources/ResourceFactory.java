@@ -2,6 +2,7 @@ package org.codehaus.plexus.components.io.resources;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.InputStreamSupplier;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -15,7 +16,8 @@ public class ResourceFactory
 {
 
     public static PlexusIoResource createResource( File f, String p, PlexusIoResourceAttributes attributes,
-                                                   final InputStreamSupplier inputStreamSupplier )
+                                                   final InputStreamSupplier inputStreamSupplier,
+                                                   final InputStreamTransformer streamTransformer )
     {
         return attributes.isSymbolicLink() ? new PlexusIoSymlinkResource( f, p, attributes )
         {
@@ -27,13 +29,13 @@ public class ResourceFactory
             }
         } :
 
-            new PlexusIoFileResource( f, p, attributes )
+            new PlexusIoFileResource( f, p, attributes, streamTransformer )
             {
                 @Nonnull
                 public InputStream getContents()
                     throws IOException
                 {
-                    return inputStreamSupplier.get();
+                    return streamTransformer.transform( this, inputStreamSupplier.get());
                 }
             };
     }

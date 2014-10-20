@@ -6,13 +6,13 @@ import java.io.InputStream;
 /**
 * @author Kristian Rosenvold
 */
-class ClosingInputStream
+public class ClosingInputStream
     extends InputStream
 {
     private final InputStream target;
     private final InputStream other;
 
-    ClosingInputStream( InputStream target, InputStream other )
+    public ClosingInputStream( InputStream target, InputStream other )
     {
         this.target = target;
         this.other = other;

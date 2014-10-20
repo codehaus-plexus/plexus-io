@@ -151,7 +151,7 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs);
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs, getStreamTransformer());
             if ( isSelected( resource ) )
             {
                 result.add( resource );
@@ -184,7 +184,7 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs);
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs, getStreamTransformer());
             if ( isSelected( resource ) )
             {
                 result.add( resource );

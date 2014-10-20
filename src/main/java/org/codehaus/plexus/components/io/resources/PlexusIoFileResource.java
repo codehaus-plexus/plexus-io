@@ -23,10 +23,9 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
-import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
 import javax.annotation.Nonnull;
 
@@ -43,30 +42,21 @@ public class PlexusIoFileResource
     @Nonnull
     private final PlexusIoResourceAttributes attributes;
 
-    /**
-     * Creates a new instance. This constructor is usually used with a directory
-     */
-    private PlexusIoFileResource( @Nonnull File file )
-    {
-        this( file, getName( file ), null );
-    }
-
-    private PlexusIoFileResource( @Nonnull File file, String name )
-    {
-        this( file, name, null );
-    }
+    @Nonnull
+    private final InputStreamTransformer inputStreamTransformer;
 
     public PlexusIoFileResource( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
     {
-        this( file, getName( file ), attrs );
+        this( file, getName( file ), attrs, AbstractPlexusIoResourceCollection.identityTransformer );
     }
 
-    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
+    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, @Nonnull InputStreamTransformer inputStreamTransformer )
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
         if (attrs == null) throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
         this.attributes = attrs;
+        this.inputStreamTransformer = inputStreamTransformer;
     }
 
     private static String getName( File file )
@@ -74,28 +64,21 @@ public class PlexusIoFileResource
         return file.getPath().replace( '\\', '/' );
     }
 
-    public static PlexusIoFileResource fileOnDisk(File file, String name, @Nonnull PlexusIoResourceAttributes attrs)
+    public static PlexusIoFileResource fileOnDisk( File file, String name, PlexusIoResourceAttributes attrs,
+                                                   InputStreamTransformer streamTransformer )
     {
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, name, attrs);
         else
-            return new PlexusIoFileResource( file, name, attrs );
+            return new PlexusIoFileResource( file, name, attrs, streamTransformer );
     }
 
-    public static PlexusIoFileResource withName( File file, String name, @Nonnull PlexusIoResourceAttributes attrs )
-    {
-        if ( attrs.isSymbolicLink() )
-            return new PlexusIoSymlinkResource( file, name, attrs);
-        else
-            return new PlexusIoFileResource( file, name, attrs );
-    }
-
-    public static PlexusIoFileResource existingFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
+    public static PlexusIoFileResource justAFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
     {
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, getName( file ), attrs);
         else
-            return new PlexusIoFileResource( file, getName( file ), attrs );
+            return new PlexusIoFileResource( file, getName( file ), attrs, AbstractPlexusIoResourceCollection.identityTransformer );
     }
 
     /**
@@ -111,7 +94,7 @@ public class PlexusIoFileResource
     public InputStream getContents()
         throws IOException
     {
-        return new FileInputStream( getFile() );
+        return inputStreamTransformer.transform( this, new FileInputStream( getFile() ));
     }
 
     @Nonnull
@@ -161,4 +144,5 @@ public class PlexusIoFileResource
     @Override public boolean isSymbolicLink() {
         return getAttributes().isSymbolicLink();
     }
+
 }
