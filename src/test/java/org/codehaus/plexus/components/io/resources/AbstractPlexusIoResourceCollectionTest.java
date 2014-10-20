@@ -29,7 +29,7 @@ public class AbstractPlexusIoResourceCollectionTest
             }
         };
 
-        sut.addStreamTransformer( new InputStreamTransformer()
+        sut.addStreamTransformers( new InputStreamTransformer()
         {
             public InputStream transform( PlexusIoResource resource, final InputStream inputStream )
                 throws IOException

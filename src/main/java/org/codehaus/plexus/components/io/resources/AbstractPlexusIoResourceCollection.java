@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import javax.annotation.Nonnull;
+
 
 /**
  * Default implementation of a resource collection.
@@ -93,10 +95,11 @@ public abstract class AbstractPlexusIoResourceCollection
         return fileSelectors;
     }
 
-    public void addStreamTransformer( InputStreamTransformer streamTransformer )
+    public void addStreamTransformers( @Nonnull InputStreamTransformer... streamTransformer )
     {
-        streamTransformers = Arrays.copyOf( this.streamTransformers, this.streamTransformers.length + 1 );
-        streamTransformers[streamTransformers.length -1] = streamTransformer;
+        final int orgLength = this.streamTransformers.length;
+        streamTransformers = Arrays.copyOf( this.streamTransformers, orgLength + streamTransformer.length );
+        System.arraycopy(streamTransformer, 0, streamTransformers, orgLength, streamTransformer.length);
     }
 
     public void setStreamTransformers( InputStreamTransformer... streamTransformers )
