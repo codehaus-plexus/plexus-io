@@ -199,7 +199,7 @@ public class PlexusIoResourceAttributeUtilsTest
         }
         assertNotNull(pr);
 
-        assertEquals(0644, pr.getOctalMode());
+        assertTrue(pr.getOctalMode() > 0);
     }
     public void testPermissionDenied()
     {
