@@ -254,7 +254,7 @@ public final class PlexusIoResourceAttributeUtils
             catch ( CommandLineException e )
             {
                 IOException error = new IOException(
-                    "Failed to quote directory: '" + dir + "'\n" + stdErr.toString() + logger.toString() );
+                    "Failed to quote directory: '" + dir + "':" + e.getMessage() + "\n" + stdErr.toString() + logger.toString() );
                 error.initCause( e );
                 throw error;
             }
@@ -304,7 +304,7 @@ public final class PlexusIoResourceAttributeUtils
         catch ( CommandLineException e )
         {
             IOException error =
-                new IOException( "Failed to quote directory: '" + dir + "'\n" + stdErr.toString() + logger.toString() );
+                new IOException( "Failed to quote directory(2): '" + dir + "':" + e.getMessage() + "\n" + stdErr.toString() + logger.toString() );
             error.initCause( e );
 
             throw error;
@@ -379,7 +379,8 @@ public final class PlexusIoResourceAttributeUtils
         numericCli.getShell().setQuotedArgumentsEnabled( true );
         numericCli.getShell().setQuotedExecutableEnabled( false );
 
-        numericCli.setExecutable( "LANG=C;ls" );
+        numericCli.addEnvironment( "LANG", "C" );
+        numericCli.setExecutable( "ls" );
 
         numericCli.createArg().setLine( options );
 

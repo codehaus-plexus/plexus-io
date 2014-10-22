@@ -184,6 +184,15 @@ public class PlexusIoResourceAttributeUtilsTest
         parse( byteArrayInputStream, parser );
 }
 
+    public void testSrcResource()
+        throws IOException
+    {
+        File dir = new File("src/test/resources/symlinks");
+        final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
+            PlexusIoResourceAttributeUtils.getFileAttributesByPathScreenScrape( dir, true, true );
+        assertNotNull( fileAttributesByPathScreenScrape);
+
+    }
     public void testPermissionDenied()
     {
         File dir = new File("src/test/lsPerms");
@@ -293,7 +302,7 @@ public class PlexusIoResourceAttributeUtilsTest
         {
             if (s.endsWith( "App.java" )) attrs = map.get(s);
         }
-        Assert.assertEquals( 0664, attrs.getOctalMode());
+        Assert.assertEquals( 0664, attrs.getOctalMode() );
 
     }
 
