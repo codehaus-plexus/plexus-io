@@ -18,6 +18,7 @@ package org.codehaus.plexus.components.io.attributes;
 
 import junit.framework.Assert;
 import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
+import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -191,7 +192,14 @@ public class PlexusIoResourceAttributeUtilsTest
         final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
             PlexusIoResourceAttributeUtils.getFileAttributesByPathScreenScrape( dir, true, true );
         assertNotNull( fileAttributesByPathScreenScrape);
+        PlexusIoResourceAttributes pr = null;
+        for ( String s : fileAttributesByPathScreenScrape.keySet() )
+        {
+            if (s.endsWith( "targetFile.txt" )) pr = fileAttributesByPathScreenScrape.get( s);
+        }
+        assertNotNull(pr);
 
+        assertEquals(0644, pr.getOctalMode());
     }
     public void testPermissionDenied()
     {
