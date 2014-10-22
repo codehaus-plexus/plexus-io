@@ -395,12 +395,12 @@ public final class PlexusIoResourceAttributeUtils
 
         StringBuilder errorOutput = new StringBuilder();
 
-        public void consumeLine( String line )
+        public synchronized void consumeLine( String line )
         {
             errorOutput.append( line ).append( "\n" );
         }
 
-        public String toString()
+        public synchronized String toString()
         {
             return errorOutput.toString();
         }
@@ -410,12 +410,12 @@ public final class PlexusIoResourceAttributeUtils
     {
         return new StreamConsumer()
         {
-            public void consumeLine( String line )
+            public synchronized void consumeLine( String line )
             {
                 sb.append( line ).append( "\n" );
             }
 
-            public String toString()
+            public synchronized String toString()
             {
                 return sb.toString();
             }
