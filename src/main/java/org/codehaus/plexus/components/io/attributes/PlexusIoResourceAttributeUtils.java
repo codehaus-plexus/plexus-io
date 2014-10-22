@@ -379,7 +379,7 @@ public final class PlexusIoResourceAttributeUtils
         numericCli.getShell().setQuotedArgumentsEnabled( true );
         numericCli.getShell().setQuotedExecutableEnabled( false );
 
-        numericCli.setExecutable( "ls" );
+        numericCli.setExecutable( "LANG=C;ls" );
 
         numericCli.createArg().setLine( options );
 

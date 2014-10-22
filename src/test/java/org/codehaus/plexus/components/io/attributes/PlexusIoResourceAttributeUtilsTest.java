@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import junit.framework.Assert;
 import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
@@ -31,11 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Vector;
 
 import junit.framework.TestCase;
 
@@ -172,7 +170,7 @@ public class PlexusIoResourceAttributeUtilsTest
     {
         String output = "drwxr-xr-x+ 13 kristian  staff  442 Oct 11 14:14 ..";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        AttributeParser parser = getNameBasedParser();
+        AttributeParser parser = getNameBasedParser1la();
         parse( byteArrayInputStream, parser );
 
     }
@@ -182,7 +180,7 @@ public class PlexusIoResourceAttributeUtilsTest
         String output =
             "-rw-r--r-- 1 1003 1002 1533 2010-04-23 14:34 /home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1W/checkout/spi/pom.xml";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        AttributeParser parser = getNumericParser();
+        AttributeParser parser = getNumericParser1nla();
         parse( byteArrayInputStream, parser );
 }
 
@@ -207,7 +205,7 @@ public class PlexusIoResourceAttributeUtilsTest
             "-rw-r--r--   1 501  80  7683 31 May 10:06 pom_newer.xml\n" + //
             "-rwxr--r--   1 502  81  7683  1 Jun 2010  pom_older.xml";
         InputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        NumericUserIDAttributeParser parser = getNumericParser();
+        NumericUserIDAttributeParser parser = getNumericParser1nla();
         parse( byteArrayInputStream, parser );
         Map<String, PlexusIoResourceAttributes> map = parser.getAttributesByPath();
         
@@ -232,7 +230,7 @@ public class PlexusIoResourceAttributeUtilsTest
         String output =
             "-rw-rw-r-- 1 4294967294 4294967294 7901 2011-06-07 18:39 /mnt/work/src/maven-plugins-trunk/maven-compiler-plugin/pom.xml";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        AttributeParser parser = getNumericParser();
+        AttributeParser parser = getNumericParser1nla();
         parse( byteArrayInputStream, parser );
     }
 
@@ -240,7 +238,7 @@ public class PlexusIoResourceAttributeUtilsTest
         String output =
                 "-rwxrw--wx  1 kristian  DOMZZZ\\Domain Users  15387 Oct 20 15:30 /Users/kristian/lsrc/plexus/plexus-io/target/test-classes/org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributeUtilsTest.class";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( output.getBytes() );
-        AttributeParser parser = getNameBasedParser();
+        AttributeParser parser = getNameBasedParser1la();
         parse( byteArrayInputStream, parser );
         final Map<String, PlexusIoResourceAttributes> attributesByPath = parser.getAttributesByPath();
         String path = "/Users/kristian/lsrc/plexus/plexus-io/target/test-classes/org/codehaus/plexus/components/io/attributes/";
@@ -251,7 +249,7 @@ public class PlexusIoResourceAttributeUtilsTest
     {
         String line = "drwxr-xr-x+ 3 1000  20  102 Oct 11 14:24 ..";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream( line.getBytes() );
-        AttributeParser parser = getNumericParser();
+        AttributeParser parser = getNumericParser1nla();
         parse( byteArrayInputStream, parser );
 
     }
@@ -284,6 +282,19 @@ public class PlexusIoResourceAttributeUtilsTest
         throws Exception
     {
         checkStream( "FreeBSD" );
+    }
+
+    public void testParserb26()
+        throws Exception
+    {
+        final Map<String, PlexusIoResourceAttributes> map = checkStream2( "b26-linux" );
+        PlexusIoResourceAttributes attrs = null;
+        for ( String s : map.keySet() )
+        {
+            if (s.endsWith( "App.java" )) attrs = map.get(s);
+        }
+        Assert.assertEquals( 0662, attrs.getOctalMode());
+
     }
 
     public void testMergeAttributesWithNullBase()
@@ -510,24 +521,41 @@ public class PlexusIoResourceAttributeUtilsTest
     {
 
 
-        AttributeParser.NumericUserIDAttributeParser numericParser = getNumericParser();
+        AttributeParser.NumericUserIDAttributeParser numericParser = getNumericParser1nla();
         InputStream phase1 = getStream( baseName + "-p1.txt" );
         parse( phase1, numericParser );
 
 
-        final AttributeParser.SymbolicUserIDAttributeParser nameBasedParser = getNameBasedParser();
+        final AttributeParser.SymbolicUserIDAttributeParser nameBasedParser = getNameBasedParser1la();
         InputStream phase2 = getStream( baseName + "-p2.txt" );
         parse( phase2, nameBasedParser );
 
         return nameBasedParser.merge( numericParser );
     }
 
-    private AttributeParser.NumericUserIDAttributeParser getNumericParser()
+    private Map<String, PlexusIoResourceAttributes> checkStream2( String baseName )
+        throws Exception
+    {
+
+
+        AttributeParser.NumericUserIDAttributeParser numericParser = getNumericParser1nla();
+        InputStream phase1 = getStream( baseName + "-1nlaR.txt" );
+        parse( phase1, numericParser );
+
+
+        final AttributeParser.SymbolicUserIDAttributeParser nameBasedParser = getNameBasedParser1la();
+        InputStream phase2 = getStream( baseName + "-1laR.txt" );
+        parse( phase2, nameBasedParser );
+
+        return nameBasedParser.merge( numericParser );
+    }
+
+    private AttributeParser.NumericUserIDAttributeParser getNumericParser1nla()
     {
         return new AttributeParser.NumericUserIDAttributeParser( createConsoleLogger() );
     }
 
-    private AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser()
+    private AttributeParser.SymbolicUserIDAttributeParser getNameBasedParser1la()
     {
         return new AttributeParser.SymbolicUserIDAttributeParser( createConsoleLogger() );
     }

@@ -1,0 +1,985 @@
+.:
+totalt 32
+drwxrwxr-x  8 1003 1003 4096 okt.  22 19:30 .
+drwxrwxr-x 17 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r--  1 1003 1003    0 okt.  22 19:30 1nla.txt
+drwxrwxr-x  4 1003 1003 4096 okt.  22 19:21 configured-handler
+drwxrwxr-x  5 1003 1003 4096 okt.  22 19:21 custom-containerDescriptorHandler
+drwxrwxr-x  4 1003 1003 4096 okt.  22 19:21 custom-handler-withFileEntries
+drwxrwxr-x  5 1003 1003 4096 okt.  22 19:21 custom-handler-withMixedEntries
+drwxrwxr-x  4 1003 1003 4096 okt.  22 19:21 metaInf-services-aggregation
+drwxrwxr-x  4 1003 1003 4096 okt.  22 19:21 metaInf-spring-aggregation
+
+./configured-handler:
+totalt 72
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003  4096 okt.  22 19:30 ..
+-rw-rw-r-- 1 1003 1003 44356 okt.  22 19:21 build.log
+-rw-rw-r-- 1 1003 1003   815 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003  1855 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:14 src
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:21 target
+-rw-rw-r-- 1 1003 1003  2138 okt.  22 19:14 verify.bsh
+
+./configured-handler/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 config
+
+./configured-handler/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1394 okt.  22 19:14 bin.xml
+
+./configured-handler/src/config:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+
+./configured-handler/src/config/a:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    7 okt.  22 19:14 file.txt
+
+./configured-handler/src/config/b:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 file.txt
+
+./configured-handler/target:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 archive-tmp
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 configured-handler-1-bin
+
+./configured-handler/target/archive-tmp:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+
+./configured-handler/target/configured-handler-1-bin:
+totalt 20
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+---------- 1 1003 1003   54 okt.  22 19:21 file.txt
+
+./configured-handler/target/configured-handler-1-bin/a:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+
+./configured-handler/target/configured-handler-1-bin/b:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-containerDescriptorHandler:
+totalt 192
+drwxrwxr-x 5 1003 1003   4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003   4096 okt.  22 19:30 ..
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 assembly
+-rw-rw-r-- 1 1003 1003 162471 okt.  22 19:21 build.log
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 handler-def
+-rw-rw-r-- 1 1003 1003    808 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003   2640 okt.  22 19:14 pom.xml
+drwxrwxr-x 3 1003 1003   4096 okt.  22 19:21 target
+-rw-rw-r-- 1 1003 1003   2136 okt.  22 19:14 verify.bsh
+
+./custom-containerDescriptorHandler/assembly:
+totalt 120
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003  4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003   801 okt.  22 19:14 a.properties
+-rw-rw-r-- 1 1003 1003 97578 okt.  22 19:21 build.log
+-rw-rw-r-- 1 1003 1003  2069 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:14 src
+drwxrwxr-x 6 1003 1003  4096 okt.  22 19:21 target
+
+./custom-containerDescriptorHandler/assembly/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 config
+
+./custom-containerDescriptorHandler/assembly/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1526 okt.  22 19:14 bin.xml
+
+./custom-containerDescriptorHandler/assembly/src/config:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+
+./custom-containerDescriptorHandler/assembly/src/config/a:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    7 okt.  22 19:14 file.txt
+
+./custom-containerDescriptorHandler/assembly/src/config/b:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 file.txt
+
+./custom-containerDescriptorHandler/assembly/target:
+totalt 28
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 archive-tmp
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 assembly-1-bin
+-rw-rw-r-- 1 1003 1003 2005 okt.  22 19:21 assembly-1.jar
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+
+./custom-containerDescriptorHandler/assembly/target/archive-tmp:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-containerDescriptorHandler/assembly/target/assembly-1-bin:
+totalt 20
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+---------- 1 1003 1003   54 okt.  22 19:21 file.txt
+
+./custom-containerDescriptorHandler/assembly/target/assembly-1-bin/a:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-containerDescriptorHandler/assembly/target/assembly-1-bin/b:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-containerDescriptorHandler/assembly/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003   98 okt.  22 19:21 pom.properties
+
+./custom-containerDescriptorHandler/assembly/target/surefire:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1589 okt.  22 19:21 surefire1099561019163899692tmp
+-rw-rw-r-- 1 1003 1003  540 okt.  22 19:21 surefire8895515415338920588tmp
+-rw-rw-r-- 1 1003 1003  908 okt.  22 19:21 surefirebooter7545378587341722860.jar
+
+./custom-containerDescriptorHandler/handler-def:
+totalt 24
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 3070 okt.  22 19:21 build.log
+-rw-rw-r-- 1 1003 1003 1396 okt.  22 19:14 pom.xml
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 src
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 target
+
+./custom-containerDescriptorHandler/handler-def/src:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 main
+
+./custom-containerDescriptorHandler/handler-def/src/main:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./custom-containerDescriptorHandler/handler-def/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 META-INF
+
+./custom-containerDescriptorHandler/handler-def/src/main/resources/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 plexus
+
+./custom-containerDescriptorHandler/handler-def/src/main/resources/META-INF/plexus:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1295 okt.  22 19:14 components.xml
+
+./custom-containerDescriptorHandler/handler-def/target:
+totalt 24
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 classes
+-rw-rw-r-- 1 1003 1003 2768 okt.  22 19:21 handler-def-1.jar
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+
+./custom-containerDescriptorHandler/handler-def/target/classes:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 META-INF
+
+./custom-containerDescriptorHandler/handler-def/target/classes/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 plexus
+
+./custom-containerDescriptorHandler/handler-def/target/classes/META-INF/plexus:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1295 okt.  22 19:21 components.xml
+
+./custom-containerDescriptorHandler/handler-def/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  101 okt.  22 19:21 pom.properties
+
+./custom-containerDescriptorHandler/handler-def/target/surefire:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-containerDescriptorHandler/target:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 invoker-reports
+
+./custom-containerDescriptorHandler/target/invoker-reports:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  138 okt.  22 19:21 BUILD-pom.xml.xml
+
+./custom-handler-withFileEntries:
+totalt 28
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:30 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 assembly
+-rw-rw-r-- 1 1003 1003    0 okt.  22 19:21 build.log
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 handler-def
+-rw-rw-r-- 1 1003 1003  808 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003 2634 okt.  22 19:14 pom.xml
+-rw-rw-r-- 1 1003 1003 2136 okt.  22 19:14 verify.bsh
+
+./custom-handler-withFileEntries/assembly:
+totalt 20
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  801 okt.  22 19:14 a.properties
+-rw-rw-r-- 1 1003 1003 2069 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 src
+
+./custom-handler-withFileEntries/assembly/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 config
+
+./custom-handler-withFileEntries/assembly/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1702 okt.  22 19:14 bin.xml
+
+./custom-handler-withFileEntries/assembly/src/config:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+
+./custom-handler-withFileEntries/assembly/src/config/a:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    7 okt.  22 19:14 file.txt
+
+./custom-handler-withFileEntries/assembly/src/config/b:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 file.txt
+
+./custom-handler-withFileEntries/handler-def:
+totalt 16
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1396 okt.  22 19:14 pom.xml
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 src
+
+./custom-handler-withFileEntries/handler-def/src:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 main
+
+./custom-handler-withFileEntries/handler-def/src/main:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./custom-handler-withFileEntries/handler-def/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 META-INF
+
+./custom-handler-withFileEntries/handler-def/src/main/resources/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 plexus
+
+./custom-handler-withFileEntries/handler-def/src/main/resources/META-INF/plexus:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1294 okt.  22 19:14 components.xml
+
+./custom-handler-withMixedEntries:
+totalt 256
+drwxrwxr-x 5 1003 1003   4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003   4096 okt.  22 19:30 ..
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 assembly
+-rw-rw-r-- 1 1003 1003 229375 okt.  22 19:21 build.log
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 handler-def
+-rw-rw-r-- 1 1003 1003    808 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003   2636 okt.  22 19:14 pom.xml
+drwxrwxr-x 3 1003 1003   4096 okt.  22 19:21 target
+-rw-rw-r-- 1 1003 1003   2136 okt.  22 19:14 verify.bsh
+
+./custom-handler-withMixedEntries/assembly:
+totalt 120
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003  4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003   801 okt.  22 19:14 a.properties
+-rw-rw-r-- 1 1003 1003 97792 okt.  22 19:21 build.log
+-rw-rw-r-- 1 1003 1003  2069 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003  4096 okt.  22 19:14 src
+drwxrwxr-x 6 1003 1003  4096 okt.  22 19:21 target
+
+./custom-handler-withMixedEntries/assembly/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 config
+
+./custom-handler-withMixedEntries/assembly/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1699 okt.  22 19:14 bin.xml
+
+./custom-handler-withMixedEntries/assembly/src/config:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 a
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+
+./custom-handler-withMixedEntries/assembly/src/config/a:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    7 okt.  22 19:14 file.txt
+
+./custom-handler-withMixedEntries/assembly/src/config/b:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 file.txt
+
+./custom-handler-withMixedEntries/assembly/target:
+totalt 28
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 archive-tmp
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 assembly-1-bin
+-rw-rw-r-- 1 1003 1003 2005 okt.  22 19:21 assembly-1.jar
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+
+./custom-handler-withMixedEntries/assembly/target/archive-tmp:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-handler-withMixedEntries/assembly/target/assembly-1-bin:
+totalt 16
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 b
+---------- 1 1003 1003   73 okt.  22 19:21 file.txt
+
+./custom-handler-withMixedEntries/assembly/target/assembly-1-bin/b:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-handler-withMixedEntries/assembly/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003   98 okt.  22 19:21 pom.properties
+
+./custom-handler-withMixedEntries/assembly/target/surefire:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 6 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1579 okt.  22 19:21 surefire203473856891319972tmp
+-rw-rw-r-- 1 1003 1003  536 okt.  22 19:21 surefire4496433082199856515tmp
+-rw-rw-r-- 1 1003 1003  904 okt.  22 19:21 surefirebooter4820842769322134005.jar
+
+./custom-handler-withMixedEntries/handler-def:
+totalt 24
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 3060 okt.  22 19:21 build.log
+-rw-rw-r-- 1 1003 1003 1396 okt.  22 19:14 pom.xml
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 src
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 target
+
+./custom-handler-withMixedEntries/handler-def/src:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 main
+
+./custom-handler-withMixedEntries/handler-def/src/main:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./custom-handler-withMixedEntries/handler-def/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 META-INF
+
+./custom-handler-withMixedEntries/handler-def/src/main/resources/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 plexus
+
+./custom-handler-withMixedEntries/handler-def/src/main/resources/META-INF/plexus:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1294 okt.  22 19:14 components.xml
+
+./custom-handler-withMixedEntries/handler-def/target:
+totalt 24
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 classes
+-rw-rw-r-- 1 1003 1003 2767 okt.  22 19:21 handler-def-1.jar
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+
+./custom-handler-withMixedEntries/handler-def/target/classes:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 META-INF
+
+./custom-handler-withMixedEntries/handler-def/target/classes/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 plexus
+
+./custom-handler-withMixedEntries/handler-def/target/classes/META-INF/plexus:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1294 okt.  22 19:21 components.xml
+
+./custom-handler-withMixedEntries/handler-def/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  101 okt.  22 19:21 pom.properties
+
+./custom-handler-withMixedEntries/handler-def/target/surefire:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+
+./custom-handler-withMixedEntries/target:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 invoker-reports
+
+./custom-handler-withMixedEntries/target/invoker-reports:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  137 okt.  22 19:21 BUILD-pom.xml.xml
+
+./metaInf-services-aggregation:
+totalt 32
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:30 ..
+-rw-rw-r-- 1 1003 1003  345 okt.  22 19:21 build.log
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 child1
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 child2
+-rw-rw-r-- 1 1003 1003  808 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003 1421 okt.  22 19:14 pom.xml
+-rw-rw-r-- 1 1003 1003 1848 okt.  22 19:14 verify.bsh
+
+./metaInf-services-aggregation/child1:
+totalt 16
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1197 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 src
+
+./metaInf-services-aggregation/child1/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 main
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child1/src/main:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./metaInf-services-aggregation/child1/src/main/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child1/src/main/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003  979 okt.  22 19:14 App.java
+
+./metaInf-services-aggregation/child1/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 META-INF
+
+./metaInf-services-aggregation/child1/src/main/resources/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 services
+
+./metaInf-services-aggregation/child1/src/main/resources/META-INF/services:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 test.Test
+
+./metaInf-services-aggregation/child1/src/test:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+
+./metaInf-services-aggregation/child1/src/test/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child1/src/test/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1444 okt.  22 19:14 AppTest.java
+
+./metaInf-services-aggregation/child2:
+totalt 16
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1934 okt.  22 19:14 pom.xml
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 src
+
+./metaInf-services-aggregation/child2/src:
+totalt 20
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 main
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child2/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1634 okt.  22 19:14 bin.xml
+
+./metaInf-services-aggregation/child2/src/main:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./metaInf-services-aggregation/child2/src/main/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child2/src/main/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003  979 okt.  22 19:14 App.java
+
+./metaInf-services-aggregation/child2/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 META-INF
+
+./metaInf-services-aggregation/child2/src/main/resources/META-INF:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 services
+
+./metaInf-services-aggregation/child2/src/main/resources/META-INF/services:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003    8 okt.  22 19:14 test.Test
+
+./metaInf-services-aggregation/child2/src/test:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+
+./metaInf-services-aggregation/child2/src/test/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-services-aggregation/child2/src/test/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1444 okt.  22 19:14 AppTest.java
+
+./metaInf-spring-aggregation:
+totalt 184
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003   4096 okt.  22 19:30 ..
+-rw-rw-r-- 1 1003 1003 155868 okt.  22 19:21 build.log
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 child1
+drwxrwxr-x 4 1003 1003   4096 okt.  22 19:21 child2
+-rw-rw-r-- 1 1003 1003    808 okt.  22 19:14 invoker.properties
+-rw-rw-r-- 1 1003 1003   1421 okt.  22 19:14 pom.xml
+-rw-rw-r-- 1 1003 1003   2839 okt.  22 19:14 verify.bsh
+
+./metaInf-spring-aggregation/child1:
+totalt 20
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1197 okt.  22 19:14 pom.xml
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 src
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 target
+
+./metaInf-spring-aggregation/child1/src:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 main
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child1/src/main:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./metaInf-spring-aggregation/child1/src/main/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child1/src/main/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003  979 okt.  22 19:14 App.java
+
+./metaInf-spring-aggregation/child1/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 META-INF
+
+./metaInf-spring-aggregation/child1/src/main/resources/META-INF:
+totalt 16
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003   95 okt.  22 19:14 spring.handlers
+-rw-rw-r-- 1 1003 1003  112 okt.  22 19:14 spring.schemas
+
+./metaInf-spring-aggregation/child1/src/test:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+
+./metaInf-spring-aggregation/child1/src/test/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child1/src/test/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1444 okt.  22 19:14 AppTest.java
+
+./metaInf-spring-aggregation/child1/target:
+totalt 32
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 2642 okt.  22 19:21 child1-1.0-SNAPSHOT.jar
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 classes
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire-reports
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 test-classes
+
+./metaInf-spring-aggregation/child1/target/classes:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 META-INF
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 test
+
+./metaInf-spring-aggregation/child1/target/classes/META-INF:
+totalt 16
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003   95 okt.  22 19:21 spring.handlers
+-rw-rw-r-- 1 1003 1003  112 okt.  22 19:21 spring.schemas
+
+./metaInf-spring-aggregation/child1/target/classes/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  523 okt.  22 19:21 App.class
+
+./metaInf-spring-aggregation/child1/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  103 okt.  22 19:21 pom.properties
+
+./metaInf-spring-aggregation/child1/target/surefire:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  661 okt.  22 19:21 surefire3487845674525729262tmp
+-rw-rw-r-- 1 1003 1003 1669 okt.  22 19:21 surefire6200517285381744714tmp
+-rw-rw-r-- 1 1003 1003 1010 okt.  22 19:21 surefirebooter9130688530404969649.jar
+
+./metaInf-spring-aggregation/child1/target/surefire-reports:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  257 okt.  22 19:21 test.AppTest.txt
+-rw-rw-r-- 1 1003 1003 4660 okt.  22 19:21 TEST-test.AppTest.xml
+
+./metaInf-spring-aggregation/child1/target/test-classes:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 7 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 test
+
+./metaInf-spring-aggregation/child1/target/test-classes/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  588 okt.  22 19:21 AppTest.class
+
+./metaInf-spring-aggregation/child2:
+totalt 20
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003 1934 okt.  22 19:14 pom.xml
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 src
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 target
+
+./metaInf-spring-aggregation/child2/src:
+totalt 20
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 assemble
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 main
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child2/src/assemble:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1632 okt.  22 19:14 bin.xml
+
+./metaInf-spring-aggregation/child2/src/main:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 resources
+
+./metaInf-spring-aggregation/child2/src/main/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child2/src/main/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003  979 okt.  22 19:14 App.java
+
+./metaInf-spring-aggregation/child2/src/main/resources:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 META-INF
+
+./metaInf-spring-aggregation/child2/src/main/resources/META-INF:
+totalt 16
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003  107 okt.  22 19:14 spring.handlers
+-rw-rw-r-- 1 1003 1003  112 okt.  22 19:14 spring.schemas
+
+./metaInf-spring-aggregation/child2/src/test:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 5 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 java
+
+./metaInf-spring-aggregation/child2/src/test/java:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 test
+
+./metaInf-spring-aggregation/child2/src/test/java/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:14 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:14 ..
+-rw-rw-r-- 1 1003 1003 1444 okt.  22 19:14 AppTest.java
+
+./metaInf-spring-aggregation/child2/target:
+totalt 44
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 archive-tmp
+-rw-rw-r-- 1 1003 1003 4120 okt.  22 19:21 child2-1.0-SNAPSHOT-bin.jar
+-rw-rw-r-- 1 1003 1003 2823 okt.  22 19:21 child2-1.0-SNAPSHOT.jar
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 classes
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 maven-archiver
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 surefire-reports
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 test-classes
+
+./metaInf-spring-aggregation/child2/target/archive-tmp:
+totalt 8
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+
+./metaInf-spring-aggregation/child2/target/classes:
+totalt 16
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 META-INF
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 test
+
+./metaInf-spring-aggregation/child2/target/classes/META-INF:
+totalt 16
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  107 okt.  22 19:21 spring.handlers
+-rw-rw-r-- 1 1003 1003  112 okt.  22 19:21 spring.schemas
+
+./metaInf-spring-aggregation/child2/target/classes/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 4 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  523 okt.  22 19:21 App.class
+
+./metaInf-spring-aggregation/child2/target/maven-archiver:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  103 okt.  22 19:21 pom.properties
+
+./metaInf-spring-aggregation/child2/target/surefire:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  661 okt.  22 19:21 surefire1113332971636409001tmp
+-rw-rw-r-- 1 1003 1003 1842 okt.  22 19:21 surefire5018525241296158510tmp
+-rw-rw-r-- 1 1003 1003 1179 okt.  22 19:21 surefirebooter483582438512309650.jar
+
+./metaInf-spring-aggregation/child2/target/surefire-reports:
+totalt 20
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  257 okt.  22 19:21 test.AppTest.txt
+-rw-rw-r-- 1 1003 1003 4660 okt.  22 19:21 TEST-test.AppTest.xml
+
+./metaInf-spring-aggregation/child2/target/test-classes:
+totalt 12
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 8 1003 1003 4096 okt.  22 19:21 ..
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 test
+
+./metaInf-spring-aggregation/child2/target/test-classes/test:
+totalt 12
+drwxrwxr-x 2 1003 1003 4096 okt.  22 19:21 .
+drwxrwxr-x 3 1003 1003 4096 okt.  22 19:21 ..
+-rw-rw-r-- 1 1003 1003  588 okt.  22 19:21 AppTest.class
