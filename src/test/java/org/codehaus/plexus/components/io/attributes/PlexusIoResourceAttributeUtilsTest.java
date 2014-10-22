@@ -293,7 +293,7 @@ public class PlexusIoResourceAttributeUtilsTest
         {
             if (s.endsWith( "App.java" )) attrs = map.get(s);
         }
-        Assert.assertEquals( 0662, attrs.getOctalMode());
+        Assert.assertEquals( 0664, attrs.getOctalMode());
 
     }
 
