@@ -22,6 +22,8 @@ import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
@@ -70,6 +72,15 @@ public class PlexusIoProxyResourceCollection
         setOverrideFileAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode ) );
 
         setOverrideDirAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+    }
+
+    @Override
+    public void setStreamTransformer( InputStreamTransformer streamTransformer )
+    {
+        if (src instanceof AbstractPlexusIoResourceCollection ){
+            ((AbstractPlexusIoResourceCollection)src).setStreamTransformer( streamTransformer );
+        }
+        super.setStreamTransformer( streamTransformer );
     }
 
     protected FileSelector getDefaultFileSelector()
