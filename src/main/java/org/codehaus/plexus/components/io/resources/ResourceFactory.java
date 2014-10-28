@@ -29,13 +29,12 @@ public class ResourceFactory
             }
         } :
 
-            new PlexusIoFileResource( f, p, attributes, streamTransformer )
+            new PlexusIoFileResource( f, p, attributes )
             {
                 @Nonnull
                 public InputStream getContents()
                     throws IOException
-                {
-                    return streamTransformer.transform( this, inputStreamSupplier.get());
+                { return inputStreamSupplier.get();
                 }
             };
     }

@@ -7,8 +7,6 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 
-import static org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection.identityTransformer;
-
 public class PlexusIoSymlinkResource
     extends PlexusIoFileResource
     implements PlexusIoSymlink
@@ -17,7 +15,7 @@ public class PlexusIoSymlinkResource
 
     public PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs )
     {
-        super( symlinkfile, name, attrs, identityTransformer );
+        super( symlinkfile, name, attrs);
         this.symnlinkDestination = null;
     }
 

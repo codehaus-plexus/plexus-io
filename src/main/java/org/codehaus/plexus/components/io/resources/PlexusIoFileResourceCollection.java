@@ -21,10 +21,7 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
-import org.codehaus.plexus.components.io.filemappers.FileMapper;
-import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.util.DirectoryScanner;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
@@ -151,7 +148,7 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs, getStreamTransformer());
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs);
             if ( isSelected( resource ) )
             {
                 result.add( resource );
@@ -184,7 +181,7 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs, getStreamTransformer());
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk(f, name, attrs);
             if ( isSelected( resource ) )
             {
                 result.add( resource );

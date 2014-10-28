@@ -42,21 +42,17 @@ public class PlexusIoFileResource
     @Nonnull
     private final PlexusIoResourceAttributes attributes;
 
-    @Nonnull
-    private final InputStreamTransformer inputStreamTransformer;
-
     public PlexusIoFileResource( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
     {
-        this( file, getName( file ), attrs, AbstractPlexusIoResourceCollection.identityTransformer );
+        this( file, getName( file ), attrs);
     }
 
-    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, @Nonnull InputStreamTransformer inputStreamTransformer )
+    public PlexusIoFileResource(@Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs)
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
         if (attrs == null) throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
         this.attributes = attrs;
-        this.inputStreamTransformer = inputStreamTransformer;
     }
 
     private static String getName( File file )
@@ -64,13 +60,12 @@ public class PlexusIoFileResource
         return file.getPath().replace( '\\', '/' );
     }
 
-    public static PlexusIoFileResource fileOnDisk( File file, String name, PlexusIoResourceAttributes attrs,
-                                                   InputStreamTransformer streamTransformer )
+    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs)
     {
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, name, attrs);
         else
-            return new PlexusIoFileResource( file, name, attrs, streamTransformer );
+            return new PlexusIoFileResource( file, name, attrs);
     }
 
     public static PlexusIoFileResource justAFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
@@ -78,7 +73,7 @@ public class PlexusIoFileResource
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, getName( file ), attrs);
         else
-            return new PlexusIoFileResource( file, getName( file ), attrs, AbstractPlexusIoResourceCollection.identityTransformer );
+            return new PlexusIoFileResource( file, getName( file ), attrs);
     }
 
     /**
@@ -94,7 +89,7 @@ public class PlexusIoFileResource
     public InputStream getContents()
         throws IOException
     {
-        return inputStreamTransformer.transform( this, new FileInputStream( getFile() ));
+        return new FileInputStream( getFile());
     }
 
     @Nonnull
