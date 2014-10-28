@@ -50,9 +50,8 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * @param resource A resource, which has been obtained by
      *   calling {@link #getResources()}.
      * @return The resource name. If it is a file, it should be normalized to platform separators
-     * @throws java.io.IOException .
      */
-    String getName( PlexusIoResource resource ) throws IOException;
+    String getName( PlexusIoResource resource );
 
     /**
      * Returns the collections last modification time. For a
@@ -74,6 +73,16 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * @throws IOException when something goes bad
      */
     InputStream getInputStream( PlexusIoResource resource ) throws IOException;
+
+    /**
+     * Resolves the supplide resource into a "real" resource. Resolving
+     * means applying input transformations
+     * Returns an input stream for the provided resource, with stream transformers applied
+     * @param resource The resources
+     * @return A possibly transformed resource
+     * @throws IOException when something goes bad
+     */
+    PlexusIoResource resolve( PlexusIoResource resource ) throws IOException;
 
 
 }

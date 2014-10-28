@@ -33,7 +33,9 @@ public abstract class AbstractPlexusIoResourceCollection
     implements PlexusIoResourceCollection
 {
 
-    static class IdentityTransformer implements InputStreamTransformer {
+    static class IdentityTransformer
+        implements InputStreamTransformer
+    {
         public InputStream transform( PlexusIoResource resource, InputStream inputStream )
             throws IOException
         {
@@ -42,6 +44,7 @@ public abstract class AbstractPlexusIoResourceCollection
     }
 
     public static final InputStreamTransformer identityTransformer = new IdentityTransformer();
+
     private String prefix;
 
     private String[] includes;
@@ -102,8 +105,14 @@ public abstract class AbstractPlexusIoResourceCollection
 
     public void setStreamTransformer( InputStreamTransformer streamTransformer )
     {
-        if (streamTransformer == null) this.streamTransformer = identityTransformer;
-        else this.streamTransformer = streamTransformer;
+        if ( streamTransformer == null )
+        {
+            this.streamTransformer = identityTransformer;
+        }
+        else
+        {
+            this.streamTransformer = streamTransformer;
+        }
     }
 
     protected InputStreamTransformer getStreamTransformer()
@@ -249,7 +258,6 @@ public abstract class AbstractPlexusIoResourceCollection
     }
 
     public String getName( PlexusIoResource resource )
-        throws IOException
     {
         String name = resource.getName();
         final FileMapper[] mappers = getFileMappers();
@@ -268,7 +276,15 @@ public abstract class AbstractPlexusIoResourceCollection
         throws IOException
     {
         InputStream contents = resource.getContents();
-        return new ClosingInputStream( streamTransformer.transform(resource, contents ), contents);
+        return new ClosingInputStream( streamTransformer.transform( resource, contents ), contents );
+    }
+
+
+    public PlexusIoResource resolve( final PlexusIoResource resource )
+        throws IOException
+    {
+        final Deferred deferred = new Deferred( resource, this, streamTransformer != identityTransformer );
+        return deferred.asResource();
     }
 
     public long getLastModified()

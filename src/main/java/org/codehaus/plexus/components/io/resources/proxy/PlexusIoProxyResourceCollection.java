@@ -171,7 +171,6 @@ public class PlexusIoProxyResourceCollection
     }
 
     public String getName( final PlexusIoResource resource )
-        throws IOException
     {
         String name = resource.getName();
         final FileMapper[] mappers = getFileMappers();

@@ -24,7 +24,6 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -37,7 +36,9 @@ public abstract class PlexusIoCompressedFileResourceCollection
     implements PlexusIoArchivedResourceCollection, Iterable<PlexusIoResource>
 {
     private File file;
+
     private String path;
+
     private InputStreamTransformer streamTransformers = AbstractPlexusIoResourceCollection.identityTransformer;
 
 
@@ -49,7 +50,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
     public void setFile( File file )
     {
         this.file = file;
-        
+
     }
 
     public String getPath()
@@ -60,13 +61,14 @@ public abstract class PlexusIoCompressedFileResourceCollection
     public void setPath( String path )
     {
         this.path = path;
-        
+
     }
 
 
     // return the file attributes of the uncompressed file
     // may be null.
-    protected abstract PlexusIoResourceAttributes getAttributes(File f) throws IOException;
+    protected abstract PlexusIoResourceAttributes getAttributes( File f )
+        throws IOException;
 
     public void setStreamTransformer( InputStreamTransformer streamTransformers )
     {
@@ -77,17 +79,15 @@ public abstract class PlexusIoCompressedFileResourceCollection
         throws IOException
     {
         final File f = getFile();
-        final String p = (getPath() == null ? getName( f ) : getPath()).replace( '\\', '/' );
+        final String p = ( getPath() == null ? getName( f ) : getPath() ).replace( '\\', '/' );
         if ( f == null )
         {
             throw new IOException( "No archive file is set." );
         }
-        if ( ! f.isFile() )
+        if ( !f.isFile() )
         {
-            throw new IOException( "The archive file " + f.getPath()
-                                   + " does not exist or is no file." ); 
+            throw new IOException( "The archive file " + f.getPath() + " does not exist or is no file." );
         }
-
 
         final PlexusIoResourceAttributes attributes = getAttributes( f );
 
@@ -102,15 +102,17 @@ public abstract class PlexusIoCompressedFileResourceCollection
         };
 
         final PlexusIoResource resource =
-            ResourceFactory.createResource(f, p, attributes, inputStreamSupplier, streamTransformers );
+            ResourceFactory.createResource( f, p, attributes, inputStreamSupplier, streamTransformers );
 
         return Collections.singleton( resource ).iterator();
     }
 
-    protected String getName( File file ) throws IOException {
+    protected String getName( File file )
+        throws IOException
+    {
         final String name = file.getPath();
         final String ext = getDefaultExtension();
-        if ( ext != null  &&  ext.length() > 0  &&  name.endsWith( ext ) )
+        if ( ext != null && ext.length() > 0 && name.endsWith( ext ) )
         {
             return name.substring( 0, name.length() - ext.length() );
         }
@@ -119,13 +121,22 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
     protected abstract String getDefaultExtension();
 
-    protected abstract @Nonnull InputStream getInputStream( File file ) throws IOException;
+    protected abstract @Nonnull InputStream getInputStream( File file )
+        throws IOException;
 
     public InputStream getInputStream( PlexusIoResource resource )
         throws IOException
     {
         InputStream contents = resource.getContents();
-        return new ClosingInputStream( streamTransformers.transform(  resource, contents ), contents);
+        return new ClosingInputStream( streamTransformers.transform( resource, contents ), contents );
+    }
+
+    public PlexusIoResource resolve( final PlexusIoResource resource )
+        throws IOException
+    {
+        final Deferred deferred = new Deferred( resource, this, streamTransformers
+            != AbstractPlexusIoResourceCollection.identityTransformer );
+        return deferred.asResource();
     }
 
 
@@ -142,12 +153,12 @@ public abstract class PlexusIoCompressedFileResourceCollection
     }
 
     public String getName( PlexusIoResource resource )
-        throws IOException
     {
         return resource.getName();
     }
 
-    public long getLastModified() throws IOException
+    public long getLastModified()
+        throws IOException
     {
         File f = getFile();
         return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();

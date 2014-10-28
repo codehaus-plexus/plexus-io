@@ -27,7 +27,7 @@ public class PlexusIoProxyResource
     implements PlexusIoResource
 {
 
-    private final PlexusIoResource src;
+    protected final PlexusIoResource src;
 
     protected PlexusIoProxyResource( @Nonnull PlexusIoResource plexusIoResource )
     {
