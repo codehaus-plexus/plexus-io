@@ -41,7 +41,9 @@ public abstract class PlexusIoURLResource
         }
         catch ( IOException e )
         {
-            throw new IOException( getDescriptionForError( url ), e );
+            IOException ex = new IOException( getDescriptionForError( url ) );
+            ex.initCause( e );
+            throw ex;
         }
     }
 
