@@ -51,7 +51,7 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
         {
             throw new IOException( "The zip file has not been set." );
         }
-        final URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { f.toURI().toURL() });
+        final URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { f.toURI().toURL() }, null);
 
         final URL url = new URL( "jar:" + f.toURI().toURL() + "!/");
         final ZipFile zipFile = new ZipFile( f );
