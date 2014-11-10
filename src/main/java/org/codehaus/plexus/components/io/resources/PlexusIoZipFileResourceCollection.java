@@ -27,7 +27,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 
-public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveResourceCollection
+public class PlexusIoZipFileResourceCollection
+    extends AbstractPlexusIoArchiveResourceCollection
 {
     /**
      * The zip file resource collections role hint.
@@ -38,22 +39,29 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
      * The zip file resource collections role hint for jar files.
      */
     public static final String JAR_ROLE_HINT = "jarFile";
-    
+
     public PlexusIoZipFileResourceCollection()
     {
-        
+
     }
 
-    protected Iterator<PlexusIoResource> getEntries() throws IOException
+    protected Iterator<PlexusIoResource> getEntries()
+        throws IOException
     {
         final File f = getFile();
         if ( f == null )
         {
             throw new IOException( "The zip file has not been set." );
         }
-        final URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { f.toURI().toURL() }, null);
+        final URLClassLoader urlClassLoader = new URLClassLoader( new URL[]{ f.toURI().toURL() }, null )
+        {
+            public URL getResource( String name )
+            {
+                return findResource( name );
+            }
+        };
 
-        final URL url = new URL( "jar:" + f.toURI().toURL() + "!/");
+        final URL url = new URL( "jar:" + f.toURI().toURL() + "!/" );
         final ZipFile zipFile = new ZipFile( f );
         final Enumeration en = zipFile.entries();
         return new ZipFileResourceIterator( en, url, zipFile, urlClassLoader );
@@ -91,21 +99,21 @@ public class PlexusIoZipFileResourceCollection extends AbstractPlexusIoArchiveRe
             final boolean dir = entry.isDirectory();
             final long size = dir ? PlexusIoResource.UNKNOWN_RESOURCE_SIZE : entry.getSize();
 
-            return new PlexusIoURLResource(entry.getName(), lastModified,size,
-                                                                    !dir,
-                                                                    dir, true ){
-                public URL getURL() throws IOException
+            return new PlexusIoURLResource( entry.getName(), lastModified, size, !dir, dir, true )
+            {
+                public URL getURL()
+                    throws IOException
                 {
                     String spec = getName();
-                    if (spec.startsWith( "/" )){
+                    if ( spec.startsWith( "/" ) )
+                    {
                         // Code path for PLXCOMP-170. Note that urlClassloader does not seem to produce correct
                         // urls for this. Which again means files loaded via this path cannot have file names
                         // requiring url encoding
                         spec = "./" + spec;
                         return new URL( url, spec );
                     }
-
-                    return urlClassLoader.getResource(spec);
+                    return urlClassLoader.getResource( spec );
                 }
             };
         }
