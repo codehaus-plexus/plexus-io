@@ -35,6 +35,8 @@ public class SimpleResourceAttributes
 
     private int mode;
 
+    private boolean isSymbolicLink;
+
     public SimpleResourceAttributes( Integer uid, String userName, Integer gid, String groupName, int mode )
     {
         this.uid = uid;
@@ -176,8 +178,14 @@ public class SimpleResourceAttributes
             mode );
     }
 
+
+    public void setSymbolicLink( boolean isSymbolicLink )
+    {
+        this.isSymbolicLink = isSymbolicLink;
+    }
+
     public boolean isSymbolicLink()
     {
-        return false;
+        return isSymbolicLink;
     }
 }

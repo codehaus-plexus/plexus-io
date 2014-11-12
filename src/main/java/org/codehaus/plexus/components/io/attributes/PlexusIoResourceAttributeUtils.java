@@ -62,6 +62,7 @@ public final class PlexusIoResourceAttributeUtils
         {
             result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(),
                                                    base.getGroupName(), base.getOctalMode() );
+            result.setSymbolicLink(  base.isSymbolicLink() );
         }
 
         if ( override.getGroupId() != null && override.getGroupId() != -1 )

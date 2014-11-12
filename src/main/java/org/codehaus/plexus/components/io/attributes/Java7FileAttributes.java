@@ -98,7 +98,7 @@ public class Java7FileAttributes
             permissions = Collections.emptySet();
         }
 
-        symbolicLink = basicFileAttributes.isSymbolicLink();
+        symbolicLink = Files.isSymbolicLink( file.toPath() );
     }
 
     public static  @Nonnull PlexusIoResourceAttributes uncached(  @Nonnull File file )
