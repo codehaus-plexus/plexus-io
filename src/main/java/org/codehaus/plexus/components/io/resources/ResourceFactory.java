@@ -1,42 +1,61 @@
 package org.codehaus.plexus.components.io.resources;
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
+import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
+import static org.codehaus.plexus.components.io.resources.PlexusIoFileResource.getName;
 
 /**
  * @author Kristian Rosenvold
  */
 public class ResourceFactory
 {
-
-    public static PlexusIoResource createResource( File f, String p, PlexusIoResourceAttributes attributes,
-                                                   final ContentSupplier contentSupplier,
-                                                   final InputStreamTransformer streamTransformer )
+    public static PlexusIoResource createResource( File f )
+        throws IOException
     {
-        return attributes.isSymbolicLink() ? new PlexusIoSymlinkResource( f, p, attributes )
-        {
-            @Nonnull
-            public InputStream getContents()
-                throws IOException
-            {
-                return contentSupplier.getContents();
-            }
-        } :
+        return createResource( f, getName( f ), null, null, getFileAttributes( f )  );
+    }
 
-            new PlexusIoFileResource( f, p, attributes )
-            {
-                @Nonnull
-                public InputStream getContents()
-                    throws IOException
-                { return contentSupplier.getContents();
-                }
-            };
+    public static PlexusIoResource createResource( File f, String name )
+        throws IOException
+    {
+        return createResource( f, name, null, null, getFileAttributes( f ) );
+    }
+
+    public static PlexusIoResource createResource( File f, String name, final ContentSupplier contentSupplier,
+                                                   PlexusIoResourceAttributes attributes )
+        throws IOException
+    {
+        return createResource(  f, name, contentSupplier, null, attributes );
+    }
+
+    public static PlexusIoResource createResource( File f, InputStreamTransformer inputStreamTransformer )
+        throws IOException
+    {
+        return createResource( f, getName( f ), null, inputStreamTransformer, getFileAttributes( f ) );
+    }
+
+    public static PlexusIoResource createResource( File f, String name,  final ContentSupplier contentSupplier,
+                                                   InputStreamTransformer inputStreamTransformer  )
+        throws IOException
+    {
+        return createResource( f, name, contentSupplier, inputStreamTransformer, getFileAttributes( f ) );
+    }
+
+    public static PlexusIoResource createResource( File f, String name, final ContentSupplier contentSupplier,
+                                                   InputStreamTransformer inputStreamTransformer,
+                                                   PlexusIoResourceAttributes attributes )
+        throws IOException
+    {
+        boolean symbolicLink = attributes.isSymbolicLink();
+        return symbolicLink ? new PlexusIoSymlinkResource( f, name, attributes )
+            :  new PlexusIoFileResource(f, name, attributes, contentSupplier, inputStreamTransformer);
     }
 
 }

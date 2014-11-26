@@ -116,13 +116,14 @@ public class ProxyFactoryTest
         final File file = new File( "pom.xml" );
         PlexusIoResourceAttributes attrs = Java7FileAttributes.uncached( file );
 
-        return new PlexusIoFileResource( file, attrs );
+        return new PlexusIoFileResource( file, "pom.xml", attrs ){};
     }
 
     class Dummy extends PlexusIoFileResource implements SymlinkDestinationSupplier {
         public Dummy( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
+            throws IOException
         {
-            super( file, attrs );
+            super( file, file.getName(), attrs );
         }
 
         public String getSymlinkDestination()

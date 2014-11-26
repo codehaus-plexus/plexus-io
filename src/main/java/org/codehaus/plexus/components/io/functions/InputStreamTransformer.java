@@ -17,6 +17,7 @@ package org.codehaus.plexus.components.io.functions;
  */
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -35,5 +36,5 @@ public interface InputStreamTransformer {
      * @return A transformed stream or possibly the supplied stream
      * @throws IOException
      */
-	InputStream transform( PlexusIoResource resource, InputStream inputStream ) throws IOException;
+    @Nonnull InputStream transform( @Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream ) throws IOException;
 }

@@ -21,11 +21,13 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,6 +52,28 @@ public class PlexusIoFileResourceCollection
 
     public PlexusIoFileResourceCollection()
     {
+    }
+
+
+    public PlexusIoResource resolve( final PlexusIoResource resource )
+        throws IOException
+    {
+        return resource;
+    }
+
+
+    @Override
+    public InputStream getInputStream( PlexusIoResource resource )
+        throws IOException
+    {
+        return resource.getContents();
+    }
+
+
+    @Override
+    public String getName( PlexusIoResource resource )
+    {
+        return resource.getName();
     }
 
     /**
@@ -97,7 +121,7 @@ public class PlexusIoFileResourceCollection
     public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
                                        final int fileMode, final int dirMode )
     {
-        setOverrideFileAttributes( createDefaults(uid, userName, gid, groupName, fileMode) );
+        setOverrideFileAttributes( createDefaults( uid, userName, gid, groupName, fileMode ) );
 
         setOverrideDirAttributes( createDefaults(uid, userName, gid, groupName, dirMode) );
     }
@@ -148,10 +172,12 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, name, attrs );
+
+            getStreamTransformer();
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, name, attrs, getStreamTransformer() );
             if ( isSelected( resource ) )
             {
-                result.add( resource );
+                result.add( resolve(resource) );
             }
         }
     }
@@ -181,7 +207,9 @@ public class PlexusIoFileResourceCollection
                                                                         getDefaultFileAttributes() );
             }
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, name, attrs );
+            String remappedName = getName( name );
+
+            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, remappedName, attrs, getStreamTransformer() );
             if ( isSelected( resource ) )
             {
                 result.add( resource );

@@ -19,8 +19,10 @@ package org.codehaus.plexus.components.io.resources;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -36,7 +38,8 @@ public abstract class AbstractPlexusIoResourceCollection
     static class IdentityTransformer
         implements InputStreamTransformer
     {
-        public InputStream transform( PlexusIoResource resource, InputStream inputStream )
+        @Nonnull
+        public InputStream transform( @Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream )
             throws IOException
         {
             return inputStream;
@@ -259,7 +262,12 @@ public abstract class AbstractPlexusIoResourceCollection
 
     public String getName( PlexusIoResource resource )
     {
-        String name = resource.getName();
+        return getName( resource.getName() );
+    }
+
+    protected String getName( String resourceName )
+    {
+        String name = resourceName;
         final FileMapper[] mappers = getFileMappers();
         if ( mappers != null )
         {

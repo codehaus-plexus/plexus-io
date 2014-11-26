@@ -16,16 +16,21 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.DeferredFileOutputStream;
 import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.FileSupplier;
+import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 
 import javax.annotation.Nonnull;
@@ -44,25 +49,72 @@ public class PlexusIoFileResource
     @Nonnull
     private final PlexusIoResourceAttributes attributes;
 
-    public PlexusIoFileResource( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
+    private final ContentSupplier contentSupplier;
+
+    private final DeferredFileOutputStream dfos;
+
+
+    protected PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
+        throws IOException
     {
-        this( file, getName( file ), attrs);
+        this( file, name, attrs, null);
     }
 
-    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
+    PlexusIoFileResource( @Nonnull final File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, final InputStreamTransformer streamTransformer )
+        throws IOException
+    {
+        this( file, name, attrs,  null, streamTransformer );
+    }
+
+    @SuppressWarnings( "ConstantConditions" )
+    PlexusIoFileResource( @Nonnull final File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, final ContentSupplier contentSupplier, final InputStreamTransformer streamTransformer )
+        throws IOException
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;
+
+        this.contentSupplier = contentSupplier != null ? contentSupplier : getRootContentSupplier( file );
+
+        boolean hasTransformer = streamTransformer != null && streamTransformer != identityTransformer;
+        InputStreamTransformer transToUse = streamTransformer != null ? streamTransformer : identityTransformer;
+
+        dfos = hasTransformer && file.isFile() ? asDeferredStream( this.contentSupplier, transToUse, this ) : null;
         if (attrs == null) throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
         this.attributes = attrs;
     }
 
-    private static String getName( File file )
+    private static DeferredFileOutputStream asDeferredStream( @Nonnull ContentSupplier supplier, @Nonnull InputStreamTransformer transToUse,
+                                                             PlexusIoResource resource )
+        throws IOException
+    {
+        DeferredFileOutputStream dfos = new DeferredFileOutputStream( 5000000, "p-archiver", null, null );
+        InputStream inputStream = supplier.getContents();
+        InputStream transformed = transToUse.transform( resource, inputStream );
+        IOUtils.copy( transformed, dfos );
+        IOUtils.closeQuietly( inputStream );
+        IOUtils.closeQuietly( transformed );
+        return dfos;
+    }
+
+    private static ContentSupplier getRootContentSupplier(final File file){
+        return new ContentSupplier()
+        {
+            public InputStream getContents()
+                throws IOException
+            {
+                return  new FileInputStream( file);
+            }
+        };
+    }
+
+    public static String getName( File file )
     {
         return file.getPath().replace( '\\', '/' );
     }
 
+    @SuppressWarnings( "UnusedDeclaration" )
     public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs)
+        throws IOException
     {
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, name, attrs);
@@ -70,7 +122,17 @@ public class PlexusIoFileResource
             return new PlexusIoFileResource( file, name, attrs);
     }
 
+    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs, InputStreamTransformer streamTransformer)
+        throws IOException
+    {
+        if ( attrs.isSymbolicLink() )
+            return new PlexusIoSymlinkResource( file, name, attrs);
+        else
+            return new PlexusIoFileResource( file, name, attrs, streamTransformer);
+    }
+
     public static PlexusIoFileResource justAFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
+        throws IOException
     {
         if ( attrs.isSymbolicLink() )
             return new PlexusIoSymlinkResource( file, getName( file ), attrs);
@@ -91,7 +153,28 @@ public class PlexusIoFileResource
     public InputStream getContents()
         throws IOException
     {
-        return new FileInputStream( getFile());
+            if ( dfos == null )
+            {
+                return contentSupplier.getContents();
+            }
+            if ( dfos.isInMemory() )
+            {
+                return new ByteArrayInputStream( dfos.getData() );
+            }
+            else
+            {
+                return new FileInputStream( dfos.getFile() )
+                {
+                    @SuppressWarnings( "ResultOfMethodCallIgnored" )
+                    @Override
+                    public void close()
+                        throws IOException
+                    {
+                        super.close();
+                        dfos.getFile().delete();
+                    }
+                };
+            }
     }
 
     @Nonnull
@@ -103,7 +186,18 @@ public class PlexusIoFileResource
 
     public long getSize()
     {
-        return getFile().length();
+        if ( dfos == null )
+        {
+            return getFile().length();
+        }
+        if ( dfos.isInMemory() )
+        {
+            return dfos.getByteCount();
+        }
+        else
+        {
+            return dfos.getFile().length();
+        }
     }
 
     public boolean isDirectory()
@@ -142,4 +236,5 @@ public class PlexusIoFileResource
         return getAttributes().isSymbolicLink();
     }
 
+    private static final InputStreamTransformer identityTransformer = AbstractPlexusIoResourceCollection.identityTransformer;
 }

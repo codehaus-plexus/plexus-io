@@ -102,7 +102,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         };
 
         final PlexusIoResource resource =
-            ResourceFactory.createResource( f, p, attributes, contentSupplier, streamTransformers );
+            ResourceFactory.createResource( f, p, contentSupplier, attributes );
 
         return Collections.singleton( resource ).iterator();
     }

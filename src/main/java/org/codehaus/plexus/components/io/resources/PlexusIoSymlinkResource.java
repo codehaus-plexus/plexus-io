@@ -14,7 +14,8 @@ public class PlexusIoSymlinkResource
 {
     private final File symnlinkDestination;
 
-    public PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs )
+    PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs )
+        throws IOException
     {
         super( symlinkfile, name, attrs);
         this.symnlinkDestination = null;

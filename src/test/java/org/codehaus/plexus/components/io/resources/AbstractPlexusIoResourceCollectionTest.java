@@ -31,7 +31,8 @@ public class AbstractPlexusIoResourceCollectionTest
 
         sut.setStreamTransformer( new InputStreamTransformer()
         {
-            public InputStream transform( PlexusIoResource resource, final InputStream inputStream )
+            @Nonnull
+            public InputStream transform( @Nonnull PlexusIoResource resource, @Nonnull final InputStream inputStream )
                 throws IOException
             {
                 final byte[] buf = new byte[2];
