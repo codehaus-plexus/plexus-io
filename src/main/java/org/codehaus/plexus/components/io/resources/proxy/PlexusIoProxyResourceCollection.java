@@ -23,12 +23,12 @@ import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.codehaus.plexus.components.io.functions.NameSupplier;
+import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes;
-import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
-import org.codehaus.plexus.components.io.resources.PlexusIoResourceWithAttributes;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -113,9 +113,9 @@ public class PlexusIoProxyResourceCollection
             PlexusIoResource plexusIoResource = iter.next();
 
             PlexusIoResourceAttributes attrs = null;
-            if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
+            if ( plexusIoResource instanceof ResourceAttributeSupplier )
             {
-                attrs = ( (PlexusIoResourceWithAttributes) plexusIoResource ).getAttributes();
+                attrs = ( (ResourceAttributeSupplier) plexusIoResource ).getAttributes();
             }
 
             if ( plexusIoResource.isDirectory() )
@@ -147,22 +147,20 @@ public class PlexusIoProxyResourceCollection
             {
                 final String name = plexusIoResource.getName();
 
-                if ( plexusIoResource instanceof PlexusIoResourceWithAttributes )
+                final PlexusIoResourceAttributes attrs2= attrs;
+                DualSupplier supplier = new DualSupplier()
                 {
-                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs ){
-						@Override public String getName() {
-							return prefix + name;
-						}
-					};
-                }
-                else
-                {
-                    plexusIoResource = new PlexusIoProxyResourceWithAttributes( plexusIoResource, attrs ){
-						@Override public String getName() {
-							return prefix + name;
-						}
-					};
-                }
+                    public String getName()
+                    {
+                        return prefix + name;
+                    }
+
+                    public PlexusIoResourceAttributes getAttributes()
+                    {
+                        return attrs2;
+                    }
+                };
+                plexusIoResource = ProxyFactory.createProxy( plexusIoResource, supplier );
             }
 
             result.add( plexusIoResource );
@@ -170,6 +168,9 @@ public class PlexusIoProxyResourceCollection
         return result.iterator();
     }
 
+    abstract class DualSupplier implements NameSupplier, ResourceAttributeSupplier {
+
+    }
     public String getName( final PlexusIoResource resource )
     {
         String name = resource.getName();

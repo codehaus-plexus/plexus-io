@@ -18,7 +18,6 @@ package org.codehaus.plexus.components.io.attributes;
 
 import junit.framework.Assert;
 import org.codehaus.plexus.components.io.attributes.AttributeParser.NumericUserIDAttributeParser;
-import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;

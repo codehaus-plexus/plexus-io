@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.codehaus.plexus.components.io.fileselectors.FileInfo;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
+import org.codehaus.plexus.components.io.functions.SizeSupplier;
 
 import javax.annotation.Nonnull;
 
@@ -29,7 +31,7 @@ import javax.annotation.Nonnull;
  * A resource is a file-like entity. It may be an actual file,
  * an URL, a zip entry, or something like that.
  */
-public interface PlexusIoResource extends FileInfo
+public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplier
 {
     /**
      * Unknown resource size.

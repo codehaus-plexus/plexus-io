@@ -17,8 +17,10 @@ package org.codehaus.plexus.components.io.resources;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
-import org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxyResource;
-import org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxySymlinkResource;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
+import org.codehaus.plexus.components.io.functions.NameSupplier;
+import org.codehaus.plexus.components.io.functions.SizeSupplier;
+import org.codehaus.plexus.components.io.resources.proxy.ProxyFactory;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
@@ -26,7 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class Deferred
+class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
 {
     final DeferredFileOutputStream dfos;
 
@@ -96,61 +98,10 @@ class Deferred
         return owner.getName( resource );
     }
 
-    private PlexusIoResource asSymlinkResource()
-    {
-        return new PlexusIoProxySymlinkResource( resource )
-        {
-            @Override
-            public String getName()
-            {
-                return Deferred.this.getName();
-            }
-
-            @Nonnull
-            @Override
-            public InputStream getContents()
-                throws IOException
-            {
-                return Deferred.this.getContents();
-            }
-
-            @Override
-            public long getSize()
-            {
-                return Deferred.this.getSize();
-            }
-        };
-    }
 
     public PlexusIoResource asResource()
     {
-        if ( resource instanceof PlexusIoSymlink )
-        {
-            return asSymlinkResource();
-        }
-
-        return new PlexusIoProxyResource( resource )
-        {
-            @Override
-            public String getName()
-            {
-                return Deferred.this.getName();
-            }
-
-            @Nonnull
-            @Override
-            public InputStream getContents()
-                throws IOException
-            {
-                return Deferred.this.getContents();
-            }
-
-            @Override
-            public long getSize()
-            {
-                return Deferred.this.getSize();
-            }
-        };
+        return ProxyFactory.createProxy( resource,  Deferred.this);
     }
 
 }

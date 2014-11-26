@@ -26,20 +26,19 @@ package org.codehaus.plexus.components.io.attributes;
 public class Java7Reflector
 {
 
-    private static final boolean isJava7;
+    private static final boolean isJava7 = isJava7OrMore();
 
-    static
+    private static boolean isJava7OrMore()
     {
-        boolean isJava7x = true;
         try
         {
             Class.forName( "java.nio.file.Files" );
         }
         catch ( Exception e )
         {
-            isJava7x = false;
+            return  false;
         }
-        isJava7 = isJava7x;
+        return true;
     }
 
     public static boolean isLanguageDowngrade(){

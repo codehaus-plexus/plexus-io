@@ -3,7 +3,6 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.File;
 import java.io.IOException;
 
-import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
@@ -12,7 +11,8 @@ import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 import org.codehaus.plexus.util.Os;
 
-public class PlexusIoFileResourceTest extends TestCase {
+public class PlexusIoPlexusIoFileResourceTest
+    extends TestCase {
 
     public void testRealSymlink()
         throws IOException

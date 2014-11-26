@@ -25,7 +25,8 @@ import java.net.URL;
 import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.codehaus.plexus.components.io.functions.FileSupplier;
+import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 
 import javax.annotation.Nonnull;
 
@@ -34,7 +35,8 @@ import javax.annotation.Nonnull;
  */
 public class PlexusIoFileResource
     extends AbstractPlexusIoResource
-    implements PlexusIoResourceWithAttributes
+    implements ResourceAttributeSupplier, FileSupplier
+
 {
     @Nonnull
     private final File file;
@@ -47,7 +49,7 @@ public class PlexusIoFileResource
         this( file, getName( file ), attrs);
     }
 
-    public PlexusIoFileResource(@Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs)
+    public PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
         this.file = file;

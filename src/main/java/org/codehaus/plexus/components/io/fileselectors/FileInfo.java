@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.functions.NameSupplier;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,7 +28,7 @@ import java.io.InputStream;
  * is invoked. This object provides information about
  * the file to select or deselect.
  */
-public interface FileInfo
+public interface FileInfo extends NameSupplier
 {
     /**
      * Returns the resources name, which may include path components,
@@ -45,16 +47,22 @@ public interface FileInfo
 
     /**
      * Returns, whether the {@link FileInfo} refers to a file.
+     * This does not necessarily mean that the underlying representation *is* a file on disk,
+     * but that this resource represents a file.
      */
     boolean isFile();
 
     /**
      * Returns, whether the {@link FileInfo} refers to a directory.
+     * This does not necessarily mean that the underlying representation *is* a directory on disk,
+     * but that this resource represents a directory.
      */
     boolean isDirectory();
 
     /**
      * Returns, whether the {@link FileInfo} refers to a symlink.
+     * This does not necessarily mean that the underlying representation *is* a symlink on disk,
+     * but that this resource represents a symlink.
      * This method will return "false" for java versions prior to java7.
      */
     boolean isSymbolicLink();

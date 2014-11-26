@@ -17,7 +17,7 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.functions.InputStreamSupplier;
+import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
 import javax.annotation.Nonnull;
@@ -91,10 +91,10 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
         final PlexusIoResourceAttributes attributes = getAttributes( f );
 
-        final InputStreamSupplier inputStreamSupplier = new InputStreamSupplier()
+        final ContentSupplier contentSupplier = new ContentSupplier()
         {
             @Nonnull
-            public InputStream get()
+            public InputStream getContents()
                 throws IOException
             {
                 return getInputStream( f );
@@ -102,7 +102,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         };
 
         final PlexusIoResource resource =
-            ResourceFactory.createResource( f, p, attributes, inputStreamSupplier, streamTransformers );
+            ResourceFactory.createResource( f, p, attributes, contentSupplier, streamTransformers );
 
         return Collections.singleton( resource ).iterator();
     }

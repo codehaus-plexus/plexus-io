@@ -2,6 +2,7 @@ package org.codehaus.plexus.components.io.resources;
 
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
+import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 public class PlexusIoSymlinkResource
     extends PlexusIoFileResource
-    implements PlexusIoSymlink
+    implements SymlinkDestinationSupplier
 {
     private final File symnlinkDestination;
 

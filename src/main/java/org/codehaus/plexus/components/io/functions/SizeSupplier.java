@@ -1,7 +1,7 @@
-package org.codehaus.plexus.components.io.resources;
+package org.codehaus.plexus.components.io.functions;
 
 /*
- * Copyright 2007 The Codehaus Foundation.
+ * Copyright 2014 The Codehaus Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-
-public interface PlexusIoResourceWithAttributes
+public interface SizeSupplier
 {
-    PlexusIoResourceAttributes getAttributes();
+    long getSize();
 }

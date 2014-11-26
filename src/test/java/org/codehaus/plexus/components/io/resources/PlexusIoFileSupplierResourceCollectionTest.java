@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * @author Kristian Rosenvold
  */
-public class PlexusIoFileResourceCollectionTest
+public class PlexusIoFileSupplierResourceCollectionTest
     extends TestCase
 {
     public void testGetName()
