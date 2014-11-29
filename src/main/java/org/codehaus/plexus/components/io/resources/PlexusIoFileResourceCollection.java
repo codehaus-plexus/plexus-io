@@ -173,8 +173,9 @@ public class PlexusIoFileResourceCollection
             }
 
 
-            getStreamTransformer();
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, name, attrs, getStreamTransformer() );
+            String remappedName = getName( name );
+
+            PlexusIoResource resource = ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
             if ( isSelected( resource ) )
             {
                 result.add( resolve(resource) );
@@ -209,7 +210,8 @@ public class PlexusIoFileResourceCollection
 
             String remappedName = getName( name );
 
-            PlexusIoFileResource resource = PlexusIoFileResource.fileOnDisk( f, remappedName, attrs, getStreamTransformer() );
+            PlexusIoResource resource = ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
+
             if ( isSelected( resource ) )
             {
                 result.add( resource );

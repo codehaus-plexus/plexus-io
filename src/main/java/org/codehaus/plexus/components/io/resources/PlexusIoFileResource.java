@@ -57,13 +57,7 @@ public class PlexusIoFileResource
     protected PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
         throws IOException
     {
-        this( file, name, attrs, null);
-    }
-
-    PlexusIoFileResource( @Nonnull final File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, final InputStreamTransformer streamTransformer )
-        throws IOException
-    {
-        this( file, name, attrs,  null, streamTransformer );
+        this( file, name, attrs,  null, null );
     }
 
     @SuppressWarnings( "ConstantConditions" )
@@ -110,34 +104,6 @@ public class PlexusIoFileResource
     public static String getName( File file )
     {
         return file.getPath().replace( '\\', '/' );
-    }
-
-    @SuppressWarnings( "UnusedDeclaration" )
-    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs)
-        throws IOException
-    {
-        if ( attrs.isSymbolicLink() )
-            return new PlexusIoSymlinkResource( file, name, attrs);
-        else
-            return new PlexusIoFileResource( file, name, attrs);
-    }
-
-    public static PlexusIoFileResource fileOnDisk(File file, String name, PlexusIoResourceAttributes attrs, InputStreamTransformer streamTransformer)
-        throws IOException
-    {
-        if ( attrs.isSymbolicLink() )
-            return new PlexusIoSymlinkResource( file, name, attrs);
-        else
-            return new PlexusIoFileResource( file, name, attrs, streamTransformer);
-    }
-
-    public static PlexusIoFileResource justAFile( File file, @Nonnull PlexusIoResourceAttributes attrs )
-        throws IOException
-    {
-        if ( attrs.isSymbolicLink() )
-            return new PlexusIoSymlinkResource( file, getName( file ), attrs);
-        else
-            return new PlexusIoFileResource( file, getName( file ), attrs);
     }
 
     /**
