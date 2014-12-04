@@ -117,6 +117,11 @@ public class PlexusIoProxyResourceCollection
             {
                 attrs = ( (ResourceAttributeSupplier) plexusIoResource ).getAttributes();
             }
+            if ( attrs == null )
+            {
+                attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
+            }
+
 
             if ( plexusIoResource.isDirectory() )
             {
