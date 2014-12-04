@@ -33,7 +33,7 @@ public class SimpleResourceAttributes
 
     private String groupName;
 
-    private int mode;
+    private int mode = -1;
 
     private boolean isSymbolicLink;
 

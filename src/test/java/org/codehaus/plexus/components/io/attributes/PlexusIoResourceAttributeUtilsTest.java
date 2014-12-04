@@ -467,7 +467,7 @@ public class PlexusIoResourceAttributeUtilsTest
 
     public void testMergeAttributesDefault()
     {
-        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
+        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes(null, null, null, null, 0);
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes( -1, null, -1, null, -1 );
         final PlexusIoResourceAttributes defaults =
             new SimpleResourceAttributes( 3333, "defaultUser", 4444, "defaultGroup", 0444 );
@@ -491,6 +491,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( Integer.valueOf( 4444 ), attributes.getGroupId() );
         assertEquals( "defaultGroup", attributes.getGroupName() );
         // 0 is a borderline case, for backwards compatibility it is not overridden by value from defaults
+        // Not just that, but 0 is correct.
         assertEquals( 0, attributes.getOctalMode() );
 
         attributes = PlexusIoResourceAttributeUtils.mergeAttributes( blank, invalid, defaults );
