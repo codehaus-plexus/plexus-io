@@ -17,30 +17,105 @@ package org.codehaus.plexus.components.io.resources.proxy;
  */
 
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxyResourceCollection;
+import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
+import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
+import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+
+import javax.annotation.Nonnull;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Iterator;
 
 
 /**
  * Test case for {@link PlexusIoProxyResourceCollection}.
  */
-public class PlexusIoProxyResourceCollectionTest extends PlexusTestCase
+public class PlexusIoProxyResourceCollectionTest
+    extends PlexusTestCase
 {
-    private final String [] SAMPLE_INCLUDES = {"junk.*", "test/**", "dir*/file.xml"};
-    
-    private final String [] SAMPLE_EXCLUDES = {"*.junk", "somwhere/**"};
-    
-    public void testGetDefaultFileSelector() throws Exception
+    private final String[] SAMPLE_INCLUDES = { "junk.*", "test/**", "dir*/file.xml" };
+
+    private final String[] SAMPLE_EXCLUDES = { "*.junk", "somwhere/**" };
+
+    public void testGetDefaultFileSelector()
+        throws Exception
     {
-        PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection(null);
+        PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection( null );
 
         // This will throw an exception if there is a bug
         resCol.getDefaultFileSelector();
 
         resCol.setIncludes( SAMPLE_INCLUDES );
         resCol.setExcludes( SAMPLE_EXCLUDES );
-        
+
         // This will throw an exception if there is a bug
         resCol.getDefaultFileSelector();
-        
+
+    }
+
+    class CloseableIterator
+        implements Iterator<PlexusIoResource>, Closeable
+    {
+        boolean next = true;
+
+        boolean closed = false;
+
+        public void close()
+            throws IOException
+        {
+            closed = true;
+        }
+
+        public boolean hasNext()
+        {
+            if ( next )
+            {
+                next = false;
+                return true;
+            }
+            return false;
+        }
+
+        public PlexusIoResource next()
+        {
+            return new AbstractPlexusIoResource( "fud", 123, 22, true, false, false )
+            {
+                @Nonnull
+                public InputStream getContents()
+                    throws IOException
+                {
+                    return null;
+                }
+
+                public URL getURL()
+                    throws IOException
+                {
+                    return null;
+                }
+            };
+        }
+    }
+    
+    public void testClosing()
+        throws IOException
+    {
+        final CloseableIterator closeableIterator = new CloseableIterator();
+        PlexusIoProxyResourceCollection resCol =
+            new PlexusIoProxyResourceCollection( new AbstractPlexusIoResourceCollection()
+            {
+                public Iterator<PlexusIoResource> getResources()
+                    throws IOException
+                {
+                    return closeableIterator;
+                }
+            } );
+        Iterator<PlexusIoResource> resources1 = resCol.getResources();
+        resources1.hasNext();
+        resources1.next();
+        assertFalse( resources1.hasNext() );
+        ( (Closeable) resources1 ).close();
+        assertTrue( closeableIterator.closed );
     }
 }

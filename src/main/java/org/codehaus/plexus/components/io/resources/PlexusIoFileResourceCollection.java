@@ -21,7 +21,6 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
-import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -161,17 +160,7 @@ public class PlexusIoFileResourceCollection
                 attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
             }
 
-            if ( f.isDirectory() )
-            {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideDirAttributes(), attrs,
-                                                                        getDefaultDirAttributes() );
-            }
-            else
-            {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideFileAttributes(), attrs,
-                                                                        getDefaultFileAttributes() );
-            }
-
+            attrs = mergeAttributes( attrs, f.isDirectory() );
 
             String remappedName = getName( name );
 
@@ -197,16 +186,7 @@ public class PlexusIoFileResourceCollection
             File f = new File( dir, sourceDir );
 
             PlexusIoResourceAttributes attrs = new Java7FileAttributes( f, cache1, cache2 );
-            if ( f.isDirectory() )
-            {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideDirAttributes(), attrs,
-                                                                        getDefaultDirAttributes() );
-            }
-            else
-            {
-                attrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideFileAttributes(), attrs,
-                                                                        getDefaultFileAttributes() );
-            }
+            attrs = mergeAttributes( attrs, f.isDirectory() );
 
             String remappedName = getName( name );
 

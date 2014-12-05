@@ -204,7 +204,7 @@ public class
         return computedIncludes.matches( name, isCaseSensitive );
     }
 
-    public boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException
+    public boolean isSelected( @Nonnull FileInfo fileInfo )
     {
         final String name = getCanonicalName( fileInfo.getName() );
         return isIncluded( name ) && !isExcluded( name );

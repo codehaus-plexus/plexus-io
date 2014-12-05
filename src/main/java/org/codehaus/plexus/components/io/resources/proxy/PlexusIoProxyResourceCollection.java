@@ -31,10 +31,9 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 
 import javax.annotation.Nonnull;
+import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
@@ -102,15 +101,61 @@ public class PlexusIoProxyResourceCollection
 		return prefix;
 
 	}
-    public Iterator<PlexusIoResource> getResources()
-        throws IOException
+    class ForwardingIterator implements Iterator<PlexusIoResource>, Closeable
     {
-        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
-        final FileSelector fileSelector = getDefaultFileSelector();
-        final String prefix = getNonEmptyPrfix();
-        for ( final Iterator<PlexusIoResource> iter = getSrc().getResources(); iter.hasNext(); )
+        Iterator<PlexusIoResource> iter;
+
+        private final FileSelector fileSelector = getDefaultFileSelector();
+
+        private PlexusIoResource next = null;
+        private final String prefix = getNonEmptyPrfix();
+
+        ForwardingIterator( Iterator<PlexusIoResource> resources )
         {
+            iter = resources;
+
+        }
+
+        public boolean hasNext()
+        {
+            next = getNextResource();
+            return next != null;
+        }
+
+        public PlexusIoResource next()
+        {
+            return next;
+        }
+
+        public void close()
+            throws IOException
+        {
+            if (iter instanceof Closeable){
+                ((Closeable)iter).close();
+            }
+
+        }
+
+        /**
+         * Returns the next resource or null if no next resource;
+         */
+        PlexusIoResource getNextResource(){
+            if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
+
+            try
+            {
+                if ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
+                {
+                    return getNextResource();
+                }
+            } catch (IOException e){
+                throw new RuntimeException( e ); // Cannot really happen. Remove IOException in 2.5 TODO
+            }
+            if ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() )
+            {
+                return getNextResource();
+            }
 
             PlexusIoResourceAttributes attrs = null;
             if ( plexusIoResource instanceof ResourceAttributeSupplier )
@@ -123,31 +168,8 @@ public class PlexusIoProxyResourceCollection
             }
 
 
-            if ( plexusIoResource.isDirectory() )
-            {
-                attrs =
-                    PlexusIoResourceAttributeUtils.mergeAttributes(
-                        getOverrideDirAttributes(), attrs, getDefaultDirAttributes() );
-            }
-            else
-            {
-                attrs =
-                    PlexusIoResourceAttributeUtils.mergeAttributes(
-                        getOverrideFileAttributes(), attrs, getDefaultFileAttributes() );
-            }
+            attrs = mergeAttributes(attrs, plexusIoResource.isDirectory());
 
-            if ( !fileSelector.isSelected( plexusIoResource ) )
-            {
-                continue;
-            }
-            if ( !isSelected( plexusIoResource ) )
-            {
-                continue;
-            }
-            if ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() )
-            {
-                continue;
-            }
             if ( prefix != null )
             {
                 final String name = plexusIoResource.getName();
@@ -167,10 +189,14 @@ public class PlexusIoProxyResourceCollection
                 };
                 plexusIoResource = ProxyFactory.createProxy( plexusIoResource, supplier );
             }
-
-            result.add( plexusIoResource );
+            return plexusIoResource;
         }
-        return result.iterator();
+    }
+
+    public Iterator<PlexusIoResource> getResources()
+        throws IOException
+    {
+        return new ForwardingIterator( getSrc().getResources() );
     }
 
     abstract class DualSupplier implements NameSupplier, ResourceAttributeSupplier {

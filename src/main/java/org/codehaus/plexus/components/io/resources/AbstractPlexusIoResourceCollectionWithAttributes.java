@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
 /**
@@ -75,5 +76,20 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
     protected void setOverrideDirAttributes( final PlexusIoResourceAttributes overrideDirAttributes )
     {
         this.overrideDirAttributes = overrideDirAttributes;
+    }
+
+    protected PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes currentAttrs, boolean isDirectory )
+    {
+        if ( isDirectory )
+        {
+            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideDirAttributes(), currentAttrs,
+                                                                    getDefaultDirAttributes() );
+        }
+        else
+        {
+            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideFileAttributes(), currentAttrs,
+                                                                    getDefaultFileAttributes() );
+        }
+        return currentAttrs;
     }
 }

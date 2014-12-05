@@ -30,7 +30,7 @@ public class AllFilesFileSelector implements FileSelector
      */
     public static final String ROLE_HINT = "all";
 
-    public boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException
+    public boolean isSelected( @Nonnull FileInfo fileInfo )
     {
         return true;
     }
