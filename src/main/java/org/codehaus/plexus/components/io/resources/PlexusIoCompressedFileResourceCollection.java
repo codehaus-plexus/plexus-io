@@ -19,8 +19,10 @@ package org.codehaus.plexus.components.io.resources;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 
 import javax.annotation.Nonnull;
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,6 +75,27 @@ public abstract class PlexusIoCompressedFileResourceCollection
     public void setStreamTransformer( InputStreamTransformer streamTransformers )
     {
         this.streamTransformers = streamTransformers;
+    }
+
+    public Stream stream()
+    {
+        return new Stream()
+        {
+            public void forEach( PlexusIoResourceConsumer resourceConsumer )
+                throws IOException
+            {
+
+                final Iterator<PlexusIoResource> it = getResources();
+                while( it.hasNext())
+                {
+                    resourceConsumer.accept( it.next() );
+                }
+                if (it instanceof Closeable )
+                {
+                    ((Closeable)it).close();
+                }
+            }
+        };
     }
 
     public Iterator<PlexusIoResource> getResources()

@@ -21,9 +21,11 @@ import org.codehaus.plexus.components.io.attributes.Java7Reflector;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -197,6 +199,30 @@ public class PlexusIoFileResourceCollection
                 result.add( resource );
             }
         }
+    }
+
+    public Stream stream()
+    {
+        return new Stream()
+        {
+            public void forEach( PlexusIoResourceConsumer resourceConsumer )
+                throws IOException
+            {
+                Iterator<PlexusIoResource> resources = getResources();
+                while (resources.hasNext()){
+                    PlexusIoResource next = resources.next();
+                    if (isSelected( next ))
+                    {
+                        resourceConsumer.accept( next );
+                    }
+                }
+                if (resources instanceof Closeable )
+                {
+                    ((Closeable)resources).close();
+                }
+
+            }
+        };
     }
 
     public Iterator<PlexusIoResource> getResources()

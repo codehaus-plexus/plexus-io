@@ -61,7 +61,8 @@ public class Java7AttributeUtils
         }
     }
 
-    public static @Nonnull Set<PosixFilePermission> getPermissions( int mode )
+    @Nonnull
+    public static Set<PosixFilePermission> getPermissions( int mode )
     {
         Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
         //add owners permission
@@ -106,17 +107,24 @@ public class Java7AttributeUtils
         return perms;
     }
 
-    public static @Nonnull PosixFileAttributes getPosixFileAttributes( @Nonnull File file )
+    @Nonnull
+    public static PosixFileAttributes getPosixFileAttributes( @Nonnull File file )
         throws IOException
     {
         return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
-    public static @Nonnull BasicFileAttributes getFileAttributes( @Nonnull File file )
+    @Nonnull
+    public static BasicFileAttributes getFileAttributes( @Nonnull File file )
         throws IOException
     {
-        final Path path = file.toPath();
-        if (path.getFileSystem().supportedFileAttributeViews().contains( "posix" ))
+        return getFileAttributes( file.toPath() );
+    }
+
+    public static BasicFileAttributes getFileAttributes( Path path )
+        throws IOException
+    {
+        if ( path.getFileSystem().supportedFileAttributeViews().contains( "posix" ) )
         {
 
             try
@@ -131,7 +139,8 @@ public class Java7AttributeUtils
         return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
-    public static @Nullable FileOwnerAttributeView getFileOwnershipInfo( @Nonnull File file )
+    @Nullable
+    public static FileOwnerAttributeView getFileOwnershipInfo( @Nonnull File file )
         throws IOException
     {
         try

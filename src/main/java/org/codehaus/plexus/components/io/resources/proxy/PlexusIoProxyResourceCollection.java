@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
@@ -24,11 +23,13 @@ import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.NameSupplier;
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
+import org.codehaus.plexus.components.io.resources.Stream;
 
 import javax.annotation.Nonnull;
 import java.io.Closeable;
@@ -196,6 +197,11 @@ public class PlexusIoProxyResourceCollection
             }
             return plexusIoResource;
         }
+    }
+
+    public Stream stream()
+    {
+        return getSrc().stream();
     }
 
     public Iterator<PlexusIoResource> getResources()

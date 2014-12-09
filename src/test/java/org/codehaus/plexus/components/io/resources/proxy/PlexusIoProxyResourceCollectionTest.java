@@ -17,9 +17,11 @@ package org.codehaus.plexus.components.io.resources.proxy;
  */
 
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.codehaus.plexus.components.io.resources.Stream;
 
 import javax.annotation.Nonnull;
 import java.io.Closeable;
@@ -114,6 +116,11 @@ public class PlexusIoProxyResourceCollectionTest
                     throws IOException
                 {
                     return closeableIterator;
+                }
+
+                public Stream stream()
+                {
+                    throw new UnsupportedOperationException();
                 }
             } );
         Iterator<PlexusIoResource> resources1 = resCol.getResources();

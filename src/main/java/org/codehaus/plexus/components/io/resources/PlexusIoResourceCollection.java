@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 
 /**
  * A resource collection is a set of {@link PlexusIoResource} instances.
@@ -45,12 +46,20 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
     Iterator<PlexusIoResource> getResources() throws IOException;
 
     /**
-     * Returns the resources suggested name. This is used for
-     * integrating file mappers.
-     * @param resource A resource, which has been obtained by
-     *   calling {@link #getResources()}.
-     * @return The resource name. If it is a file, it should be normalized to platform separators
+     * Returns the resources as a stream.
+     * @return A stream for functional iteration
      */
+    public Stream stream();
+
+
+
+        /**
+         * Returns the resources suggested name. This is used for
+         * integrating file mappers.
+         * @param resource A resource, which has been obtained by
+         *   calling {@link #getResources()}.
+         * @return The resource name. If it is a file, it should be normalized to platform separators
+         */
     String getName( PlexusIoResource resource );
 
     /**
