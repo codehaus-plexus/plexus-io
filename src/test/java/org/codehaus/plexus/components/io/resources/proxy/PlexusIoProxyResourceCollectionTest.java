@@ -96,6 +96,11 @@ public class PlexusIoProxyResourceCollectionTest
                 }
             };
         }
+
+        public void remove()
+        {
+            throw new UnsupportedOperationException( );
+        }
     }
     
     public void testClosing()
