@@ -127,6 +127,11 @@ public class PlexusIoProxyResourceCollection
             return next;
         }
 
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
+
         public void close()
             throws IOException
         {
