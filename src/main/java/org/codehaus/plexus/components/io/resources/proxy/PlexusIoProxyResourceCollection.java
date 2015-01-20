@@ -149,14 +149,9 @@ public class PlexusIoProxyResourceCollection
             if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
 
-            try
+            if ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
             {
-                if ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
-                {
-                    return getNextResource();
-                }
-            } catch (IOException e){
-                throw new RuntimeException( e ); // Cannot really happen. Remove IOException in 2.5 TODO
+                return getNextResource();
             }
             if ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() )
             {

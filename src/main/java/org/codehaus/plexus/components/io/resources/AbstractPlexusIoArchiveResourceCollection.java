@@ -19,9 +19,7 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 
@@ -66,23 +64,56 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
     public Iterator<PlexusIoResource> getResources() throws IOException
     {
-        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
-        final Iterator<PlexusIoResource> it = getEntries();
-        while( it.hasNext())
-        {
-            final PlexusIoResource res = it.next();
-            if ( isSelected( res ) )
-            {
-                result.add( res );
-            }
-        }
-        if (it instanceof Closeable )
-        {
-            ((Closeable)it).close();
-        }
-        return result.iterator();
+        return new FilteringIterator();
     }
 
+    class FilteringIterator
+        implements Iterator<PlexusIoResource>, Closeable {
+        final Iterator<PlexusIoResource>  it = getEntries();
+        PlexusIoResource next;
+
+        public FilteringIterator()
+            throws IOException
+        {
+        }
+
+        boolean doNext()
+        {
+            while (it.hasNext()){
+                PlexusIoResource candidate = it.next();
+                if (isSelected( candidate )){
+                    next = candidate;
+                    return true;
+                }
+            }
+            return false;
+        }
+        public boolean hasNext()
+        {
+            return doNext();
+        }
+
+        public PlexusIoResource next()
+        {
+            if (next == null) doNext();
+            PlexusIoResource res = next;
+            next = null;
+            return res;
+        }
+
+        public void remove()
+        {
+            throw new UnsupportedOperationException(  );
+        }
+
+        public void close()
+            throws IOException
+        {
+            if ( it instanceof  Closeable){
+                ((Closeable) it ).close();
+            }
+        }
+    }
     public Stream stream()
     {
         return new Stream()

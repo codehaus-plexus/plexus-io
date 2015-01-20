@@ -214,7 +214,6 @@ public abstract class AbstractPlexusIoResourceCollection
     }
 
     protected boolean isSelected( PlexusIoResource plexusIoResource )
-        throws IOException
     {
         FileSelector[] fileSelectors = getFileSelectors();
         if ( fileSelectors != null )
