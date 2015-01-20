@@ -149,13 +149,11 @@ public class PlexusIoProxyResourceCollection
             if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
 
-            if ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
+            while ( (!fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ))
+                 || (plexusIoResource.isDirectory() && !isIncludingEmptyDirectories()))
             {
-                return getNextResource();
-            }
-            if ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() )
-            {
-                return getNextResource();
+                if (!iter.hasNext()) return null;
+                plexusIoResource = iter.next();
             }
 
             PlexusIoResourceAttributes attrs = null;
