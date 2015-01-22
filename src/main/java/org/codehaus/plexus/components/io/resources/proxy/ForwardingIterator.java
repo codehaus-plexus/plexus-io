@@ -38,7 +38,14 @@ abstract class ForwardingIterator
     {
         if ( next == null )
         {
-            next = getNextResource();
+            try
+            {
+                next = getNextResource();
+            }
+            catch ( IOException e )
+            {
+                throw new RuntimeException( e );
+            }
         }
         return next != null;
     }
@@ -72,5 +79,5 @@ abstract class ForwardingIterator
     /**
      * Returns the next resource or null if no next resource;
      */
-    protected abstract PlexusIoResource getNextResource();
+    protected abstract PlexusIoResource getNextResource() throws IOException;
 }

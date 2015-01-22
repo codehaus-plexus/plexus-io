@@ -118,7 +118,9 @@ public class PlexusIoProxyResourceCollection
         /**
          * Returns the next resource or null if no next resource;
          */
-        protected PlexusIoResource getNextResource(){
+        protected PlexusIoResource getNextResource()
+            throws IOException
+        {
             if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
 

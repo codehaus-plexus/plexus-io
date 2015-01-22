@@ -81,9 +81,16 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         {
             while (it.hasNext()){
                 PlexusIoResource candidate = it.next();
-                if (isSelected( candidate )){
-                    next = candidate;
-                    return true;
+                try
+                {
+                    if (isSelected( candidate )){
+                        next = candidate;
+                        return true;
+                    }
+                }
+                catch ( IOException e )
+                {
+                    throw new RuntimeException( e );
                 }
             }
             return false;
