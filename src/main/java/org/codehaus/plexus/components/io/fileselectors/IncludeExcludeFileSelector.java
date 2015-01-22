@@ -17,7 +17,6 @@ package org.codehaus.plexus.components.io.fileselectors;
  */
 
 import java.io.File;
-import java.io.IOException;
 
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.MatchPatterns;

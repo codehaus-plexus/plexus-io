@@ -2,7 +2,6 @@ package org.codehaus.plexus.components.io.resources;
 
 import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;

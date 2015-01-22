@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
-
 /**
  * A resource collection is a set of {@link PlexusIoResource} instances.
  */
