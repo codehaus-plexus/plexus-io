@@ -23,7 +23,6 @@ import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.NameSupplier;
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes;
@@ -102,50 +101,25 @@ public class PlexusIoProxyResourceCollection
 		return prefix;
 
 	}
-    class ForwardingIterator implements Iterator<PlexusIoResource>, Closeable
+    class FwdIterator
+        extends ForwardingIterator
     {
         Iterator<PlexusIoResource> iter;
 
         private final FileSelector fileSelector = getDefaultFileSelector();
 
-        private PlexusIoResource next = null;
         private final String prefix = getNonEmptyPrfix();
 
-        ForwardingIterator( Iterator<PlexusIoResource> resources )
+        FwdIterator( Iterator<PlexusIoResource> resources )
         {
-            iter = resources;
-
-        }
-
-        public boolean hasNext()
-        {
-            next = getNextResource();
-            return next != null;
-        }
-
-        public PlexusIoResource next()
-        {
-            return next;
-        }
-
-        public void remove()
-        {
-            throw new UnsupportedOperationException();
-        }
-
-        public void close()
-            throws IOException
-        {
-            if (iter instanceof Closeable){
-                ((Closeable)iter).close();
-            }
-
+            super( resources);
+            this.iter = resources;
         }
 
         /**
          * Returns the next resource or null if no next resource;
          */
-        PlexusIoResource getNextResource(){
+        protected PlexusIoResource getNextResource(){
             if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
 
@@ -165,7 +139,6 @@ public class PlexusIoProxyResourceCollection
             {
                 attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
             }
-
 
             attrs = mergeAttributes(attrs, plexusIoResource.isDirectory());
 
@@ -200,10 +173,10 @@ public class PlexusIoProxyResourceCollection
     public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
-        return new ForwardingIterator( getSrc().getResources() );
+        return new FwdIterator( getSrc().getResources() );
     }
 
-    abstract class DualSupplier implements NameSupplier, ResourceAttributeSupplier {
+    abstract static class DualSupplier implements NameSupplier, ResourceAttributeSupplier {
 
     }
     public String getName( final PlexusIoResource resource )
