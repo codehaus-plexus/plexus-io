@@ -13,10 +13,9 @@
   <name>Plexus IO Components</name>
 
   <scm>
-    <connection>scm:git:git@github.com:sonatype/plexus-io.git</connection>
-    <developerConnection>scm:git:git@github.com:sonatype/plexus-io.git</developerConnection>
-    <url>http://github.com/sonatype/plexus-io</url>
-    <tag>HEAD</tag>
+    <connection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</connection>
+    <developerConnection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</developerConnection>
+    <url>http://github.com/codehaus-plexus/plexus-io</url>
   </scm>
   <issueManagement>
     <system>jira</system>
