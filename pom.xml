@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>plexus-components</artifactId>
+    <artifactId>plexus</artifactId>
     <groupId>org.codehaus.plexus</groupId>
-    <version>1.2</version>
+    <version>3.2</version>
   </parent>
 
   <artifactId>plexus-io</artifactId>
@@ -32,6 +32,7 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-container-default</artifactId>
       <scope>test</scope>
+      <version>1.0-alpha-9-stable-1</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
