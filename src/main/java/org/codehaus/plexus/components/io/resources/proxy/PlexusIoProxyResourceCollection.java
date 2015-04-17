@@ -26,19 +26,21 @@ import org.codehaus.plexus.components.io.functions.NameSupplier;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes;
+import org.codehaus.plexus.components.io.resources.EncodingSupported;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.Stream;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
  */
 public class PlexusIoProxyResourceCollection
-    extends AbstractPlexusIoResourceCollectionWithAttributes
+    extends AbstractPlexusIoResourceCollectionWithAttributes implements EncodingSupported
 {
     private PlexusIoResourceCollection src;
 
@@ -202,5 +204,12 @@ public class PlexusIoProxyResourceCollection
         throws IOException
     {
         return src.getLastModified();
+    }
+
+    public void setEncoding( Charset charset )
+    {
+        if (src instanceof  EncodingSupported){
+            ((EncodingSupported)src).setEncoding( charset );
+        }
     }
 }

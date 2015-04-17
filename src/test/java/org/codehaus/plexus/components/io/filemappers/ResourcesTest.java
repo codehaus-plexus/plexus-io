@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -158,7 +159,8 @@ public class ResourcesTest extends PlexusTestCase
         boolean yPathSeen = false;
         boolean aFileSeen = false;
         boolean bFileSeen = false;
-        for ( Iterator iter = plexusIoResourceCollection.getResources();  iter.hasNext();  )
+        Iterator iter = plexusIoResourceCollection.getResources();
+        while (  iter.hasNext()  )
         {
             PlexusIoResource res = (PlexusIoResource) iter.next();
             final String resName = res.getName().replace( File.separatorChar, '/' );
@@ -208,6 +210,10 @@ public class ResourcesTest extends PlexusTestCase
 
         assertTrue( aFileSeen );
         assertTrue( bFileSeen );
+        if (iter instanceof  Closeable)
+        {
+            ( (Closeable) iter ).close();
+        }
     }
 
     private void testFileResourceCollection( PlexusIoFileResourceCollection resourceCollection )

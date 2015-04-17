@@ -1,6 +1,9 @@
 package org.codehaus.plexus.components.io.resources;
+
+import java.nio.charset.Charset;
+
 /*
- * Copyright 2007 The Codehaus Foundation.
+ * Copyright 2014 The Codehaus Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +19,13 @@ package org.codehaus.plexus.components.io.resources;
  */
 
 /**
- * @author Kristian Rosenvold
+ * Implemented by plexus io resources that support some kind of encoding notion
  */
-public enum LinefeedMode
+public interface EncodingSupported
 {
-    dos, unix, preserve
+    /**
+     * Supplies the encoding to be used for decoding filenames/paths
+     * @param charset The charset to use
+     */
+    public void setEncoding(Charset charset);
 }
