@@ -47,7 +47,7 @@ public abstract class PlexusIoURLResource
         }
     }
 
-    String getDescriptionForError( URL url )
+    public String getDescriptionForError( URL url )
     {
         return url != null ? url.toExternalForm() : "url=null";
     }
