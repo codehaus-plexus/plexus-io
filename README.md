@@ -8,8 +8,14 @@ It is therefore recommended to run mvn -Djava.language.downgrade=true clean inst
  that features still work with older jdk versions.
 
 
-Upgrade notes
-==============
+Version 2.6
+===========
+PlexusIoZipFileResourceCollection removed from plexus io and added to plexus-archiver 2.10. Older versions
+of plexus-archiver may not be compatible with this.
+
+
+Version 2.1
+===========
 
 In 2.1, all subclasses of AbstractPlexusIoResource now have to call appropriate parent
 constructor, there are no more setters.

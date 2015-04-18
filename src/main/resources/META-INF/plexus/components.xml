@@ -84,17 +84,5 @@
       <implementation>org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
-    <component>
-      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
-      <role-hint>zipFile</role-hint>
-      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoZipFileResourceCollection</implementation>
-      <instantiation-strategy>per-lookup</instantiation-strategy>
-    </component>
-    <component>
-      <role>org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection</role>
-      <role-hint>jarFile</role-hint>
-      <implementation>org.codehaus.plexus.components.io.resources.PlexusIoZipFileResourceCollection</implementation>
-      <instantiation-strategy>per-lookup</instantiation-strategy>
-    </component>
   </components>
 </component-set>

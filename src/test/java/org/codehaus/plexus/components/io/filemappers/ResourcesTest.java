@@ -32,7 +32,6 @@ import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
-import org.codehaus.plexus.components.io.resources.PlexusIoZipFileResourceCollection;
 import org.codehaus.plexus.util.FileUtils;
 
 
@@ -235,14 +234,5 @@ public class ResourcesTest extends PlexusTestCase
     {
         resourceCollection.setFile( zipFile );
         testPlexusIoResourceCollection( resourceCollection );
-    }
-
-    public void testZipFileCollection() throws Exception
-    {
-        createFiles();
-        final File zipFile = new File( getTestDir(), "files.zip" );
-        createZipFile( zipFile, getFilesDir() );
-        testZipFileCollection( (AbstractPlexusIoArchiveResourceCollection) lookup( PlexusIoResourceCollection.ROLE, PlexusIoZipFileResourceCollection.ROLE_HINT ), zipFile );
-        testZipFileCollection( (AbstractPlexusIoArchiveResourceCollection) lookup( PlexusIoResourceCollection.ROLE, PlexusIoZipFileResourceCollection.JAR_ROLE_HINT ), zipFile );
     }
 }
