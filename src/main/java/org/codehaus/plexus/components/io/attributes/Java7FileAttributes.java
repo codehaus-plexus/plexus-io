@@ -89,7 +89,7 @@ public class Java7FileAttributes
                 this.userName = ((Principal) attrs.get("owner")).getName();
                 userCache.put( userId, this.userName );
             }
-            octalMode = calculatePosixOctalMode();
+            octalMode = (Integer)attrs.get("mode") & 0xfff; // Mask off top bits for compatibilty. Maybe check if we can skip this
             symbolicLink = (Boolean) attrs.get("isSymbolicLink");
         } else {
             FileOwnerAttributeView fa = Java7AttributeUtils.getFileOwnershipInfo( file );
