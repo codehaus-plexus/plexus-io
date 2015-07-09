@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for the set
@@ -209,21 +211,48 @@ public class PlexusIoFileResourceCollection
                 throws IOException
             {
                 Iterator<PlexusIoResource> resources = getResources();
-                while (resources.hasNext()){
+                while ( resources.hasNext() )
+                {
                     PlexusIoResource next = resources.next();
-                    if (isSelected( next ))
+                    if ( isSelected( next ) )
                     {
                         resourceConsumer.accept( next );
                     }
                 }
-                if (resources instanceof Closeable )
+                if ( resources instanceof Closeable )
                 {
-                    ((Closeable)resources).close();
+                    ( (Closeable) resources ).close();
+                }
+
+            }
+
+            public void forEach( ExecutorService es, final PlexusIoResourceConsumer resourceConsumer )
+                throws IOException
+            {
+                Iterator<PlexusIoResource> resources = getResources();
+                while ( resources.hasNext() )
+                {
+                    final PlexusIoResource next = resources.next();
+                    Callable future = new Callable()
+                    {
+                        public Object call()
+                            throws Exception
+                        {
+                            resourceConsumer.accept( next );
+                            return this;
+                        }
+                    };
+                    es.submit( future );
+                }
+                if ( resources instanceof Closeable )
+                {
+                    ( (Closeable) resources ).close();
                 }
 
             }
         };
-    }
+
+    };
 
     public Iterator<PlexusIoResource> getResources()
         throws IOException

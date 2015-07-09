@@ -16,19 +16,20 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.LinkOption;
 import java.nio.file.attribute.FileOwnerAttributeView;
-import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /*
  * File attributes for a java7 file that are backed on disk by a file.
@@ -59,12 +60,13 @@ public class Java7FileAttributes
         throws IOException
     {
 
-        BasicFileAttributes basicFileAttributes = Java7AttributeUtils.getFileAttributes( file );
 
-        if ( basicFileAttributes instanceof PosixFileAttributes )
+        if (Java7AttributeUtils.isUnix(file.toPath()))
         {
-            this.permissions = ( (PosixFileAttributes) basicFileAttributes ).permissions();
-            groupId = (Integer) Files.readAttributes( file.toPath(), "unix:gid" ).get( "gid" );
+            Map<String, Object> attrs = Files.readAttributes(file.toPath(), "unix:*", LinkOption.NOFOLLOW_LINKS);
+            this.permissions = (Set<PosixFilePermission>) attrs.get("permissions");
+
+            groupId = (Integer) attrs.get("gid");
 
             String groupName = groupCache.get( groupId );
             if ( groupName != null )
@@ -73,10 +75,10 @@ public class Java7FileAttributes
             }
             else
             {
-                this.groupName = ( (PosixFileAttributes) basicFileAttributes ).group().getName();
+                this.groupName = ((Principal) attrs.get("group")).getName();
                 groupCache.put( groupId, this.groupName );
             }
-            userId = (Integer) Files.readAttributes( file.toPath(), "unix:uid" ).get( "uid" );
+            userId = (Integer) attrs.get("uid");
             String userName = userCache.get( userId );
             if ( userName != null )
             {
@@ -84,10 +86,11 @@ public class Java7FileAttributes
             }
             else
             {
-                this.userName = ( (PosixFileAttributes) basicFileAttributes ).owner().getName();
+                this.userName = ((Principal) attrs.get("owner")).getName();
                 userCache.put( userId, this.userName );
             }
             octalMode = calculatePosixOctalMode();
+            symbolicLink = (Boolean) attrs.get("isSymbolicLink");
         } else {
             FileOwnerAttributeView fa = Java7AttributeUtils.getFileOwnershipInfo( file );
             this.userName = fa.getOwner().getName();
@@ -96,9 +99,9 @@ public class Java7FileAttributes
             this.groupId = null;
             octalMode = -1;
             permissions = Collections.emptySet();
+            symbolicLink = Files.isSymbolicLink(file.toPath());
         }
 
-        symbolicLink = Files.isSymbolicLink( file.toPath() );
     }
 
     public static  @Nonnull PlexusIoResourceAttributes uncached(  @Nonnull File file )
