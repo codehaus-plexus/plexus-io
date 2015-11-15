@@ -29,6 +29,10 @@
     </site>
   </distributionManagement>
 
+  <properties>
+    <cobertura.skip>true</cobertura.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
