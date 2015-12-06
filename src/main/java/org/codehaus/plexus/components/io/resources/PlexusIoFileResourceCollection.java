@@ -308,4 +308,8 @@ public class PlexusIoFileResourceCollection
             return result.iterator();
         }
     }
+
+    public boolean isConcurrentAccessSupported() {
+	return true;
+    }
 }

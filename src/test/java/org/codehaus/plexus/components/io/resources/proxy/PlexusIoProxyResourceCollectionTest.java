@@ -121,6 +121,10 @@ public class PlexusIoProxyResourceCollectionTest
                 {
                     throw new UnsupportedOperationException();
                 }
+
+		public boolean isConcurrentAccessSupported() {
+		    return true;
+		}
             } );
         Iterator<PlexusIoResource> resources1 = resCol.getResources();
         resources1.hasNext();

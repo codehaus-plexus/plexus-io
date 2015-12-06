@@ -186,4 +186,9 @@ public abstract class PlexusIoCompressedFileResourceCollection
         File f = getFile();
         return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();
     }
+
+    public boolean isConcurrentAccessSupported() {
+	// There is a single resource in the collection so it is safe
+	return true;
+    }
 }

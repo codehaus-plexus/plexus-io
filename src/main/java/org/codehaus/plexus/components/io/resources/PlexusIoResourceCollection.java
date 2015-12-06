@@ -91,5 +91,23 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      */
     PlexusIoResource resolve( PlexusIoResource resource ) throws IOException;
 
+    /**
+     * Indicates if this collection supports concurrent access to its resources.
+     * <p>Some resource collections (like tar files) may not support efficient random access
+     * or seek operation so implementations that represent such collections may not be able
+     * to provide concurrent access to its resources. If implementation returns {@code false},
+     * then it is not safe to access its methods and resources in concurrent fashion.
+     * For example it is not safe to read from two resources in two concurrent threads,
+     * to read a resource and iterate over the iterator returned by {@link #getResources()}
+     * in two concurrent threads, etc.
+     * <p>Please note that this method indicates concurrent support only for the collection,
+     * not for the individual resources. This means there is no guarantee that
+     * the resources returned by {@link #resolve(PlexusIoResource)} or the input stream
+     * returned by {@link #getInputStream(PlexusIoResource)} are thread-safe,
+     * even if {@code true} is returned.
+     * @return {@code true} if this collection supports concurrent access,
+     *   otherwise {@code false}
+     */
+    boolean isConcurrentAccessSupported();
 
 }

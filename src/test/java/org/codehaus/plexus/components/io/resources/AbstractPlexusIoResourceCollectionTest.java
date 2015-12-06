@@ -33,6 +33,10 @@ public class AbstractPlexusIoResourceCollectionTest
                 throw new UnsupportedOperationException();
             }
 
+	    public boolean isConcurrentAccessSupported() {
+		return true;
+	    }
+
         };
 
         sut.setStreamTransformer( new InputStreamTransformer()

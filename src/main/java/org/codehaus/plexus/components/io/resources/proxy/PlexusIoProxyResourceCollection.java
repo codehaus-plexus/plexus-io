@@ -212,4 +212,8 @@ public class PlexusIoProxyResourceCollection
             ((EncodingSupported)src).setEncoding( charset );
         }
     }
+
+    public boolean isConcurrentAccessSupported() {
+	return src.isConcurrentAccessSupported();
+    }
 }
