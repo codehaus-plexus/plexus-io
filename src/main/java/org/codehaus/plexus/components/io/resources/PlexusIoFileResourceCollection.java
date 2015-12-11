@@ -252,7 +252,7 @@ public class PlexusIoFileResourceCollection
             }
         };
 
-    };
+    }
 
     public Iterator<PlexusIoResource> getResources()
         throws IOException
