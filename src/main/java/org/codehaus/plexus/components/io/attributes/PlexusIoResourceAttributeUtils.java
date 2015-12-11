@@ -381,6 +381,7 @@ public final class PlexusIoResourceAttributeUtils
         numericCli.getShell().setQuotedExecutableEnabled( false );
 
         numericCli.addEnvironment( "LANG", "C" );
+        numericCli.addEnvironment( "TIME_STYLE", "long-iso" );
         numericCli.setExecutable( "ls" );
 
         numericCli.createArg().setLine( options );
