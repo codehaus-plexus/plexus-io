@@ -20,6 +20,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 public abstract class PlexusIoURLResource
     extends AbstractPlexusIoResource
@@ -37,7 +38,9 @@ public abstract class PlexusIoURLResource
         final URL url = getURL();
         try
         {
-            return url.openStream();
+            URLConnection uc = url.openConnection();
+            uc.setUseCaches( false );
+            return uc.getInputStream();
         }
         catch ( IOException e )
         {

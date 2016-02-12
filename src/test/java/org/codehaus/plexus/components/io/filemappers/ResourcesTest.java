@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -146,7 +147,9 @@ public class ResourcesTest extends PlexusTestCase
         InputStream in = res.getContents();
         compare( in, file );
         in.close();
-        in = res.getURL().openStream();
+        URLConnection uc = res.getURL().openConnection();
+        uc.setUseCaches( false );
+        in = uc.getInputStream();
         compare( in, file );
         in.close();
     }
