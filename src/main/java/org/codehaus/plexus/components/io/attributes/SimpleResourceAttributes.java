@@ -33,7 +33,7 @@ public class SimpleResourceAttributes
 
     private String groupName;
 
-    private int mode = -1;
+    private int mode = PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
 
     private boolean isSymbolicLink;
 

@@ -90,7 +90,7 @@ public class Java7FileAttributes
             userId = null;
             this.groupName = null;
             this.groupId = null;
-            octalMode = -1;
+            octalMode = PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
             permissions = Collections.emptySet();
             symbolicLink = Files.isSymbolicLink(path);
         }

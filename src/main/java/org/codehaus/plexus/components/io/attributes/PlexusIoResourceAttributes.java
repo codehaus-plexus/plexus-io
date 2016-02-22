@@ -21,6 +21,8 @@ import javax.annotation.Nullable;
 
 public interface PlexusIoResourceAttributes
 {
+    int UNKNOWN_OCTAL_MODE = -1;
+
     boolean isOwnerReadable();
     
     boolean isOwnerWritable();
@@ -66,9 +68,9 @@ public interface PlexusIoResourceAttributes
     @Nullable
     String getGroupName();
 
-    /*
+    /**
      * Octal mode attributes.
-     * -1 if unsupported on current file/file system
+     * {@link #UNKNOWN_OCTAL_MODE} if unsupported on current file/file system
      */
     int getOctalMode();
 
