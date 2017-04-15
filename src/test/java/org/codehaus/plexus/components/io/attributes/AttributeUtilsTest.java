@@ -12,13 +12,13 @@ import java.util.Set;
 /**
  * @author Kristian Rosenvold
  */
-public class Java7AttributeUtilsTest
+public class AttributeUtilsTest
     extends TestCase
 {
     public void testMiscPatterns()
         throws Exception
     {
-        final Set<PosixFilePermission> permissions = Java7AttributeUtils.getPermissions( 0124 );
+        final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0124 );
         assertTrue( permissions.contains( PosixFilePermission.OWNER_EXECUTE ) );
         assertTrue(permissions.contains( PosixFilePermission.GROUP_WRITE ));
         assertTrue(permissions.contains( PosixFilePermission.OTHERS_READ ));
@@ -27,7 +27,7 @@ public class Java7AttributeUtilsTest
     public void testMorePatterns()
         throws Exception
     {
-        final Set<PosixFilePermission> permissions = Java7AttributeUtils.getPermissions( 0241 );
+        final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0241 );
         assertTrue(permissions.contains( PosixFilePermission.OWNER_WRITE ));
         assertTrue(permissions.contains( PosixFilePermission.GROUP_READ ));
         assertTrue(permissions.contains( PosixFilePermission.OTHERS_EXECUTE ));
@@ -36,7 +36,7 @@ public class Java7AttributeUtilsTest
     public void testEvenMorePatterns()
         throws Exception
     {
-        final Set<PosixFilePermission> permissions = Java7AttributeUtils.getPermissions( 0412 );
+        final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0412 );
         assertTrue(permissions.contains( PosixFilePermission.OWNER_READ ));
         assertTrue(permissions.contains( PosixFilePermission.GROUP_EXECUTE ));
         assertTrue(permissions.contains( PosixFilePermission.OTHERS_WRITE ));
@@ -45,7 +45,7 @@ public class Java7AttributeUtilsTest
     public void test777()
         throws Exception
     {
-        final Set<PosixFilePermission> permissions = Java7AttributeUtils.getPermissions( 0777 );
+        final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0777 );
         assertTrue( permissions.size() == 9);
     }
       
@@ -54,13 +54,13 @@ public class Java7AttributeUtilsTest
     {
         if ( Os.isFamily( Os.FAMILY_WINDOWS )) return;
         final File bxx = File.createTempFile( "bxx", "ff" );
-        Java7AttributeUtils.chmod( bxx, 0422 );
-        PlexusIoResourceAttributes firstAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
+        AttributeUtils.chmod( bxx, 0422 );
+        PlexusIoResourceAttributes firstAttrs = new FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
         assertTrue( firstAttrs.isOwnerReadable() );
         assertFalse( firstAttrs.isOwnerWritable() );
         assertFalse( firstAttrs.isOwnerExecutable() );
-        Java7AttributeUtils.chmod( bxx, 0777 );
-        PlexusIoResourceAttributes secondAttrs = new Java7FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
+        AttributeUtils.chmod( bxx, 0777 );
+        PlexusIoResourceAttributes secondAttrs = new FileAttributes( bxx, new HashMap<Integer, String>(  ), new HashMap<Integer, String>(  ) );
         assertTrue( secondAttrs.isOwnerReadable() );
         assertTrue( secondAttrs.isOwnerWritable() );
         assertTrue( secondAttrs.isOwnerExecutable() );

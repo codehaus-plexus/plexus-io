@@ -114,8 +114,7 @@ public class ResourcesTest extends PlexusTestCase
     private void compare( InputStream in, File file )
         throws IOException
     {
-        InputStream fIn = new FileInputStream( file );
-        try
+        try( InputStream fIn = new FileInputStream( file ) )
         {
             for ( ;; )
             {
@@ -127,10 +126,6 @@ public class ResourcesTest extends PlexusTestCase
                     break;
                 }
             }
-        }
-        finally
-        {
-            fIn.close();
         }
     }
 

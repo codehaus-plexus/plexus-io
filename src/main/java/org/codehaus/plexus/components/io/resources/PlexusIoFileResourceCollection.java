@@ -16,9 +16,7 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
-import org.codehaus.plexus.components.io.attributes.Java7Reflector;
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils;
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
@@ -33,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
@@ -143,54 +140,19 @@ public class PlexusIoFileResourceCollection
         super.setPrefix(StringUtils.replace( prefix, nonSeparator, File.separatorChar));
     }
 
-    private void addResources( List<PlexusIoResource> result, String[] resources,
-                               Map<String, PlexusIoResourceAttributes> attributesByPath )
+    private void addResources( List<PlexusIoResource> result, String[] resources )
         throws IOException
     {
 
         final File dir = getBaseDir();
-        for ( String name : resources )
-        {
-            String sourceDir = name.replace( '\\', '/' );
-
-            File f = new File( dir, sourceDir );
-
-            PlexusIoResourceAttributes attrs = attributesByPath.get( name.length() > 0 ? name : "." );
-            if ( attrs == null )
-            {
-                attrs = attributesByPath.get( f.getAbsolutePath() );
-            }
-            if ( attrs == null )
-            {
-                attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-            }
-
-            attrs = mergeAttributes( attrs, f.isDirectory() );
-
-            String remappedName = getName( name );
-
-            PlexusIoResource resource = ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
-            if ( isSelected( resource ) )
-            {
-                result.add( resolve(resource) );
-            }
-        }
-    }
-
-
-    private void addResourcesJava7( List<PlexusIoResource> result, String[] resources )
-        throws IOException
-    {
-
-        final File dir = getBaseDir();
-        final HashMap<Integer, String> cache1 = new HashMap<Integer, String>();
-        final HashMap<Integer, String> cache2 = new HashMap<Integer, String>();
+        final HashMap<Integer, String> cache1 = new HashMap<>();
+        final HashMap<Integer, String> cache2 = new HashMap<>();
         for ( String name : resources )
         {
             String sourceDir = name.replace( '\\', '/' );
             File f = new File( dir, sourceDir );
 
-            PlexusIoResourceAttributes attrs = new Java7FileAttributes( f, cache1, cache2 );
+            PlexusIoResourceAttributes attrs = new FileAttributes( f, cache1, cache2 );
             attrs = mergeAttributes( attrs, f.isDirectory() );
 
             String remappedName = getName( name );
@@ -279,35 +241,16 @@ public class PlexusIoFileResourceCollection
         ds.setFollowSymlinks( isFollowingSymLinks() );
         ds.scan();
 
-        if ( Java7Reflector.isAtLeastJava7() )
+        final List<PlexusIoResource> result = new ArrayList<>();
+        if ( isIncludingEmptyDirectories() )
         {
-            final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
-            if ( isIncludingEmptyDirectories() )
-            {
-                String[] dirs = ds.getIncludedDirectories();
-                addResourcesJava7( result, dirs );
-            }
-
-            String[] files = ds.getIncludedFiles();
-            addResourcesJava7( result, files );
-            return result.iterator();
+            String[] dirs = ds.getIncludedDirectories();
+            addResources( result, dirs );
         }
-        else
-        {
-            Map<String, PlexusIoResourceAttributes> attributesByPath =
-                PlexusIoResourceAttributeUtils.getFileAttributesByPath( getBaseDir() );
 
-            final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
-            if ( isIncludingEmptyDirectories() )
-            {
-                String[] dirs = ds.getIncludedDirectories();
-                addResources( result, dirs, attributesByPath );
-            }
-
-            String[] files = ds.getIncludedFiles();
-            addResources( result, files, attributesByPath );
-            return result.iterator();
-        }
+        String[] files = ds.getIncludedFiles();
+        addResources( result, files );
+        return result.iterator();
     }
 
     public boolean isConcurrentAccessSupported() {
