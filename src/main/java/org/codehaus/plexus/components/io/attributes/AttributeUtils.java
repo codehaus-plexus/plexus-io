@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 /**
  * @author Kristian Rosenvold
  */
-public class Java7AttributeUtils
+public class AttributeUtils
 {
     /*
     Reads last-modified with proper failure handling if something goes wrong.

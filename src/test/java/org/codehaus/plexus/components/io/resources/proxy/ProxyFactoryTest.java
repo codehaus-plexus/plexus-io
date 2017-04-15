@@ -1,7 +1,7 @@
 package org.codehaus.plexus.components.io.resources.proxy;
 
 import junit.framework.TestCase;
-import org.codehaus.plexus.components.io.attributes.Java7FileAttributes;
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
@@ -114,7 +114,7 @@ public class ProxyFactoryTest
         throws IOException
     {
         final File file = new File( "pom.xml" );
-        PlexusIoResourceAttributes attrs = Java7FileAttributes.uncached( file );
+        PlexusIoResourceAttributes attrs = FileAttributes.uncached( file );
 
         return new PlexusIoFileResource( file, "pom.xml", attrs ){};
     }
@@ -136,7 +136,7 @@ public class ProxyFactoryTest
         throws IOException
     {
         final File file = new File( "pom.xml" );
-        PlexusIoResourceAttributes attrs = Java7FileAttributes.uncached( file );
+        PlexusIoResourceAttributes attrs = FileAttributes.uncached( file );
 
         return new Dummy( file, attrs );
     }

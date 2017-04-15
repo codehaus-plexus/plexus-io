@@ -1,5 +1,7 @@
+package org.codehaus.plexus.components.io.attributes;
+
 /*
- * Copyright 2016 Plexus developers.
+ * Copyright 2011 The Codehaus Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,66 +16,34 @@
  * limitations under the License.
  */
 
-package org.codehaus.plexus.components.io.attributes;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import org.codehaus.plexus.util.Os;
 
+import junit.framework.TestCase;
 
-
+/**
+ * @author Kristian Rosenvold
+ */
 public class FileAttributesTest
-    extends AbstractResourceAttributesTCK
+    extends TestCase
 {
-
-    protected PlexusIoResourceAttributes newAttributes( int mode )
+    public void testGetPosixFileAttributes()
+        throws Exception
     {
-        return new FileAttributes(mode);
+
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X ) )
+        {
+            return;
+        }
+
+        File file = new File( "." );
+        Map<Integer, String> userCache = new HashMap<Integer, String>();
+        Map<Integer, String> groupCache = new HashMap<Integer, String>();
+
+        PlexusIoResourceAttributes fa = new FileAttributes( file, userCache, groupCache );
+        assertNotNull( fa );
     }
 
-    protected PlexusIoResourceAttributes newAttributes( String lsModeLine )
-    {
-        return new FileAttributes(lsModeLine);
-    }
-
-    public void testSetLsMode_OwnerModes()
-    {
-        verifyLsModeSet( "-rwS------", new boolean[]{ true, true, true, false, false, false, false, false, false } );
-        verifyLsModeSet( "-rwx------", new boolean[]{ true, true, true, false, false, false, false, false, false } );
-        verifyLsModeSet( "-rw-------", new boolean[]{ true, true, false, false, false, false, false, false, false } );
-        verifyLsModeSet( "-r--------", new boolean[]{ true, false, false, false, false, false, false, false, false } );
-        verifyLsModeSet( "--w-------", new boolean[]{ false, true, false, false, false, false, false, false, false } );
-    }
-
-    public void testSetLsMode_GroupModes()
-    {
-        verifyLsModeSet( "----rwS---", new boolean[]{ false, false, false, true, true, true, false, false, false } );
-        verifyLsModeSet( "----rwx---", new boolean[]{ false, false, false, true, true, true, false, false, false } );
-        verifyLsModeSet( "----rw----", new boolean[]{ false, false, false, true, true, false, false, false, false } );
-        verifyLsModeSet( "----r-----", new boolean[]{ false, false, false, true, false, false, false, false, false } );
-        verifyLsModeSet( "-----w----", new boolean[]{ false, false, false, false, true, false, false, false, false } );
-    }
-
-    public void testSetLsMode_WorldModes()
-    {
-        verifyLsModeSet( "-------rwx", new boolean[]{ false, false, false, false, false, false, true, true, true } );
-        verifyLsModeSet( "-------rw-", new boolean[]{ false, false, false, false, false, false, true, true, false } );
-        verifyLsModeSet( "-------r--", new boolean[]{ false, false, false, false, false, false, true, false, false } );
-        verifyLsModeSet( "--------w-", new boolean[]{ false, false, false, false, false, false, false, true, false } );
-    }
-
-    private void verifyLsModeSet( String mode, boolean[] checkValues )
-    {
-        PlexusIoResourceAttributes attrs = newAttributes( mode );
-        
-
-        assertEquals( checkValues[0], attrs.isOwnerReadable() );
-        assertEquals( checkValues[1], attrs.isOwnerWritable() );
-        assertEquals( checkValues[2], attrs.isOwnerExecutable() );
-        
-        assertEquals( checkValues[3], attrs.isGroupReadable() );
-        assertEquals( checkValues[4], attrs.isGroupWritable() );
-        assertEquals( checkValues[5], attrs.isGroupExecutable() );
-        
-        assertEquals( checkValues[6], attrs.isWorldReadable() );
-        assertEquals( checkValues[7], attrs.isWorldWritable() );
-        assertEquals( checkValues[8], attrs.isWorldExecutable() );
-    }
-    
 }

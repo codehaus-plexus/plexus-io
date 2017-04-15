@@ -25,8 +25,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
-import org.codehaus.plexus.components.io.attributes.Java7AttributeUtils;
-import org.codehaus.plexus.components.io.attributes.Java7Reflector;
+import org.codehaus.plexus.components.io.attributes.AttributeUtils;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.FileSupplier;
@@ -188,14 +187,7 @@ public class PlexusIoFileResource
 
     public long getLastModified()
     {
-        if ( Java7Reflector.isAtLeastJava7() )
-        {
-            return Java7AttributeUtils.getLastModified( getFile() );
-        }
-        else
-        {
-            return getFile().lastModified();
-        }
+        return AttributeUtils.getLastModified( getFile() );
     }
 
     @Override public boolean isSymbolicLink() {

@@ -16,303 +16,228 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileOwnerAttributeView;
+import java.nio.file.attribute.PosixFilePermission;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
-import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.*;
-
-/**
- * Attributes that are read by legacy-style attribute parsing.
+/*
+ * File attributes
+ * Immutable
  */
 public class FileAttributes
-    implements PlexusIoResourceAttributes
-{
+        implements PlexusIoResourceAttributes {
+    @Nullable
+    private final Integer groupId;
 
-    protected static final char VALUE_DISABLED_MODE = '-';
+    @Nullable
+    private final String groupName;
 
-    protected static final char VALUE_WRITABLE_MODE = 'w';
+    @Nullable
+    private final Integer userId;
 
-    protected static final char VALUE_READABLE_MODE = 'r';
+    private final String userName;
 
-    protected static final char VALUE_EXECUTABLE_MODE = 'x';
+    private final boolean symbolicLink;
 
-    protected static final int INDEX_WORLD_EXECUTE = 9;
+    private final int octalMode;
 
-    protected static final int INDEX_WORLD_WRITE = 8;
+    private final Set<PosixFilePermission> permissions;
 
-    protected static final int INDEX_WORLD_READ = 7;
+    public FileAttributes(@Nonnull File file, @Nonnull Map<Integer, String> userCache,
+                          @Nonnull Map<Integer, String> groupCache)
+            throws IOException {
 
-    protected static final int INDEX_GROUP_EXECUTE = 6;
 
-    protected static final int INDEX_GROUP_WRITE = 5;
+        Path path = file.toPath();
+        if (AttributeUtils.isUnix(path)) {
+            Map<String, Object> attrs = Files.readAttributes(path, "unix:*", LinkOption.NOFOLLOW_LINKS);
+            this.permissions = (Set<PosixFilePermission>) attrs.get("permissions");
 
-    protected static final int INDEX_GROUP_READ = 4;
+            groupId = (Integer) attrs.get("gid");
 
-    protected static final int INDEX_OWNER_EXECUTE = 3;
-
-    protected static final int INDEX_OWNER_WRITE = 2;
-
-    protected static final int INDEX_OWNER_READ = 1;
-
-    private Integer groupId;
-
-    private String groupName;
-
-    private Integer userId;
-
-    private String userName;
-
-    private char[] mode;
-
-    public FileAttributes(int mode){
-        this.mode = new char[10];
-        Arrays.fill( this.mode, VALUE_DISABLED_MODE );
-        setOctalMode( mode );
-    }
-
-    public FileAttributes(@Nonnull String lsMOdeLine)
-    {
-        mode = new char[10];
-        Arrays.fill( mode, VALUE_DISABLED_MODE );
-        setLsModeline( lsMOdeLine );
-    }
-
-    protected char[] getLsModeParts()
-    {
-        return mode;
-    }
-
-    private void setLsModeParts( @Nonnull char[] mode )
-    {
-        if ( mode.length < 10 )
-        {
-            this.mode = new char[10];
-            System.arraycopy( mode, 0, this.mode, 0, mode.length );
-            for ( int i = mode.length; i < 10; i++ )
-            {
-                this.mode[i] = VALUE_DISABLED_MODE;
+            String groupName = groupCache.get(groupId);
+            if (groupName != null) {
+                this.groupName = groupName;
+            } else {
+                this.groupName = ((Principal) attrs.get("group")).getName();
+                groupCache.put(groupId, this.groupName);
             }
+            userId = (Integer) attrs.get("uid");
+            String userName = userCache.get(userId);
+            if (userName != null) {
+                this.userName = userName;
+            } else {
+                this.userName = ((Principal) attrs.get("owner")).getName();
+                userCache.put(userId, this.userName);
+            }
+            octalMode = (Integer) attrs.get("mode") & 0xfff; // Mask off top bits for compatibilty. Maybe check if we can skip this
+            symbolicLink = (Boolean) attrs.get("isSymbolicLink");
+        } else {
+            FileOwnerAttributeView fa = AttributeUtils.getFileOwnershipInfo(file);
+            this.userName = fa.getOwner().getName();
+            userId = null;
+            this.groupName = null;
+            this.groupId = null;
+            octalMode = PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
+            permissions = Collections.emptySet();
+            symbolicLink = Files.isSymbolicLink(path);
         }
-        else
-        {
-            this.mode = mode;
-        }
+
     }
 
-    @Nullable public Integer getGroupId()
-    {
+    public static
+    @Nonnull
+    PlexusIoResourceAttributes uncached(@Nonnull File file)
+            throws IOException {
+        return new FileAttributes(file, new HashMap<Integer, String>(), new HashMap<Integer, String>());
+    }
+
+
+    @Nullable
+    public Integer getGroupId() {
+
         return groupId;
     }
 
-    @Nullable public String getGroupName()
-    {
+    public boolean hasGroupId() {
+        return false;
+    }
+
+    public boolean hasUserId() {
+        return false;
+    }
+
+    @Nullable
+    public String getGroupName() {
         return groupName;
     }
 
-    public Integer getUserId()
-    {
+    public Integer getUserId() {
         return userId;
     }
 
-    public String getUserName()
-    {
+    public String getUserName() {
         return userName;
     }
 
-    public boolean isGroupExecutable()
-    {
-        return checkFlag( '-', INDEX_GROUP_EXECUTE );
+    public boolean isGroupExecutable() {
+        return containsPermission(PosixFilePermission.GROUP_EXECUTE);
     }
 
-    private boolean checkFlag( char disabledValue, int idx )
-    {
-        return mode != null && mode[idx] != disabledValue;
+    private boolean containsPermission(PosixFilePermission groupExecute) {
+        return permissions.contains(groupExecute);
     }
 
-    public boolean isGroupReadable()
-    {
-        return checkFlag( '-', INDEX_GROUP_READ );
+    public boolean isGroupReadable() {
+        return containsPermission(PosixFilePermission.GROUP_READ);
     }
 
-    public boolean isGroupWritable()
-    {
-        return checkFlag( '-', INDEX_GROUP_WRITE );
+    public boolean isGroupWritable() {
+        return containsPermission(PosixFilePermission.GROUP_WRITE);
     }
 
-    public boolean isOwnerExecutable()
-    {
-        return checkFlag( '-', INDEX_OWNER_EXECUTE );
+    public boolean isOwnerExecutable() {
+        return containsPermission(PosixFilePermission.OWNER_EXECUTE);
     }
 
-    public boolean isOwnerReadable()
-    {
-        return checkFlag( '-', INDEX_OWNER_READ );
+    public boolean isOwnerReadable() {
+        return containsPermission(PosixFilePermission.OWNER_READ);
     }
 
-    public boolean isOwnerWritable()
-    {
-        return checkFlag( '-', INDEX_OWNER_WRITE );
+    public boolean isOwnerWritable() {
+        return containsPermission(PosixFilePermission.OWNER_WRITE);
     }
 
-    public boolean isWorldExecutable()
-    {
-        return checkFlag( '-', INDEX_WORLD_EXECUTE );
+    public boolean isWorldExecutable() {
+        return containsPermission(PosixFilePermission.OTHERS_EXECUTE);
+
     }
 
-    public boolean isWorldReadable()
-    {
-        return checkFlag( '-', INDEX_WORLD_READ );
+    public boolean isWorldReadable() {
+        return containsPermission(PosixFilePermission.OTHERS_READ);
     }
 
-    public boolean isWorldWritable()
-    {
-        return checkFlag( '-', INDEX_WORLD_WRITE );
+    public boolean isWorldWritable() {
+        return containsPermission(PosixFilePermission.OTHERS_WRITE);
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "\nFile Attributes:\n------------------------------\nuser: " );
-        sb.append( userName == null ? "" : userName );
-        sb.append( "\ngroup: " );
-        sb.append( groupName == null ? "" : groupName );
-        sb.append( "\nuid: " );
-        sb.append( userId != null ?  userId.toString() : "");
-        sb.append( "\ngid: " );
-        sb.append( groupId != null ? groupId.toString() : "");
-        sb.append( "\nmode: " );
-        sb.append( mode == null ? "" : String.valueOf( mode ) );
+        sb.append("\nFile Attributes:\n------------------------------\nuser: ");
+        sb.append(userName == null ? "" : userName);
+        sb.append("\ngroup: ");
+        sb.append(groupName == null ? "" : groupName);
+        sb.append("\nuid: ");
+        sb.append(hasUserId() ? Integer.toString(userId) : "");
+        sb.append("\ngid: ");
+        sb.append(hasGroupId() ? Integer.toString(groupId) : "");
 
         return sb.toString();
     }
 
-    public int getOctalMode()
-    {
+    public int getOctalMode() {
+        return octalMode;
+    }
+
+    public int calculatePosixOctalMode() {
         int result = 0;
 
-        if ( isOwnerReadable() )
-        {
+        if (isOwnerReadable()) {
             result |= AttributeConstants.OCTAL_OWNER_READ;
         }
 
-        if ( isOwnerWritable() )
-        {
+        if (isOwnerWritable()) {
             result |= AttributeConstants.OCTAL_OWNER_WRITE;
         }
 
-        if ( isOwnerExecutable() )
-        {
+        if (isOwnerExecutable()) {
             result |= AttributeConstants.OCTAL_OWNER_EXECUTE;
         }
 
-        if ( isGroupReadable() )
-        {
+        if (isGroupReadable()) {
             result |= AttributeConstants.OCTAL_GROUP_READ;
         }
 
-        if ( isGroupWritable() )
-        {
+        if (isGroupWritable()) {
             result |= AttributeConstants.OCTAL_GROUP_WRITE;
         }
 
-        if ( isGroupExecutable() )
-        {
+        if (isGroupExecutable()) {
             result |= AttributeConstants.OCTAL_GROUP_EXECUTE;
         }
 
-        if ( isWorldReadable() )
-        {
+        if (isWorldReadable()) {
             result |= AttributeConstants.OCTAL_WORLD_READ;
         }
 
-        if ( isWorldWritable() )
-        {
+        if (isWorldWritable()) {
             result |= AttributeConstants.OCTAL_WORLD_WRITE;
         }
 
-        if ( isWorldExecutable() )
-        {
+        if (isWorldExecutable()) {
             result |= AttributeConstants.OCTAL_WORLD_EXECUTE;
         }
 
         return result;
     }
 
-    public String getOctalModeString()
-    {
-        return Integer.toString( getOctalMode(), 8 );
+    public String getOctalModeString() {
+        return Integer.toString(getOctalMode(), 8);
     }
 
-    public PlexusIoResourceAttributes setGroupId( Integer gid )
-    {
-        this.groupId = gid;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setGroupName( String name )
-    {
-        this.groupName = name;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setUserId( Integer uid )
-    {
-        this.userId = uid;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setUserName( String name )
-    {
-        this.userName = name;
-        return this;
-    }
-
-    public PlexusIoResourceAttributes setLsModeline( @Nonnull String modeLine )
-    {
-        setLsModeParts( modeLine.toCharArray() );
-        return this;
-    }
-
-    private void setMode( char value, int modeIdx )
-    {
-        char[] mode = getLsModeParts();
-        mode[modeIdx] = value;
-
-        setLsModeParts( mode );
-    }
-
-    private void setOctalMode( int mode )
-    {
-        setExecutable( INDEX_OWNER_EXECUTE, isOwnerExecutableInOctal( mode ));
-        setExecutable( INDEX_GROUP_EXECUTE, isGroupExecutableInOctal( mode ) );
-        setExecutable( INDEX_WORLD_EXECUTE, isWorldExecutableInOctal( mode ));
-
-        setReadable( INDEX_OWNER_READ, isOwnerReadableInOctal( mode ));
-        setReadable( INDEX_GROUP_READ, isGroupReadableInOctal( mode ) );
-        setReadable( INDEX_WORLD_READ, isWorldReadableInOctal( mode ));
-
-        setWriteable( INDEX_OWNER_WRITE, isOwnerWritableInOctal( mode ));
-        setWriteable( INDEX_GROUP_WRITE, isGroupWritableInOctal( mode ) );
-        setWriteable( INDEX_WORLD_WRITE, isWorldWritableInOctal( mode ));
-    }
-
-    private void setExecutable( int index, boolean executable )
-    {
-        setMode( executable ? VALUE_EXECUTABLE_MODE : VALUE_DISABLED_MODE, index );
-    }
-
-    private void setReadable( int index, boolean readable )
-    {
-        setMode( readable ? VALUE_READABLE_MODE : VALUE_DISABLED_MODE, index );
-    }
-    private void setWriteable( int index, boolean writable )
-    {
-        setMode( writable ? VALUE_WRITABLE_MODE : VALUE_DISABLED_MODE, index );
-    }
-    // Legacy mode does not support symlinks
-    public boolean isSymbolicLink()
-    {
-        return false;
+    public boolean isSymbolicLink() {
+        return symbolicLink;
     }
 }
