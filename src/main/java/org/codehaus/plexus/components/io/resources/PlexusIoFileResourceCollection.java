@@ -145,8 +145,8 @@ public class PlexusIoFileResourceCollection
     {
 
         final File dir = getBaseDir();
-        final HashMap<Integer, String> cache1 = new HashMap<Integer, String>();
-        final HashMap<Integer, String> cache2 = new HashMap<Integer, String>();
+        final HashMap<Integer, String> cache1 = new HashMap<>();
+        final HashMap<Integer, String> cache2 = new HashMap<>();
         for ( String name : resources )
         {
             String sourceDir = name.replace( '\\', '/' );
@@ -241,7 +241,7 @@ public class PlexusIoFileResourceCollection
         ds.setFollowSymlinks( isFollowingSymLinks() );
         ds.scan();
 
-        final List<PlexusIoResource> result = new ArrayList<PlexusIoResource>();
+        final List<PlexusIoResource> result = new ArrayList<>();
         if ( isIncludingEmptyDirectories() )
         {
             String[] dirs = ds.getIncludedDirectories();

@@ -30,7 +30,7 @@ public class ProxyFactory
     public static PlexusIoResource createProxy(@Nonnull PlexusIoResource target, Object alternateSupplier)
     {
 
-        List<Class> interfaces = new ArrayList<Class>(  );
+        List<Class> interfaces = new ArrayList<>(  );
         interfaces.add( PlexusIoResource.class);
         if (target instanceof SymlinkDestinationSupplier ) interfaces.add( SymlinkDestinationSupplier.class);
         if (target instanceof FileSupplier ) interfaces.add( FileSupplier.class);

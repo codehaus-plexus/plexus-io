@@ -183,8 +183,8 @@ public final class PlexusIoResourceAttributeUtils
     public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(@Nonnull File dir, boolean recursive )
         throws IOException
     {
-        Map<Integer, String> userCache = new HashMap<Integer, String>();
-        Map<Integer, String> groupCache = new HashMap<Integer, String>();
+        Map<Integer, String> userCache = new HashMap<>();
+        Map<Integer, String> groupCache = new HashMap<>();
         final List<String> fileAndDirectoryNames;
         if ( recursive && dir.isDirectory() )
         {
@@ -195,8 +195,7 @@ public final class PlexusIoResourceAttributeUtils
             fileAndDirectoryNames = Collections.singletonList( dir.getAbsolutePath() );
         }
 
-        final Map<String, PlexusIoResourceAttributes> attributesByPath =
-            new LinkedHashMap<String, PlexusIoResourceAttributes>();
+        final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<>();
 
         for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {

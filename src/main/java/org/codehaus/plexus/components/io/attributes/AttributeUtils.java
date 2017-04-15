@@ -65,7 +65,7 @@ public class AttributeUtils
     @Nonnull
     public static Set<PosixFilePermission> getPermissions( int mode )
     {
-        Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+        Set<PosixFilePermission> perms = new HashSet<>();
         //add owners permission
         if ( ( mode & 0400 ) > 0 )
         {
