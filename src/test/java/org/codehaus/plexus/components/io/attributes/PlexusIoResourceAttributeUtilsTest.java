@@ -67,7 +67,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( System.getProperty( "user.name" ), fileAttrs.getUserName() );
     }
 
-    public void testFolder()
+    public void testDirectory()
             throws IOException, CommandLineException {
 
         if (Os.isFamily( Os.FAMILY_WINDOWS )){
