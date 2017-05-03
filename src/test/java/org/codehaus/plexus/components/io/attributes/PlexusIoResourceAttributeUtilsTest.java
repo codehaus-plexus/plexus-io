@@ -70,7 +70,7 @@ public class PlexusIoResourceAttributeUtilsTest
     public void testFolder()
             throws IOException, CommandLineException {
 
-        if (Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X )){
+        if (Os.isFamily( Os.FAMILY_WINDOWS )){
             return; // Nothing to do here.
         }
 
@@ -113,7 +113,7 @@ public class PlexusIoResourceAttributeUtilsTest
     public void testSrcResource()
             throws IOException
     {
-        if (Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X )){
+        if (Os.isFamily( Os.FAMILY_WINDOWS )){
             return; // Nothing to do here.
         }
 

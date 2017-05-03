@@ -33,7 +33,7 @@ public class FileAttributesTest
         throws Exception
     {
 
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) || Os.isFamily( Os.FAMILY_WIN9X ) )
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
         {
             return;
         }
