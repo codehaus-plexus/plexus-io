@@ -170,7 +170,7 @@ public class SimpleResourceAttributes
     public String toString()
     {
         return String.format(
-            "\nResource Attributes:\n------------------------------\nuser: %s\ngroup: %s\nuid: %d\ngid: %d\nmode: %06o",
+            "%nResource Attributes:%n------------------------------%nuser: %s%ngroup: %s%nuid: %d%ngid: %d%nmode: %06o",
             userName == null ? "" : userName,
             groupName == null ? "" : groupName,
             uid != null ? uid : 0,

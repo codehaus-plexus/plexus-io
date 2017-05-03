@@ -175,13 +175,21 @@ public class FileAttributes
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nFile Attributes:\n------------------------------\nuser: ");
+        sb.append(System.lineSeparator());
+        sb.append("File Attributes:");
+        sb.append(System.lineSeparator());
+        sb.append("------------------------------");
+        sb.append(System.lineSeparator());
+        sb.append("user: ");
         sb.append(userName == null ? "" : userName);
-        sb.append("\ngroup: ");
+        sb.append(System.lineSeparator());
+        sb.append("group: ");
         sb.append(groupName == null ? "" : groupName);
-        sb.append("\nuid: ");
+        sb.append(System.lineSeparator());
+        sb.append("uid: ");
         sb.append(hasUserId() ? Integer.toString(userId) : "");
-        sb.append("\ngid: ");
+        sb.append(System.lineSeparator());
+        sb.append("gid: ");
         sb.append(hasGroupId() ? Integer.toString(groupId) : "");
 
         return sb.toString();
