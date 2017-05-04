@@ -39,7 +39,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     {
     }
 
-	/**
+    /**
      * Sets the zip file
      */
     public void setFile( File file )
@@ -68,8 +68,10 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     }
 
     class FilteringIterator
-        implements Iterator<PlexusIoResource>, Closeable {
-        final Iterator<PlexusIoResource>  it = getEntries();
+        implements Iterator<PlexusIoResource>, Closeable
+    {
+        final Iterator<PlexusIoResource> it = getEntries();
+
         PlexusIoResource next;
 
         public FilteringIterator()
@@ -79,11 +81,13 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
         boolean doNext()
         {
-            while (it.hasNext()){
+            while ( it.hasNext() )
+            {
                 PlexusIoResource candidate = it.next();
                 try
                 {
-                    if (isSelected( candidate )){
+                    if ( isSelected( candidate ) )
+                    {
                         next = candidate;
                         return true;
                     }
@@ -102,7 +106,8 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
         public PlexusIoResource next()
         {
-            if (next == null) doNext();
+            if ( next == null )
+                doNext();
             PlexusIoResource res = next;
             next = null;
             return res;
@@ -110,14 +115,15 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
 
         public void remove()
         {
-            throw new UnsupportedOperationException(  );
+            throw new UnsupportedOperationException();
         }
 
         public void close()
             throws IOException
         {
-            if ( it instanceof  Closeable){
-                ((Closeable) it ).close();
+            if ( it instanceof Closeable )
+            {
+                ( (Closeable) it ).close();
             }
         }
     }
@@ -130,17 +136,17 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             {
 
                 final Iterator<PlexusIoResource> it = getEntries();
-                while( it.hasNext())
+                while ( it.hasNext() )
                 {
                     final PlexusIoResource res = it.next();
                     if ( isSelected( res ) )
                     {
-                        resourceConsumer.accept(  res );
+                        resourceConsumer.accept( res );
                     }
                 }
-                if (it instanceof Closeable )
+                if ( it instanceof Closeable )
                 {
-                    ((Closeable)it).close();
+                    ( (Closeable) it ).close();
                 }
             }
         };

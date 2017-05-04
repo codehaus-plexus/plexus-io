@@ -25,21 +25,21 @@ import org.codehaus.plexus.util.SelectorUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-
 /**
  * This file selector uses a set of patterns for including/excluding
  * files.
  */
-public class
-    IncludeExcludeFileSelector implements FileSelector
+public class IncludeExcludeFileSelector
+    implements FileSelector
 {
     /**
      * The include/exclude file selectors role-hint: "standard".
      */
     public static final String ROLE_HINT = "standard";
 
-    private static final MatchPatterns ALL_INCLUDES = MatchPatterns.from( getCanonicalName( "**/*" ));
-    private static final MatchPatterns ZERO_EXCLUDES = MatchPatterns.from( );
+    private static final MatchPatterns ALL_INCLUDES = MatchPatterns.from( getCanonicalName( "**/*" ) );
+
+    private static final MatchPatterns ZERO_EXCLUDES = MatchPatterns.from();
 
     private boolean isCaseSensitive = true;
 
@@ -77,7 +77,7 @@ public class
      *                 May be <code>null</code>, indicating that all files
      *                 should be included. If a non-<code>null</code>
      *                 list is given, all elements must be
-     * non-<code>null</code>.
+     *                 non-<code>null</code>.
      */
     public void setIncludes( @Nullable String[] includes )
     {
@@ -88,7 +88,7 @@ public class
         }
         else
         {
-            String [] cleaned;
+            String[] cleaned;
             cleaned = new String[includes.length];
             for ( int i = 0; i < includes.length; i++ )
             {
@@ -142,10 +142,10 @@ public class
     public void setExcludes( @Nullable String[] excludes )
     {
         this.excludes = excludes;
-        final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String []{};
+        final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String[] {};
         if ( excludes == null )
         {
-            computedExcludes = MatchPatterns.from( defaultExcludes);
+            computedExcludes = MatchPatterns.from( defaultExcludes );
         }
         else
         {
@@ -159,7 +159,7 @@ public class
             {
                 System.arraycopy( defaultExcludes, 0, temp, excludes.length, defaultExcludes.length );
             }
-            computedExcludes = MatchPatterns.from(  temp );
+            computedExcludes = MatchPatterns.from( temp );
 
         }
     }

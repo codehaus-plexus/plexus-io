@@ -18,7 +18,6 @@ package org.codehaus.plexus.components.io.fileselectors;
 
 import javax.annotation.Nonnull;
 
-
 /**
  * The default file selector: Selects all files.
  */

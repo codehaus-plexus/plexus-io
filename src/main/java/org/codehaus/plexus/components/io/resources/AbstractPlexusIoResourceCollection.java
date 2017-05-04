@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-
 /**
  * Default implementation of a resource collection.
  */

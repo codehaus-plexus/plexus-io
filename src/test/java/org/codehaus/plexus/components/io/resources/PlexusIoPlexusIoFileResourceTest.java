@@ -16,13 +16,14 @@ public class PlexusIoPlexusIoFileResourceTest
     public void testRealSymlink()
         throws IOException
     {
-        if ( Os.isFamily(Os.FAMILY_WINDOWS)) return;
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+            return;
         final File file = new File( "src/test/resources/symlinks/src/symDir" );
         PlexusIoResourceAttributes attrs = FileAttributes.uncached( file );
-        assertTrue(attrs.isSymbolicLink());
-        PlexusIoFileResource r = new PlexusIoFileResource( file,  "symDir", attrs);
-        assertTrue(r.isSymbolicLink());
+        assertTrue( attrs.isSymbolicLink() );
+        PlexusIoFileResource r = new PlexusIoFileResource( file, "symDir", attrs );
+        assertTrue( r.isSymbolicLink() );
         final File target = SymlinkUtils.readSymbolicLink( file );
-        assertTrue(target.getName().endsWith( "targetDir" ));
+        assertTrue( target.getName().endsWith( "targetDir" ) );
     }
 }

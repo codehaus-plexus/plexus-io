@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-
 import javax.annotation.Nonnull;
 
 /**
@@ -30,8 +29,8 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
 
     private final boolean isFile, isDirectory, isExisting;
 
-    protected AbstractPlexusIoResource( @Nonnull String name, long lastModified, long size, boolean isFile, boolean isDirectory,
-                                        boolean isExisting )
+    protected AbstractPlexusIoResource( @Nonnull String name, long lastModified, long size, boolean isFile,
+                                        boolean isDirectory, boolean isExisting )
     {
         this.name = name;
         this.lastModified = lastModified;
@@ -47,7 +46,7 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
     }
 
     @Nonnull
-	public String getName()
+    public String getName()
     {
         return name;
     }

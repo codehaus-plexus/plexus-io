@@ -19,7 +19,6 @@ package org.codehaus.plexus.components.io.fileselectors;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
-
 /**
  * Interface of a component, which selects/deselects files.
  */

@@ -25,8 +25,8 @@ import java.net.URLConnection;
 public abstract class PlexusIoURLResource
     extends AbstractPlexusIoResource
 {
-    protected PlexusIoURLResource( @Nonnull String name, long lastModified, long size, boolean isFile, boolean isDirectory,
-                                   boolean isExisting )
+    protected PlexusIoURLResource( @Nonnull String name, long lastModified, long size, boolean isFile,
+                                   boolean isDirectory, boolean isExisting )
     {
         super( name, lastModified, size, isFile, isDirectory, isExisting );
     }

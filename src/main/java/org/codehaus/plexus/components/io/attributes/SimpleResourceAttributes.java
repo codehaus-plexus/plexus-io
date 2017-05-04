@@ -48,7 +48,7 @@ public class SimpleResourceAttributes
 
     public static PlexusIoResourceAttributes lastResortDummyAttributesForBrokenOS()
     {
-        return new SimpleResourceAttributes(  );
+        return new SimpleResourceAttributes();
     }
 
     SimpleResourceAttributes()

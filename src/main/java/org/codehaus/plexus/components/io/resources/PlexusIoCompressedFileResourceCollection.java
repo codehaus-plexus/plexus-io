@@ -66,7 +66,6 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
     }
 
-
     // return the file attributes of the uncompressed file
     // may be null.
     protected abstract PlexusIoResourceAttributes getAttributes( File f )
@@ -86,13 +85,13 @@ public abstract class PlexusIoCompressedFileResourceCollection
             {
 
                 final Iterator<PlexusIoResource> it = getResources();
-                while( it.hasNext())
+                while ( it.hasNext() )
                 {
                     resourceConsumer.accept( it.next() );
                 }
-                if (it instanceof Closeable )
+                if ( it instanceof Closeable )
                 {
-                    ((Closeable)it).close();
+                    ( (Closeable) it ).close();
                 }
             }
         };
@@ -187,8 +186,9 @@ public abstract class PlexusIoCompressedFileResourceCollection
         return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();
     }
 
-    public boolean isConcurrentAccessSupported() {
-	// There is a single resource in the collection so it is safe
-	return true;
+    public boolean isConcurrentAccessSupported()
+    {
+        // There is a single resource in the collection so it is safe
+        return true;
     }
 }

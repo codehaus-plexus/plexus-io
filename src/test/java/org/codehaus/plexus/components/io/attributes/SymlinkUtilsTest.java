@@ -28,16 +28,16 @@ import static org.junit.Assert.*;
 
 public class SymlinkUtilsTest
 {
-    File target = new File( "target/symlinkCapabilities");
-    String expected = "This is a filed that we'll be symlinking to\n";
+    File target = new File( "target/symlinkCapabilities" );
 
+    String expected = "This is a filed that we'll be symlinking to\n";
 
     @Before
     public void setup()
         throws IOException
     {
-        FileUtils.deleteDirectory(target  );
-        Files.createDirectories(target.toPath());
+        FileUtils.deleteDirectory( target );
+        Files.createDirectories( target.toPath() );
     }
 
     @Test
@@ -51,31 +51,32 @@ public class SymlinkUtilsTest
     public void create_read_symbolic_link_to_file()
         throws Exception
     {
-        File symlink = new File( target, "symlinkToTarget");
+        File symlink = new File( target, "symlinkToTarget" );
         File relativePath = createTargetFile( target );
-        SymlinkUtils.createSymbolicLink( symlink, relativePath);
+        SymlinkUtils.createSymbolicLink( symlink, relativePath );
         assertEquals( expected, FileUtils.readFileToString( symlink ) );
-        assertEquals( new File("actualFile"), SymlinkUtils.readSymbolicLink( new File(target, "symlinkToTarget") ));
+        assertEquals( new File( "actualFile" ),
+                      SymlinkUtils.readSymbolicLink( new File( target, "symlinkToTarget" ) ) );
     }
 
     @Test
     public void create_read_symbolic_link_to_directory()
         throws Exception
     {
-        File subDir = new File( target, "aSubDir");
+        File subDir = new File( target, "aSubDir" );
         createTargetFile( subDir );
-        File symlink = new File( target, "symlinkToDir");
-        SymlinkUtils.createSymbolicLink( symlink, new File("aSubDir"));
-        assertEquals( expected, FileUtils.readFileToString( new File(symlink, "actualFile" )) );
-        assertEquals( new File("aSubDir"), SymlinkUtils.readSymbolicLink( new File(target, "symlinkToDir") ));
+        File symlink = new File( target, "symlinkToDir" );
+        SymlinkUtils.createSymbolicLink( symlink, new File( "aSubDir" ) );
+        assertEquals( expected, FileUtils.readFileToString( new File( symlink, "actualFile" ) ) );
+        assertEquals( new File( "aSubDir" ), SymlinkUtils.readSymbolicLink( new File( target, "symlinkToDir" ) ) );
 
     }
 
     private File createTargetFile( File target )
         throws IOException
     {
-        File relativePath = new File("actualFile");
-        File actualFile = new File( target, relativePath.getPath());
+        File relativePath = new File( "actualFile" );
+        File actualFile = new File( target, relativePath.getPath() );
         FileUtils.write( actualFile, expected );
         return relativePath;
     }

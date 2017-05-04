@@ -27,5 +27,5 @@ public interface EncodingSupported
      * Supplies the encoding to be used for decoding filenames/paths
      * @param charset The charset to use
      */
-    public void setEncoding(Charset charset);
+    public void setEncoding( Charset charset );
 }

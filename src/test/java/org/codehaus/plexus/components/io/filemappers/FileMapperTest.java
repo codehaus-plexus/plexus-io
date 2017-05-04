@@ -150,9 +150,9 @@ public class FileMapperTest extends PlexusTestCase
         final String[] results = getIdentityResults();
         testFileMapper( new PrefixFileMapper(), SAMPLES, results );
         testFileMapper( (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT ), SAMPLES, results );
-        for ( int i = 0;  i < results.length;  i++ )
+        for ( int i = 0; i < results.length; i++ )
         {
-            if  ( results[i] != null )
+            if ( results[i] != null )
             {
                 results[i] = prefix + results[i];
             }
@@ -165,11 +165,11 @@ public class FileMapperTest extends PlexusTestCase
         testFileMapper( mapper, SAMPLES, results );
     }
 
-    private RegExpFileMapper configure(RegExpFileMapper pMapper, String pPattern, String pReplacement)
+    private RegExpFileMapper configure( RegExpFileMapper pMapper, String pPattern, String pReplacement )
     {
-    	pMapper.setPattern(pPattern);
-    	pMapper.setReplacement(pReplacement);
-    	return pMapper;
+        pMapper.setPattern( pPattern );
+        pMapper.setReplacement( pReplacement );
+        return pMapper;
     }
 
     public void testRegExpFileMapper() throws Exception

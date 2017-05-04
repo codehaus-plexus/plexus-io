@@ -113,9 +113,9 @@ public class PlexusIoFileResourceCollection
     public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
                                       final int fileMode, final int dirMode )
     {
-        setDefaultFileAttributes( createDefaults(uid, userName, gid, groupName, fileMode) );
+        setDefaultFileAttributes( createDefaults( uid, userName, gid, groupName, fileMode ) );
 
-        setDefaultDirAttributes( createDefaults(uid, userName, gid, groupName, dirMode) );
+        setDefaultDirAttributes( createDefaults( uid, userName, gid, groupName, dirMode ) );
     }
 
     public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
@@ -123,7 +123,7 @@ public class PlexusIoFileResourceCollection
     {
         setOverrideFileAttributes( createDefaults( uid, userName, gid, groupName, fileMode ) );
 
-        setOverrideDirAttributes( createDefaults(uid, userName, gid, groupName, dirMode) );
+        setOverrideDirAttributes( createDefaults( uid, userName, gid, groupName, dirMode ) );
     }
 
     private static PlexusIoResourceAttributes createDefaults( final int uid, final String userName, final int gid,
@@ -135,9 +135,10 @@ public class PlexusIoFileResourceCollection
 
 
     @Override
-    public void setPrefix(String prefix) {
-        char nonSeparator = File.separatorChar == '/' ?'\\' : '/';
-        super.setPrefix(StringUtils.replace( prefix, nonSeparator, File.separatorChar));
+    public void setPrefix( String prefix )
+    {
+        char nonSeparator = File.separatorChar == '/' ? '\\' : '/';
+        super.setPrefix( StringUtils.replace( prefix, nonSeparator, File.separatorChar ) );
     }
 
     private void addResources( List<PlexusIoResource> result, String[] resources )
@@ -157,7 +158,8 @@ public class PlexusIoFileResourceCollection
 
             String remappedName = getName( name );
 
-            PlexusIoResource resource = ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
+            PlexusIoResource resource =
+                ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
 
             if ( isSelected( resource ) )
             {
@@ -253,7 +255,8 @@ public class PlexusIoFileResourceCollection
         return result.iterator();
     }
 
-    public boolean isConcurrentAccessSupported() {
-	return true;
+    public boolean isConcurrentAccessSupported()
+    {
+        return true;
     }
 }

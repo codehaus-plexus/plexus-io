@@ -25,7 +25,8 @@ import java.io.InputStream;
  * Transform a stream into some other kind of stream. May be used to apply filtering or other
  * kinds of transformations.
  */
-public interface InputStreamTransformer {
+public interface InputStreamTransformer
+{
     /**
      * Transform the supplied input stream into another input stream.
      *

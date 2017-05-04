@@ -66,7 +66,7 @@ public class AttributeUtils
     public static Set<PosixFilePermission> getPermissions( int mode )
     {
         Set<PosixFilePermission> perms = new HashSet<>();
-        //add owners permission
+        // add owners permission
         if ( ( mode & 0400 ) > 0 )
         {
             perms.add( PosixFilePermission.OWNER_READ );
@@ -79,7 +79,7 @@ public class AttributeUtils
         {
             perms.add( PosixFilePermission.OWNER_EXECUTE );
         }
-        //add group permissions
+        // add group permissions
         if ( ( mode & 0040 ) > 0 )
         {
             perms.add( PosixFilePermission.GROUP_READ );
@@ -92,7 +92,7 @@ public class AttributeUtils
         {
             perms.add( PosixFilePermission.GROUP_EXECUTE );
         }
-        //add others permissions
+        // add others permissions
         if ( ( mode & 0004 ) > 0 )
         {
             perms.add( PosixFilePermission.OTHERS_READ );
@@ -125,7 +125,7 @@ public class AttributeUtils
     public static BasicFileAttributes getFileAttributes( Path path )
         throws IOException
     {
-        if (isUnix(path))
+        if ( isUnix( path ) )
         {
 
             try
@@ -140,8 +140,9 @@ public class AttributeUtils
         return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
     }
 
-    public static boolean isUnix(Path path) {
-        return path.getFileSystem().supportedFileAttributeViews().contains("unix");
+    public static boolean isUnix( Path path )
+    {
+        return path.getFileSystem().supportedFileAttributeViews().contains( "unix" );
     }
 
     @Nullable
