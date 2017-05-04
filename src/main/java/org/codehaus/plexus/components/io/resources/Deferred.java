@@ -65,7 +65,8 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
         }
         else
         {
-            return new FileInputStream( dfos.getFile() ){
+            return new FileInputStream( dfos.getFile() )
+            {
                 @Override
                 public void close()
                     throws IOException
@@ -98,10 +99,9 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
         return owner.getName( resource );
     }
 
-
     public PlexusIoResource asResource()
     {
-        return ProxyFactory.createProxy( resource,  Deferred.this);
+        return ProxyFactory.createProxy( resource, Deferred.this );
     }
 
 }

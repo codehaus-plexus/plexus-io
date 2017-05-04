@@ -27,17 +27,20 @@ import java.util.List;
 
 public class ProxyFactory
 {
-    public static PlexusIoResource createProxy(@Nonnull PlexusIoResource target, Object alternateSupplier)
+    public static PlexusIoResource createProxy( @Nonnull PlexusIoResource target, Object alternateSupplier )
     {
 
-        List<Class> interfaces = new ArrayList<>(  );
-        interfaces.add( PlexusIoResource.class);
-        if (target instanceof SymlinkDestinationSupplier ) interfaces.add( SymlinkDestinationSupplier.class);
-        if (target instanceof FileSupplier ) interfaces.add( FileSupplier.class);
-        if (target instanceof ResourceAttributeSupplier) interfaces.add( ResourceAttributeSupplier.class);
+        List<Class> interfaces = new ArrayList<>();
+        interfaces.add( PlexusIoResource.class );
+        if ( target instanceof SymlinkDestinationSupplier )
+            interfaces.add( SymlinkDestinationSupplier.class );
+        if ( target instanceof FileSupplier )
+            interfaces.add( FileSupplier.class );
+        if ( target instanceof ResourceAttributeSupplier )
+            interfaces.add( ResourceAttributeSupplier.class );
 
         return (PlexusIoResource) Proxy.newProxyInstance( PlexusIoResource.class.getClassLoader(),
-                                                                        interfaces.toArray(new Class[interfaces.size()]),
-                                                                        new ResourceInvocationHandler( target, alternateSupplier) );
+                                                          interfaces.toArray( new Class[interfaces.size()] ),
+                                                          new ResourceInvocationHandler( target, alternateSupplier ) );
     }
 }

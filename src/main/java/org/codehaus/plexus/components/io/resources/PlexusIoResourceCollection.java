@@ -49,15 +49,13 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      */
     public Stream stream();
 
-
-
-        /**
-         * Returns the resources suggested name. This is used for
-         * integrating file mappers.
-         * @param resource A resource, which has been obtained by
-         *   calling {@link #getResources()}.
-         * @return The resource name. If it is a file, it should be normalized to platform separators
-         */
+    /**
+     * Returns the resources suggested name. This is used for
+     * integrating file mappers.
+     * @param resource A resource, which has been obtained by
+     *   calling {@link #getResources()}.
+     * @return The resource name. If it is a file, it should be normalized to platform separators
+     */
     String getName( PlexusIoResource resource );
 
     /**

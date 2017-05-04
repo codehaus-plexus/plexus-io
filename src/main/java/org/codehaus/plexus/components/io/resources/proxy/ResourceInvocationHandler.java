@@ -41,37 +41,45 @@ class ResourceInvocationHandler
     {
         this.testImpl = target;
         this.contentSupplier = asOrNull( alternativeHandler, ContentSupplier.class );
-        this.nameSupplier  = asOrNull( alternativeHandler, NameSupplier.class );
-        this.sizeSupplier = asOrNull(  alternativeHandler, SizeSupplier.class);
-        this.symlinkDestinationSupplier = asOrNull(  alternativeHandler, SymlinkDestinationSupplier.class);
-        this.resourceAttributeSupplier = asOrNull(  alternativeHandler, ResourceAttributeSupplier.class);
+        this.nameSupplier = asOrNull( alternativeHandler, NameSupplier.class );
+        this.sizeSupplier = asOrNull( alternativeHandler, SizeSupplier.class );
+        this.symlinkDestinationSupplier = asOrNull( alternativeHandler, SymlinkDestinationSupplier.class );
+        this.resourceAttributeSupplier = asOrNull( alternativeHandler, ResourceAttributeSupplier.class );
 
     }
 
     @SuppressWarnings( "unchecked" )
-    private static <T> T asOrNull(Object instance, Class<T> clazz){
-        if (instance != null && clazz.isAssignableFrom( instance.getClass())) return (T) instance;
-        else return null;
+    private static <T> T asOrNull( Object instance, Class<T> clazz )
+    {
+        if ( instance != null && clazz.isAssignableFrom( instance.getClass() ) )
+            return (T) instance;
+        else
+            return null;
     }
 
     public Object invoke( Object proxy, Method method, Object[] args )
         throws Throwable
     {
         String name = method.getName();
-        if (contentSupplier != null && "getContents".equals( name )){
+        if ( contentSupplier != null && "getContents".equals( name ) )
+        {
             return contentSupplier.getContents();
         }
-        if (nameSupplier != null && "getName".equals( name )){
+        if ( nameSupplier != null && "getName".equals( name ) )
+        {
             return nameSupplier.getName();
         }
-        if (sizeSupplier != null && "getSize".equals( name )){
+        if ( sizeSupplier != null && "getSize".equals( name ) )
+        {
             return sizeSupplier.getSize();
         }
-        if (symlinkDestinationSupplier != null && "getSymlinkDestination".equals( name )){
+        if ( symlinkDestinationSupplier != null && "getSymlinkDestination".equals( name ) )
+        {
             return symlinkDestinationSupplier.getSymlinkDestination();
         }
 
-        if (resourceAttributeSupplier != null && "getAttributes".equals( name )){
+        if ( resourceAttributeSupplier != null && "getAttributes".equals( name ) )
+        {
             return resourceAttributeSupplier.getAttributes();
         }
 

@@ -46,16 +46,20 @@ public class ResourcesTest extends PlexusTestCase
     private static final String B_PATH = X_PATH + "/b";
     private static final String Y_PATH = "y";
 
-    private File getTestDir() {
+    private File getTestDir()
+    {
         final String testDirPath = System.getProperty( "plexus.io.testDirPath" );
         return new File( testDirPath == null ? "target/plexus.io.testDir" : testDirPath );
     }
 
-    private File getFilesDir() {
+    private File getFilesDir()
+    {
         return new File( getTestDir(), "files" );
     }
 
-    private void createFiles() throws IOException {
+    private void createFiles()
+        throws IOException
+    {
         final File baseDir = getFilesDir();
         FileUtils.deleteDirectory( baseDir );
         FileUtils.mkdir( baseDir.getPath() );
@@ -75,30 +79,37 @@ public class ResourcesTest extends PlexusTestCase
     private void addDirToZipFile( ZipOutputStream zos, File dir, String path )
         throws IOException
     {
-        final String prefix = path == null ? "" : (path + "/");
+        final String prefix = path == null ? "" : ( path + "/" );
         File[] files = dir.listFiles();
-        for (File f : files) {
+        for ( File f : files )
+        {
             final String entryName = prefix + f.getName();
-            ZipEntry ze = new ZipEntry(entryName);
-            if (f.isFile()) {
-                ze.setSize(f.length());
-                zos.putNextEntry(ze);
-                FileInputStream fis = new FileInputStream(f);
+            ZipEntry ze = new ZipEntry( entryName );
+            if ( f.isFile() )
+            {
+                ze.setSize( f.length() );
+                zos.putNextEntry( ze );
+                FileInputStream fis = new FileInputStream( f );
                 byte[] buffer = new byte[1024];
-                for (; ; ) {
-                    int res = fis.read(buffer);
-                    if (res == -1) {
+                for ( ;; )
+                {
+                    int res = fis.read( buffer );
+                    if ( res == -1 )
+                    {
                         break;
                     }
-                    if (res > 0) {
-                        zos.write(buffer, 0, res);
+                    if ( res > 0 )
+                    {
+                        zos.write( buffer, 0, res );
                     }
                 }
                 fis.close();
-                ze.setTime(f.lastModified());
+                ze.setTime( f.lastModified() );
                 zos.closeEntry();
-            } else {
-                addDirToZipFile(zos, f, entryName);
+            }
+            else
+            {
+                addDirToZipFile( zos, f, entryName );
             }
         }
     }
@@ -157,7 +168,7 @@ public class ResourcesTest extends PlexusTestCase
         boolean aFileSeen = false;
         boolean bFileSeen = false;
         Iterator iter = plexusIoResourceCollection.getResources();
-        while (  iter.hasNext()  )
+        while ( iter.hasNext() )
         {
             PlexusIoResource res = (PlexusIoResource) iter.next();
             final String resName = res.getName().replace( File.separatorChar, '/' );
@@ -172,7 +183,7 @@ public class ResourcesTest extends PlexusTestCase
                 {
                     yPathSeen = true;
                 }
-                else if ( "".equals( resName )  ||  ".".equals( resName ) )
+                else if ( "".equals( resName ) || ".".equals( resName ) )
                 {
                     // Ignore me
                 }
@@ -207,7 +218,7 @@ public class ResourcesTest extends PlexusTestCase
 
         assertTrue( aFileSeen );
         assertTrue( bFileSeen );
-        if (iter instanceof  Closeable)
+        if ( iter instanceof Closeable )
         {
             ( (Closeable) iter ).close();
         }
@@ -223,8 +234,10 @@ public class ResourcesTest extends PlexusTestCase
     public void testFileCollection() throws Exception
     {
         createFiles();
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE, PlexusIoResourceCollection.DEFAULT_ROLE_HINT ) );
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE, PlexusIoFileResourceCollection.ROLE_HINT ) );
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
+                                                                             PlexusIoResourceCollection.DEFAULT_ROLE_HINT ) );
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
+                                                                             PlexusIoFileResourceCollection.ROLE_HINT ) );
     }
 
     private void testZipFileCollection( AbstractPlexusIoArchiveResourceCollection resourceCollection, File zipFile )

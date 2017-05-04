@@ -18,7 +18,7 @@ public class ResourceFactory
     public static PlexusIoResource createResource( File f )
         throws IOException
     {
-        return createResource( f, getName( f ), null, null, getFileAttributes( f )  );
+        return createResource( f, getName( f ), null, null, getFileAttributes( f ) );
     }
 
     public static PlexusIoResource createResource( File f, String name )
@@ -31,7 +31,7 @@ public class ResourceFactory
                                                    PlexusIoResourceAttributes attributes )
         throws IOException
     {
-        return createResource(  f, name, contentSupplier, null, attributes );
+        return createResource( f, name, contentSupplier, null, attributes );
     }
 
     public static PlexusIoResource createResource( File f, InputStreamTransformer inputStreamTransformer )
@@ -40,8 +40,8 @@ public class ResourceFactory
         return createResource( f, getName( f ), null, inputStreamTransformer, getFileAttributes( f ) );
     }
 
-    public static PlexusIoResource createResource( File f, String name,  final ContentSupplier contentSupplier,
-                                                   InputStreamTransformer inputStreamTransformer  )
+    public static PlexusIoResource createResource( File f, String name, final ContentSupplier contentSupplier,
+                                                   InputStreamTransformer inputStreamTransformer )
         throws IOException
     {
         return createResource( f, name, contentSupplier, inputStreamTransformer, getFileAttributes( f ) );

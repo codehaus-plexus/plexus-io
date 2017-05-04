@@ -83,12 +83,12 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
         if ( isDirectory )
         {
             currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideDirAttributes(), currentAttrs,
-                                                                    getDefaultDirAttributes() );
+                                                                           getDefaultDirAttributes() );
         }
         else
         {
             currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideFileAttributes(), currentAttrs,
-                                                                    getDefaultFileAttributes() );
+                                                                           getDefaultFileAttributes() );
         }
         return currentAttrs;
     }

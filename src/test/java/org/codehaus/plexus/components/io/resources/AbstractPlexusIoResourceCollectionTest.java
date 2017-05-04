@@ -17,7 +17,8 @@ import java.util.Iterator;
 public class AbstractPlexusIoResourceCollectionTest
     extends TestCase
 {
-    @SuppressWarnings( "ResultOfMethodCallIgnored" ) public void testGetIncludes()
+    @SuppressWarnings( "ResultOfMethodCallIgnored" )
+    public void testGetIncludes()
         throws Exception
     {
         AbstractPlexusIoResourceCollection sut = new AbstractPlexusIoResourceCollection()
@@ -25,7 +26,7 @@ public class AbstractPlexusIoResourceCollectionTest
             public Iterator<PlexusIoResource> getResources()
                 throws IOException
             {
-                return Arrays.asList(getResource( "r1" ), getResource( "r2" )).iterator();
+                return Arrays.asList( getResource( "r1" ), getResource( "r2" ) ).iterator();
             }
 
             public Stream stream()
@@ -33,9 +34,10 @@ public class AbstractPlexusIoResourceCollectionTest
                 throw new UnsupportedOperationException();
             }
 
-	    public boolean isConcurrentAccessSupported() {
-		return true;
-	    }
+            public boolean isConcurrentAccessSupported()
+            {
+                return true;
+            }
 
         };
 
@@ -56,7 +58,7 @@ public class AbstractPlexusIoResourceCollectionTest
         final InputStream inputStream = sut.getInputStream( next );
         inputStream.read();
         inputStream.read();
-        assertEquals( -1, inputStream.read());
+        assertEquals( -1, inputStream.read() );
         inputStream.close();
 
     }

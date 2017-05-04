@@ -68,9 +68,11 @@ public class PlexusIoResourceAttributeUtilsTest
     }
 
     public void testDirectory()
-            throws IOException, CommandLineException {
+        throws IOException, CommandLineException
+    {
 
-        if (Os.isFamily( Os.FAMILY_WINDOWS )){
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
             return; // Nothing to do here.
         }
 
@@ -86,57 +88,61 @@ public class PlexusIoResourceAttributeUtilsTest
         File f = new File( resource.getPath().replaceAll( "%20", " " ) );
         final File aDir = f.getParentFile().getParentFile().getParentFile();
 
-        Commandline commandLine = new Commandline("chmod");
-        commandLine.addArguments(new String[]{"763", f.getAbsolutePath()});
+        Commandline commandLine = new Commandline( "chmod" );
+        commandLine.addArguments( new String[] { "763", f.getAbsolutePath() } );
 
-        CommandLineUtils.executeCommandLine(commandLine, null , null);
+        CommandLineUtils.executeCommandLine( commandLine, null, null );
         Map<String, PlexusIoResourceAttributes> attrs =
             PlexusIoResourceAttributeUtils.getFileAttributesByPath( aDir, true );
 
         PlexusIoResourceAttributes fileAttrs = attrs.get( f.getAbsolutePath() );
 
-        assertTrue( fileAttrs.isGroupReadable());
-        assertTrue( fileAttrs.isGroupWritable());
-        assertFalse( fileAttrs.isGroupExecutable());
+        assertTrue( fileAttrs.isGroupReadable() );
+        assertTrue( fileAttrs.isGroupWritable() );
+        assertFalse( fileAttrs.isGroupExecutable() );
 
-        assertTrue( fileAttrs.isOwnerExecutable());
-        assertTrue( fileAttrs.isOwnerReadable());
-        assertTrue( fileAttrs.isOwnerWritable());
+        assertTrue( fileAttrs.isOwnerExecutable() );
+        assertTrue( fileAttrs.isOwnerReadable() );
+        assertTrue( fileAttrs.isOwnerWritable() );
 
-        assertTrue( fileAttrs.isWorldExecutable());
-        assertFalse( fileAttrs.isWorldReadable());
-        assertTrue( fileAttrs.isWorldWritable());
+        assertTrue( fileAttrs.isWorldExecutable() );
+        assertFalse( fileAttrs.isWorldReadable() );
+        assertTrue( fileAttrs.isWorldWritable() );
 
-        assertNotNull(fileAttrs);
+        assertNotNull( fileAttrs );
     }
 
     public void testSrcResource()
-            throws IOException
+        throws IOException
     {
-        if (Os.isFamily( Os.FAMILY_WINDOWS )){
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
             return; // Nothing to do here.
         }
 
-        File dir = new File("src/test/resources/symlinks");
+        File dir = new File( "src/test/resources/symlinks" );
         final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
-                PlexusIoResourceAttributeUtils.getFileAttributesByPath( dir, true );
-        assertNotNull( fileAttributesByPathScreenScrape);
+            PlexusIoResourceAttributeUtils.getFileAttributesByPath( dir, true );
+        assertNotNull( fileAttributesByPathScreenScrape );
         PlexusIoResourceAttributes pr = null;
         for ( String s : fileAttributesByPathScreenScrape.keySet() )
         {
-            if (s.endsWith( "targetFile.txt" )) pr = fileAttributesByPathScreenScrape.get( s);
+            if ( s.endsWith( "targetFile.txt" ) )
+                pr = fileAttributesByPathScreenScrape.get( s );
         }
-        assertNotNull(pr);
+        assertNotNull( pr );
 
-        assertTrue(pr.getOctalMode() > 0);
+        assertTrue( pr.getOctalMode() > 0 );
     }
     public void testNonExistingDirectory()
     {
-        File dir = new File("src/test/noSuchDirectory");
-        try {
+        File dir = new File( "src/test/noSuchDirectory" );
+        try
+        {
             PlexusIoResourceAttributeUtils.getFileAttributesByPath( dir, true );
-            fail("We were supposed to get an io exceptions");
-        } catch (IOException ignore)
+            fail( "We were supposed to get an io exceptions" );
+        }
+        catch ( IOException ignore )
         {
             ignore.printStackTrace();
         }
@@ -163,8 +169,8 @@ public class PlexusIoResourceAttributeUtilsTest
         final PlexusIoResourceAttributes defaults =
             new SimpleResourceAttributes( 1000, "defaultUser", 1000, "defaultGroup", 0 );
 
-        PlexusIoResourceAttributes attributes
-            = PlexusIoResourceAttributeUtils.mergeAttributes( override, null, defaults );
+        PlexusIoResourceAttributes attributes =
+            PlexusIoResourceAttributeUtils.mergeAttributes( override, null, defaults );
 
         assertEquals( attributes.getGroupId(), Integer.valueOf( 1000 ) );
         assertEquals( attributes.getUserId(), Integer.valueOf( 1001 ) );
@@ -229,8 +235,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( "testGroup", attributes.getGroupName() );
         assertEquals( 0777, attributes.getOctalMode() );
 
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(
-            override, blank, null );
+        attributes = PlexusIoResourceAttributeUtils.mergeAttributes( override, blank, null );
 
         assertEquals( Integer.valueOf( 1111 ), attributes.getUserId() );
         assertEquals( "testUser", attributes.getUserName() );
@@ -285,18 +290,18 @@ public class PlexusIoResourceAttributeUtilsTest
     {
         PlexusIoResourceAttributes attrs = getFileAttributes( new File( "src/test/resources/symlinks/src/fileW.txt" ) );
         assertFalse( attrs.isSymbolicLink() );
-        assertTrue( StringUtils.isNotEmpty( attrs.getUserName()));
-        if (! Os.isFamily(Os.FAMILY_WINDOWS))
+        assertTrue( StringUtils.isNotEmpty( attrs.getUserName() ) );
+        if ( !Os.isFamily( Os.FAMILY_WINDOWS ) )
         {
-            assertTrue( StringUtils.isNotEmpty( attrs.getGroupName()));
-            assertNotNull(  attrs.getGroupId() );
-            assertNotNull(  attrs.getUserId() );
+            assertTrue( StringUtils.isNotEmpty( attrs.getGroupName() ) );
+            assertNotNull( attrs.getGroupId() );
+            assertNotNull( attrs.getUserId() );
         }
     }
 
     public void testMergeAttributesDefault()
     {
-        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes(null, null, null, null, 0);
+        final PlexusIoResourceAttributes blank = new SimpleResourceAttributes( null, null, null, null, 0 );
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes( -1, null, -1, null, -1 );
         final PlexusIoResourceAttributes defaults =
             new SimpleResourceAttributes( 3333, "defaultUser", 4444, "defaultGroup", 0444 );

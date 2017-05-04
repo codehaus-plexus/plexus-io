@@ -27,8 +27,8 @@ public class ProxyFactoryTest
         throws Exception
     {
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), null );
-        assertTrue(proxy instanceof ResourceAttributeSupplier );
-        assertTrue(proxy instanceof FileSupplier );
+        assertTrue( proxy instanceof ResourceAttributeSupplier );
+        assertTrue( proxy instanceof FileSupplier );
         assertFalse( proxy instanceof SymlinkDestinationSupplier );
     }
 
@@ -58,7 +58,7 @@ public class ProxyFactoryTest
             }
         };
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), ns );
-        assertSame( s, ( ( ResourceAttributeSupplier)proxy).getAttributes() );
+        assertSame( s, ( (ResourceAttributeSupplier) proxy ).getAttributes() );
     }
 
     public void testCreateProxyWithSizeSupplierOverride()
@@ -106,7 +106,7 @@ public class ProxyFactoryTest
             }
         };
         final PlexusIoResource proxy = ProxyFactory.createProxy( getDummySymlinkResource(), ns );
-        assertEquals( "mordor", ((SymlinkDestinationSupplier)proxy).getSymlinkDestination() );
+        assertEquals( "mordor", ( (SymlinkDestinationSupplier) proxy ).getSymlinkDestination() );
     }
 
 
@@ -119,7 +119,9 @@ public class ProxyFactoryTest
         return new PlexusIoFileResource( file, "pom.xml", attrs ){};
     }
 
-    class Dummy extends PlexusIoFileResource implements SymlinkDestinationSupplier {
+    class Dummy extends PlexusIoFileResource
+        implements SymlinkDestinationSupplier
+    {
         public Dummy( @Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs )
             throws IOException
         {

@@ -37,10 +37,11 @@ public class FileSelectorTest extends PlexusTestCase
     protected void testFileSelector( FileSelector pSelector, String[] pInput, boolean[] pOutput)
         throws IOException
     {
-        for ( int i = 0;  i < pInput.length;  i++ )
+        for ( int i = 0; i < pInput.length; i++ )
         {
             final String name = pInput[i];
-            AbstractPlexusIoResource resource = new AbstractPlexusIoResource(name, 0, 0, true, false, true){
+            AbstractPlexusIoResource resource = new AbstractPlexusIoResource( name, 0, 0, true, false, true )
+            {
                 @Nonnull
                 public InputStream getContents() throws IOException
                 {
@@ -79,7 +80,7 @@ public class FileSelectorTest extends PlexusTestCase
     private boolean[] getAllTrues()
     {
         final boolean[] trues = new boolean[SAMPLES.length];
-        for ( int i = 0;  i < trues.length;  i++ )
+        for ( int i = 0; i < trues.length; i++ )
         {
             trues[i] = true;
         }
@@ -96,7 +97,7 @@ public class FileSelectorTest extends PlexusTestCase
     protected boolean[] getIncludeGifs( String[] pSamples )
     {
         boolean[] result = new boolean[pSamples.length];
-        for ( int i = 0;  i < pSamples.length;  i++ )
+        for ( int i = 0; i < pSamples.length; i++ )
         {
             result[i] = pSamples[i].endsWith( ".gif" );
         }
@@ -105,7 +106,7 @@ public class FileSelectorTest extends PlexusTestCase
 
     protected boolean[] getExcludeBar( String[] pSamples, boolean[] pResult )
     {
-        for ( int i = 0;  i < pSamples.length;  i++ )
+        for ( int i = 0; i < pSamples.length; i++ )
         {
             if ( pSamples[i].startsWith( "bar/" ) )
             {
@@ -129,7 +130,8 @@ public class FileSelectorTest extends PlexusTestCase
     public void testIncludeExcludeFileSelector() throws Exception
     {
         testFileSelector( new IncludeExcludeFileSelector() );
-        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE, IncludeExcludeFileSelector.ROLE_HINT ) );
+        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE,
+                                                               IncludeExcludeFileSelector.ROLE_HINT ) );
     }
     
     public void testIncludeExcludeFileSelector_SetExcludes() throws Exception
@@ -138,9 +140,9 @@ public class FileSelectorTest extends PlexusTestCase
 
         // Test that the setExcludes method does not modify the excludes.
         selector.setExcludes( SAMPLES );
-        String [] sltrExcludes = selector.getExcludes();
+        String[] sltrExcludes = selector.getExcludes();
         assertEquals( SAMPLES.length, sltrExcludes.length );
-        for (int i=0; i<sltrExcludes.length; ++i)
+        for ( int i = 0; i < sltrExcludes.length; ++i )
         {
             assertEquals( SAMPLES[i], sltrExcludes[i] );
         }

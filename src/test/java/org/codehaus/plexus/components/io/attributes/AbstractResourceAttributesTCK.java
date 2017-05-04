@@ -33,85 +33,84 @@ public abstract class AbstractResourceAttributesTCK
 
     public final void testSetOctalModeString_OwnerModes()
     {
-        verifyStringOctalModeSet( "700", new boolean[]{ true, true, true, false, false, false, false, false, false } );
-        verifyStringOctalModeSet( "600", new boolean[]{ true, true, false, false, false, false, false, false, false } );
-        verifyStringOctalModeSet( "400", new boolean[]{ true, false, false, false, false, false, false, false, false } );
-        verifyStringOctalModeSet( "200", new boolean[]{ false, true, false, false, false, false, false, false, false } );
+        verifyStringOctalModeSet( "700", new boolean[] { true, true, true, false, false, false, false, false, false } );
+        verifyStringOctalModeSet( "600", new boolean[] { true, true, false, false, false, false, false, false, false } );
+        verifyStringOctalModeSet( "400", new boolean[] { true, false, false, false, false, false, false, false, false } );
+        verifyStringOctalModeSet( "200", new boolean[] { false, true, false, false, false, false, false, false, false } );
     }
 
     public final void testSetOctalModeString_GroupModes()
     {
-        verifyStringOctalModeSet( "070", new boolean[]{ false, false, false, true, true, true, false, false, false } );
-        verifyStringOctalModeSet( "060", new boolean[]{ false, false, false, true, true, false, false, false, false } );
-        verifyStringOctalModeSet( "040", new boolean[]{ false, false, false, true, false, false, false, false, false } );
-        verifyStringOctalModeSet( "020", new boolean[]{ false, false, false, false, true, false, false, false, false } );
+        verifyStringOctalModeSet( "070", new boolean[] { false, false, false, true, true, true, false, false, false } );
+        verifyStringOctalModeSet( "060", new boolean[] { false, false, false, true, true, false, false, false, false } );
+        verifyStringOctalModeSet( "040", new boolean[] { false, false, false, true, false, false, false, false, false } );
+        verifyStringOctalModeSet( "020", new boolean[] { false, false, false, false, true, false, false, false, false } );
     }
 
     public final void testSetOctalModeString_WorldModes()
     {
-        verifyStringOctalModeSet( "007", new boolean[]{ false, false, false, false, false, false, true, true, true } );
-        verifyStringOctalModeSet( "006", new boolean[]{ false, false, false, false, false, false, true, true, false } );
-        verifyStringOctalModeSet( "004", new boolean[]{ false, false, false, false, false, false, true, false, false } );
-        verifyStringOctalModeSet( "002", new boolean[]{ false, false, false, false, false, false, false, true, false } );
+        verifyStringOctalModeSet( "007", new boolean[] { false, false, false, false, false, false, true, true, true } );
+        verifyStringOctalModeSet( "006", new boolean[] { false, false, false, false, false, false, true, true, false } );
+        verifyStringOctalModeSet( "004", new boolean[] { false, false, false, false, false, false, true, false, false } );
+        verifyStringOctalModeSet( "002", new boolean[] { false, false, false, false, false, false, false, true, false } );
     }
 
     public final void testSetOctalMode_OwnerModes()
     {
-        verifyOctalModeSet( "700", new boolean[]{ true, true, true, false, false, false, false, false, false } );
-        verifyOctalModeSet( "600", new boolean[]{ true, true, false, false, false, false, false, false, false } );
-        verifyOctalModeSet( "400", new boolean[]{ true, false, false, false, false, false, false, false, false } );
-        verifyOctalModeSet( "200", new boolean[]{ false, true, false, false, false, false, false, false, false } );
+        verifyOctalModeSet( "700", new boolean[] { true, true, true, false, false, false, false, false, false } );
+        verifyOctalModeSet( "600", new boolean[] { true, true, false, false, false, false, false, false, false } );
+        verifyOctalModeSet( "400", new boolean[] { true, false, false, false, false, false, false, false, false } );
+        verifyOctalModeSet( "200", new boolean[] { false, true, false, false, false, false, false, false, false } );
     }
 
     public final void testSetOctalMode_GroupModes()
     {
-        verifyOctalModeSet( "070", new boolean[]{ false, false, false, true, true, true, false, false, false } );
-        verifyOctalModeSet( "060", new boolean[]{ false, false, false, true, true, false, false, false, false } );
-        verifyOctalModeSet( "040", new boolean[]{ false, false, false, true, false, false, false, false, false } );
-        verifyOctalModeSet( "020", new boolean[]{ false, false, false, false, true, false, false, false, false } );
+        verifyOctalModeSet( "070", new boolean[] { false, false, false, true, true, true, false, false, false } );
+        verifyOctalModeSet( "060", new boolean[] { false, false, false, true, true, false, false, false, false } );
+        verifyOctalModeSet( "040", new boolean[] { false, false, false, true, false, false, false, false, false } );
+        verifyOctalModeSet( "020", new boolean[] { false, false, false, false, true, false, false, false, false } );
     }
 
     public final void testSetOctalMode_WorldModes()
     {
-        verifyOctalModeSet( "007", new boolean[]{ false, false, false, false, false, false, true, true, true } );
-        verifyOctalModeSet( "006", new boolean[]{ false, false, false, false, false, false, true, true, false } );
-        verifyOctalModeSet( "004", new boolean[]{ false, false, false, false, false, false, true, false, false } );
-        verifyOctalModeSet( "002", new boolean[]{ false, false, false, false, false, false, false, true, false } );
+        verifyOctalModeSet( "007", new boolean[] { false, false, false, false, false, false, true, true, true } );
+        verifyOctalModeSet( "006", new boolean[] { false, false, false, false, false, false, true, true, false } );
+        verifyOctalModeSet( "004", new boolean[] { false, false, false, false, false, false, true, false, false } );
+        verifyOctalModeSet( "002", new boolean[] { false, false, false, false, false, false, false, true, false } );
     }
 
     private void verifyStringOctalModeSet( String mode, boolean[] checkValues )
     {
         PlexusIoResourceAttributes attrs = newAttributes( Integer.parseInt( mode, 8 ) );
-        
-        assertEquals( checkValues[0], attrs.isOwnerReadable() );
-        assertEquals( checkValues[1], attrs.isOwnerWritable() );
-        assertEquals( checkValues[2], attrs.isOwnerExecutable() );
-        
-        assertEquals( checkValues[3], attrs.isGroupReadable() );
-        assertEquals( checkValues[4], attrs.isGroupWritable() );
-        assertEquals( checkValues[5], attrs.isGroupExecutable() );
-        
-        assertEquals( checkValues[6], attrs.isWorldReadable() );
-        assertEquals( checkValues[7], attrs.isWorldWritable() );
-        assertEquals( checkValues[8], attrs.isWorldExecutable() );
-    }
-    
-    private void verifyOctalModeSet( String mode, boolean[] checkValues )
-    {
-        PlexusIoResourceAttributes attrs = newAttributes(Integer.parseInt( mode, 8 ));
-        
 
         assertEquals( checkValues[0], attrs.isOwnerReadable() );
         assertEquals( checkValues[1], attrs.isOwnerWritable() );
         assertEquals( checkValues[2], attrs.isOwnerExecutable() );
-        
+
         assertEquals( checkValues[3], attrs.isGroupReadable() );
         assertEquals( checkValues[4], attrs.isGroupWritable() );
         assertEquals( checkValues[5], attrs.isGroupExecutable() );
-        
+
         assertEquals( checkValues[6], attrs.isWorldReadable() );
         assertEquals( checkValues[7], attrs.isWorldWritable() );
         assertEquals( checkValues[8], attrs.isWorldExecutable() );
     }
-    
+
+    private void verifyOctalModeSet( String mode, boolean[] checkValues )
+    {
+        PlexusIoResourceAttributes attrs = newAttributes( Integer.parseInt( mode, 8 ) );
+
+        assertEquals( checkValues[0], attrs.isOwnerReadable() );
+        assertEquals( checkValues[1], attrs.isOwnerWritable() );
+        assertEquals( checkValues[2], attrs.isOwnerExecutable() );
+
+        assertEquals( checkValues[3], attrs.isGroupReadable() );
+        assertEquals( checkValues[4], attrs.isGroupWritable() );
+        assertEquals( checkValues[5], attrs.isGroupExecutable() );
+
+        assertEquals( checkValues[6], attrs.isWorldReadable() );
+        assertEquals( checkValues[7], attrs.isWorldWritable() );
+        assertEquals( checkValues[8], attrs.isWorldExecutable() );
+    }
+
 }

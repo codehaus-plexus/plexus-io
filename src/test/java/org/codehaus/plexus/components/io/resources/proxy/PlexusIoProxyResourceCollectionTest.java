@@ -100,7 +100,7 @@ public class PlexusIoProxyResourceCollectionTest
 
         public void remove()
         {
-            throw new UnsupportedOperationException( );
+            throw new UnsupportedOperationException();
         }
     }
     
@@ -122,9 +122,10 @@ public class PlexusIoProxyResourceCollectionTest
                     throw new UnsupportedOperationException();
                 }
 
-		public boolean isConcurrentAccessSupported() {
-		    return true;
-		}
+                public boolean isConcurrentAccessSupported()
+                {
+                    return true;
+                }
             } );
         Iterator<PlexusIoResource> resources1 = resCol.getResources();
         resources1.hasNext();

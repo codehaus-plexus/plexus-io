@@ -52,15 +52,16 @@ public class PlexusIoFileResource
 
     private final DeferredFileOutputStream dfos;
 
-
-    protected PlexusIoFileResource( @Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs )
+    protected PlexusIoFileResource( @Nonnull File file, @Nonnull String name,
+                                    @Nonnull PlexusIoResourceAttributes attrs )
         throws IOException
     {
-        this( file, name, attrs,  null, null );
+        this( file, name, attrs, null, null );
     }
 
     @SuppressWarnings( "ConstantConditions" )
-    PlexusIoFileResource( @Nonnull final File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs, final ContentSupplier contentSupplier, final InputStreamTransformer streamTransformer )
+    PlexusIoFileResource( @Nonnull final File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs,
+                          final ContentSupplier contentSupplier, final InputStreamTransformer streamTransformer )
         throws IOException
     {
         super( name, file.lastModified(), file.length(), file.isFile(), file.isDirectory(), file.exists() );
@@ -72,12 +73,14 @@ public class PlexusIoFileResource
         InputStreamTransformer transToUse = streamTransformer != null ? streamTransformer : identityTransformer;
 
         dfos = hasTransformer && file.isFile() ? asDeferredStream( this.contentSupplier, transToUse, this ) : null;
-        if (attrs == null) throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
+        if ( attrs == null )
+            throw new IllegalArgumentException( "attrs is null for file " + file.getName() );
         this.attributes = attrs;
     }
 
-    private static DeferredFileOutputStream asDeferredStream( @Nonnull ContentSupplier supplier, @Nonnull InputStreamTransformer transToUse,
-                                                             PlexusIoResource resource )
+    private static DeferredFileOutputStream asDeferredStream( @Nonnull ContentSupplier supplier,
+                                                              @Nonnull InputStreamTransformer transToUse,
+                                                              PlexusIoResource resource )
         throws IOException
     {
         DeferredFileOutputStream dfos = new DeferredFileOutputStream( 5000000, "p-archiver", null, null );
@@ -89,13 +92,14 @@ public class PlexusIoFileResource
         return dfos;
     }
 
-    private static ContentSupplier getRootContentSupplier(final File file){
+    private static ContentSupplier getRootContentSupplier( final File file )
+    {
         return new ContentSupplier()
         {
             public InputStream getContents()
                 throws IOException
             {
-                return  new FileInputStream( file);
+                return new FileInputStream( file );
             }
         };
     }
@@ -118,28 +122,28 @@ public class PlexusIoFileResource
     public InputStream getContents()
         throws IOException
     {
-            if ( dfos == null )
+        if ( dfos == null )
+        {
+            return contentSupplier.getContents();
+        }
+        if ( dfos.isInMemory() )
+        {
+            return new ByteArrayInputStream( dfos.getData() );
+        }
+        else
+        {
+            return new FileInputStream( dfos.getFile() )
             {
-                return contentSupplier.getContents();
-            }
-            if ( dfos.isInMemory() )
-            {
-                return new ByteArrayInputStream( dfos.getData() );
-            }
-            else
-            {
-                return new FileInputStream( dfos.getFile() )
+                @SuppressWarnings( "ResultOfMethodCallIgnored" )
+                @Override
+                public void close()
+                    throws IOException
                 {
-                    @SuppressWarnings( "ResultOfMethodCallIgnored" )
-                    @Override
-                    public void close()
-                        throws IOException
-                    {
-                        super.close();
-                        dfos.getFile().delete();
-                    }
-                };
-            }
+                    super.close();
+                    dfos.getFile().delete();
+                }
+            };
+        }
     }
 
     @Nonnull
@@ -180,7 +184,8 @@ public class PlexusIoFileResource
         return getFile().isFile();
     }
 
-    @Nonnull public PlexusIoResourceAttributes getAttributes()
+    @Nonnull
+    public PlexusIoResourceAttributes getAttributes()
     {
         return attributes;
     }

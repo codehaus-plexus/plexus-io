@@ -50,7 +50,7 @@ public class PlexusIoProxyResourceCollection
         this.src = src;
     }
 
-	/**
+    /**
      * Returns the archive to read.
      */
     public PlexusIoResourceCollection getSrc()
@@ -77,8 +77,9 @@ public class PlexusIoProxyResourceCollection
     @Override
     public void setStreamTransformer( InputStreamTransformer streamTransformer )
     {
-        if (src instanceof AbstractPlexusIoResourceCollection ){
-            ((AbstractPlexusIoResourceCollection)src).setStreamTransformer( streamTransformer );
+        if ( src instanceof AbstractPlexusIoResourceCollection )
+        {
+            ( (AbstractPlexusIoResourceCollection) src ).setStreamTransformer( streamTransformer );
         }
         super.setStreamTransformer( streamTransformer );
     }
@@ -93,15 +94,17 @@ public class PlexusIoProxyResourceCollection
         return fileSelector;
     }
 
-	private String getNonEmptyPrfix(){
-		String prefix = getPrefix();
-		if ( prefix != null && prefix.length() == 0 )
-		{
-			return null;
-		}
-		return prefix;
+    private String getNonEmptyPrfix()
+    {
+        String prefix = getPrefix();
+        if ( prefix != null && prefix.length() == 0 )
+        {
+            return null;
+        }
+        return prefix;
 
-	}
+    }
+
     class FwdIterator
         extends ForwardingIterator
     {
@@ -113,7 +116,7 @@ public class PlexusIoProxyResourceCollection
 
         FwdIterator( Iterator<PlexusIoResource> resources )
         {
-            super( resources);
+            super( resources );
             this.iter = resources;
         }
 
@@ -123,13 +126,15 @@ public class PlexusIoProxyResourceCollection
         protected PlexusIoResource getNextResource()
             throws IOException
         {
-            if (!iter.hasNext()) return null;
+            if ( !iter.hasNext() )
+                return null;
             PlexusIoResource plexusIoResource = iter.next();
 
-            while ( (!fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ))
-                 || (plexusIoResource.isDirectory() && !isIncludingEmptyDirectories()))
+            while ( ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
+                            || ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() ) )
             {
-                if (!iter.hasNext()) return null;
+                if ( !iter.hasNext() )
+                    return null;
                 plexusIoResource = iter.next();
             }
 
@@ -143,13 +148,13 @@ public class PlexusIoProxyResourceCollection
                 attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
             }
 
-            attrs = mergeAttributes(attrs, plexusIoResource.isDirectory());
+            attrs = mergeAttributes( attrs, plexusIoResource.isDirectory() );
 
             if ( prefix != null )
             {
                 final String name = plexusIoResource.getName();
 
-                final PlexusIoResourceAttributes attrs2= attrs;
+                final PlexusIoResourceAttributes attrs2 = attrs;
                 DualSupplier supplier = new DualSupplier()
                 {
                     public String getName()
@@ -179,9 +184,12 @@ public class PlexusIoProxyResourceCollection
         return new FwdIterator( getSrc().getResources() );
     }
 
-    abstract static class DualSupplier implements NameSupplier, ResourceAttributeSupplier {
+    abstract static class DualSupplier
+        implements NameSupplier, ResourceAttributeSupplier
+    {
 
     }
+
     public String getName( final PlexusIoResource resource )
     {
         String name = resource.getName();
@@ -208,12 +216,14 @@ public class PlexusIoProxyResourceCollection
 
     public void setEncoding( Charset charset )
     {
-        if (src instanceof  EncodingSupported){
-            ((EncodingSupported)src).setEncoding( charset );
+        if ( src instanceof EncodingSupported )
+        {
+            ( (EncodingSupported) src ).setEncoding( charset );
         }
     }
 
-    public boolean isConcurrentAccessSupported() {
-	return src.isConcurrentAccessSupported();
+    public boolean isConcurrentAccessSupported()
+    {
+        return src.isConcurrentAccessSupported();
     }
 }

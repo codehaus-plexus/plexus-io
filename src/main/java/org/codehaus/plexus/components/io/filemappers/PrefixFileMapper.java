@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-
 import javax.annotation.Nonnull;
 
 /**
@@ -58,7 +57,7 @@ public class PrefixFileMapper extends AbstractFileMapper
      */
     public static String getMappedFileName( String prefix, String name )
     {
-        if ( prefix == null  ||  prefix.length() == 0 )
+        if ( prefix == null || prefix.length() == 0 )
         {
             return name;
         }

@@ -35,7 +35,6 @@ public final class PlexusIoResourceAttributeUtils
     {
     }
 
-
     public static PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes override,
                                                               PlexusIoResourceAttributes base,
                                                               PlexusIoResourceAttributes def )
@@ -53,7 +52,7 @@ public final class PlexusIoResourceAttributeUtils
         {
             result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(),
                                                    base.getGroupName(), base.getOctalMode() );
-            result.setSymbolicLink(  base.isSymbolicLink() );
+            result.setSymbolicLink( base.isSymbolicLink() );
         }
 
         if ( override.getGroupId() != null && override.getGroupId() != -1 )
@@ -180,7 +179,9 @@ public final class PlexusIoResourceAttributeUtils
         return getFileAttributesByPath( dir, true );
     }
 
-    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(@Nonnull File dir, boolean recursive )
+    public static @Nonnull
+    Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( @Nonnull File dir,
+                                                                     boolean recursive )
         throws IOException
     {
         Map<Integer, String> userCache = new HashMap<>();

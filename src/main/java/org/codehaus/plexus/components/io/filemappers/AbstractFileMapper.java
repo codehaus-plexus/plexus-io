@@ -27,10 +27,10 @@ import javax.annotation.Nonnull;
  */
 public abstract class AbstractFileMapper implements FileMapper
 {
-	/**
-	 * Checks the input and returns it without modifications.
-	 */
-	public @Nonnull String getMappedFileName( @Nonnull String pName )
+    /**
+     * Checks the input and returns it without modifications.
+     */
+    public @Nonnull String getMappedFileName( @Nonnull String pName )
     {
         if ( pName == null || pName.length() == 0 )
         {

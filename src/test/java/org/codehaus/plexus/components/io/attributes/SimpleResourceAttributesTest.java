@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-
 public class SimpleResourceAttributesTest
     extends AbstractResourceAttributesTCK
 {
