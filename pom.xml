@@ -82,6 +82,7 @@
         <artifactId>maven-scm-publish-plugin</artifactId>
         <configuration>
           <content>${project.reporting.outputDirectory}</content><!-- mono-module doesn't require site:stage -->
+          <scmBranch>gh-pages</scmBranch>
         </configuration>
         <executions>
           <execution>
