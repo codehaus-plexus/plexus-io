@@ -4,7 +4,7 @@
   <parent>
     <artifactId>plexus</artifactId>
     <groupId>org.codehaus.plexus</groupId>
-    <version>3.2</version>
+    <version>5.0</version>
   </parent>
 
   <artifactId>plexus-io</artifactId>
@@ -31,6 +31,7 @@
 
   <properties>
     <cobertura.skip>true</cobertura.skip>
+    <javaVersion>7</javaVersion>
   </properties>
 
   <dependencies>
@@ -70,19 +71,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
       </plugin>
       <plugin>
-
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-publish-plugin</artifactId>
         <configuration>
           <content>${project.reporting.outputDirectory}</content><!-- mono-module doesn't require site:stage -->
-          <scmBranch>gh-pages</scmBranch>
         </configuration>
         <executions>
           <execution>
@@ -104,17 +98,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.1.1</version>
         <executions>
           <execution>
             <id>enforce-java</id>
