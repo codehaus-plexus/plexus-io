@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>plexus</artifactId>
     <groupId>org.codehaus.plexus</groupId>
-    <version>5.0</version>
+    <artifactId>plexus</artifactId>
+    <version>5.1</version>
   </parent>
 
   <artifactId>plexus-io</artifactId>
