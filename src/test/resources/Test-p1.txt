@@ -1,0 +1,38 @@
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes:
+totalt 0
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 .
+drwxr-xr-x 4 1003 1002 80 2010-04-23 11:24 ..
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 org
+
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes/org:
+totalt 0
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 .
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 ..
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 chromattic
+
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes/org/chromattic:
+totalt 0
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 .
+drwxr-xr-x 3 1003 1002 60 2010-04-23 11:24 ..
+drwxr-xr-x 4 1003 1002 80 2010-04-23 11:24 spi
+build	23-Apr-2010 11:24:41
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes/org/chromattic/spi:
+totalt 0
+drwxr-xr-x 4 1003 1002  80 2010-04-23 11:24 .
+drwxr-xr-x 3 1003 1002  60 2010-04-23 11:24 ..
+drwxr-xr-x 2 1003 1002 100 2010-04-23 11:24 instrument
+drwxr-xr-x 2 1003 1002  60 2010-04-23 11:24 jcr
+build	23-Apr-2010 11:24:41
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes/org/chromattic/spi/instrument:
+totalt 12
+drwxr-xr-x 2 1003 1002 100 2010-04-23 11:24 .
+drwxr-xr-x 4 1003 1002  80 2010-04-23 11:24 ..
+-rw-r--r-- 1 1003 1002 432 2010-04-23 11:24 Instrumentor.class
+-rw-r--r-- 1 1003 1002 288 2010-04-23 11:24 MethodHandler.class
+-rw-r--r-- 1 1003 1002 349 2010-04-23 11:24 ProxyFactory.class
+build	23-Apr-2010 11:24:41
+/home/bamboo/agent1/xml-data/build-dir/PARALLEL-CH1/checkout/spi/target/classes/org/chromattic/spi/jcr:
+totalt 4
+drwxr-xr-x 2 1003 1002  60 2010-04-23 11:24 .
+drwxr-xr-x 4 1003 1002  80 2010-04-23 11:24 ..
+-rw-r--r-- 1 1003 1002 508 2010-04-23 11:24 SessionLifeCycle.class
