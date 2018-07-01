@@ -7,14 +7,14 @@ File Mappers
 
   A file mapper is a plexus component, which allows to convert file
   names. File mappers are used when creating files. For example,
-  the {{{http://mojo.codehaus.org/xml-maven-plugin}XML Maven Plugin}}
+  the {{{https://www.mojohaus.org/xml-maven-plugin}XML Maven Plugin}}
   allows to specify a file mapper when creating files by XSLT
   transformation.
 
   File mappers are implementing the interface
   {{{./apidocs/org/codehaus/plexus/components/io/filemappers/FileMapper.html}FileMapper}}.
   The idea of file mappers is borrowed from the
-  {{{http://ant.apache.org/manual/CoreTypes/mapper.html}Ant FileMapper}},
+  {{{https://ant.apache.org/manual/Types/mapper.html}Ant FileMapper}},
   which serves the same purpose within Ant.
 
   Available file mappers are
