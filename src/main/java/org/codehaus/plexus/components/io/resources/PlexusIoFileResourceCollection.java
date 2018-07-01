@@ -151,6 +151,7 @@ public class PlexusIoFileResourceCollection
         for ( String name : resources )
         {
             String sourceDir = name.replace( '\\', '/' );
+            name = addFileNameSuffix( name );
             File f = new File( dir, sourceDir );
 
             PlexusIoResourceAttributes attrs = new FileAttributes( f, cache1, cache2 );
@@ -258,5 +259,33 @@ public class PlexusIoFileResourceCollection
     public boolean isConcurrentAccessSupported()
     {
         return true;
+    }
+    
+    /**
+     * Add a suffix to fileName (eg : test.xml => testSuffix.xml)
+     * Warning : the extension of the file is calculated after the first "dot" caracter.
+     * Example : 
+     * <ul>
+     * <li>test.tar.gz => testSuffix.tar.gz</li>
+     * <li>test.any.of.extension => testSuffix.any.of.extension</li>
+     * </ul>
+     */
+    private String addFileNameSuffix( String name )
+    {
+        String nameWithSuffix = name;
+        if ( StringUtils.isNotBlank( getFileSuffix()) )
+        {
+          if ( name.contains( "." ) )
+          {
+            String beforeExtension = name.substring( 0, name.indexOf('.') );
+            String afterExtension = name.substring( name.indexOf('.') + 1) ;
+            nameWithSuffix = beforeExtension + getFileSuffix() + "." + afterExtension;
+          }
+          else
+          {
+            nameWithSuffix += getFileSuffix();
+          }
+        }
+        return nameWithSuffix;
     }
 }

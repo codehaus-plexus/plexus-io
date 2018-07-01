@@ -63,6 +63,8 @@ public abstract class AbstractPlexusIoResourceCollection
     private FileMapper[] fileMappers;
 
     private InputStreamTransformer streamTransformer = identityTransformer;
+    
+    private String fileSuffix;
 
     protected AbstractPlexusIoResourceCollection()
     {
@@ -244,6 +246,22 @@ public abstract class AbstractPlexusIoResourceCollection
     public void setFileMappers( FileMapper[] fileMappers )
     {
         this.fileMappers = fileMappers;
+    }
+    
+    /**
+     * Returns the suffix apply to files, may be empty
+     */
+    public String getFileSuffix()
+    {
+        return fileSuffix;
+    }
+
+    /**
+      * Add some suffix to file when it's copying
+     */
+    public void setFileSuffix(String fileSuffix)
+    {
+        this.fileSuffix = fileSuffix;
     }
 
     public Iterator<PlexusIoResource> iterator()
