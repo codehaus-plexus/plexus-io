@@ -17,6 +17,7 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Arrays;
 
 import org.codehaus.plexus.PlexusTestCase;
 
@@ -163,6 +164,23 @@ public class FileMapperTest extends PlexusTestCase
         mapper = (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT );
         mapper.setPrefix( prefix );
         testFileMapper( mapper, SAMPLES, results );
+    }
+
+    public void testSuffixMapper() throws Exception
+    {
+        final String suffix = "suffix";
+        String[] samples = Arrays.copyOf( SAMPLES, SAMPLES.length + 2 );
+        samples[samples.length - 2] = "archive.tar.gz";
+        samples[samples.length - 1] = "directory/archive.tar.gz";
+        String[] results = new String[] { null, null, "asuffix", "xyzsuffix.gif", "b/asuffix", "b/xyzsuffix.gif",
+            "b\\asuffix", "b\\xyzsuffix.gif", "c.c/asuffix", "c.c/xyzsuffix.gif", "c.c\\asuffix", "c.c\\xyzsuffix.gif",
+            "archivesuffix.tar.gz", "directory/archivesuffix.tar.gz" };
+        SuffixFileMapper mapper = new SuffixFileMapper();
+        mapper.setSuffix( suffix );
+        testFileMapper( mapper, samples, results );
+        mapper = (SuffixFileMapper) lookup( FileMapper.ROLE, SuffixFileMapper.ROLE_HINT );
+        mapper.setSuffix( suffix );
+        testFileMapper( mapper, samples, results );
     }
 
     private RegExpFileMapper configure( RegExpFileMapper pMapper, String pPattern, String pReplacement )

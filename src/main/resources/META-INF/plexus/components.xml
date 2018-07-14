@@ -44,6 +44,13 @@
     </component>
     <component>
       <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
+      <role-hint>suffix</role-hint>
+      <implementation>org.codehaus.plexus.components.io.filemappers.SuffixFileMapper</implementation>
+      <instantiation-strategy>per-lookup</instantiation-strategy>
+      <configuration/>
+    </component>
+    <component>
+      <role>org.codehaus.plexus.components.io.filemappers.FileMapper</role>
       <role-hint>regexp</role-hint>
       <implementation>org.codehaus.plexus.components.io.filemappers.RegExpFileMapper</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
