@@ -164,6 +164,22 @@ public class FileMapperTest extends PlexusTestCase
         mapper.setPrefix( prefix );
         testFileMapper( mapper, SAMPLES, results );
     }
+    
+    public void testSuffixMapper() throws Exception
+    {
+        final String suffix = "suffix";
+        String[] results = getIdentityResults();
+        testFileMapper( new SuffixFileMapper(), SAMPLES, results );
+        testFileMapper( (SuffixFileMapper) lookup( FileMapper.ROLE, SuffixFileMapper.ROLE_HINT ), SAMPLES, results );
+       
+        results = new String[] {null, null, "asuffix", "xyzsuffix.gif", "b/asuffix", "b/xyzsuffix.gif", "b\\asuffix", "b\\xyzsuffix.gif", "csuffix.c/a", "csuffix.c/xyz.gif", "csuffix.c\\a", "csuffix.c\\xyz.gif"};
+        SuffixFileMapper mapper = new SuffixFileMapper();
+        mapper.setSuffix( suffix );
+        testFileMapper( mapper, SAMPLES, results );
+        mapper = (SuffixFileMapper) lookup( FileMapper.ROLE, SuffixFileMapper.ROLE_HINT );
+        mapper.setSuffix( suffix );
+        testFileMapper( mapper, SAMPLES, results );
+    }
 
     private RegExpFileMapper configure( RegExpFileMapper pMapper, String pPattern, String pReplacement )
     {
