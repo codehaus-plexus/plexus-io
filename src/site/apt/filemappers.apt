@@ -30,6 +30,10 @@ File Mappers
 
   * The {{{#Merging File Mapper}Merging File Mapper}}; its role hint is
     "merge".
+    
+  * The {{{#Suffix File Mapper}Suffix File Mapper}}; its role hint is
+    "suffix".
+    
 
 * {Identity Mapper}
 
@@ -94,3 +98,22 @@ File Mappers
 -----------------------------------------------------------------------------
 
   The merging file mapper uses the role hint "merge".
+  
+* {Suffix File Mapper}
+
+  The {{{./apidocs/org/codehaus/plexus/components/io/filemappers/SuffixFileMapper.html}suffix
+  file mapper}} add the given suffix to the filename. The suffix will be added before the file
+  extension. Examples : 
+  theFile.txt => theFileNiceSuffix.txt
+  dir/file.java => dir/fileNiceSuffix.java
+  fileWithoutExtension => fileWithoutExtensionNiceSuffix
+  dir/archive.tar.gz => dir/archiveNiceSuffix.tar.gz
+  It would be configured as follows:
+
+-----------------------------------------------------------------------------
+  <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.SuffixFileMapper">
+    <suffix>NiceSuffix</suffix>
+  </fileMapper>
+-----------------------------------------------------------------------------
+
+  The suffix file mapper uses the role hint "suffix".  

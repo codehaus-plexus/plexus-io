@@ -172,7 +172,8 @@ public class FileMapperTest extends PlexusTestCase
         testFileMapper( new SuffixFileMapper(), SAMPLES, results );
         testFileMapper( (SuffixFileMapper) lookup( FileMapper.ROLE, SuffixFileMapper.ROLE_HINT ), SAMPLES, results );
        
-        results = new String[] {null, null, "asuffix", "xyzsuffix.gif", "b/asuffix", "b/xyzsuffix.gif", "b\\asuffix", "b\\xyzsuffix.gif", "csuffix.c/a", "csuffix.c/xyz.gif", "csuffix.c\\a", "csuffix.c\\xyz.gif"};
+        results = new String[] { null, null, "asuffix", "xyzsuffix.gif", "b/asuffix", "b/xyzsuffix.gif", "b\\asuffix", 
+        		"b\\xyzsuffix.gif", "c.c/asuffix", "c.c/xyzsuffix.gif", "c.c\\asuffix", "c.c\\xyzsuffix.gif" };
         SuffixFileMapper mapper = new SuffixFileMapper();
         mapper.setSuffix( suffix );
         testFileMapper( mapper, SAMPLES, results );
