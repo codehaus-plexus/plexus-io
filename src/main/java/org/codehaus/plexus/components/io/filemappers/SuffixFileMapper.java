@@ -62,9 +62,9 @@ public class SuffixFileMapper extends AbstractFileMapper
         String nameWithSuffix = name;
         if ( StringUtils.isNotBlank( suffix ) )
         {
-        	final int dirSep = Math.max( name.lastIndexOf( '/' ), name.lastIndexOf( '\\' ) );
-        	String filename = dirSep > 0 ? name.substring( dirSep +1 ) : name;
-        	String dirname = dirSep > 0 ? name.substring( 0, dirSep +1 ) : "";
+            final int dirSep = Math.max( name.lastIndexOf( '/' ), name.lastIndexOf( '\\' ) );
+            String filename = dirSep > 0 ? name.substring( dirSep +1 ) : name;
+            String dirname = dirSep > 0 ? name.substring( 0, dirSep +1 ) : "";
             if ( filename.contains( "." ) )
             {
                 String beforeExtension = filename.substring( 0, filename.indexOf( '.' ) );
