@@ -1,5 +1,7 @@
 package org.codehaus.plexus.components.io.filemappers;
 
+import java.util.regex.Matcher;
+
 /*
  * Copyright 2007 The Codehaus Foundation.
  *
@@ -21,7 +23,9 @@ import javax.annotation.Nonnull;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * A file mapper, which maps by adding a suffix.
+ * A file mapper, which maps by adding a suffix to the filename.
+ * If the filename contains dot, the suffix will be added before.
+ * Example : directory/archive.tar.gz => directory/archivesuffix.tar.gz
  */
 public class SuffixFileMapper extends AbstractFileMapper
 {
@@ -31,12 +35,6 @@ public class SuffixFileMapper extends AbstractFileMapper
     public static final String ROLE_HINT = "suffix";
 
     private String suffix;
-
-    @Nonnull public String getMappedFileName( @Nonnull String name )
-    {
-        final String s = super.getMappedFileName( name ); // Check for null, etc.
-        return getMappedFileName( suffix, s );
-    }
 
     /**
      * Returns the suffix to add.
@@ -53,29 +51,24 @@ public class SuffixFileMapper extends AbstractFileMapper
     {
         this.suffix = suffix;
     }
-
-    /**
-     * Performs the mapping of a file name by adding a suffix.
-     */
-    public static String getMappedFileName( String suffix, String name )
+    
+    @Nonnull
+    public String getMappedFileName( @Nonnull String pName)
     {
-        String nameWithSuffix = name;
-        if ( StringUtils.isNotBlank( suffix ) )
+        final String name = super.getMappedFileName( pName );
+        if ( suffix == null )
         {
-            final int dirSep = Math.max( name.lastIndexOf( '/' ), name.lastIndexOf( '\\' ) );
-            String filename = dirSep > 0 ? name.substring( dirSep +1 ) : name;
-            String dirname = dirSep > 0 ? name.substring( 0, dirSep +1 ) : "";
-            if ( filename.contains( "." ) )
-            {
-                String beforeExtension = filename.substring( 0, filename.indexOf( '.' ) );
-                String afterExtension = filename.substring( filename.indexOf( '.' ) + 1 ) ;
-                nameWithSuffix = dirname + beforeExtension + suffix + "." + afterExtension;
-            }
-            else
-            {
-                nameWithSuffix += suffix;
-            }
+            throw new IllegalStateException( "The suffix has not been set." );
         }
-        return nameWithSuffix;
+        final int dirSep = Math.max( name.lastIndexOf( '/' ), name.lastIndexOf( '\\' ) );
+        String filename = dirSep > 0 ? name.substring( dirSep +1 ) : name;
+        String dirname = dirSep > 0 ? name.substring( 0, dirSep +1 ) : "";
+        if ( filename.contains( "." ) )
+        {
+            String beforeExtension = filename.substring( 0, filename.indexOf( '.' ) );
+            String afterExtension = filename.substring( filename.indexOf( '.' ) + 1 ) ;
+            return dirname + beforeExtension + suffix + "." + afterExtension;
+        }
+        return name + suffix;
     }
 }
