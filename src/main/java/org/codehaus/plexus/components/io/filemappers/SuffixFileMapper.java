@@ -1,10 +1,6 @@
 package org.codehaus.plexus.components.io.filemappers;
 
-import java.util.regex.Matcher;
-
 /*
- * Copyright 2007 The Codehaus Foundation.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,8 +15,6 @@ import java.util.regex.Matcher;
  */
 
 import javax.annotation.Nonnull;
-
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * A file mapper, which maps by adding a suffix to the filename.
@@ -49,6 +43,10 @@ public class SuffixFileMapper extends AbstractFileMapper
      */
     public void setSuffix( String suffix )
     {
+        if ( suffix == null )
+        {
+    	    throw new IllegalArgumentException( "The suffix is null." );
+        }
         this.suffix = suffix;
     }
     
