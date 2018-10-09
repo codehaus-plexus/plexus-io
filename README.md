@@ -17,5 +17,6 @@ mvn -Preporting verify site site:stage scm-publish:publish-scm
 You can find details about the different releases in the
 [Release Notes](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md).
 
+ * [Release 3.1.0](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-310).
  * [Release 3.0.1](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-301).
  * [Release 3.0.0](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-300).

@@ -1,6 +1,16 @@
 Plexus-IO Release Notes
 ========================================================================
 
+Plexus IO 3.1.0
+---------------
+
+Plexus IO 3.1.0 requires Java 7.
+
+### New Features
+
+ * [Pull Request #14][pr-14] - Add new FileMapper for giving a suffix to filename:
+   `SuffixFileMapper`
+
 Plexus IO 3.0.1
 ---------------
 
@@ -207,3 +217,4 @@ Plexus IO 2.0.12
 [pr-1]: https://github.com/codehaus-plexus/plexus-io/pull/1
 [pr-3]: https://github.com/codehaus-plexus/plexus-io/pull/3
 [pr-5]: https://github.com/codehaus-plexus/plexus-io/pull/5
+[pr-14]: https://github.com/codehaus-plexus/plexus-io/pull/14
