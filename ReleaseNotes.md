@@ -9,7 +9,7 @@ Plexus IO 3.1.0 requires Java 7.
 ### New Features
 
  * [Pull Request #14][pr-14] - Add new FileMapper for giving a suffix to filename:
-   `SuffixFileMapper`
+   `SuffixFileMapper`. Thanks to Thomas Collignon.
 
 Plexus IO 3.0.1
 ---------------
