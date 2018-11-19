@@ -64,7 +64,7 @@ public class FileAttributes
         Path path = file.toPath();
         if ( AttributeUtils.isUnix( path ) )
         {
-            Map<String, Object> attrs = Files.readAttributes( path, "unix:*", LinkOption.NOFOLLOW_LINKS );
+            Map<String, Object> attrs = Files.readAttributes( path, "unix:permissions,gid,uid,isSymbolicLink,mode", LinkOption.NOFOLLOW_LINKS );
             this.permissions = (Set<PosixFilePermission>) attrs.get( "permissions" );
 
             groupId = (Integer) attrs.get( "gid" );
@@ -76,7 +76,8 @@ public class FileAttributes
             }
             else
             {
-                this.groupName = ( (Principal) attrs.get( "group" ) ).getName();
+                Object group = Files.getAttribute( path, "unix:group", LinkOption.NOFOLLOW_LINKS );
+                this.groupName = ( (Principal) group ).getName();
                 groupCache.put( groupId, this.groupName );
             }
             userId = (Integer) attrs.get( "uid" );
@@ -87,7 +88,8 @@ public class FileAttributes
             }
             else
             {
-                this.userName = ( (Principal) attrs.get( "owner" ) ).getName();
+                Object owner = Files.getAttribute( path, "unix:owner", LinkOption.NOFOLLOW_LINKS );
+                this.userName = ( (Principal) owner ).getName();
                 userCache.put( userId, this.userName );
             }
             octalMode = (Integer) attrs.get( "mode" ) & 0xfff; // Mask off top bits for compatibilty. Maybe check if we
