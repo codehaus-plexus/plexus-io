@@ -1,6 +1,17 @@
 Plexus-IO Release Notes
 ========================================================================
 
+Plexus IO 3.1.1
+---------------
+
+Plexus IO 3.1.1 requires Java 7.
+
+### Improvements
+
+ * [Issue #16][issue-16], [Pull Request #17][pr-17] - Improve performance
+ on systems which have high time penalty when fetching owner and group name.
+ Thanks to Classe.
+
 Plexus IO 3.1.0
 ---------------
 
@@ -214,7 +225,9 @@ Plexus IO 2.0.12
 [issue-8]: https://github.com/codehaus-plexus/plexus-io/issues/8
 [issue-9]: https://github.com/codehaus-plexus/plexus-io/issues/9
 [issue-10]: https://github.com/codehaus-plexus/plexus-io/issues/10
+[issue-16]: https://github.com/codehaus-plexus/plexus-io/issues/16
 [pr-1]: https://github.com/codehaus-plexus/plexus-io/pull/1
 [pr-3]: https://github.com/codehaus-plexus/plexus-io/pull/3
 [pr-5]: https://github.com/codehaus-plexus/plexus-io/pull/5
 [pr-14]: https://github.com/codehaus-plexus/plexus-io/pull/14
+[pr-17]: https://github.com/codehaus-plexus/plexus-io/pull/17
