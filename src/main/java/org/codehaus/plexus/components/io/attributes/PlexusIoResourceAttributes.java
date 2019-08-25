@@ -78,7 +78,7 @@ public interface PlexusIoResourceAttributes
    //String getOctalModeString();
 
     /**
-     * Indicates if this is a symnbolic link element.
+     * Indicates if this is a symbolic link element.
      * For file-based resource attributes this value may be always "false" for versions prior to java7.
      * @return True if the file is a symlink or false if not.
      */

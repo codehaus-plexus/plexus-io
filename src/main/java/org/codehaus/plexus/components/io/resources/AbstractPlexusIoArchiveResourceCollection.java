@@ -152,7 +152,8 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         };
     }
 
-    public long getLastModified() throws IOException
+    public long getLastModified()
+        throws IOException
     {
         File f = getFile();
         return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();

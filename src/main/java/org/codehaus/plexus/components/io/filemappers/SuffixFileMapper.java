@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 /**
  * A file mapper, which maps by adding a suffix to the filename.
  * If the filename contains dot, the suffix will be added before.
- * Example : {@code directory/archive.tar.gz => directory/archivesuffix.tar.gz}
+ * Example: {@code directory/archive.tar.gz => directory/archivesuffix.tar.gz}
  */
 public class SuffixFileMapper extends AbstractFileMapper
 {

@@ -110,7 +110,7 @@ public class PlexusIoFileResource
     }
 
     /**
-     * Returns the resources file.
+     * Returns the resource file.
      */
     @Nonnull
     public File getFile()

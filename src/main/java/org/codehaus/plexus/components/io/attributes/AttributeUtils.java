@@ -134,7 +134,7 @@ public class AttributeUtils
             }
             catch ( UnsupportedOperationException ignore )
             {
-                // Maybe ignoring is dramatic. Maybe not. But we do get the basic attrs anyqway
+                // Maybe ignoring is dramatic. Maybe not. But we do get the basic attrs anyway
             }
         }
         return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );

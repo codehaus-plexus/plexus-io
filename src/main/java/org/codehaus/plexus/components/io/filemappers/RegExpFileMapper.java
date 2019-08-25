@@ -70,7 +70,7 @@ public class RegExpFileMapper
     }
 
     /**
-     * Returns, whether to replace the first occurrency of the pattern
+     * Returns, whether to replace the first occurrence of the pattern
      * (default), or all.
      */
     public boolean getReplaceAll()
@@ -79,7 +79,7 @@ public class RegExpFileMapper
     }
 
     /**
-     * Sets, whether to replace the first occurrency of the pattern
+     * Sets, whether to replace the first occurrence of the pattern
      * (default), or all.
      */
     public void setReplaceAll( boolean pReplaceAll )

@@ -80,7 +80,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
     InputStream getInputStream( PlexusIoResource resource ) throws IOException;
 
     /**
-     * Resolves the supplide resource into a "real" resource. Resolving
+     * Resolves the supplied resource into a "real" resource. Resolving
      * means applying input transformations
      * Returns an input stream for the provided resource, with stream transformers applied
      * @param resource The resources

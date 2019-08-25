@@ -20,13 +20,13 @@ import java.io.File;
 
 /**
  * Extension of {@link PlexusIoResourceCollection} for archive
- * files: Zip, tar, gzip, bzip2, etc. files.
+ * files: zip, tar, gzip, bzip2, etc. files.
  */
 public interface PlexusIoArchivedResourceCollection
     extends PlexusIoResourceCollection
 {
     /**
-     * Sets the arcihve file
+     * Sets the archive file
      */
     void setFile( File file );
 
