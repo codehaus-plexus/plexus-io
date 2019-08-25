@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +50,11 @@ public class PlexusIoFileResourceCollection
     private File baseDir;
 
     private boolean isFollowingSymLinks = true;
+
+    /**
+     * @since 3.2.0
+     */
+    private Comparator<String> filenameComparator;
 
     public PlexusIoFileResourceCollection()
     {
@@ -241,6 +247,7 @@ public class PlexusIoFileResourceCollection
         }
         ds.setCaseSensitive( isCaseSensitive() );
         ds.setFollowSymlinks( isFollowingSymLinks() );
+        ds.setFilenameComparator( filenameComparator );
         ds.scan();
 
         final List<PlexusIoResource> result = new ArrayList<>();
@@ -258,5 +265,13 @@ public class PlexusIoFileResourceCollection
     public boolean isConcurrentAccessSupported()
     {
         return true;
+    }
+
+    /**
+     * @since 3.2.0
+     */
+    public void setFilenameComparator( Comparator<String> filenameComparator )
+    {
+        this.filenameComparator = filenameComparator;
     }
 }
