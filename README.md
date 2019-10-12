@@ -9,7 +9,7 @@ The current master is now at https://github.com/codehaus-plexus/plexus-io
 For publishing [the site](https://codehaus-plexus.github.io/plexus-io/) do the following:
 
 ```
-mvn -Preporting verify site site:stage scm-publish:publish-scm
+mvn -Preporting verify site-deploy
 ```
 
 ## Release Notes
@@ -17,6 +17,7 @@ mvn -Preporting verify site site:stage scm-publish:publish-scm
 You can find details about the different releases in the
 [Release Notes](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md).
 
+ * [Release 3.2.0](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-320).
  * [Release 3.1.1](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-311).
  * [Release 3.1.0](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-310).
  * [Release 3.0.1](https://github.com/codehaus-plexus/plexus-io/blob/master/ReleaseNotes.md#plexus-io-301).

@@ -1,6 +1,15 @@
 Plexus-IO Release Notes
 ========================================================================
 
+Plexus IO 3.2.0
+---------------
+
+Plexus IO 3.2.0 requires Java 7.
+
+### New Features
+
+ * [Issue #18][issue-18] - Add an option to sort the entries of PlexusIoFileResourceCollection
+
 Plexus IO 3.1.1
 ---------------
 
@@ -226,6 +235,7 @@ Plexus IO 2.0.12
 [issue-9]: https://github.com/codehaus-plexus/plexus-io/issues/9
 [issue-10]: https://github.com/codehaus-plexus/plexus-io/issues/10
 [issue-16]: https://github.com/codehaus-plexus/plexus-io/issues/16
+[issue-18]: https://github.com/codehaus-plexus/plexus-io/issues/18
 [pr-1]: https://github.com/codehaus-plexus/plexus-io/pull/1
 [pr-3]: https://github.com/codehaus-plexus/plexus-io/pull/3
 [pr-5]: https://github.com/codehaus-plexus/plexus-io/pull/5
