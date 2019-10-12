@@ -23,11 +23,11 @@ under the License.
     <link>http://codehaus-plexus.github.io/plexus-io/</link>
     <description>Plexus IO Components - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2001 - 2018 Codehaus Plexus</copyright>
+    <copyright>&#169;2001 - 2019 Codehaus Plexus</copyright>
     <item>
       <title>File: 51,
              Errors: 108,
-             Warnings: 273,
+             Warnings: 274,
              Infos: 14
       </title>
             <link>http://codehaus-plexus.github.io/plexus-io//checkstyle.html</link>
@@ -44,6 +44,34 @@ under the License.
             </tr>
           </thead>
           <tbody>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes.java">org/codehaus/plexus/components/io/resources/AbstractPlexusIoResourceCollectionWithAttributes.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.ProxyFactory.java">org/codehaus/plexus/components/io/resources/proxy/ProxyFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
                           <tr>
                 <td>
                   <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier.java">org/codehaus/plexus/components/io/functions/ResourceAttributeSupplier.java</a>
@@ -74,16 +102,30 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxyResourceCollection.java">org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollection.java</a>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.LinefeedMode.java">org/codehaus/plexus/components/io/resources/LinefeedMode.java</a>
+                </td>
+                <td>
+                  3
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.NameSupplier.java">org/codehaus/plexus/components/io/functions/NameSupplier.java</a>
                 </td>
                 <td>
-                  3
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                           <tr>
@@ -98,6 +140,62 @@ under the License.
                 </td>
                 <td>
                   2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.PlexusIoProxyResourceCollection.java">org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.Deferred.java">org/codehaus/plexus/components/io/resources/Deferred.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.FlattenFileMapper.java">org/codehaus/plexus/components/io/filemappers/FlattenFileMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.ClosingInputStream.java">org/codehaus/plexus/components/io/resources/ClosingInputStream.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
                 </td>
               </tr>
                           <tr>
@@ -144,6 +242,62 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.java">org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributeUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.ResourceInvocationHandler.java">org/codehaus/plexus/components/io/resources/proxy/ResourceInvocationHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoResource.java">org/codehaus/plexus/components/io/resources/PlexusIoResource.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.ContentSupplier.java">org/codehaus/plexus/components/io/functions/ContentSupplier.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.PrefixFileMapper.java">org/codehaus/plexus/components/io/filemappers/PrefixFileMapper.java</a>
                 </td>
                 <td>
@@ -158,6 +312,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.FileMapper.java">org/codehaus/plexus/components/io/filemappers/FileMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource.java">org/codehaus/plexus/components/io/resources/AbstractPlexusIoResource.java</a>
                 </td>
                 <td>
@@ -165,20 +333,6 @@ under the License.
                 </td>
                 <td>
                   8
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer.java">org/codehaus/plexus/components/io/functions/PlexusIoResourceConsumer.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
                 <td>
                   1
@@ -200,6 +354,34 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer.java">org/codehaus/plexus/components/io/functions/PlexusIoResourceConsumer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector.java">org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.fileselectors.FileInfo.java">org/codehaus/plexus/components/io/fileselectors/FileInfo.java</a>
                 </td>
                 <td>
@@ -210,6 +392,34 @@ under the License.
                 </td>
                 <td>
                   1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.SymlinkUtils.java">org/codehaus/plexus/components/io/attributes/SymlinkUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes.java">org/codehaus/plexus/components/io/attributes/proxy/PlexusIoProxyResourceAttributes.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                           <tr>
@@ -228,16 +438,16 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.proxy.PlexusIoProxyResourceAttributes.java">org/codehaus/plexus/components/io/attributes/proxy/PlexusIoProxyResourceAttributes.java</a>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection.java">org/codehaus/plexus/components/io/resources/PlexusIoFileResourceCollection.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  16
+                  8
                 </td>
                 <td>
-                  2
+                  3
                 </td>
               </tr>
                           <tr>
@@ -354,314 +564,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoFileResource.java">org/codehaus/plexus/components/io/resources/PlexusIoFileResource.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection.java">org/codehaus/plexus/components/io/resources/AbstractPlexusIoArchiveResourceCollection.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.SuffixFileMapper.java">org/codehaus/plexus/components/io/filemappers/SuffixFileMapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.IdentityMapper.java">org/codehaus/plexus/components/io/filemappers/IdentityMapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.EncodingSupported.java">org/codehaus/plexus/components/io/resources/EncodingSupported.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector.java">org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.AttributeUtils.java">org/codehaus/plexus/components/io/attributes/AttributeUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollectionWithAttributes.java">org/codehaus/plexus/components/io/resources/AbstractPlexusIoResourceCollectionWithAttributes.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.ProxyFactory.java">org/codehaus/plexus/components/io/resources/proxy/ProxyFactory.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  5
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.LinefeedMode.java">org/codehaus/plexus/components/io/resources/LinefeedMode.java</a>
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.NameSupplier.java">org/codehaus/plexus/components/io/functions/NameSupplier.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.FlattenFileMapper.java">org/codehaus/plexus/components/io/filemappers/FlattenFileMapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.Deferred.java">org/codehaus/plexus/components/io/resources/Deferred.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.ClosingInputStream.java">org/codehaus/plexus/components/io/resources/ClosingInputStream.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.proxy.ResourceInvocationHandler.java">org/codehaus/plexus/components/io/resources/proxy/ResourceInvocationHandler.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.java">org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributeUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoResource.java">org/codehaus/plexus/components/io/resources/PlexusIoResource.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.functions.ContentSupplier.java">org/codehaus/plexus/components/io/functions/ContentSupplier.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.FileMapper.java">org/codehaus/plexus/components/io/filemappers/FileMapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector.java">org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.SymlinkUtils.java">org/codehaus/plexus/components/io/attributes/SymlinkUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection.java">org/codehaus/plexus/components/io/resources/PlexusIoFileResourceCollection.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection.java">org/codehaus/plexus/components/io/resources/PlexusIoResourceCollection.java</a>
                 </td>
                 <td>
@@ -672,6 +574,20 @@ under the License.
                 </td>
                 <td>
                   4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.PlexusIoFileResource.java">org/codehaus/plexus/components/io/resources/PlexusIoFileResource.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  6
                 </td>
               </tr>
                           <tr>
@@ -700,6 +616,62 @@ under the License.
                 </td>
                 <td>
                   3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection.java">org/codehaus/plexus/components/io/resources/AbstractPlexusIoArchiveResourceCollection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.resources.EncodingSupported.java">org/codehaus/plexus/components/io/resources/EncodingSupported.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.IdentityMapper.java">org/codehaus/plexus/components/io/filemappers/IdentityMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.filemappers.SuffixFileMapper.java">org/codehaus/plexus/components/io/filemappers/SuffixFileMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                           <tr>
@@ -756,6 +728,34 @@ under the License.
                 </td>
                 <td>
                   2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector.java">org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://codehaus-plexus.github.io/plexus-io//checkstyle.html#org.codehaus.plexus.components.io.attributes.AttributeUtils.java">org/codehaus/plexus/components/io/attributes/AttributeUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  1
                 </td>
               </tr>
                       </tbody>
