@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.codehaus.plexus</groupId>
     <artifactId>plexus</artifactId>
-    <version>5.1</version>
+    <version>6.1</version>
   </parent>
 
   <artifactId>plexus-io</artifactId>
@@ -32,6 +32,7 @@
   <properties>
     <cobertura.skip>true</cobertura.skip>
     <javaVersion>7</javaVersion>
+    <project.build.outputTimestamp>2020-01-20T18:52:37Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -92,16 +93,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-            <forkMode>never</forkMode>
+          <forkMode>never</forkMode>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
