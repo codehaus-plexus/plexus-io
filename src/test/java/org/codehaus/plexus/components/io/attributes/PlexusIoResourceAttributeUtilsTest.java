@@ -21,28 +21,34 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
 
 public class PlexusIoResourceAttributeUtilsTest
-    extends TestCase
 {
-
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+    
+    @Test
     public void testGetAttributesForThisTestClass()
-        throws IOException
+        throws Exception
     {
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
-            System.out.println( "WARNING: Unsupported OS, skipping test" );
-            return;
-        }
+        assumeFalse( "WARNING: Unsupported OS, skipping test", Os.isFamily( Os.FAMILY_WINDOWS ) );
 
         URL resource = Thread.currentThread().getContextClassLoader().getResource(
             getClass().getName().replace( '.', '/' ) + ".class" );
@@ -67,14 +73,11 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( System.getProperty( "user.name" ), fileAttrs.getUserName() );
     }
 
+    @Test
     public void testDirectory()
-        throws IOException, CommandLineException
+        throws Exception, CommandLineException
     {
-
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
-            return; // Nothing to do here.
-        }
+        assumeFalse( "WARNING: Unsupported OS, skipping test", Os.isFamily( Os.FAMILY_WINDOWS ) );
 
         URL resource = Thread.currentThread().getContextClassLoader().getResource(
             getClass().getName().replace( '.', '/' ) + ".class" );
@@ -112,13 +115,11 @@ public class PlexusIoResourceAttributeUtilsTest
         assertNotNull( fileAttrs );
     }
 
+    @Test
     public void testSrcResource()
-        throws IOException
+        throws Exception
     {
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
-            return; // Nothing to do here.
-        }
+        assumeFalse( "WARNING: Unsupported OS, skipping test", Os.isFamily( Os.FAMILY_WINDOWS ) );
 
         File dir = new File( "src/test/resources/symlinks" );
         final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
@@ -134,20 +135,17 @@ public class PlexusIoResourceAttributeUtilsTest
 
         assertTrue( pr.getOctalMode() > 0 );
     }
-    public void testNonExistingDirectory()
+    
+    @Test
+    public void testNonExistingDirectory() throws Exception
     {
+        expectedException.expect( IOException.class );
         File dir = new File( "src/test/noSuchDirectory" );
-        try
-        {
-            PlexusIoResourceAttributeUtils.getFileAttributesByPath( dir, true );
-            fail( "We were supposed to get an io exceptions" );
-        }
-        catch ( IOException ignore )
-        {
-            ignore.printStackTrace();
-        }
+
+        PlexusIoResourceAttributeUtils.getFileAttributesByPath( dir, true );
     }
 
+    @Test
     public void testMergeAttributesWithNullBase()
     {
         PlexusIoResourceAttributes override =
@@ -162,6 +160,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( Integer.valueOf( 1001 ), attributes.getUserId() );
     }
 
+    @Test
     public void testMergeAttributesWithNullOverrideGroup()
     {
         final PlexusIoResourceAttributes override =
@@ -176,6 +175,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( attributes.getUserId(), Integer.valueOf( 1001 ) );
     }
 
+    @Test
     public void testMergeAttributesOverride()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
@@ -285,8 +285,9 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( 0111, attributes.getOctalMode() );
     }
 
+    @Test
     public void testFileAttributes()
-        throws IOException
+        throws Exception
     {
         PlexusIoResourceAttributes attrs = getFileAttributes( new File( "src/test/resources/symlinks/src/fileW.txt" ) );
         assertFalse( attrs.isSymbolicLink() );
@@ -299,6 +300,7 @@ public class PlexusIoResourceAttributeUtilsTest
         }
     }
 
+    @Test
     public void testMergeAttributesDefault()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes( null, null, null, null, 0 );

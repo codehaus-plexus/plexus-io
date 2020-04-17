@@ -16,15 +16,18 @@
 
 package org.codehaus.plexus.components.io.attributes;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeFalse;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 
-import static org.junit.Assert.*;
+import org.apache.commons.io.FileUtils;
+import org.codehaus.plexus.util.Os;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SymlinkUtilsTest
 {
@@ -53,7 +56,15 @@ public class SymlinkUtilsTest
     {
         File symlink = new File( target, "symlinkToTarget" );
         File relativePath = createTargetFile( target );
-        SymlinkUtils.createSymbolicLink( symlink, relativePath );
+        try
+        {
+            SymlinkUtils.createSymbolicLink( symlink, relativePath );
+        }
+        catch ( FileSystemException e )
+        {
+            // must run as administrator in case of Windows
+            assumeFalse( Os.isFamily( Os.FAMILY_WINDOWS ) );
+        }
         assertEquals( expected, FileUtils.readFileToString( symlink ) );
         assertEquals( new File( "actualFile" ),
                       SymlinkUtils.readSymbolicLink( new File( target, "symlinkToTarget" ) ) );
@@ -66,7 +77,15 @@ public class SymlinkUtilsTest
         File subDir = new File( target, "aSubDir" );
         createTargetFile( subDir );
         File symlink = new File( target, "symlinkToDir" );
-        SymlinkUtils.createSymbolicLink( symlink, new File( "aSubDir" ) );
+        try
+        {
+            SymlinkUtils.createSymbolicLink( symlink, new File( "aSubDir" ) );
+        }
+        catch ( FileSystemException e )
+        {
+            // must run as administrator in case of Windows
+            assumeFalse( Os.isFamily( Os.FAMILY_WINDOWS ) );
+        }
         assertEquals( expected, FileUtils.readFileToString( new File( symlink, "actualFile" ) ) );
         assertEquals( new File( "aSubDir" ), SymlinkUtils.readSymbolicLink( new File( target, "symlinkToDir" ) ) );
 
