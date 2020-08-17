@@ -71,10 +71,6 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-publish-plugin</artifactId>
         <configuration>
           <content>${project.reporting.outputDirectory}</content><!-- mono-module doesn't require site:stage -->
@@ -136,6 +132,16 @@
             <version>1.0</version>
           </signature>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <!--
+        maven totally change his way to copy symlink
+        this mean the symlink is copied as a symlink and not anymore as a new file
+        https://issues.apache.org/jira/browse/MRESOURCES-237
+        -->
+        <version>2.7</version>
       </plugin>
     </plugins>
   </build>
