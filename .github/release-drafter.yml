@@ -1,0 +1,3 @@
+_extends: .github
+tag-template: plexus-io-$NEXT_MINOR_VERSION
+name-template: plexus-io-$NEXT_MINOR_VERSION
