@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileOwnerAttributeView;
+import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.PosixFilePermission;
 import java.security.Principal;
 import java.util.Collections;
@@ -52,9 +53,19 @@ public class FileAttributes
 
     private final boolean symbolicLink;
 
+    private final boolean regularFile;
+
+    private final boolean directory;
+
+    private final boolean other;
+
     private final int octalMode;
 
     private final Set<PosixFilePermission> permissions;
+
+    private final long size;
+
+    private final FileTime lastModifiedTime;
 
     public FileAttributes( @Nonnull File file, @Nonnull Map<Integer, String> userCache,
                            @Nonnull Map<Integer, String> groupCache )
@@ -62,52 +73,57 @@ public class FileAttributes
     {
 
         Path path = file.toPath();
-        if ( AttributeUtils.isUnix( path ) )
+        Set<String> views = path.getFileSystem().supportedFileAttributeViews();
+        String names;
+        if ( views.contains( "unix" ) )
         {
-            Map<String, Object> attrs = Files.readAttributes( path, "unix:permissions,gid,uid,isSymbolicLink,mode", LinkOption.NOFOLLOW_LINKS );
-            this.permissions = (Set<PosixFilePermission>) attrs.get( "permissions" );
-
-            groupId = (Integer) attrs.get( "gid" );
-
-            String groupName = groupCache.get( groupId );
-            if ( groupName != null )
-            {
-                this.groupName = groupName;
-            }
-            else
-            {
-                Object group = Files.getAttribute( path, "unix:group", LinkOption.NOFOLLOW_LINKS );
-                this.groupName = ( (Principal) group ).getName();
-                groupCache.put( groupId, this.groupName );
-            }
-            userId = (Integer) attrs.get( "uid" );
-            String userName = userCache.get( userId );
-            if ( userName != null )
-            {
-                this.userName = userName;
-            }
-            else
-            {
-                Object owner = Files.getAttribute( path, "unix:owner", LinkOption.NOFOLLOW_LINKS );
-                this.userName = ( (Principal) owner ).getName();
-                userCache.put( userId, this.userName );
-            }
-            octalMode = (Integer) attrs.get( "mode" ) & 0xfff; // Mask off top bits for compatibilty. Maybe check if we
-                                                               // can skip this
-            symbolicLink = (Boolean) attrs.get( "isSymbolicLink" );
+            names = "unix:*";
+        }
+        else if ( views.contains( "posix" ) )
+        {
+            names = "posix:*";
         }
         else
         {
-            FileOwnerAttributeView fa = AttributeUtils.getFileOwnershipInfo( file );
-            this.userName = fa.getOwner().getName();
-            userId = null;
-            this.groupName = null;
-            this.groupId = null;
-            octalMode = PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
-            permissions = Collections.emptySet();
-            symbolicLink = Files.isSymbolicLink( path );
+            names = "basic:*";
         }
+        Map<String, Object> attrs = Files.readAttributes( path, names, LinkOption.NOFOLLOW_LINKS);
+        if ( !attrs.containsKey( "group" ) && !attrs.containsKey( "owner" ) && views.contains( "owner" ) )
+        {
+            Map<String, Object> ownerAttrs = Files.readAttributes( path, "owner:*", LinkOption.NOFOLLOW_LINKS);
+            Map<String, Object> newAttrs = new HashMap<>( attrs );
+            newAttrs.putAll( ownerAttrs );
+            attrs = newAttrs;
+        }
+        this.groupId = (Integer) attrs.get( "gid" );
+        this.groupName = attrs.containsKey( "group" ) ? ((Principal) attrs.get( "group" ) ).getName() : null;
+        this.userId = (Integer) attrs.get( "uid" );
+        this.userName = attrs.containsKey( "owner" ) ? ((Principal) attrs.get( "owner" ) ).getName() : null;
+        this.symbolicLink = (Boolean) attrs.get( "isSymbolicLink" );
+        this.regularFile = (Boolean) attrs.get( "isRegularFile" );
+        this.directory = (Boolean) attrs.get( "isDirectory" );
+        this.other = (Boolean) attrs.get( "isOther" );
+        this.octalMode = attrs.containsKey( "mode" ) ? (Integer) attrs.get( "mode" ) & 0xfff : PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
+        this.permissions = attrs.containsKey( "permissions" ) ? (Set<PosixFilePermission>) attrs.get( "permissions" ) : Collections.<PosixFilePermission>emptySet();
+        this.size = (Long) attrs.get( "size" );
+        this.lastModifiedTime = (FileTime) attrs.get( "lastModifiedTime" );
+    }
 
+    public FileAttributes( @Nullable Integer userId, String userName, @Nullable Integer groupId, @Nullable String groupName,
+                           int octalMode, boolean symbolicLink, boolean regularFile, boolean directory, boolean other,
+                           Set<PosixFilePermission> permissions, long size, FileTime lastModifiedTime) {
+        this.userId = userId;
+        this.userName = userName;
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.octalMode = octalMode;
+        this.symbolicLink = symbolicLink;
+        this.regularFile = regularFile;
+        this.directory = directory;
+        this.other = other;
+        this.permissions = permissions;
+        this.size = size;
+        this.lastModifiedTime = lastModifiedTime;
     }
 
     public static @Nonnull
@@ -289,5 +305,35 @@ public class FileAttributes
     public boolean isSymbolicLink()
     {
         return symbolicLink;
+    }
+
+    public boolean isRegularFile()
+    {
+        return regularFile;
+    }
+
+    public boolean isDirectory()
+    {
+        return directory;
+    }
+
+    public boolean isOther()
+    {
+        return other;
+    }
+
+    public long getSize()
+    {
+        return size;
+    }
+
+    public FileTime getLastModifiedTime()
+    {
+        return lastModifiedTime;
+    }
+
+    protected Set<PosixFilePermission> getPermissions()
+    {
+        return permissions;
     }
 }
