@@ -15,7 +15,7 @@
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> *      <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> *      <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
@@ -41,7 +41,7 @@
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * Test case for {@link PlexusIoProxyResourceCollection}.</em>
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollectionTest.html">PlexusIoProxyResourceCollectionTest</a>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="PlexusIoProxyResourceCollectionTest" href="../../../../../../../org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollectionTest.html#PlexusIoProxyResourceCollectionTest">PlexusIoProxyResourceCollectionTest</a>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">extends</strong> PlexusTestCase
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  {
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String[] SAMPLE_INCLUDES = { <span class="jxr_string">"junk.*"</span>, <span class="jxr_string">"test/**"</span>, <span class="jxr_string">"dir*/file.xml"</span> };
@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>      }
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">class</strong> <a href="../../../../../../../org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollectionTest.html">CloseableIterator</a>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">class</strong> CloseableIterator
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>          <strong class="jxr_keyword">implements</strong> Iterator&lt;PlexusIoResource&gt;, Closeable
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>      {
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>          <strong class="jxr_keyword">boolean</strong> next = <strong class="jxr_keyword">true</strong>;
@@ -115,7 +115,7 @@
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testClosing()
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">throws</strong> IOException
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>     {
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../../../../org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollectionTest.html">CloseableIterator</a> closeableIterator = <strong class="jxr_keyword">new</strong> <a href="../../../../../../../org/codehaus/plexus/components/io/resources/proxy/PlexusIoProxyResourceCollectionTest.html">CloseableIterator</a>();
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         <strong class="jxr_keyword">final</strong> CloseableIterator closeableIterator = <strong class="jxr_keyword">new</strong> CloseableIterator();
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>         PlexusIoProxyResourceCollection resCol =
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>             <strong class="jxr_keyword">new</strong> PlexusIoProxyResourceCollection( <strong class="jxr_keyword">new</strong> AbstractPlexusIoResourceCollection()
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>             {
@@ -145,6 +145,6 @@
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2001&#x2013;2019 <a href="http://codehaus-plexus.github.io/">Codehaus Plexus</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2001&#x2013;2022 <a href="https://codehaus-plexus.github.io/">Codehaus Plexus</a>. All rights reserved.</div>
 </body>
 </html>
