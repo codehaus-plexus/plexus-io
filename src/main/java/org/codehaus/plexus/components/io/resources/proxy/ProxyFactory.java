@@ -40,7 +40,7 @@ public class ProxyFactory
             interfaces.add( ResourceAttributeSupplier.class );
 
         return (PlexusIoResource) Proxy.newProxyInstance( PlexusIoResource.class.getClassLoader(),
-                                                          interfaces.toArray( new Class[0] ),
+                                                          interfaces.toArray( new Class[interfaces.size()] ),
                                                           new ResourceInvocationHandler( target, alternateSupplier ) );
     }
 }

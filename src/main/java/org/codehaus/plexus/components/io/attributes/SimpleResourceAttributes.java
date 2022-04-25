@@ -46,16 +46,6 @@ public class SimpleResourceAttributes
         this.mode = mode;
     }
 
-    public SimpleResourceAttributes( Integer uid, String userName, Integer gid, String groupName, int mode, boolean isSymbolicLink )
-    {
-        this.uid = uid;
-        this.userName = userName;
-        this.gid = gid;
-        this.groupName = groupName;
-        this.mode = mode;
-        this.isSymbolicLink = isSymbolicLink;
-    }
-
     public static PlexusIoResourceAttributes lastResortDummyAttributesForBrokenOS()
     {
         return new SimpleResourceAttributes();

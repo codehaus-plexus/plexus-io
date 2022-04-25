@@ -22,12 +22,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.attribute.FileTime;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 import org.codehaus.plexus.components.io.attributes.AttributeUtils;
-import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.FileSupplier;
@@ -159,10 +157,6 @@ public class PlexusIoFileResource
     {
         if ( dfos == null )
         {
-            if ( attributes instanceof FileAttributes)
-            {
-                return ( ( FileAttributes ) attributes ).getSize();
-            }
             return getFile().length();
         }
         if ( dfos.isInMemory() )
@@ -177,28 +171,16 @@ public class PlexusIoFileResource
 
     public boolean isDirectory()
     {
-        if ( attributes instanceof FileAttributes )
-        {
-            return ( ( FileAttributes ) attributes ).isDirectory();
-        }
         return getFile().isDirectory();
     }
 
     public boolean isExisting()
     {
-        if ( attributes instanceof FileAttributes )
-        {
-            return true;
-        }
         return getFile().exists();
     }
 
     public boolean isFile()
     {
-        if ( attributes instanceof FileAttributes )
-        {
-            return ( ( FileAttributes ) attributes ).isRegularFile();
-        }
         return getFile().isFile();
     }
 
@@ -210,14 +192,6 @@ public class PlexusIoFileResource
 
     public long getLastModified()
     {
-        if ( attributes instanceof FileAttributes )
-        {
-            FileTime lastModified = ( ( FileAttributes ) attributes ).getLastModifiedTime();
-            if ( lastModified != null )
-            {
-                return lastModified.toMillis();
-            }
-        }
         return AttributeUtils.getLastModified( getFile() );
     }
 
