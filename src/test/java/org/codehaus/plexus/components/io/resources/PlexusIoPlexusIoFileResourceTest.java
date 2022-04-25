@@ -23,6 +23,7 @@ public class PlexusIoPlexusIoFileResourceTest
         assertTrue( attrs.isSymbolicLink() );
         PlexusIoFileResource r = new PlexusIoFileResource( file, "symDir", attrs );
         assertTrue( r.isSymbolicLink() );
+        assertTrue( r.isDirectory() );
         final File target = SymlinkUtils.readSymbolicLink( file );
         assertTrue( target.getName().endsWith( "targetDir" ) );
     }
