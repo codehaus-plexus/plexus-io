@@ -195,7 +195,9 @@ public class PlexusIoFileResource
         return AttributeUtils.getLastModified( getFile() );
     }
 
-    @Override public boolean isSymbolicLink() {
+    @Override
+    public boolean isSymbolicLink()
+    {
         return getAttributes().isSymbolicLink();
     }
 
