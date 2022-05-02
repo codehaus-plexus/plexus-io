@@ -21,7 +21,7 @@ public class PlexusIoPlexusIoFileResourceTest
         final File file = new File( "src/test/resources/symlinks/src/symDir" );
         PlexusIoResourceAttributes attrs = FileAttributes.uncached( file );
         assertTrue( attrs.isSymbolicLink() );
-        PlexusIoFileResource r = new PlexusIoFileResource( file, "symDir", attrs );
+        PlexusIoResource r = ResourceFactory.createResource( file );
         assertTrue( r.isSymbolicLink() );
         assertTrue( r.isDirectory() );
         final File target = SymlinkUtils.readSymbolicLink( file );

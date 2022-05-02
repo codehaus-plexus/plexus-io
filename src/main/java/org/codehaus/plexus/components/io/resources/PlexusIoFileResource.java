@@ -227,5 +227,10 @@ public class PlexusIoFileResource
         return getAttributes().isSymbolicLink();
     }
 
+    protected DeferredFileOutputStream getDfos()
+    {
+        return dfos;
+    }
+
     private static final InputStreamTransformer identityTransformer = AbstractPlexusIoResourceCollection.identityTransformer;
 }
