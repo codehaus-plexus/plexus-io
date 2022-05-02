@@ -54,14 +54,12 @@ public class AttributeUtilsTest
             return;
         final File bxx = File.createTempFile( "bxx", "ff" );
         AttributeUtils.chmod( bxx, 0422 );
-        PlexusIoResourceAttributes firstAttrs =
-            new FileAttributes( bxx, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
+        PlexusIoResourceAttributes firstAttrs = new FileAttributes( bxx );
         assertTrue( firstAttrs.isOwnerReadable() );
         assertFalse( firstAttrs.isOwnerWritable() );
         assertFalse( firstAttrs.isOwnerExecutable() );
         AttributeUtils.chmod( bxx, 0777 );
-        PlexusIoResourceAttributes secondAttrs =
-            new FileAttributes( bxx, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
+        PlexusIoResourceAttributes secondAttrs = new FileAttributes( bxx );
         assertTrue( secondAttrs.isOwnerReadable() );
         assertTrue( secondAttrs.isOwnerWritable() );
         assertTrue( secondAttrs.isOwnerExecutable() );

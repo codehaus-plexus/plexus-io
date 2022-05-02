@@ -67,9 +67,19 @@ public class FileAttributes
 
     private final FileTime lastModifiedTime;
 
+    /**
+     * @deprecated use {@link #FileAttributes(File)} and remove the unused userCache and groupCache parameters
+     */
+    @Deprecated
     public FileAttributes( @Nonnull File file, @Nonnull Map<Integer, String> userCache,
                            @Nonnull Map<Integer, String> groupCache )
         throws IOException
+    {
+        this( file );
+    }
+
+    public FileAttributes( @Nonnull File file )
+            throws IOException
     {
 
         Path path = file.toPath();
@@ -130,7 +140,7 @@ public class FileAttributes
     PlexusIoResourceAttributes uncached( @Nonnull File file )
         throws IOException
     {
-        return new FileAttributes( file, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
+        return new FileAttributes( file );
     }
 
     @Nullable

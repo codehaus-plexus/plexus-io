@@ -152,14 +152,12 @@ public class PlexusIoFileResourceCollection
     {
 
         final File dir = getBaseDir();
-        final HashMap<Integer, String> cache1 = new HashMap<>();
-        final HashMap<Integer, String> cache2 = new HashMap<>();
         for ( String name : resources )
         {
             String sourceDir = name.replace( '\\', '/' );
             File f = new File( dir, sourceDir );
 
-            FileAttributes fattrs = new FileAttributes( f, cache1, cache2 );
+            FileAttributes fattrs = new FileAttributes( f );
             PlexusIoResourceAttributes attrs = mergeAttributes( fattrs, fattrs.isDirectory() );
 
             String remappedName = getName( name );

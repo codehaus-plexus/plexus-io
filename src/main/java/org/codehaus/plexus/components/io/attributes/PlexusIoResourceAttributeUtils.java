@@ -22,7 +22,6 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,7 +159,6 @@ public final class PlexusIoResourceAttributeUtils
         return ( mode & targetMode ) != 0;
     }
 
-    @SuppressWarnings( { "UnusedDeclaration" } )
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
@@ -186,8 +184,6 @@ public final class PlexusIoResourceAttributeUtils
                                                                      boolean recursive )
         throws IOException
     {
-        Map<Integer, String> userCache = new HashMap<>();
-        Map<Integer, String> groupCache = new HashMap<>();
         final List<String> fileAndDirectoryNames;
         if ( recursive && dir.isDirectory() )
         {
@@ -202,8 +198,7 @@ public final class PlexusIoResourceAttributeUtils
 
         for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {
-            attributesByPath.put( fileAndDirectoryName,
-                                  new FileAttributes( new File( fileAndDirectoryName ), userCache, groupCache ) );
+            attributesByPath.put( fileAndDirectoryName, new FileAttributes( new File( fileAndDirectoryName ) ) );
         }
         return attributesByPath;
     }
