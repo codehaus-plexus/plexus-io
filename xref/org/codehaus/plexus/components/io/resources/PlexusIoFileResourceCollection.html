@@ -167,8 +167,8 @@
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>             String sourceDir = name.replace( '&#92;&#92;', '/' );
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>             File f = <strong class="jxr_keyword">new</strong> File( dir, sourceDir );
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>             <a name="FileAttributes" href="../../../../../../org/codehaus/plexus/components/io/attributes/FileAttributes.html#FileAttributes">FileAttributes</a> fattrs = <strong class="jxr_keyword">new</strong> <a name="FileAttributes" href="../../../../../../org/codehaus/plexus/components/io/attributes/FileAttributes.html#FileAttributes">FileAttributes</a>( f, cache1, cache2 );
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>             <a name="PlexusIoResourceAttributes" href="../../../../../../org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributes.html#PlexusIoResourceAttributes">PlexusIoResourceAttributes</a> attrs = mergeAttributes( fattrs, fattrs.isDirectory() );
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>             <a name="PlexusIoResourceAttributes" href="../../../../../../org/codehaus/plexus/components/io/attributes/PlexusIoResourceAttributes.html#PlexusIoResourceAttributes">PlexusIoResourceAttributes</a> attrs = <strong class="jxr_keyword">new</strong> <a name="FileAttributes" href="../../../../../../org/codehaus/plexus/components/io/attributes/FileAttributes.html#FileAttributes">FileAttributes</a>( f, cache1, cache2 );
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             attrs = mergeAttributes( attrs, f.isDirectory() );
 <a class="jxr_linenumber" name="L164" href="#L164">164</a> 
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>             String remappedName = getName( name );
 <a class="jxr_linenumber" name="L166" href="#L166">166</a> 
