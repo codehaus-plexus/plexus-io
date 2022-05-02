@@ -32,7 +32,7 @@ public class FileExtensionMapper extends AbstractFileMapper
 
     /**
      * Sets the target files extension.
-     * 
+     *
      * @param pTargetExtension the target extensions
      * @throws IllegalArgumentException
      *             The target extension is null or empty.
@@ -66,6 +66,7 @@ public class FileExtensionMapper extends AbstractFileMapper
         return targetExtension;
     }
 
+    @Override
     @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         final String ext = getTargetExtension();

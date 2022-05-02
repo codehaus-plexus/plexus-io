@@ -26,4 +26,5 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 public interface PlexusIoResourceConsumer
 {
     void accept( PlexusIoResource resource ) throws IOException;
+
 }

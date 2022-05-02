@@ -203,6 +203,7 @@ public class IncludeExcludeFileSelector
         return computedIncludes.matches( name, isCaseSensitive );
     }
 
+    @Override
     public boolean isSelected( @Nonnull FileInfo fileInfo )
     {
         final String name = getCanonicalName( fileInfo.getName() );

@@ -28,6 +28,7 @@ public class IdentityMapper extends AbstractFileMapper
      */
     public static final String ROLE_HINT = "identity";
 
+    @Override
     @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         if ( pName == null || pName.length() == 0 )

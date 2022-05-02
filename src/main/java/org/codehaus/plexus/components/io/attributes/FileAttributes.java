@@ -117,6 +117,7 @@ public class FileAttributes
         return new FileAttributes( file, new HashMap<Integer, String>(), new HashMap<Integer, String>() );
     }
 
+    @Override
     @Nullable
     public Integer getGroupId()
     {
@@ -134,22 +135,26 @@ public class FileAttributes
         return false;
     }
 
+    @Override
     @Nullable
     public String getGroupName()
     {
         return groupName;
     }
 
+    @Override
     public Integer getUserId()
     {
         return userId;
     }
 
+    @Override
     public String getUserName()
     {
         return userName;
     }
 
+    @Override
     public boolean isGroupExecutable()
     {
         return containsPermission( PosixFilePermission.GROUP_EXECUTE );
@@ -160,50 +165,59 @@ public class FileAttributes
         return permissions.contains( groupExecute );
     }
 
+    @Override
     public boolean isGroupReadable()
     {
         return containsPermission( PosixFilePermission.GROUP_READ );
     }
 
+    @Override
     public boolean isGroupWritable()
     {
         return containsPermission( PosixFilePermission.GROUP_WRITE );
     }
 
+    @Override
     public boolean isOwnerExecutable()
     {
         return containsPermission( PosixFilePermission.OWNER_EXECUTE );
     }
 
+    @Override
     public boolean isOwnerReadable()
     {
         return containsPermission( PosixFilePermission.OWNER_READ );
     }
 
+    @Override
     public boolean isOwnerWritable()
     {
         return containsPermission( PosixFilePermission.OWNER_WRITE );
     }
 
+    @Override
     public boolean isWorldExecutable()
     {
         return containsPermission( PosixFilePermission.OTHERS_EXECUTE );
 
     }
 
+    @Override
     public boolean isWorldReadable()
     {
         return containsPermission( PosixFilePermission.OTHERS_READ );
     }
 
+    @Override
     public boolean isWorldWritable()
     {
         return containsPermission( PosixFilePermission.OTHERS_WRITE );
     }
 
+    @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder( 128 );
         sb.append( System.lineSeparator() );
         sb.append( "File Attributes:" );
         sb.append( System.lineSeparator() );
@@ -224,6 +238,7 @@ public class FileAttributes
         return sb.toString();
     }
 
+    @Override
     public int getOctalMode()
     {
         return octalMode;
@@ -286,6 +301,7 @@ public class FileAttributes
         return Integer.toString( getOctalMode(), 8 );
     }
 
+    @Override
     public boolean isSymbolicLink()
     {
         return symbolicLink;

@@ -63,12 +63,14 @@ public class PlexusIoProxyResourceCollectionTest
 
         boolean closed = false;
 
+        @Override
         public void close()
             throws IOException
         {
             closed = true;
         }
 
+        @Override
         public boolean hasNext()
         {
             if ( next )
@@ -79,10 +81,12 @@ public class PlexusIoProxyResourceCollectionTest
             return false;
         }
 
+        @Override
         public PlexusIoResource next()
         {
             return new AbstractPlexusIoResource( "fud", 123, 22, true, false, false )
             {
+                @Override
                 @Nonnull
                 public InputStream getContents()
                     throws IOException
@@ -90,6 +94,7 @@ public class PlexusIoProxyResourceCollectionTest
                     return null;
                 }
 
+                @Override
                 public URL getURL()
                     throws IOException
                 {
@@ -98,12 +103,13 @@ public class PlexusIoProxyResourceCollectionTest
             };
         }
 
+        @Override
         public void remove()
         {
             throw new UnsupportedOperationException();
         }
     }
-    
+
     public void testClosing()
         throws IOException
     {
@@ -111,17 +117,20 @@ public class PlexusIoProxyResourceCollectionTest
         PlexusIoProxyResourceCollection resCol =
             new PlexusIoProxyResourceCollection( new AbstractPlexusIoResourceCollection()
             {
+                @Override
                 public Iterator<PlexusIoResource> getResources()
                     throws IOException
                 {
                     return closeableIterator;
                 }
 
+                @Override
                 public Stream stream()
                 {
                     throw new UnsupportedOperationException();
                 }
 
+                @Override
                 public boolean isConcurrentAccessSupported()
                 {
                     return true;

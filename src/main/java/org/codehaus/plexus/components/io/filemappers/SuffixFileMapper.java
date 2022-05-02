@@ -50,6 +50,7 @@ public class SuffixFileMapper extends AbstractFileMapper
         this.suffix = suffix;
     }
 
+    @Override
     @Nonnull
     public String getMappedFileName( @Nonnull String pName)
     {

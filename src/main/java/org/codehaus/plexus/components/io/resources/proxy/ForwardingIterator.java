@@ -34,6 +34,7 @@ abstract class ForwardingIterator
         this.possiblyCloseable = possiblyCloseable;
     }
 
+    @Override
     public boolean hasNext()
     {
         if ( next == null )
@@ -50,6 +51,7 @@ abstract class ForwardingIterator
         return next != null;
     }
 
+    @Override
     public PlexusIoResource next()
     {
         if ( !hasNext() )
@@ -61,11 +63,13 @@ abstract class ForwardingIterator
         return ret;
     }
 
+    @Override
     public void remove()
     {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void close()
         throws IOException
     {

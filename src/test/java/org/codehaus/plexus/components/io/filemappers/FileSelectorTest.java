@@ -42,12 +42,14 @@ public class FileSelectorTest extends PlexusTestCase
             final String name = pInput[i];
             AbstractPlexusIoResource resource = new AbstractPlexusIoResource( name, 0, 0, true, false, true )
             {
+                @Override
                 @Nonnull
                 public InputStream getContents() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );
                 }
 
+                @Override
                 public URL getURL() throws IOException
                 {
                     throw new IllegalStateException( "Not implemented" );
@@ -115,7 +117,7 @@ public class FileSelectorTest extends PlexusTestCase
         }
         return pResult;
     }
-    
+
     protected void testFileSelector( IncludeExcludeFileSelector pSelector ) throws Exception
     {
         testFileSelector( pSelector, SAMPLES, getAllTrues() );
@@ -133,7 +135,7 @@ public class FileSelectorTest extends PlexusTestCase
         testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE,
                                                                IncludeExcludeFileSelector.ROLE_HINT ) );
     }
-    
+
     public void testIncludeExcludeFileSelector_SetExcludes() throws Exception
     {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
@@ -146,6 +148,6 @@ public class FileSelectorTest extends PlexusTestCase
         {
             assertEquals( SAMPLES[i], sltrExcludes[i] );
         }
-        
+
     }
 }

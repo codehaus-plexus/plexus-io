@@ -21,6 +21,7 @@ public class PlexusIoSymlinkResource
         this.symnlinkDestination = null;
     }
 
+    @Override
     public String getSymlinkDestination()
         throws IOException
     {

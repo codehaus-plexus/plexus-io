@@ -20,6 +20,7 @@ public class SimpleResourceAttributesTest
     extends AbstractResourceAttributesTCK
 {
 
+    @Override
     protected PlexusIoResourceAttributes newAttributes( int mode )
     {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
@@ -27,6 +28,7 @@ public class SimpleResourceAttributesTest
         return simpleResourceAttributes;
     }
 
+    @Override
     protected PlexusIoResourceAttributes newAttributes( String mode )
     {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();

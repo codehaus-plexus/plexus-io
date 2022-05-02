@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -94,14 +95,7 @@ public class PlexusIoFileResource
 
     private static ContentSupplier getRootContentSupplier( final File file )
     {
-        return new ContentSupplier()
-        {
-            public InputStream getContents()
-                throws IOException
-            {
-                return new FileInputStream( file );
-            }
-        };
+        return () -> Files.newInputStream( file.toPath() );
     }
 
     public static String getName( File file )
@@ -112,12 +106,14 @@ public class PlexusIoFileResource
     /**
      * Returns the resource file.
      */
+    @Override
     @Nonnull
     public File getFile()
     {
         return file;
     }
 
+    @Override
     @Nonnull
     public InputStream getContents()
         throws IOException
@@ -146,6 +142,7 @@ public class PlexusIoFileResource
         }
     }
 
+    @Override
     @Nonnull
     public URL getURL()
         throws IOException
@@ -153,6 +150,7 @@ public class PlexusIoFileResource
         return getFile().toURI().toURL();
     }
 
+    @Override
     public long getSize()
     {
         if ( dfos == null )
@@ -169,27 +167,32 @@ public class PlexusIoFileResource
         }
     }
 
+    @Override
     public boolean isDirectory()
     {
         return getFile().isDirectory();
     }
 
+    @Override
     public boolean isExisting()
     {
         return getFile().exists();
     }
 
+    @Override
     public boolean isFile()
     {
         return getFile().isFile();
     }
 
+    @Override
     @Nonnull
     public PlexusIoResourceAttributes getAttributes()
     {
         return attributes;
     }
 
+    @Override
     public long getLastModified()
     {
         return AttributeUtils.getLastModified( getFile() );

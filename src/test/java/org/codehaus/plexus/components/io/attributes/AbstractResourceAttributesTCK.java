@@ -21,11 +21,11 @@ import junit.framework.TestCase;
 public abstract class AbstractResourceAttributesTCK
     extends TestCase
 {
-    
+
     protected AbstractResourceAttributesTCK()
     {
     }
-    
+
     protected abstract PlexusIoResourceAttributes newAttributes( int mode );
 
     protected abstract PlexusIoResourceAttributes newAttributes( String mode );

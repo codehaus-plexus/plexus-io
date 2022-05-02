@@ -123,6 +123,7 @@ public class PlexusIoProxyResourceCollection
         /**
          * Returns the next resource or null if no next resource;
          */
+        @Override
         protected PlexusIoResource getNextResource()
             throws IOException
         {
@@ -157,11 +158,13 @@ public class PlexusIoProxyResourceCollection
                 final PlexusIoResourceAttributes attrs2 = attrs;
                 DualSupplier supplier = new DualSupplier()
                 {
+                    @Override
                     public String getName()
                     {
                         return prefix + name;
                     }
 
+                    @Override
                     public PlexusIoResourceAttributes getAttributes()
                     {
                         return attrs2;
@@ -173,11 +176,13 @@ public class PlexusIoProxyResourceCollection
         }
     }
 
+    @Override
     public Stream stream()
     {
         return getSrc().stream();
     }
 
+    @Override
     public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
@@ -190,6 +195,7 @@ public class PlexusIoProxyResourceCollection
 
     }
 
+    @Override
     public String getName( final PlexusIoResource resource )
     {
         String name = resource.getName();
@@ -208,12 +214,14 @@ public class PlexusIoProxyResourceCollection
         return name;
     }
 
+    @Override
     public long getLastModified()
         throws IOException
     {
         return src.getLastModified();
     }
 
+    @Override
     public void setEncoding( Charset charset )
     {
         if ( src instanceof EncodingSupported )
@@ -222,6 +230,7 @@ public class PlexusIoProxyResourceCollection
         }
     }
 
+    @Override
     public boolean isConcurrentAccessSupported()
     {
         return src.isConcurrentAccessSupported();

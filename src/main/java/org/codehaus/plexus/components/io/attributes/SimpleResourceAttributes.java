@@ -55,72 +55,87 @@ public class SimpleResourceAttributes
     {
     }
 
+    @Override
     public int getOctalMode()
     {
         return mode;
     }
 
-    @Nullable public Integer getGroupId()
+    @Override
+    @Nullable
+    public Integer getGroupId()
     {
         return gid;
     }
 
-    @Nullable public String getGroupName()
+    @Override
+    @Nullable
+    public String getGroupName()
     {
         return groupName;
     }
 
-
+    @Override
     public Integer getUserId()
     {
         return uid;
     }
 
+    @Override
     public String getUserName()
     {
         return userName;
     }
 
+    @Override
     public boolean isGroupExecutable()
     {
         return PlexusIoResourceAttributeUtils.isGroupExecutableInOctal( mode );
     }
 
+    @Override
     public boolean isGroupReadable()
     {
         return PlexusIoResourceAttributeUtils.isGroupReadableInOctal( mode );
     }
 
+    @Override
     public boolean isGroupWritable()
     {
         return PlexusIoResourceAttributeUtils.isGroupWritableInOctal( mode );
     }
 
+    @Override
     public boolean isOwnerExecutable()
     {
         return PlexusIoResourceAttributeUtils.isOwnerExecutableInOctal( mode );
     }
 
+    @Override
     public boolean isOwnerReadable()
     {
         return PlexusIoResourceAttributeUtils.isOwnerReadableInOctal( mode );
     }
 
+    @Override
     public boolean isOwnerWritable()
     {
         return PlexusIoResourceAttributeUtils.isOwnerWritableInOctal( mode );
     }
 
+    @Override
     public boolean isWorldExecutable()
     {
         return PlexusIoResourceAttributeUtils.isWorldExecutableInOctal( mode );
     }
 
+    @Override
     public boolean isWorldReadable()
     {
         return PlexusIoResourceAttributeUtils.isWorldReadableInOctal( mode );
     }
 
+    @Override
     public boolean isWorldWritable()
     {
         return PlexusIoResourceAttributeUtils.isWorldWritableInOctal( mode );
@@ -167,23 +182,39 @@ public class SimpleResourceAttributes
         return this;
     }
 
+    @Override
     public String toString()
     {
-        return String.format(
-            "%nResource Attributes:%n------------------------------%nuser: %s%ngroup: %s%nuid: %d%ngid: %d%nmode: %06o",
-            userName == null ? "" : userName,
-            groupName == null ? "" : groupName,
-            uid != null ? uid : 0,
-            gid != null ? gid : 0,
-            mode );
-    }
+        StringBuilder sb = new StringBuilder( 128 );
+        sb.append( System.lineSeparator() );
+        sb.append( "Resource Attributes:" );
+        sb.append( System.lineSeparator() );
+        sb.append( "------------------------------" );
+        sb.append( System.lineSeparator() );
+        sb.append( "user: " );
+        sb.append( userName == null ? "" : userName );
+        sb.append( System.lineSeparator() );
+        sb.append( "group: " );
+        sb.append( groupName == null ? "" : groupName );
+        sb.append( System.lineSeparator() );
+        sb.append( "uid: " );
+        sb.append( uid != null ? uid : 0 );
+        sb.append( System.lineSeparator() );
+        sb.append( "gid: " );
+        sb.append( gid != null ? gid : 0 );
+        sb.append( System.lineSeparator() );
+        sb.append( "mode: " );
+        sb.append( String.format( "%06o", mode) );
 
+        return sb.toString();
+    }
 
     public void setSymbolicLink( boolean isSymbolicLink )
     {
         this.isSymbolicLink = isSymbolicLink;
     }
 
+    @Override
     public boolean isSymbolicLink()
     {
         return isSymbolicLink;

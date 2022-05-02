@@ -87,6 +87,7 @@ public class RegExpFileMapper
         replaceAll = pReplaceAll;
     }
 
+    @Override
     @Nonnull
     public String getMappedFileName( @Nonnull String pName)
     {

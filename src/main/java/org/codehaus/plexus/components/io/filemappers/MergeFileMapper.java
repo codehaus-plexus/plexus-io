@@ -32,7 +32,7 @@ public class MergeFileMapper extends AbstractFileMapper
 
     /**
      * Sets the merge mappers target name.
-     * 
+     *
      * @throws IllegalArgumentException
      *             The target name is null or empty.
      */
@@ -51,7 +51,7 @@ public class MergeFileMapper extends AbstractFileMapper
 
     /**
      * Returns the merge mappers target name.
-     * 
+     *
      * @throws IllegalArgumentException
      *             The target name is null or empty.
      */
@@ -60,6 +60,7 @@ public class MergeFileMapper extends AbstractFileMapper
         return targetName;
     }
 
+    @Override
     @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         final String name = getTargetName();

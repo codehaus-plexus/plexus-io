@@ -40,37 +40,44 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
         this.isExisting = isExisting;
     }
 
+    @Override
     public long getLastModified()
     {
         return lastModified;
     }
 
+    @Override
     @Nonnull
     public String getName()
     {
         return name;
     }
 
+    @Override
     public long getSize()
     {
         return size;
     }
 
+    @Override
     public boolean isDirectory()
     {
         return isDirectory;
     }
 
+    @Override
     public boolean isExisting()
     {
         return isExisting;
     }
 
+    @Override
     public boolean isFile()
     {
         return isFile;
     }
 
+    @Override
     public boolean isSymbolicLink()
     {
         return false;

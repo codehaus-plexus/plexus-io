@@ -39,7 +39,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
     /**
      * Returns an iterator over the resources in the collection.
      * @return An iterator
-     * @throws java.io.IOException .
+     * @throws java.io.IOException if an error occurred
      */
     Iterator<PlexusIoResource> getResources() throws IOException;
 
@@ -67,7 +67,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * @return {@link PlexusIoResource#UNKNOWN_MODIFICATION_DATE},
      *   if the collections last modification time is unknown,
      *   otherwise the last modification time in milliseconds.
-     * @throws java.io.IOException .
+     * @throws java.io.IOException if an error occurred
      */
     long getLastModified() throws IOException;
 

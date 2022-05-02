@@ -33,7 +33,7 @@ public interface FileMapper
 
     /**
      * Maps the given source name to a target name.
-     * 
+     *
      * @param pName
      *            The source name.
      * @return The target name.

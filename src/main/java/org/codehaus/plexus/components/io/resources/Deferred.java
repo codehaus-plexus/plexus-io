@@ -51,6 +51,7 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
 
     }
 
+    @Override
     @Nonnull
     public InputStream getContents()
         throws IOException
@@ -78,6 +79,7 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
         }
     }
 
+    @Override
     public long getSize()
     {
         if ( dfos == null )
@@ -94,6 +96,7 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
         }
     }
 
+    @Override
     public String getName()
     {
         return owner.getName( resource );

@@ -28,6 +28,7 @@ public class FlattenFileMapper extends AbstractFileMapper
      */
     public static final String ROLE_HINT = "flatten";
 
+    @Override
     @Nonnull public String getMappedFileName( @Nonnull String pName )
     {
         String name = super.getMappedFileName( pName ); // Check for null, etc.

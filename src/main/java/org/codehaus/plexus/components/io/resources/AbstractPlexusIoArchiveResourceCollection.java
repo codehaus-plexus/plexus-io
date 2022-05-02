@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
-
 /**
  * Default implementation of {@link PlexusIoFileResourceCollection} for
  * zip files, tar files, etc.
@@ -42,6 +40,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     /**
      * Sets the zip file
      */
+    @Override
     public void setFile( File file )
     {
         this.file = file;
@@ -50,6 +49,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     /**
      * Returns the zip file
      */
+    @Override
     public File getFile()
     {
         return file;
@@ -62,6 +62,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
      */
     protected abstract Iterator<PlexusIoResource> getEntries() throws IOException;
 
+    @Override
     public Iterator<PlexusIoResource> getResources() throws IOException
     {
         return new FilteringIterator();
@@ -99,11 +100,13 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             }
             return false;
         }
+        @Override
         public boolean hasNext()
         {
             return doNext();
         }
 
+        @Override
         public PlexusIoResource next()
         {
             if ( next == null )
@@ -113,11 +116,13 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             return res;
         }
 
+        @Override
         public void remove()
         {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void close()
             throws IOException
         {
@@ -127,31 +132,27 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             }
         }
     }
+    @Override
     public Stream stream()
     {
-        return new Stream()
-        {
-            public void forEach( PlexusIoResourceConsumer resourceConsumer )
-                throws IOException
+        return resourceConsumer -> {
+            final Iterator<PlexusIoResource> it = getEntries();
+            while ( it.hasNext() )
             {
-
-                final Iterator<PlexusIoResource> it = getEntries();
-                while ( it.hasNext() )
+                final PlexusIoResource res = it.next();
+                if ( isSelected( res ) )
                 {
-                    final PlexusIoResource res = it.next();
-                    if ( isSelected( res ) )
-                    {
-                        resourceConsumer.accept( res );
-                    }
+                    resourceConsumer.accept( res );
                 }
-                if ( it instanceof Closeable )
-                {
-                    ( (Closeable) it ).close();
-                }
+            }
+            if ( it instanceof Closeable )
+            {
+                ( (Closeable) it ).close();
             }
         };
     }
 
+    @Override
     public long getLastModified()
         throws IOException
     {

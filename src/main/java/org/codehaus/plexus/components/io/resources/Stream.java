@@ -24,7 +24,7 @@ public interface Stream
     /**
      * Invokes the #PlexusIoResourceConsumer for each resource in this collection
      * @param resourceConsumer The consumer of the resource
-     * @throws java.io.IOException .
+     * @throws java.io.IOException if an I/O error occurs
      */
     public void forEach( PlexusIoResourceConsumer resourceConsumer ) throws IOException;
 

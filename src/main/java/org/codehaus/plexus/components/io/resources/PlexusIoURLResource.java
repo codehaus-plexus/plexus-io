@@ -31,6 +31,7 @@ public abstract class PlexusIoURLResource
         super( name, lastModified, size, isFile, isDirectory, isExisting );
     }
 
+    @Override
     @Nonnull
     public InputStream getContents()
         throws IOException
@@ -55,5 +56,4 @@ public abstract class PlexusIoURLResource
         return url != null ? url.toExternalForm() : "url=null";
     }
 
-    public abstract URL getURL() throws IOException;
 }

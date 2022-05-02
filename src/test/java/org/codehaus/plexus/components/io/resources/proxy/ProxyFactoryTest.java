@@ -35,13 +35,7 @@ public class ProxyFactoryTest
     public void testCreateProxyWithNameOverride()
         throws Exception
     {
-        NameSupplier ns = new NameSupplier()
-        {
-            public String getName()
-            {
-                return "fred";
-            }
-        };
+        NameSupplier ns = () -> "fred";
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), ns );
         assertEquals( "fred", proxy.getName() );
     }
@@ -50,13 +44,7 @@ public class ProxyFactoryTest
         throws Exception
     {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-        ResourceAttributeSupplier ns = new ResourceAttributeSupplier()
-        {
-            public PlexusIoResourceAttributes getAttributes()
-            {
-                return s;
-            }
-        };
+        ResourceAttributeSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), ns );
         assertSame( s, ( (ResourceAttributeSupplier) proxy ).getAttributes() );
     }
@@ -65,13 +53,7 @@ public class ProxyFactoryTest
         throws Exception
     {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-        SizeSupplier ns = new SizeSupplier()
-        {
-            public long getSize()
-            {
-                return 42;
-            }
-        };
+        SizeSupplier ns = () -> 42;
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), ns );
         assertEquals( 42, proxy.getSize() );
     }
@@ -81,15 +63,7 @@ public class ProxyFactoryTest
         throws Exception
     {
         final InputStream s = new ByteArrayInputStream( new byte[10] );
-        ContentSupplier ns = new ContentSupplier()
-        {
-            public InputStream getContents()
-                throws IOException
-            {
-                return s;
-            }
-
-        };
+        ContentSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy( getPomResource(), ns );
         assertEquals( s, proxy.getContents() );
     }
@@ -97,14 +71,7 @@ public class ProxyFactoryTest
     public void testCreateProxyWithSymlinkDestinationSupplierOverride()
         throws Exception
     {
-        SymlinkDestinationSupplier ns = new SymlinkDestinationSupplier()
-        {
-            public String getSymlinkDestination()
-                throws IOException
-            {
-                return "mordor";
-            }
-        };
+        SymlinkDestinationSupplier ns = () -> "mordor";
         final PlexusIoResource proxy = ProxyFactory.createProxy( getDummySymlinkResource(), ns );
         assertEquals( "mordor", ( (SymlinkDestinationSupplier) proxy ).getSymlinkDestination() );
     }
@@ -128,6 +95,7 @@ public class ProxyFactoryTest
             super( file, file.getName(), attrs );
         }
 
+        @Override
         public String getSymlinkDestination()
             throws IOException
         {

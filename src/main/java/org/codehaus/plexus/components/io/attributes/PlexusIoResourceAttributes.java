@@ -46,7 +46,7 @@ public interface PlexusIoResourceAttributes
      * @return The unix user id, may be null ("not set"), even on unix
      */
     Integer getUserId();
-    
+
     /**
      * Gets the unix group id.
      * @return The unix group id, may be null ("not set"), even on unix

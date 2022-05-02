@@ -61,6 +61,7 @@ public class PlexusIoFileResourceCollection
     }
 
 
+    @Override
     public PlexusIoResource resolve( final PlexusIoResource resource )
         throws IOException
     {
@@ -174,10 +175,12 @@ public class PlexusIoFileResourceCollection
         }
     }
 
+    @Override
     public Stream stream()
     {
         return new Stream()
         {
+            @Override
             public void forEach( PlexusIoResourceConsumer resourceConsumer )
                 throws IOException
             {
@@ -206,6 +209,7 @@ public class PlexusIoFileResourceCollection
                     final PlexusIoResource next = resources.next();
                     Callable future = new Callable()
                     {
+                        @Override
                         public Object call()
                             throws Exception
                         {
@@ -225,6 +229,7 @@ public class PlexusIoFileResourceCollection
 
     }
 
+    @Override
     public Iterator<PlexusIoResource> getResources()
         throws IOException
     {
@@ -262,6 +267,7 @@ public class PlexusIoFileResourceCollection
         return result.iterator();
     }
 
+    @Override
     public boolean isConcurrentAccessSupported()
     {
         return true;
