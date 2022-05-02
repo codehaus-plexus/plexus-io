@@ -159,8 +159,8 @@ public class PlexusIoFileResourceCollection
             String sourceDir = name.replace( '\\', '/' );
             File f = new File( dir, sourceDir );
 
-            PlexusIoResourceAttributes attrs = new FileAttributes( f, cache1, cache2 );
-            attrs = mergeAttributes( attrs, f.isDirectory() );
+            FileAttributes fattrs = new FileAttributes( f, cache1, cache2 );
+            PlexusIoResourceAttributes attrs = mergeAttributes( fattrs, fattrs.isDirectory() );
 
             String remappedName = getName( name );
 

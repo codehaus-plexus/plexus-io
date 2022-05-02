@@ -43,69 +43,71 @@ public final class PlexusIoResourceAttributeUtils
         {
             return base;
         }
-        SimpleResourceAttributes result;
         if ( base == null )
         {
-            result = new SimpleResourceAttributes();
+            return new SimpleResourceAttributes(
+                    override.getUserId() != null && override.getUserId() != -1
+                            ? override.getUserId()
+                            : def != null && def.getUserId() != null && def.getUserId() != -1
+                                ? def.getUserId()
+                                : null,
+                    override.getUserName() != null
+                            ? override.getUserName()
+                            : def != null
+                                ? def.getUserName()
+                                : null,
+                    override.getGroupId() != null && override.getGroupId() != -1
+                            ? override.getGroupId()
+                            : def != null && def.getGroupId() != null && def.getGroupId() != -1
+                                ? def.getGroupId()
+                                : null,
+                    override.getGroupName() != null
+                            ? override.getGroupName()
+                            : def != null
+                                ? def.getGroupName()
+                                : null,
+                    override.getOctalMode() );
         }
         else
         {
-            result = new SimpleResourceAttributes( base.getUserId(), base.getUserName(), base.getGroupId(),
-                                                   base.getGroupName(), base.getOctalMode() );
-            result.setSymbolicLink( base.isSymbolicLink() );
+            Integer uid = override.getUserId() != null && override.getUserId() != -1
+                    ? override.getUserId()
+                    : base.getUserId() != null && base.getUserId() != -1
+                        ? base.getUserId()
+                        : def.getUserId() != null && def.getUserId() != -1
+                            ? def.getUserId()
+                            : null;
+            String uname = override.getUserName() != null
+                    ? override.getUserName()
+                    : base.getUserName() != null
+                        ? base.getUserName()
+                        : def.getUserName();
+            Integer gid = override.getGroupId() != null && override.getGroupId() != -1
+                    ? override.getGroupId()
+                    : base.getGroupId() != null && base.getGroupId() != -1
+                        ? base.getGroupId()
+                        : def.getGroupId() != null && def.getGroupId() != -1
+                            ? def.getGroupId()
+                            : null;
+            String gname = override.getGroupName() != null
+                    ? override.getGroupName()
+                    : base.getGroupName() != null
+                        ? base.getGroupName()
+                        : def.getGroupName();
+            int mode = override.getOctalMode() > 0
+                    ? override.getOctalMode()
+                    : base.getOctalMode() >= 0
+                        ? base.getOctalMode()
+                        : def.getOctalMode();
+            if ( base instanceof FileAttributes )
+            {
+                return new UserGroupModeFileAttributes( uid, uname, gid, gname, mode, (FileAttributes) base );
+            }
+            else
+            {
+                return new SimpleResourceAttributes( uid, uname, gid, gname, mode, base.isSymbolicLink() );
+            }
         }
-
-        if ( override.getGroupId() != null && override.getGroupId() != -1 )
-        {
-            result.setGroupId( override.getGroupId() );
-        }
-
-        if ( def != null && def.getGroupId() >= 0 && ( result.getGroupId() == null || result.getGroupId() < 0 ) )
-        {
-            result.setGroupId( def.getGroupId() );
-        }
-
-        if ( override.getGroupName() != null )
-        {
-            result.setGroupName( override.getGroupName() );
-        }
-
-        if ( def != null && result.getGroupName() == null )
-        {
-            result.setGroupName( def.getGroupName() );
-        }
-
-        if ( override.getUserId() != null && override.getUserId() != -1 )
-        {
-            result.setUserId( override.getUserId() );
-        }
-
-        if ( def != null && def.getUserId() >= 0 && ( result.getUserId() == null || result.getUserId() < 0 ) )
-        {
-            result.setUserId( def.getUserId() );
-        }
-
-        if ( override.getUserName() != null )
-        {
-            result.setUserName( override.getUserName() );
-        }
-
-        if ( def != null && result.getUserName() == null )
-        {
-            result.setUserName( def.getUserName() );
-        }
-
-        if ( override.getOctalMode() > 0 )
-        {
-            result.setOctalMode( override.getOctalMode() );
-        }
-
-        if ( def != null && result.getOctalMode() < 0 )
-        {
-            result.setOctalMode( def.getOctalMode() );
-        }
-
-        return result;
     }
 
     public static boolean isGroupExecutableInOctal( int mode )
