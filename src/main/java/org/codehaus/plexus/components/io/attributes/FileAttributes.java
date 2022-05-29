@@ -97,10 +97,10 @@ public class FileAttributes
         {
             names = "basic:*";
         }
-        Map<String, Object> attrs = Files.readAttributes( path, names, LinkOption.NOFOLLOW_LINKS);
+        Map<String, Object> attrs = Files.readAttributes( path, names, LinkOption.NOFOLLOW_LINKS );
         if ( !attrs.containsKey( "group" ) && !attrs.containsKey( "owner" ) && views.contains( "owner" ) )
         {
-            Map<String, Object> ownerAttrs = Files.readAttributes( path, "owner:*", LinkOption.NOFOLLOW_LINKS);
+            Map<String, Object> ownerAttrs = Files.readAttributes( path, "owner:*", LinkOption.NOFOLLOW_LINKS );
             Map<String, Object> newAttrs = new HashMap<>( attrs );
             newAttrs.putAll( ownerAttrs );
             attrs = newAttrs;
@@ -121,7 +121,8 @@ public class FileAttributes
 
     public FileAttributes( @Nullable Integer userId, String userName, @Nullable Integer groupId, @Nullable String groupName,
                            int octalMode, boolean symbolicLink, boolean regularFile, boolean directory, boolean other,
-                           Set<PosixFilePermission> permissions, long size, FileTime lastModifiedTime) {
+                           Set<PosixFilePermission> permissions, long size, FileTime lastModifiedTime )
+    {
         this.userId = userId;
         this.userName = userName;
         this.groupId = groupId;
