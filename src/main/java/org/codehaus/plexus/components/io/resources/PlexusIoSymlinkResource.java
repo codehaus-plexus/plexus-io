@@ -15,16 +15,36 @@ public class PlexusIoSymlinkResource
     implements SymlinkDestinationSupplier
 {
     private final String symLinkDestination;
-    private final PlexusIoResource targetResource;
+    private final PlexusIoFileResource targetResource;
 
     PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs )
-        throws IOException
+            throws IOException
     {
-        super( symlinkfile, name, attrs );
-        Path path = symlinkfile.toPath();
-        Path linkPath = java.nio.file.Files.readSymbolicLink( path );
-        symLinkDestination = linkPath.toString();
-        targetResource = ResourceFactory.createResource( path.resolveSibling( linkPath ).toFile() );
+        this( symlinkfile, name, attrs, symlinkfile.toPath() );
+    }
+
+    PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs,
+                             Path linkPath )
+            throws IOException
+    {
+        this( symlinkfile, name, attrs, linkPath, java.nio.file.Files.readSymbolicLink( linkPath ) );
+    }
+
+    private PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs,
+                                     Path path, Path linkPath )
+            throws IOException
+    {
+        this( symlinkfile, name, attrs, linkPath.toString(),
+                ( PlexusIoFileResource ) ResourceFactory.createResource( path.resolveSibling( linkPath ).toFile() ) );
+    }
+
+    private PlexusIoSymlinkResource( @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs,
+                                     String symLinkDestination, PlexusIoFileResource targetResource )
+            throws IOException
+    {
+        super( symlinkfile, name, attrs, targetResource.getFileAttributes(), null, null );
+        this.symLinkDestination = symLinkDestination;
+        this.targetResource = targetResource;
     }
 
     public String getSymlinkDestination()

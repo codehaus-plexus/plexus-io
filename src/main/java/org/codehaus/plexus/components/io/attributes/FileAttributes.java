@@ -40,6 +40,10 @@ import javax.annotation.Nullable;
 public class FileAttributes
     implements PlexusIoResourceAttributes
 {
+    public static final LinkOption[] FOLLOW_LINK_OPTIONS = new LinkOption[] { };
+
+    public static final LinkOption[] NOFOLLOW_LINK_OPTIONS = new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+
     @Nullable
     private final Integer groupId;
 
@@ -81,7 +85,13 @@ public class FileAttributes
     public FileAttributes( @Nonnull File file )
             throws IOException
     {
+        this( file, false );
+    }
 
+    public FileAttributes( @Nonnull File file, boolean followLinks )
+            throws IOException
+    {
+        LinkOption[] options = followLinks ? FOLLOW_LINK_OPTIONS : NOFOLLOW_LINK_OPTIONS;
         Path path = file.toPath();
         Set<String> views = path.getFileSystem().supportedFileAttributeViews();
         String names;
@@ -97,10 +107,10 @@ public class FileAttributes
         {
             names = "basic:*";
         }
-        Map<String, Object> attrs = Files.readAttributes( path, names, LinkOption.NOFOLLOW_LINKS );
+        Map<String, Object> attrs = Files.readAttributes( path, names, options );
         if ( !attrs.containsKey( "group" ) && !attrs.containsKey( "owner" ) && views.contains( "owner" ) )
         {
-            Map<String, Object> ownerAttrs = Files.readAttributes( path, "owner:*", LinkOption.NOFOLLOW_LINKS );
+            Map<String, Object> ownerAttrs = Files.readAttributes( path, "owner:*", options );
             Map<String, Object> newAttrs = new HashMap<>( attrs );
             newAttrs.putAll( ownerAttrs );
             attrs = newAttrs;

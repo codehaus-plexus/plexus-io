@@ -74,7 +74,7 @@ public interface PlexusIoResourceAttributes
      */
     int getOctalMode();
 
-    @Nonnull
+   //@Nonnull
    //String getOctalModeString();
 
     /**

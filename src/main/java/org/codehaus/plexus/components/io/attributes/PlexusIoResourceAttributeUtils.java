@@ -162,7 +162,13 @@ public final class PlexusIoResourceAttributeUtils
     public static PlexusIoResourceAttributes getFileAttributes( File file )
         throws IOException
     {
-        Map<String, PlexusIoResourceAttributes> byPath = getFileAttributesByPath( file, false );
+        return getFileAttributes( file, false );
+    }
+
+    public static PlexusIoResourceAttributes getFileAttributes( File file, boolean followLinks )
+            throws IOException
+    {
+        Map<String, PlexusIoResourceAttributes> byPath = getFileAttributesByPath( file, false, followLinks );
         final PlexusIoResourceAttributes o = byPath.get( file.getAbsolutePath() );
         if ( o == null )
         {
@@ -184,6 +190,15 @@ public final class PlexusIoResourceAttributeUtils
                                                                      boolean recursive )
         throws IOException
     {
+        return getFileAttributesByPath( dir, recursive, false );
+    }
+
+    public static @Nonnull
+    Map<String, PlexusIoResourceAttributes> getFileAttributesByPath( @Nonnull File dir,
+                                                                     boolean recursive,
+                                                                     boolean followLinks )
+            throws IOException
+    {
         final List<String> fileAndDirectoryNames;
         if ( recursive && dir.isDirectory() )
         {
@@ -198,7 +213,7 @@ public final class PlexusIoResourceAttributeUtils
 
         for ( String fileAndDirectoryName : fileAndDirectoryNames )
         {
-            attributesByPath.put( fileAndDirectoryName, new FileAttributes( new File( fileAndDirectoryName ) ) );
+            attributesByPath.put( fileAndDirectoryName, new FileAttributes( new File( fileAndDirectoryName ), followLinks ) );
         }
         return attributesByPath;
     }
