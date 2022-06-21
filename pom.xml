@@ -85,6 +85,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4jVersion}</version>
+      <scope>test</scope>
     </dependency>
     <!-- Plexus container dependencies -->
     <dependency>
