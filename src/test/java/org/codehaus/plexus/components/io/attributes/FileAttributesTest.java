@@ -21,14 +21,16 @@ import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.plexus.util.Os;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Kristian Rosenvold
  */
 public class FileAttributesTest
-    extends TestCase
 {
+    @Test
     public void testGetPosixFileAttributes()
         throws Exception
     {

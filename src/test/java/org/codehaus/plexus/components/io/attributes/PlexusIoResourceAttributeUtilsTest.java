@@ -27,14 +27,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class PlexusIoResourceAttributeUtilsTest
-    extends TestCase
 {
 
+    @Test
     public void testGetAttributesForThisTestClass()
         throws IOException
     {
@@ -67,6 +74,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( System.getProperty( "user.name" ), fileAttrs.getUserName() );
     }
 
+    @Test
     public void testDirectory()
         throws IOException, CommandLineException
     {
@@ -112,6 +120,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertNotNull( fileAttrs );
     }
 
+    @Test
     public void testSrcResource()
         throws IOException
     {
@@ -134,6 +143,8 @@ public class PlexusIoResourceAttributeUtilsTest
 
         assertTrue( pr.getOctalMode() > 0 );
     }
+
+    @Test
     public void testNonExistingDirectory()
     {
         File dir = new File( "src/test/noSuchDirectory" );
@@ -148,6 +159,7 @@ public class PlexusIoResourceAttributeUtilsTest
         }
     }
 
+    @Test
     public void testMergeAttributesWithNullBase()
     {
         PlexusIoResourceAttributes override =
@@ -162,6 +174,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( Integer.valueOf( 1001 ), attributes.getUserId() );
     }
 
+    @Test
     public void testMergeAttributesWithNullOverrideGroup()
     {
         final PlexusIoResourceAttributes override =
@@ -176,6 +189,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( attributes.getUserId(), Integer.valueOf( 1001 ) );
     }
 
+    @Test
     public void testMergeAttributesOverride()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
@@ -285,6 +299,7 @@ public class PlexusIoResourceAttributeUtilsTest
         assertEquals( 0111, attributes.getOctalMode() );
     }
 
+    @Test
     public void testFileAttributes()
         throws IOException
     {
@@ -299,6 +314,7 @@ public class PlexusIoResourceAttributeUtilsTest
         }
     }
 
+    @Test
     public void testMergeAttributesDefault()
     {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes( null, null, null, null, 0 );

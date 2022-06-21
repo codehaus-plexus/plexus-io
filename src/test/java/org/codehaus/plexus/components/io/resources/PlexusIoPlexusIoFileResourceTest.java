@@ -6,13 +6,16 @@ import java.io.IOException;
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
-import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 import org.codehaus.plexus.util.Os;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class PlexusIoPlexusIoFileResourceTest
-    extends TestCase {
+{
 
+    @Test
     public void testRealSymlink()
         throws IOException
     {

@@ -1,16 +1,18 @@
 package org.codehaus.plexus.components.io.resources;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Iterator;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Kristian Rosenvold
  */
 public class PlexusIoFileSupplierResourceCollectionTest
-    extends TestCase
 {
+    @Test
     public void testGetName()
         throws Exception
     {

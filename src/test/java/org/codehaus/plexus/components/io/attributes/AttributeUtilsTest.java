@@ -1,7 +1,7 @@
 package org.codehaus.plexus.components.io.attributes;
 
-import junit.framework.TestCase;
 import org.codehaus.plexus.util.Os;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +9,15 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
 import java.util.Set;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Kristian Rosenvold
  */
 public class AttributeUtilsTest
-    extends TestCase
 {
+    @Test
     public void testMiscPatterns()
         throws Exception
     {
@@ -24,6 +27,7 @@ public class AttributeUtilsTest
         assertTrue( permissions.contains( PosixFilePermission.OTHERS_READ ) );
     }
 
+    @Test
     public void testMorePatterns() throws Exception
     {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0241 );
@@ -32,6 +36,7 @@ public class AttributeUtilsTest
         assertTrue( permissions.contains( PosixFilePermission.OTHERS_EXECUTE ) );
     }
 
+    @Test
     public void testEvenMorePatterns() throws Exception
     {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions( 0412 );
@@ -40,6 +45,7 @@ public class AttributeUtilsTest
         assertTrue( permissions.contains( PosixFilePermission.OTHERS_WRITE ) );
     }
 
+    @Test
     public void test777()
         throws Exception
     {
@@ -47,6 +53,7 @@ public class AttributeUtilsTest
         assertTrue( permissions.size() == 9 );
     }
 
+    @Test
     public void testChmodBackAndForth()
         throws IOException
     {

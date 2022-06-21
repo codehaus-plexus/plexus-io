@@ -1,6 +1,5 @@
 package org.codehaus.plexus.components.io.resources.proxy;
 
-import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
@@ -12,6 +11,7 @@ import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
@@ -19,10 +19,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 public class ProxyFactoryTest
-    extends TestCase
 {
 
+    @Test
     public void testCreateProxy()
         throws Exception
     {
@@ -32,6 +37,7 @@ public class ProxyFactoryTest
         assertFalse( proxy instanceof SymlinkDestinationSupplier );
     }
 
+    @Test
     public void testCreateProxyWithNameOverride()
         throws Exception
     {
@@ -46,6 +52,7 @@ public class ProxyFactoryTest
         assertEquals( "fred", proxy.getName() );
     }
 
+    @Test
     public void testCreateProxyWithResourceAttributeOverride()
         throws Exception
     {
@@ -61,6 +68,7 @@ public class ProxyFactoryTest
         assertSame( s, ( (ResourceAttributeSupplier) proxy ).getAttributes() );
     }
 
+    @Test
     public void testCreateProxyWithSizeSupplierOverride()
         throws Exception
     {
@@ -76,7 +84,7 @@ public class ProxyFactoryTest
         assertEquals( 42, proxy.getSize() );
     }
 
-
+    @Test
     public void testCreateProxyWithContentSupplierOverride()
         throws Exception
     {
@@ -94,6 +102,7 @@ public class ProxyFactoryTest
         assertEquals( s, proxy.getContents() );
     }
 
+    @Test
     public void testCreateProxyWithSymlinkDestinationSupplierOverride()
         throws Exception
     {
