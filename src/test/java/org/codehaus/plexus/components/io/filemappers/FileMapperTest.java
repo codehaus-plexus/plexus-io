@@ -19,12 +19,10 @@ package org.codehaus.plexus.components.io.filemappers;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
 
-import org.codehaus.plexus.PlexusTestCase;
-
 /**
  * Test case for the various file mappers.
  */
-public class FileMapperTest extends PlexusTestCase
+public class FileMapperTest extends TestSupport
 {
     protected void testFileMapper( FileMapper pMapper, String[] pInput, String[] pOutput )
     {

@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection;
@@ -39,7 +38,7 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  * Test case for resource collections.
  */
-public class ResourcesTest extends PlexusTestCase
+public class ResourcesTest extends TestSupport
 {
     private static final String X_PATH = "x";
     private static final String A_PATH = X_PATH + "/a";

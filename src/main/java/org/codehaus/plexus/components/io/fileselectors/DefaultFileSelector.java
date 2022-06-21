@@ -16,22 +16,12 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Named;
 
 /**
- * The default file selector: Selects all files.
+ * Alias for {@link AllFilesFileSelector}
  */
-@Named( AllFilesFileSelector.ROLE_HINT )
-public class AllFilesFileSelector implements FileSelector
+@Named
+public class DefaultFileSelector extends AllFilesFileSelector
 {
-    /**
-     * The all files selectors role-hint: "all".
-     */
-    public static final String ROLE_HINT = "all";
-
-    public boolean isSelected( @Nonnull FileInfo fileInfo )
-    {
-        return true;
-    }
 }

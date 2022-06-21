@@ -1,4 +1,4 @@
-package org.codehaus.plexus.components.io.fileselectors;
+package org.codehaus.plexus.components.io.filemappers;
 
 /*
  * Copyright 2007 The Codehaus Foundation.
@@ -16,22 +16,18 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-import javax.inject.Named;
+import org.codehaus.plexus.ContainerConfiguration;
+import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.PlexusTestCase;
 
 /**
- * The default file selector: Selects all files.
+ * Support for componentized testing.
  */
-@Named( AllFilesFileSelector.ROLE_HINT )
-public class AllFilesFileSelector implements FileSelector
+public abstract class TestSupport extends PlexusTestCase
 {
-    /**
-     * The all files selectors role-hint: "all".
-     */
-    public static final String ROLE_HINT = "all";
-
-    public boolean isSelected( @Nonnull FileInfo fileInfo )
+    @Override
+    protected void customizeContainerConfiguration( ContainerConfiguration configuration )
     {
-        return true;
+        configuration.setAutoWiring( true ).setClassPathScanning( PlexusConstants.SCANNING_INDEX );
     }
 }

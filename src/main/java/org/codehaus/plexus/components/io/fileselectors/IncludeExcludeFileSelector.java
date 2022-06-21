@@ -24,11 +24,13 @@ import org.codehaus.plexus.util.SelectorUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Named;
 
 /**
  * This file selector uses a set of patterns for including/excluding
  * files.
  */
+@Named( IncludeExcludeFileSelector.ROLE_HINT )
 public class IncludeExcludeFileSelector
     implements FileSelector
 {

@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * A file mapper, which maps to a constant target name.
  */
+@Named( MergeFileMapper.ROLE_HINT )
 public class MergeFileMapper extends AbstractFileMapper
 {
     /**

@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
@@ -32,7 +31,7 @@ import javax.annotation.Nonnull;
 /**
  * Test case for implementations of {@link FileSelector}.
  */
-public class FileSelectorTest extends PlexusTestCase
+public class FileSelectorTest extends TestSupport
 {
     protected void testFileSelector( FileSelector pSelector, String[] pInput, boolean[] pOutput)
         throws IOException

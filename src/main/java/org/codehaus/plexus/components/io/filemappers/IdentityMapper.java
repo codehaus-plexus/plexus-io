@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * Default implementation of {@link FileMapper}, which performs the identity mapping: All names are left unchanged.
  */
+@Named( IdentityMapper.ROLE_HINT )
 public class IdentityMapper extends AbstractFileMapper
 {
     /**
