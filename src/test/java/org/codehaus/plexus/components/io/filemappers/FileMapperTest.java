@@ -88,9 +88,9 @@ public class FileMapperTest extends TestSupport
     public void testDefaultMapper() throws Exception
     {
         final String[] results = getIdentityResults();
-        testFileMapper( (FileMapper) lookup( FileMapper.ROLE ), SAMPLES, results );
-        testFileMapper( (FileMapper) lookup( FileMapper.ROLE, IdentityMapper.ROLE_HINT ), SAMPLES, results );
-        testFileMapper( (FileMapper) lookup( FileMapper.ROLE, FileMapper.DEFAULT_ROLE_HINT ), SAMPLES, results );
+        testFileMapper( (FileMapper) lookup( FileMapper.class ), SAMPLES, results );
+        testFileMapper( (FileMapper) lookup( FileMapper.class, IdentityMapper.ROLE_HINT ), SAMPLES, results );
+        testFileMapper( (FileMapper) lookup( FileMapper.class ), SAMPLES, results );
     }
 
     public void testFileExtensionMapper() throws Exception
@@ -105,7 +105,7 @@ public class FileMapperTest extends TestSupport
             results[i] = results[i].substring( 0, results[i].length() - ".gif".length() ) + ".png";
         }
         testFileExtensionMapper( results, new FileExtensionMapper() );
-        testFileExtensionMapper( results, (FileExtensionMapper) lookup( FileMapper.ROLE, FileExtensionMapper.ROLE_HINT ) );
+        testFileExtensionMapper( results, (FileExtensionMapper) lookup( FileMapper.class, FileExtensionMapper.ROLE_HINT ) );
     }
 
     private void testFileExtensionMapper( final String[] results, final FileExtensionMapper mapper )
@@ -122,7 +122,7 @@ public class FileMapperTest extends TestSupport
         results[4] = results[6] = results[8] = results[10] = results[2];
         results[5] = results[7] = results[9] = results[11] = results[3];
         testFileMapper( new FlattenFileMapper(), SAMPLES, results );
-        testFileMapper( (FileMapper) lookup( FileMapper.ROLE, FlattenFileMapper.ROLE_HINT ), SAMPLES, results );
+        testFileMapper( (FileMapper) lookup( FileMapper.class, FlattenFileMapper.ROLE_HINT ), SAMPLES, results );
     }
 
     private void testMergeMapper( String pTargetName, String[] pResults, MergeFileMapper pMapper )
@@ -140,7 +140,7 @@ public class FileMapperTest extends TestSupport
             results[i] = targetName;
         }
         testMergeMapper( targetName, results, new MergeFileMapper() );
-        testMergeMapper( targetName, results, (MergeFileMapper) lookup( FileMapper.ROLE, MergeFileMapper.ROLE_HINT ) );
+        testMergeMapper( targetName, results, (MergeFileMapper) lookup( FileMapper.class, MergeFileMapper.ROLE_HINT ) );
     }
 
     public void testPrefixMapper() throws Exception
@@ -148,7 +148,7 @@ public class FileMapperTest extends TestSupport
         final String prefix = "x7Rtf";
         final String[] results = getIdentityResults();
         testFileMapper( new PrefixFileMapper(), SAMPLES, results );
-        testFileMapper( (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT ), SAMPLES, results );
+        testFileMapper( (PrefixFileMapper) lookup( FileMapper.class, PrefixFileMapper.ROLE_HINT ), SAMPLES, results );
         for ( int i = 0; i < results.length; i++ )
         {
             if ( results[i] != null )
@@ -159,7 +159,7 @@ public class FileMapperTest extends TestSupport
         PrefixFileMapper mapper = new PrefixFileMapper();
         mapper.setPrefix( prefix );
         testFileMapper( mapper, SAMPLES, results );
-        mapper = (PrefixFileMapper) lookup( FileMapper.ROLE, PrefixFileMapper.ROLE_HINT );
+        mapper = (PrefixFileMapper) lookup( FileMapper.class, PrefixFileMapper.ROLE_HINT );
         mapper.setPrefix( prefix );
         testFileMapper( mapper, SAMPLES, results );
     }
@@ -176,7 +176,7 @@ public class FileMapperTest extends TestSupport
         SuffixFileMapper mapper = new SuffixFileMapper();
         mapper.setSuffix( suffix );
         testFileMapper( mapper, samples, results );
-        mapper = (SuffixFileMapper) lookup( FileMapper.ROLE, SuffixFileMapper.ROLE_HINT );
+        mapper = (SuffixFileMapper) lookup( FileMapper.class, SuffixFileMapper.ROLE_HINT );
         mapper.setSuffix( suffix );
         testFileMapper( mapper, samples, results );
     }
@@ -198,7 +198,7 @@ public class FileMapperTest extends TestSupport
         results[11] = "c.c\\xyz.jpg";
         testFileMapper( configure(new RegExpFileMapper(), "\\.gif$", ".jpg"), SAMPLES, results );
         testFileMapper( configure(new RegExpFileMapper(), "^(.*)\\.gif$", "$1.jpg"), SAMPLES, results );
-        testFileMapper( configure((RegExpFileMapper) lookup( FileMapper.ROLE, RegExpFileMapper.ROLE_HINT ), "\\.gif$", ".jpg"), SAMPLES, results );
+        testFileMapper( configure((RegExpFileMapper) lookup( FileMapper.class, RegExpFileMapper.ROLE_HINT ), "\\.gif$", ".jpg"), SAMPLES, results );
         final RegExpFileMapper mapper = configure( new RegExpFileMapper(), "c", "f" );
         mapper.setReplaceAll( true );
         final String[] fResults = getIdentityResults();

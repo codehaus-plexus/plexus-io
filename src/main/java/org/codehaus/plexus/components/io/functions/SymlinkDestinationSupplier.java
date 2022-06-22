@@ -23,6 +23,6 @@ import java.io.IOException;
  */
 public interface SymlinkDestinationSupplier
 {
-    public String getSymlinkDestination()
+    String getSymlinkDestination()
         throws IOException;
 }

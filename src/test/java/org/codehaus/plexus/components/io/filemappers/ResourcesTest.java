@@ -233,9 +233,8 @@ public class ResourcesTest extends TestSupport
     public void testFileCollection() throws Exception
     {
         createFiles();
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
-                                                                             PlexusIoResourceCollection.DEFAULT_ROLE_HINT ) );
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.class ) );
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.class,
                                                                              PlexusIoFileResourceCollection.ROLE_HINT ) );
     }
 

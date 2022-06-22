@@ -89,8 +89,8 @@ public class FileSelectorTest extends TestSupport
     public void testAllFilesFileSelector() throws Exception
     {
         testFileSelector( new AllFilesFileSelector() );
-        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.ROLE, FileSelector.DEFAULT_ROLE_HINT ) );
-        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.ROLE, AllFilesFileSelector.ROLE_HINT ) );
+        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.class ) );
+        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.class, AllFilesFileSelector.ROLE_HINT ) );
     }
 
     protected boolean[] getIncludeGifs( String[] pSamples )
@@ -129,7 +129,7 @@ public class FileSelectorTest extends TestSupport
     public void testIncludeExcludeFileSelector() throws Exception
     {
         testFileSelector( new IncludeExcludeFileSelector() );
-        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE,
+        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.class,
                                                                IncludeExcludeFileSelector.ROLE_HINT ) );
     }
     

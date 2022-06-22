@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.fileselectors;
  */
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  * Alias for {@link AllFilesFileSelector}
  */
+@Singleton
 @Named
 public class DefaultFileSelector extends AllFilesFileSelector
 {
