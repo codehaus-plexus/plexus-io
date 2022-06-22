@@ -19,6 +19,10 @@ package org.codehaus.plexus.components.io.filemappers;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
 
+import org.junit.Test;
+
+import static org.junit.Assert.fail;
+
 /**
  * Test case for the various file mappers.
  */
@@ -71,6 +75,7 @@ public class FileMapperTest extends TestSupport
         new String[] { null, "", "a", "xyz.gif", "b/a", "b/xyz.gif", "b\\a", "b\\xyz.gif", "c.c/a", "c.c/xyz.gif",
             "c.c\\a", "c.c\\xyz.gif" };
 
+    @Test
     public void testIdentityMapper() throws Exception
     {
         final String[] results = getIdentityResults();
@@ -85,6 +90,7 @@ public class FileMapperTest extends TestSupport
         return results;
     }
 
+    @Test
     public void testDefaultMapper() throws Exception
     {
         final String[] results = getIdentityResults();
@@ -93,6 +99,7 @@ public class FileMapperTest extends TestSupport
         testFileMapper( (FileMapper) lookup( FileMapper.class ), SAMPLES, results );
     }
 
+    @Test
     public void testFileExtensionMapper() throws Exception
     {
         final String[] results = getIdentityResults();
@@ -116,6 +123,7 @@ public class FileMapperTest extends TestSupport
         testFileMapper( mapper, SAMPLES, results );
     }
 
+    @Test
     public void testFlattenMapper() throws Exception
     {
         final String[] results = getIdentityResults();
@@ -131,6 +139,7 @@ public class FileMapperTest extends TestSupport
         testFileMapper( pMapper, SAMPLES, pResults );
     }
 
+    @Test
     public void testMergeMapper() throws Exception
     {
         final String[] results = getIdentityResults();
@@ -143,6 +152,7 @@ public class FileMapperTest extends TestSupport
         testMergeMapper( targetName, results, (MergeFileMapper) lookup( FileMapper.class, MergeFileMapper.ROLE_HINT ) );
     }
 
+    @Test
     public void testPrefixMapper() throws Exception
     {
         final String prefix = "x7Rtf";
@@ -164,6 +174,7 @@ public class FileMapperTest extends TestSupport
         testFileMapper( mapper, SAMPLES, results );
     }
 
+    @Test
     public void testSuffixMapper() throws Exception
     {
         final String suffix = "suffix";
@@ -188,6 +199,7 @@ public class FileMapperTest extends TestSupport
         return pMapper;
     }
 
+    @Test
     public void testRegExpFileMapper() throws Exception
     {
         final String[] results = getIdentityResults();

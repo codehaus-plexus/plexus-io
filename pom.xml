@@ -90,7 +90,7 @@
     <!-- Plexus container dependencies -->
     <dependency>
       <groupId>org.eclipse.sisu</groupId>
-      <artifactId>org.eclipse.sisu.plexus</artifactId>
+      <artifactId>org.eclipse.sisu.inject</artifactId>
       <version>${sisuVersion}</version>
       <scope>test</scope>
     </dependency>

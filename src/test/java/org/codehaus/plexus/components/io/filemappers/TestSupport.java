@@ -16,18 +16,11 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.ContainerConfiguration;
-import org.codehaus.plexus.PlexusConstants;
-import org.codehaus.plexus.PlexusTestCase;
+import org.eclipse.sisu.launch.InjectedTest;
 
 /**
  * Support for componentized testing.
  */
-public abstract class TestSupport extends PlexusTestCase
+public abstract class TestSupport extends InjectedTest
 {
-    @Override
-    protected void customizeContainerConfiguration( ContainerConfiguration configuration )
-    {
-        configuration.setAutoWiring( true ).setClassPathScanning( PlexusConstants.SCANNING_INDEX );
-    }
 }

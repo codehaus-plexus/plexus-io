@@ -24,8 +24,12 @@ import org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
+import org.junit.Test;
 
 import javax.annotation.Nonnull;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -86,6 +90,7 @@ public class FileSelectorTest extends TestSupport
         return trues;
     }
 
+    @Test
     public void testAllFilesFileSelector() throws Exception
     {
         testFileSelector( new AllFilesFileSelector() );
@@ -126,13 +131,15 @@ public class FileSelectorTest extends TestSupport
         testFileSelector( pSelector, SAMPLES, getExcludeBar( SAMPLES, getAllTrues() ) );
     }
 
+    @Test
     public void testIncludeExcludeFileSelector() throws Exception
     {
         testFileSelector( new IncludeExcludeFileSelector() );
         testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.class,
                                                                IncludeExcludeFileSelector.ROLE_HINT ) );
     }
-    
+
+    @Test
     public void testIncludeExcludeFileSelector_SetExcludes() throws Exception
     {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
