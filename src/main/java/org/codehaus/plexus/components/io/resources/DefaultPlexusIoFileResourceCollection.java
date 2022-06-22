@@ -18,25 +18,6 @@ package org.codehaus.plexus.components.io.resources;
 
 import javax.inject.Named;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-
-import org.codehaus.plexus.components.io.attributes.FileAttributes;
-import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
-import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
-import org.codehaus.plexus.util.DirectoryScanner;
-import org.codehaus.plexus.util.StringUtils;
-
 /**
  * Alias for {@link PlexusIoFileResourceCollection}
  */
