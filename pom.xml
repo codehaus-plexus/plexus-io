@@ -87,7 +87,7 @@
       <version>${slf4jVersion}</version>
       <scope>test</scope>
     </dependency>
-    <!-- Plexus container dependencies -->
+    <!-- Sisu and dependencies -->
     <dependency>
       <groupId>org.eclipse.sisu</groupId>
       <artifactId>org.eclipse.sisu.inject</artifactId>
