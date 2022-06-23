@@ -10,6 +10,8 @@ import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 import org.codehaus.plexus.util.Os;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PlexusIoPlexusIoFileResourceTest
@@ -31,6 +33,7 @@ public class PlexusIoPlexusIoFileResourceTest
         assertTrue( target.getName().endsWith( "targetDir" ) );
     }
 
+    @Test
     public void testSymSymlinkFile()
             throws IOException
     {
@@ -48,6 +51,7 @@ public class PlexusIoPlexusIoFileResourceTest
         assertFalse( rTT instanceof PlexusIoSymlinkResource );
     }
 
+    @Test
     public void testSymlinkFile()
         throws IOException
     {
