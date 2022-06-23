@@ -1,5 +1,6 @@
 package org.codehaus.plexus.components.io.resources;
 
+import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
@@ -54,7 +55,8 @@ public class ResourceFactory
     {
         boolean symbolicLink = attributes.isSymbolicLink();
         return symbolicLink ? new PlexusIoSymlinkResource( f, name, attributes )
-            :  new PlexusIoFileResource( f, name, attributes, contentSupplier, inputStreamTransformer );
+            :  new PlexusIoFileResource( f, name, attributes,
+                    new FileAttributes( f, true ), contentSupplier, inputStreamTransformer );
     }
 
 }
