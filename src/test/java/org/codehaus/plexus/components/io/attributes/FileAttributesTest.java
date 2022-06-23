@@ -39,10 +39,8 @@ public class FileAttributesTest
         }
 
         File file = new File( "." );
-        Map<Integer, String> userCache = new HashMap<>();
-        Map<Integer, String> groupCache = new HashMap<>();
 
-        PlexusIoResourceAttributes fa = new FileAttributes( file, userCache, groupCache );
+        PlexusIoResourceAttributes fa = new FileAttributes( file );
         assertNotNull( fa );
     }
 
