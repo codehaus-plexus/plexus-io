@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>plexus-io</artifactId>
-  <version>3.3.2-SNAPSHOT</version>
+  <version>3.4.0-SNAPSHOT</version>
 
   <name>Plexus IO Components</name>
 
