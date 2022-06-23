@@ -37,6 +37,8 @@ import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 
 import javax.annotation.Nonnull;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Implementation of {@link PlexusIoResource} for files.
  */
@@ -91,15 +93,6 @@ public class PlexusIoFileResource
         InputStreamTransformer transToUse = streamTransformer != null ? streamTransformer : identityTransformer;
 
         dfos = hasTransformer && file.isFile() ? asDeferredStream( this.contentSupplier, transToUse, this ) : null;
-    }
-
-    private static <T> T requireNonNull( T t, String message )
-    {
-        if ( t == null )
-        {
-            throw new IllegalArgumentException( message );
-        }
-        return t;
     }
 
     private static DeferredFileOutputStream asDeferredStream( @Nonnull ContentSupplier supplier,
