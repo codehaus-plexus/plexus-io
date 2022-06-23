@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>plexus-io</artifactId>
-  <version>3.4.0-SNAPSHOT</version>
+  <version>3.4.0</version>
 
   <name>Plexus IO Components</name>
 
@@ -16,7 +16,7 @@
     <connection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</connection>
     <developerConnection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</developerConnection>
     <url>http://github.com/codehaus-plexus/plexus-io</url>
-    <tag>HEAD</tag>
+    <tag>plexus-io-3.4.0</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -34,7 +34,7 @@
     <sisuVersion>0.3.5</sisuVersion>
     <slf4jVersion>1.7.36</slf4jVersion>
     <cobertura.skip>true</cobertura.skip>
-    <project.build.outputTimestamp>2022-05-02T06:11:29Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-06-23T08:17:51Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
