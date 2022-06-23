@@ -36,12 +36,12 @@ public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplie
     /**
      * Unknown resource size.
      */
-    public static final long UNKNOWN_RESOURCE_SIZE = -1;
+    long UNKNOWN_RESOURCE_SIZE = -1;
 
     /**
      * Unknown modification date
      */
-    public static final long UNKNOWN_MODIFICATION_DATE = 0;
+    long UNKNOWN_MODIFICATION_DATE = 0;
 
     /**
      * Returns the date, when the resource was last modified, if known.

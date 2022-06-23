@@ -15,12 +15,14 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * A file mapper, which maps by adding a suffix to the filename.
  * If the filename contains dot, the suffix will be added before.
  * Example: {@code directory/archive.tar.gz => directory/archivesuffix.tar.gz}
  */
+@Named( SuffixFileMapper.ROLE_HINT )
 public class SuffixFileMapper extends AbstractFileMapper
 {
     /**

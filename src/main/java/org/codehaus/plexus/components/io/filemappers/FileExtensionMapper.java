@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * An implementation of {@link FileMapper}, which changes the files extension.
  */
+@Named( FileExtensionMapper.ROLE_HINT )
 public class FileExtensionMapper extends AbstractFileMapper
 {
     /**

@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * A file mapper, which maps by adding a prefix.
  */
+@Named( PrefixFileMapper.ROLE_HINT )
 public class PrefixFileMapper extends AbstractFileMapper
 {
     /**

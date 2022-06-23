@@ -20,19 +20,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
+import org.junit.Test;
 
 import javax.annotation.Nonnull;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 /**
  * Test case for implementations of {@link FileSelector}.
  */
-public class FileSelectorTest extends PlexusTestCase
+public class FileSelectorTest extends TestSupport
 {
     protected void testFileSelector( FileSelector pSelector, String[] pInput, boolean[] pOutput)
         throws IOException
@@ -87,11 +90,12 @@ public class FileSelectorTest extends PlexusTestCase
         return trues;
     }
 
+    @Test
     public void testAllFilesFileSelector() throws Exception
     {
         testFileSelector( new AllFilesFileSelector() );
-        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.ROLE, FileSelector.DEFAULT_ROLE_HINT ) );
-        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.ROLE, AllFilesFileSelector.ROLE_HINT ) );
+        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.class ) );
+        testFileSelector( (AllFilesFileSelector) lookup( FileSelector.class, AllFilesFileSelector.ROLE_HINT ) );
     }
 
     protected boolean[] getIncludeGifs( String[] pSamples )
@@ -127,13 +131,15 @@ public class FileSelectorTest extends PlexusTestCase
         testFileSelector( pSelector, SAMPLES, getExcludeBar( SAMPLES, getAllTrues() ) );
     }
 
+    @Test
     public void testIncludeExcludeFileSelector() throws Exception
     {
         testFileSelector( new IncludeExcludeFileSelector() );
-        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.ROLE,
+        testFileSelector( (IncludeExcludeFileSelector) lookup( FileSelector.class,
                                                                IncludeExcludeFileSelector.ROLE_HINT ) );
     }
-    
+
+    @Test
     public void testIncludeExcludeFileSelector_SetExcludes() throws Exception
     {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();

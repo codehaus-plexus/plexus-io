@@ -16,10 +16,11 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractResourceAttributesTCK
-    extends TestCase
 {
     
     protected AbstractResourceAttributesTCK()
@@ -31,6 +32,7 @@ public abstract class AbstractResourceAttributesTCK
     protected abstract PlexusIoResourceAttributes newAttributes( String mode );
 
 
+    @Test
     public final void testSetOctalModeString_OwnerModes()
     {
         verifyStringOctalModeSet( "700", new boolean[] { true, true, true, false, false, false, false, false, false } );
@@ -39,6 +41,7 @@ public abstract class AbstractResourceAttributesTCK
         verifyStringOctalModeSet( "200", new boolean[] { false, true, false, false, false, false, false, false, false } );
     }
 
+    @Test
     public final void testSetOctalModeString_GroupModes()
     {
         verifyStringOctalModeSet( "070", new boolean[] { false, false, false, true, true, true, false, false, false } );
@@ -47,6 +50,7 @@ public abstract class AbstractResourceAttributesTCK
         verifyStringOctalModeSet( "020", new boolean[] { false, false, false, false, true, false, false, false, false } );
     }
 
+    @Test
     public final void testSetOctalModeString_WorldModes()
     {
         verifyStringOctalModeSet( "007", new boolean[] { false, false, false, false, false, false, true, true, true } );
@@ -55,6 +59,7 @@ public abstract class AbstractResourceAttributesTCK
         verifyStringOctalModeSet( "002", new boolean[] { false, false, false, false, false, false, false, true, false } );
     }
 
+    @Test
     public final void testSetOctalMode_OwnerModes()
     {
         verifyOctalModeSet( "700", new boolean[] { true, true, true, false, false, false, false, false, false } );
@@ -63,6 +68,7 @@ public abstract class AbstractResourceAttributesTCK
         verifyOctalModeSet( "200", new boolean[] { false, true, false, false, false, false, false, false, false } );
     }
 
+    @Test
     public final void testSetOctalMode_GroupModes()
     {
         verifyOctalModeSet( "070", new boolean[] { false, false, false, true, true, true, false, false, false } );
@@ -71,6 +77,7 @@ public abstract class AbstractResourceAttributesTCK
         verifyOctalModeSet( "020", new boolean[] { false, false, false, false, true, false, false, false, false } );
     }
 
+    @Test
     public final void testSetOctalMode_WorldModes()
     {
         verifyOctalModeSet( "007", new boolean[] { false, false, false, false, false, false, true, true, true } );

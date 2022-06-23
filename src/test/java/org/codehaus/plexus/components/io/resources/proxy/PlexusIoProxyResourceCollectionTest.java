@@ -16,11 +16,11 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.Stream;
+import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.io.Closeable;
@@ -29,17 +29,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Test case for {@link PlexusIoProxyResourceCollection}.
  */
 public class PlexusIoProxyResourceCollectionTest
-    extends PlexusTestCase
 {
     private final String[] SAMPLE_INCLUDES = { "junk.*", "test/**", "dir*/file.xml" };
 
     private final String[] SAMPLE_EXCLUDES = { "*.junk", "somwhere/**" };
 
+    @Test
     public void testGetDefaultFileSelector()
         throws Exception
     {
@@ -103,7 +106,8 @@ public class PlexusIoProxyResourceCollectionTest
             throw new UnsupportedOperationException();
         }
     }
-    
+
+    @Test
     public void testClosing()
         throws IOException
     {

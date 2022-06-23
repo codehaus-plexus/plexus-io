@@ -26,17 +26,6 @@ import java.util.Iterator;
 public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
 {
     /**
-     * Role of the ResourceCollection component.
-     */
-    public static final String ROLE = PlexusIoResourceCollection.class.getName();
-
-    /**
-     * Role hint of the default resource collection, which is a set
-     * of files in a base directory.
-     */
-    public static final String DEFAULT_ROLE_HINT = "default";
-
-    /**
      * Returns an iterator over the resources in the collection.
      * @return An iterator
      * @throws java.io.IOException .
@@ -47,7 +36,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * Returns the resources as a stream.
      * @return A stream for functional iteration
      */
-    public Stream stream();
+    Stream stream();
 
     /**
      * Returns the resources suggested name. This is used for

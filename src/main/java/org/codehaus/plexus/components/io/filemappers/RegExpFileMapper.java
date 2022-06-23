@@ -17,12 +17,15 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Implementation of a file mapper, which uses regular expressions.
  */
+@Named( RegExpFileMapper.ROLE_HINT )
 public class RegExpFileMapper
     extends AbstractFileMapper
 {

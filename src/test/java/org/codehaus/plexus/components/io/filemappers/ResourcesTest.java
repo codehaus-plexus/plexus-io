@@ -27,19 +27,24 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 /**
  * Test case for resource collections.
  */
-public class ResourcesTest extends PlexusTestCase
+public class ResourcesTest extends TestSupport
 {
     private static final String X_PATH = "x";
     private static final String A_PATH = X_PATH + "/a";
@@ -231,12 +236,12 @@ public class ResourcesTest extends PlexusTestCase
         testPlexusIoResourceCollection( resourceCollection );
     }
 
+    @Test
     public void testFileCollection() throws Exception
     {
         createFiles();
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
-                                                                             PlexusIoResourceCollection.DEFAULT_ROLE_HINT ) );
-        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.ROLE,
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.class ) );
+        testFileResourceCollection( (PlexusIoFileResourceCollection) lookup( PlexusIoResourceCollection.class,
                                                                              PlexusIoFileResourceCollection.ROLE_HINT ) );
     }
 

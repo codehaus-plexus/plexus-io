@@ -22,16 +22,6 @@ package org.codehaus.plexus.components.io.filemappers;
 public interface FileMapper
 {
     /**
-     * Role used to register component implementations with the container.
-     */
-    public static final String ROLE = FileMapper.class.getName();
-
-    /**
-     * The default role-hint: "default".
-     */
-    public static final String DEFAULT_ROLE_HINT = "default";
-
-    /**
      * Maps the given source name to a target name.
      * 
      * @param pName
@@ -40,5 +30,5 @@ public interface FileMapper
      * @throws IllegalArgumentException
      *             The source name is null or empty.
      */
-    public String getMappedFileName( String pName );
+    String getMappedFileName( String pName );
 }

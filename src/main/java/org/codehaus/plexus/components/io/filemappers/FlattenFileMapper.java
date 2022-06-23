@@ -17,10 +17,12 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Named;
 
 /**
  * Implementation of a flattening file mapper: Removes all directory parts.
  */
+@Named( FlattenFileMapper.ROLE_HINT )
 public class FlattenFileMapper extends AbstractFileMapper
 {
     /**

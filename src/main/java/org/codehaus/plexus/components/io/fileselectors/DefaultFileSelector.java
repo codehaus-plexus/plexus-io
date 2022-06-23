@@ -1,9 +1,7 @@
-package org.codehaus.plexus.components.io.resources;
-
-import java.nio.charset.Charset;
+package org.codehaus.plexus.components.io.fileselectors;
 
 /*
- * Copyright 2014 The Codehaus Foundation.
+ * Copyright 2007 The Codehaus Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +16,14 @@ import java.nio.charset.Charset;
  * limitations under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 /**
- * Implemented by plexus io resources that support some kind of encoding notion
+ * Alias for {@link AllFilesFileSelector}
  */
-public interface EncodingSupported
+@Singleton
+@Named
+public class DefaultFileSelector extends AllFilesFileSelector
 {
-    /**
-     * Supplies the encoding to be used for decoding filenames/paths
-     * @param charset The charset to use
-     */
-    void setEncoding( Charset charset );
 }

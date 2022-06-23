@@ -1,7 +1,7 @@
 package org.codehaus.plexus.components.io.resources;
 
-import junit.framework.TestCase;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
@@ -11,13 +11,15 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Kristian Rosenvold
  */
 public class AbstractPlexusIoResourceCollectionTest
-    extends TestCase
 {
     @SuppressWarnings( "ResultOfMethodCallIgnored" )
+    @Test
     public void testGetIncludes()
         throws Exception
     {

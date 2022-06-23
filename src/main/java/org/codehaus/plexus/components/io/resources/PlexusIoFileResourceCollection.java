@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import javax.inject.Named;
+
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
@@ -39,6 +41,7 @@ import java.util.concurrent.ExecutorService;
  * Implementation of {@link PlexusIoResourceCollection} for the set
  * of files in a common directory.
  */
+@Named( PlexusIoFileResourceCollection.ROLE_HINT )
 public class PlexusIoFileResourceCollection
     extends AbstractPlexusIoResourceCollectionWithAttributes
 {
