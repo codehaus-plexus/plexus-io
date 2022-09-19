@@ -50,7 +50,7 @@ public class PlexusIoSymlinkResource
     public String getSymlinkDestination()
         throws IOException
     {
-        return targetResource.getName();
+        return symLinkDestination;
     }
 
     public PlexusIoResource getTarget()

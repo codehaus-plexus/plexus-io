@@ -7,6 +7,7 @@ import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
+import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.util.Os;
 import org.junit.Test;
 
@@ -31,6 +32,8 @@ public class PlexusIoPlexusIoFileResourceTest
         assertTrue( r.isDirectory() );
         final File target = SymlinkUtils.readSymbolicLink( file );
         assertTrue( target.getName().endsWith( "targetDir" ) );
+        assertTrue( r instanceof SymlinkDestinationSupplier );
+        assertEquals( "targetDir/", ( ( SymlinkDestinationSupplier ) r ).getSymlinkDestination() );
     }
 
     @Test
