@@ -23,4 +23,4 @@ on:
 jobs:
   update_release_draft:
     name: Update Release Notes Draft
-    uses: codehaus-plexus/.github/.github/workflows/release-drafter.yml@v0.0.4
+    uses: codehaus-plexus/.github/.github/workflows/release-drafter.yml@v0.0.5
