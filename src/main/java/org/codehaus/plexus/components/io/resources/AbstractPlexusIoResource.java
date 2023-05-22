@@ -21,17 +21,19 @@ import javax.annotation.Nonnull;
 /**
  * Default implementation of {@link PlexusIoResource}.
  */
-public abstract class AbstractPlexusIoResource implements PlexusIoResource
-{
+public abstract class AbstractPlexusIoResource implements PlexusIoResource {
     private final String name;
 
     private final long lastModified, size;
-
     private final boolean isFile, isDirectory, isExisting;
 
-    protected AbstractPlexusIoResource( @Nonnull String name, long lastModified, long size, boolean isFile,
-                                        boolean isDirectory, boolean isExisting )
-    {
+    protected AbstractPlexusIoResource(
+            @Nonnull String name,
+            long lastModified,
+            long size,
+            boolean isFile,
+            boolean isDirectory,
+            boolean isExisting) {
         this.name = name;
         this.lastModified = lastModified;
         this.size = size;
@@ -40,39 +42,32 @@ public abstract class AbstractPlexusIoResource implements PlexusIoResource
         this.isExisting = isExisting;
     }
 
-    public long getLastModified()
-    {
+    public long getLastModified() {
         return lastModified;
     }
 
     @Nonnull
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public long getSize()
-    {
+    public long getSize() {
         return size;
     }
 
-    public boolean isDirectory()
-    {
+    public boolean isDirectory() {
         return isDirectory;
     }
 
-    public boolean isExisting()
-    {
+    public boolean isExisting() {
         return isExisting;
     }
 
-    public boolean isFile()
-    {
+    public boolean isFile() {
         return isFile;
     }
 
-    public boolean isSymbolicLink()
-    {
+    public boolean isSymbolicLink() {
         return false;
     }
 }

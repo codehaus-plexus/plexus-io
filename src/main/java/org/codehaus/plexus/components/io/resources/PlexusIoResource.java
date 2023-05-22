@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -24,15 +26,11 @@ import org.codehaus.plexus.components.io.fileselectors.FileInfo;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
 
-import javax.annotation.Nonnull;
-
-
 /**
  * A resource is a file-like entity. It may be an actual file,
  * an URL, a zip entry, or something like that.
  */
-public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplier
-{
+public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplier {
     /**
      * Unknown resource size.
      */
@@ -60,7 +58,6 @@ public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplie
      * {@link #UNKNOWN_RESOURCE_SIZE}.
      */
     long getSize();
-
 
     /**
      * Returns, whether the {@link FileInfo} refers to a file.

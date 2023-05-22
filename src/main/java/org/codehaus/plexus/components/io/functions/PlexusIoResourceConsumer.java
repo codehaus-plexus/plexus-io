@@ -23,7 +23,6 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
  * Consume a PlexusIoResource
  * @author Kristian Rosenvold
  */
-public interface PlexusIoResourceConsumer
-{
-    void accept( PlexusIoResource resource ) throws IOException;
+public interface PlexusIoResourceConsumer {
+    void accept(PlexusIoResource resource) throws IOException;
 }

@@ -16,10 +16,10 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.functions.NameSupplier;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.codehaus.plexus.components.io.functions.NameSupplier;
 
 /**
  * An object implementing this interface is passed to the
@@ -28,8 +28,7 @@ import java.io.InputStream;
  * is invoked. This object provides information about
  * the file to select or deselect.
  */
-public interface FileInfo extends NameSupplier
-{
+public interface FileInfo extends NameSupplier {
     /**
      * Returns the resources name, which may include path components,
      * like directory names, or something like that. The resources name

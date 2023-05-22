@@ -21,6 +21,4 @@ import org.eclipse.sisu.launch.InjectedTest;
 /**
  * Support for componentized testing.
  */
-public abstract class TestSupport extends InjectedTest
-{
-}
+public abstract class TestSupport extends InjectedTest {}

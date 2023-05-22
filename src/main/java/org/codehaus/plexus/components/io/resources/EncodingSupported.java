@@ -21,11 +21,10 @@ import java.nio.charset.Charset;
 /**
  * Implemented by plexus io resources that support some kind of encoding notion
  */
-public interface EncodingSupported
-{
+public interface EncodingSupported {
     /**
      * Supplies the encoding to be used for decoding filenames/paths
      * @param charset The charset to use
      */
-    void setEncoding( Charset charset );
+    void setEncoding(Charset charset);
 }

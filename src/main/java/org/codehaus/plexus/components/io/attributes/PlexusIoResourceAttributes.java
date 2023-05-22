@@ -16,11 +16,9 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public interface PlexusIoResourceAttributes
-{
+public interface PlexusIoResourceAttributes {
     int UNKNOWN_OCTAL_MODE = -1;
 
     boolean isOwnerReadable();
@@ -46,7 +44,7 @@ public interface PlexusIoResourceAttributes
      * @return The unix user id, may be null ("not set"), even on unix
      */
     Integer getUserId();
-    
+
     /**
      * Gets the unix group id.
      * @return The unix group id, may be null ("not set"), even on unix
@@ -74,8 +72,8 @@ public interface PlexusIoResourceAttributes
      */
     int getOctalMode();
 
-   //@Nonnull
-   //String getOctalModeString();
+    // @Nonnull
+    // String getOctalModeString();
 
     /**
      * Indicates if this is a symbolic link element.

@@ -23,8 +23,7 @@ import java.util.Iterator;
 /**
  * A resource collection is a set of {@link PlexusIoResource} instances.
  */
-public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
-{
+public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource> {
     /**
      * Returns an iterator over the resources in the collection.
      * @return An iterator
@@ -45,7 +44,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      *   calling {@link #getResources()}.
      * @return The resource name. If it is a file, it should be normalized to platform separators
      */
-    String getName( PlexusIoResource resource );
+    String getName(PlexusIoResource resource);
 
     /**
      * Returns the collections last modification time. For a
@@ -66,7 +65,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * @return A possibly transformed resource
      * @throws IOException when something goes bad
      */
-    InputStream getInputStream( PlexusIoResource resource ) throws IOException;
+    InputStream getInputStream(PlexusIoResource resource) throws IOException;
 
     /**
      * Resolves the supplied resource into a "real" resource. Resolving
@@ -76,7 +75,7 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      * @return A possibly transformed resource
      * @throws IOException when something goes bad
      */
-    PlexusIoResource resolve( PlexusIoResource resource ) throws IOException;
+    PlexusIoResource resolve(PlexusIoResource resource) throws IOException;
 
     /**
      * Indicates if this collection supports concurrent access to its resources.
@@ -96,5 +95,4 @@ public interface PlexusIoResourceCollection extends Iterable<PlexusIoResource>
      *   otherwise {@code false}
      */
     boolean isConcurrentAccessSupported();
-
 }

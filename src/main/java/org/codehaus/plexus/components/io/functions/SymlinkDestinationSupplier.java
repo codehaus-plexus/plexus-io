@@ -21,8 +21,6 @@ import java.io.IOException;
 /**
  * @author Kristian Rosenvold
  */
-public interface SymlinkDestinationSupplier
-{
-    String getSymlinkDestination()
-        throws IOException;
+public interface SymlinkDestinationSupplier {
+    String getSymlinkDestination() throws IOException;
 }

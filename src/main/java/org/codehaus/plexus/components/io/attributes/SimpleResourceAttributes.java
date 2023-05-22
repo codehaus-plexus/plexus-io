@@ -21,9 +21,7 @@ import javax.annotation.Nullable;
 /*
  * A very simple pojo based PlexusIoResourceAttributes without any kind of backing
  */
-public class SimpleResourceAttributes
-    implements PlexusIoResourceAttributes
-{
+public class SimpleResourceAttributes implements PlexusIoResourceAttributes {
 
     private Integer gid;
 
@@ -37,8 +35,7 @@ public class SimpleResourceAttributes
 
     private boolean isSymbolicLink;
 
-    public SimpleResourceAttributes( Integer uid, String userName, Integer gid, String groupName, int mode )
-    {
+    public SimpleResourceAttributes(Integer uid, String userName, Integer gid, String groupName, int mode) {
         this.uid = uid;
         this.userName = userName;
         this.gid = gid;
@@ -46,8 +43,8 @@ public class SimpleResourceAttributes
         this.mode = mode;
     }
 
-    public SimpleResourceAttributes( Integer uid, String userName, Integer gid, String groupName, int mode, boolean isSymbolicLink )
-    {
+    public SimpleResourceAttributes(
+            Integer uid, String userName, Integer gid, String groupName, int mode, boolean isSymbolicLink) {
         this.uid = uid;
         this.userName = userName;
         this.gid = gid;
@@ -56,146 +53,119 @@ public class SimpleResourceAttributes
         this.isSymbolicLink = isSymbolicLink;
     }
 
-    public static PlexusIoResourceAttributes lastResortDummyAttributesForBrokenOS()
-    {
+    public static PlexusIoResourceAttributes lastResortDummyAttributesForBrokenOS() {
         return new SimpleResourceAttributes();
     }
 
-    SimpleResourceAttributes()
-    {
-    }
+    SimpleResourceAttributes() {}
 
-    public int getOctalMode()
-    {
+    public int getOctalMode() {
         return mode;
     }
 
-    @Nullable public Integer getGroupId()
-    {
+    @Nullable
+    public Integer getGroupId() {
         return gid;
     }
 
-    @Nullable public String getGroupName()
-    {
+    @Nullable
+    public String getGroupName() {
         return groupName;
     }
 
-
-    public Integer getUserId()
-    {
+    public Integer getUserId() {
         return uid;
     }
 
-    public String getUserName()
-    {
+    public String getUserName() {
         return userName;
     }
 
-    public boolean isGroupExecutable()
-    {
-        return PlexusIoResourceAttributeUtils.isGroupExecutableInOctal( mode );
+    public boolean isGroupExecutable() {
+        return PlexusIoResourceAttributeUtils.isGroupExecutableInOctal(mode);
     }
 
-    public boolean isGroupReadable()
-    {
-        return PlexusIoResourceAttributeUtils.isGroupReadableInOctal( mode );
+    public boolean isGroupReadable() {
+        return PlexusIoResourceAttributeUtils.isGroupReadableInOctal(mode);
     }
 
-    public boolean isGroupWritable()
-    {
-        return PlexusIoResourceAttributeUtils.isGroupWritableInOctal( mode );
+    public boolean isGroupWritable() {
+        return PlexusIoResourceAttributeUtils.isGroupWritableInOctal(mode);
     }
 
-    public boolean isOwnerExecutable()
-    {
-        return PlexusIoResourceAttributeUtils.isOwnerExecutableInOctal( mode );
+    public boolean isOwnerExecutable() {
+        return PlexusIoResourceAttributeUtils.isOwnerExecutableInOctal(mode);
     }
 
-    public boolean isOwnerReadable()
-    {
-        return PlexusIoResourceAttributeUtils.isOwnerReadableInOctal( mode );
+    public boolean isOwnerReadable() {
+        return PlexusIoResourceAttributeUtils.isOwnerReadableInOctal(mode);
     }
 
-    public boolean isOwnerWritable()
-    {
-        return PlexusIoResourceAttributeUtils.isOwnerWritableInOctal( mode );
+    public boolean isOwnerWritable() {
+        return PlexusIoResourceAttributeUtils.isOwnerWritableInOctal(mode);
     }
 
-    public boolean isWorldExecutable()
-    {
-        return PlexusIoResourceAttributeUtils.isWorldExecutableInOctal( mode );
+    public boolean isWorldExecutable() {
+        return PlexusIoResourceAttributeUtils.isWorldExecutableInOctal(mode);
     }
 
-    public boolean isWorldReadable()
-    {
-        return PlexusIoResourceAttributeUtils.isWorldReadableInOctal( mode );
+    public boolean isWorldReadable() {
+        return PlexusIoResourceAttributeUtils.isWorldReadableInOctal(mode);
     }
 
-    public boolean isWorldWritable()
-    {
-        return PlexusIoResourceAttributeUtils.isWorldWritableInOctal( mode );
+    public boolean isWorldWritable() {
+        return PlexusIoResourceAttributeUtils.isWorldWritableInOctal(mode);
     }
 
-    public String getOctalModeString()
-    {
-        return Integer.toString( mode, 8 );
+    public String getOctalModeString() {
+        return Integer.toString(mode, 8);
     }
 
-    public PlexusIoResourceAttributes setOctalMode( int mode )
-    {
+    public PlexusIoResourceAttributes setOctalMode(int mode) {
         this.mode = mode;
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupId( Integer gid )
-    {
+    public PlexusIoResourceAttributes setGroupId(Integer gid) {
         this.gid = gid;
         return this;
     }
 
-    public PlexusIoResourceAttributes setGroupName( String name )
-    {
+    public PlexusIoResourceAttributes setGroupName(String name) {
         this.groupName = name;
         return this;
     }
 
-    public PlexusIoResourceAttributes setUserId( Integer uid )
-    {
+    public PlexusIoResourceAttributes setUserId(Integer uid) {
         this.uid = uid;
         return this;
     }
 
-    public PlexusIoResourceAttributes setUserName( String name )
-    {
+    public PlexusIoResourceAttributes setUserName(String name) {
         this.userName = name;
         return this;
     }
 
-    public PlexusIoResourceAttributes setOctalModeString( String mode )
-    {
-        setOctalMode( Integer.parseInt( mode, 8 ) );
+    public PlexusIoResourceAttributes setOctalModeString(String mode) {
+        setOctalMode(Integer.parseInt(mode, 8));
         return this;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "%nResource Attributes:%n------------------------------%nuser: %s%ngroup: %s%nuid: %d%ngid: %d%nmode: %06o",
-            userName == null ? "" : userName,
-            groupName == null ? "" : groupName,
-            uid != null ? uid : 0,
-            gid != null ? gid : 0,
-            mode );
+                "%nResource Attributes:%n------------------------------%nuser: %s%ngroup: %s%nuid: %d%ngid: %d%nmode: %06o",
+                userName == null ? "" : userName,
+                groupName == null ? "" : groupName,
+                uid != null ? uid : 0,
+                gid != null ? gid : 0,
+                mode);
     }
 
-
-    public void setSymbolicLink( boolean isSymbolicLink )
-    {
+    public void setSymbolicLink(boolean isSymbolicLink) {
         this.isSymbolicLink = isSymbolicLink;
     }
 
-    public boolean isSymbolicLink()
-    {
+    public boolean isSymbolicLink() {
         return isSymbolicLink;
     }
 }

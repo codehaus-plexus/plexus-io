@@ -15,6 +15,13 @@
  */
 package org.codehaus.plexus.components.io.resources;
 
+import javax.annotation.Nonnull;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
@@ -22,55 +29,36 @@ import org.codehaus.plexus.components.io.functions.NameSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.resources.proxy.ProxyFactory;
 
-import javax.annotation.Nonnull;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
-{
+class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
     final DeferredFileOutputStream dfos;
 
     final PlexusIoResource resource;
 
     final PlexusIoResourceCollection owner;
 
-    public Deferred( final PlexusIoResource resource, PlexusIoResourceCollection owner, boolean hasTransformer )
-        throws IOException
-    {
+    public Deferred(final PlexusIoResource resource, PlexusIoResourceCollection owner, boolean hasTransformer)
+            throws IOException {
         this.resource = resource;
         this.owner = owner;
-        dfos = hasTransformer ? new DeferredFileOutputStream( 5000000, "p-archiver", null, null ) : null;
-        if ( dfos != null )
-        {
-            InputStream inputStream = owner.getInputStream( resource );
-            IOUtils.copy( inputStream, dfos );
-            IOUtils.closeQuietly( inputStream );
+        dfos = hasTransformer ? new DeferredFileOutputStream(5000000, "p-archiver", null, null) : null;
+        if (dfos != null) {
+            InputStream inputStream = owner.getInputStream(resource);
+            IOUtils.copy(inputStream, dfos);
+            IOUtils.closeQuietly(inputStream);
         }
-
     }
 
     @Nonnull
-    public InputStream getContents()
-        throws IOException
-    {
-        if ( dfos == null )
-        {
+    public InputStream getContents() throws IOException {
+        if (dfos == null) {
             return resource.getContents();
         }
-        if ( dfos.isInMemory() )
-        {
-            return new ByteArrayInputStream( dfos.getData() );
-        }
-        else
-        {
-            return new FileInputStream( dfos.getFile() )
-            {
+        if (dfos.isInMemory()) {
+            return new ByteArrayInputStream(dfos.getData());
+        } else {
+            return new FileInputStream(dfos.getFile()) {
                 @Override
-                public void close()
-                    throws IOException
-                {
+                public void close() throws IOException {
                     super.close();
                     dfos.getFile().delete();
                 }
@@ -78,30 +66,22 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier
         }
     }
 
-    public long getSize()
-    {
-        if ( dfos == null )
-        {
+    public long getSize() {
+        if (dfos == null) {
             return resource.getSize();
         }
-        if ( dfos.isInMemory() )
-        {
+        if (dfos.isInMemory()) {
             return dfos.getByteCount();
-        }
-        else
-        {
+        } else {
             return dfos.getFile().length();
         }
     }
 
-    public String getName()
-    {
-        return owner.getName( resource );
+    public String getName() {
+        return owner.getName(resource);
     }
 
-    public PlexusIoResource asResource()
-    {
-        return ProxyFactory.createProxy( resource, Deferred.this );
+    public PlexusIoResource asResource() {
+        return ProxyFactory.createProxy(resource, Deferred.this);
     }
-
 }

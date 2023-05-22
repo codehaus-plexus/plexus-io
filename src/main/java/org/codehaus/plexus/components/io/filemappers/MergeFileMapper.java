@@ -22,9 +22,8 @@ import javax.inject.Named;
 /**
  * A file mapper, which maps to a constant target name.
  */
-@Named( MergeFileMapper.ROLE_HINT )
-public class MergeFileMapper extends AbstractFileMapper
-{
+@Named(MergeFileMapper.ROLE_HINT)
+public class MergeFileMapper extends AbstractFileMapper {
     /**
      * The merge mappers role-hint: "merge".
      */
@@ -34,42 +33,37 @@ public class MergeFileMapper extends AbstractFileMapper
 
     /**
      * Sets the merge mappers target name.
-     * 
+     *
      * @throws IllegalArgumentException
      *             The target name is null or empty.
      */
-    public void setTargetName( String pName )
-    {
-        if ( pName == null )
-        {
-            throw new IllegalArgumentException( "The target name is null." );
+    public void setTargetName(String pName) {
+        if (pName == null) {
+            throw new IllegalArgumentException("The target name is null.");
         }
-        if ( pName.length() == 0 )
-        {
-            throw new IllegalArgumentException( "The target name is empty." );
+        if (pName.length() == 0) {
+            throw new IllegalArgumentException("The target name is empty.");
         }
         targetName = pName;
     }
 
     /**
      * Returns the merge mappers target name.
-     * 
+     *
      * @throws IllegalArgumentException
      *             The target name is null or empty.
      */
-    public String getTargetName()
-    {
+    public String getTargetName() {
         return targetName;
     }
 
-    @Nonnull public String getMappedFileName( @Nonnull String pName )
-    {
+    @Nonnull
+    public String getMappedFileName(@Nonnull String pName) {
         final String name = getTargetName();
-        if ( name == null )
-        {
-            throw new IllegalStateException( "The target file name has not been set." );
+        if (name == null) {
+            throw new IllegalStateException("The target file name has not been set.");
         }
-        super.getMappedFileName( pName ); // Check for null, etc.
+        super.getMappedFileName(pName); // Check for null, etc.
         return name;
     }
 }

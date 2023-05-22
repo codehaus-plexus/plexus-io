@@ -25,10 +25,8 @@ import java.util.regex.Pattern;
 /**
  * Implementation of a file mapper, which uses regular expressions.
  */
-@Named( RegExpFileMapper.ROLE_HINT )
-public class RegExpFileMapper
-    extends AbstractFileMapper
-{
+@Named(RegExpFileMapper.ROLE_HINT)
+public class RegExpFileMapper extends AbstractFileMapper {
     /**
      * The regexp mappers role-hint: "regexp".
      */
@@ -43,32 +41,28 @@ public class RegExpFileMapper
     /**
      * Sets the regular expression pattern.
      */
-    public void setPattern( String pPattern )
-    {
-        pattern = Pattern.compile( pPattern );
+    public void setPattern(String pPattern) {
+        pattern = Pattern.compile(pPattern);
     }
 
     /**
      * Returns the regular expression pattern.
      */
-    public String getPattern()
-    {
+    public String getPattern() {
         return pattern == null ? null : pattern.pattern();
     }
 
     /**
      * Sets the replacement string.
      */
-    public void setReplacement( String pReplacement )
-    {
+    public void setReplacement(String pReplacement) {
         replacement = pReplacement;
     }
 
     /**
      * Returns the replacement string.
      */
-    public String getReplacement()
-    {
+    public String getReplacement() {
         return replacement;
     }
 
@@ -76,8 +70,7 @@ public class RegExpFileMapper
      * Returns, whether to replace the first occurrence of the pattern
      * (default), or all.
      */
-    public boolean getReplaceAll()
-    {
+    public boolean getReplaceAll() {
         return replaceAll;
     }
 
@@ -85,32 +78,26 @@ public class RegExpFileMapper
      * Sets, whether to replace the first occurrence of the pattern
      * (default), or all.
      */
-    public void setReplaceAll( boolean pReplaceAll )
-    {
+    public void setReplaceAll(boolean pReplaceAll) {
         replaceAll = pReplaceAll;
     }
 
     @Nonnull
-    public String getMappedFileName( @Nonnull String pName)
-    {
-        final String name = super.getMappedFileName( pName );
-        if ( pattern == null )
-        {
-            throw new IllegalStateException( "The regular expression pattern has not been set." );
+    public String getMappedFileName(@Nonnull String pName) {
+        final String name = super.getMappedFileName(pName);
+        if (pattern == null) {
+            throw new IllegalStateException("The regular expression pattern has not been set.");
         }
-        if (replacement == null)
-        {
-            throw new IllegalStateException( "The pattern replacement string has not been set." );
+        if (replacement == null) {
+            throw new IllegalStateException("The pattern replacement string has not been set.");
         }
-        final Matcher matcher = pattern.matcher( name );
-        if ( !matcher.find() )
-        {
+        final Matcher matcher = pattern.matcher(name);
+        if (!matcher.find()) {
             return name;
         }
-        if ( !getReplaceAll() )
-        {
-            return matcher.replaceFirst( replacement );
+        if (!getReplaceAll()) {
+            return matcher.replaceFirst(replacement);
         }
-        return matcher.replaceAll( replacement );
+        return matcher.replaceAll(replacement);
     }
 }

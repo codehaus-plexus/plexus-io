@@ -22,6 +22,4 @@ import javax.inject.Named;
  * Alias for {@link IdentityMapper}
  */
 @Named
-public class DefaultFileMapper extends IdentityMapper
-{
-}
+public class DefaultFileMapper extends IdentityMapper {}

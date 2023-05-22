@@ -17,10 +17,8 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import org.codehaus.plexus.util.Os;
 
+import org.codehaus.plexus.util.Os;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,22 +26,17 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Kristian Rosenvold
  */
-public class FileAttributesTest
-{
+public class FileAttributesTest {
     @Test
-    public void testGetPosixFileAttributes()
-        throws Exception
-    {
+    public void testGetPosixFileAttributes() throws Exception {
 
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             return;
         }
 
-        File file = new File( "." );
+        File file = new File(".");
 
-        PlexusIoResourceAttributes fa = new FileAttributes( file );
-        assertNotNull( fa );
+        PlexusIoResourceAttributes fa = new FileAttributes(file);
+        assertNotNull(fa);
     }
-
 }

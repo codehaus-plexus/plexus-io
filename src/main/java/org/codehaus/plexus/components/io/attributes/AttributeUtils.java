@@ -15,6 +15,9 @@
  */
 package org.codehaus.plexus.components.io.attributes;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,134 +30,96 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
  * @author Kristian Rosenvold
  */
-public class AttributeUtils
-{
+public class AttributeUtils {
     /*
     Reads last-modified with proper failure handling if something goes wrong.
      */
-    public static long getLastModified( @Nonnull File file )
-    {
-        try
-        {
-            BasicFileAttributes basicFileAttributes = Files.readAttributes( file.toPath(), BasicFileAttributes.class );
+    public static long getLastModified(@Nonnull File file) {
+        try {
+            BasicFileAttributes basicFileAttributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             return basicFileAttributes.lastModifiedTime().toMillis();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( e );
-        }
-
     }
 
-    public static void chmod( @Nonnull File file, int mode )
-        throws IOException
-    {
+    public static void chmod(@Nonnull File file, int mode) throws IOException {
         final Path path = file.toPath();
-        if ( !Files.isSymbolicLink( path ) )
-        {
-            Files.setPosixFilePermissions( path, getPermissions( mode ) );
+        if (!Files.isSymbolicLink(path)) {
+            Files.setPosixFilePermissions(path, getPermissions(mode));
         }
     }
 
     @Nonnull
-    public static Set<PosixFilePermission> getPermissions( int mode )
-    {
+    public static Set<PosixFilePermission> getPermissions(int mode) {
         Set<PosixFilePermission> perms = new HashSet<>();
         // add owners permission
-        if ( ( mode & 0400 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OWNER_READ );
+        if ((mode & 0400) > 0) {
+            perms.add(PosixFilePermission.OWNER_READ);
         }
-        if ( ( mode & 0200 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OWNER_WRITE );
+        if ((mode & 0200) > 0) {
+            perms.add(PosixFilePermission.OWNER_WRITE);
         }
-        if ( ( mode & 0100 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OWNER_EXECUTE );
+        if ((mode & 0100) > 0) {
+            perms.add(PosixFilePermission.OWNER_EXECUTE);
         }
         // add group permissions
-        if ( ( mode & 0040 ) > 0 )
-        {
-            perms.add( PosixFilePermission.GROUP_READ );
+        if ((mode & 0040) > 0) {
+            perms.add(PosixFilePermission.GROUP_READ);
         }
-        if ( ( mode & 0020 ) > 0 )
-        {
-            perms.add( PosixFilePermission.GROUP_WRITE );
+        if ((mode & 0020) > 0) {
+            perms.add(PosixFilePermission.GROUP_WRITE);
         }
-        if ( ( mode & 0010 ) > 0 )
-        {
-            perms.add( PosixFilePermission.GROUP_EXECUTE );
+        if ((mode & 0010) > 0) {
+            perms.add(PosixFilePermission.GROUP_EXECUTE);
         }
         // add others permissions
-        if ( ( mode & 0004 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OTHERS_READ );
+        if ((mode & 0004) > 0) {
+            perms.add(PosixFilePermission.OTHERS_READ);
         }
-        if ( ( mode & 0002 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OTHERS_WRITE );
+        if ((mode & 0002) > 0) {
+            perms.add(PosixFilePermission.OTHERS_WRITE);
         }
-        if ( ( mode & 0001 ) > 0 )
-        {
-            perms.add( PosixFilePermission.OTHERS_EXECUTE );
+        if ((mode & 0001) > 0) {
+            perms.add(PosixFilePermission.OTHERS_EXECUTE);
         }
         return perms;
     }
 
     @Nonnull
-    public static PosixFileAttributes getPosixFileAttributes( @Nonnull File file )
-        throws IOException
-    {
-        return Files.readAttributes( file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+    public static PosixFileAttributes getPosixFileAttributes(@Nonnull File file) throws IOException {
+        return Files.readAttributes(file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
     }
 
     @Nonnull
-    public static BasicFileAttributes getFileAttributes( @Nonnull File file )
-        throws IOException
-    {
-        return getFileAttributes( file.toPath() );
+    public static BasicFileAttributes getFileAttributes(@Nonnull File file) throws IOException {
+        return getFileAttributes(file.toPath());
     }
 
-    public static BasicFileAttributes getFileAttributes( Path path )
-        throws IOException
-    {
-        if ( isUnix( path ) )
-        {
+    public static BasicFileAttributes getFileAttributes(Path path) throws IOException {
+        if (isUnix(path)) {
 
-            try
-            {
-                return Files.readAttributes( path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
-            }
-            catch ( UnsupportedOperationException ignore )
-            {
+            try {
+                return Files.readAttributes(path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+            } catch (UnsupportedOperationException ignore) {
                 // Maybe ignoring is dramatic. Maybe not. But we do get the basic attrs anyway
             }
         }
-        return Files.readAttributes( path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS );
+        return Files.readAttributes(path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
     }
 
-    public static boolean isUnix( Path path )
-    {
-        return path.getFileSystem().supportedFileAttributeViews().contains( "unix" );
+    public static boolean isUnix(Path path) {
+        return path.getFileSystem().supportedFileAttributeViews().contains("unix");
     }
 
     @Nullable
-    public static FileOwnerAttributeView getFileOwnershipInfo( @Nonnull File file )
-        throws IOException
-    {
-        try
-        {
-            return Files.getFileAttributeView( file.toPath(), FileOwnerAttributeView.class, LinkOption.NOFOLLOW_LINKS );
-        }
-        catch ( UnsupportedOperationException e )
-        {
+    public static FileOwnerAttributeView getFileOwnershipInfo(@Nonnull File file) throws IOException {
+        try {
+            return Files.getFileAttributeView(file.toPath(), FileOwnerAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+        } catch (UnsupportedOperationException e) {
             return null;
         }
     }

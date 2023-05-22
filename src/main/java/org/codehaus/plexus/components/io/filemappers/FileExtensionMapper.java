@@ -22,9 +22,8 @@ import javax.inject.Named;
 /**
  * An implementation of {@link FileMapper}, which changes the files extension.
  */
-@Named( FileExtensionMapper.ROLE_HINT )
-public class FileExtensionMapper extends AbstractFileMapper
-{
+@Named(FileExtensionMapper.ROLE_HINT)
+public class FileExtensionMapper extends AbstractFileMapper {
     /**
      * The file extension mappers role-hint: "fileExtension".
      */
@@ -34,27 +33,21 @@ public class FileExtensionMapper extends AbstractFileMapper
 
     /**
      * Sets the target files extension.
-     * 
+     *
      * @param pTargetExtension the target extensions
      * @throws IllegalArgumentException
      *             The target extension is null or empty.
      */
-    public void setTargetExtension( String pTargetExtension )
-    {
-        if ( pTargetExtension == null )
-        {
-            throw new IllegalArgumentException( "The target extension is null." );
+    public void setTargetExtension(String pTargetExtension) {
+        if (pTargetExtension == null) {
+            throw new IllegalArgumentException("The target extension is null.");
         }
-        if ( pTargetExtension.length() == 0 )
-        {
-            throw new IllegalArgumentException( "The target extension is empty." );
+        if (pTargetExtension.length() == 0) {
+            throw new IllegalArgumentException("The target extension is empty.");
         }
-        if ( pTargetExtension.charAt( 0 ) == '.' )
-        {
+        if (pTargetExtension.charAt(0) == '.') {
             targetExtension = pTargetExtension;
-        }
-        else
-        {
+        } else {
             targetExtension = '.' + pTargetExtension;
         }
     }
@@ -63,28 +56,23 @@ public class FileExtensionMapper extends AbstractFileMapper
      * Returns the target files extension.
      * @return The target extension
      */
-    public String getTargetExtension()
-    {
+    public String getTargetExtension() {
         return targetExtension;
     }
 
-    @Nonnull public String getMappedFileName( @Nonnull String pName )
-    {
+    @Nonnull
+    public String getMappedFileName(@Nonnull String pName) {
         final String ext = getTargetExtension();
-        if ( ext == null )
-        {
-            throw new IllegalStateException( "The target extension has not been set." );
+        if (ext == null) {
+            throw new IllegalStateException("The target extension has not been set.");
         }
-        final String name = super.getMappedFileName( pName ); // Check arguments
-        final int dirSep = Math.max( pName.lastIndexOf( '/' ), pName.lastIndexOf( '\\' ) );
-        final int offset = pName.lastIndexOf( '.' );
-        if ( offset <= dirSep )
-        {
+        final String name = super.getMappedFileName(pName); // Check arguments
+        final int dirSep = Math.max(pName.lastIndexOf('/'), pName.lastIndexOf('\\'));
+        final int offset = pName.lastIndexOf('.');
+        if (offset <= dirSep) {
             return name + ext;
-        }
-        else
-        {
-            return name.substring( 0, offset ) + ext;
+        } else {
+            return name.substring(0, offset) + ext;
         }
     }
 }

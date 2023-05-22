@@ -22,9 +22,8 @@ import javax.inject.Named;
 /**
  * A file mapper, which maps by adding a prefix.
  */
-@Named( PrefixFileMapper.ROLE_HINT )
-public class PrefixFileMapper extends AbstractFileMapper
-{
+@Named(PrefixFileMapper.ROLE_HINT)
+public class PrefixFileMapper extends AbstractFileMapper {
     /**
      * The merge mappers role-hint: "prefix".
      */
@@ -32,35 +31,31 @@ public class PrefixFileMapper extends AbstractFileMapper
 
     private String prefix;
 
-    @Nonnull public String getMappedFileName( @Nonnull String name )
-    {
-        final String s = super.getMappedFileName( name ); // Check for null, etc.
-        return getMappedFileName( prefix, s );
+    @Nonnull
+    public String getMappedFileName(@Nonnull String name) {
+        final String s = super.getMappedFileName(name); // Check for null, etc.
+        return getMappedFileName(prefix, s);
     }
 
     /**
      * Returns the prefix to add.
      */
-    public String getPrefix()
-    {
+    public String getPrefix() {
         return prefix;
     }
 
     /**
      * Sets the prefix to add.
      */
-    public void setPrefix( String prefix )
-    {
+    public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
     /**
      * Performs the mapping of a file name by adding a prefix.
      */
-    public static String getMappedFileName( String prefix, String name )
-    {
-        if ( prefix == null || prefix.length() == 0 )
-        {
+    public static String getMappedFileName(String prefix, String name) {
+        if (prefix == null || prefix.length() == 0) {
             return name;
         }
         return prefix + name;

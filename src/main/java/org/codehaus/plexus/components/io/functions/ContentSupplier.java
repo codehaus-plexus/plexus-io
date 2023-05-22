@@ -24,7 +24,6 @@ import java.io.InputStream;
  *
  * Someday this will extends java.util.function.Supplier
  */
-public interface ContentSupplier
-{
+public interface ContentSupplier {
     InputStream getContents() throws IOException;
 }

@@ -16,8 +16,7 @@ package org.codehaus.plexus.components.io.functions;
  * limitations under the License.
  */
 
-public interface NameSupplier
-{
+public interface NameSupplier {
     /**
      * Returns the resources name, which may include path components,
      * like directory names, or something like that. The resources name
