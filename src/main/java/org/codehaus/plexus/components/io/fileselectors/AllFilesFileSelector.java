@@ -24,16 +24,14 @@ import javax.inject.Singleton;
  * The default file selector: Selects all files.
  */
 @Singleton
-@Named( AllFilesFileSelector.ROLE_HINT )
-public class AllFilesFileSelector implements FileSelector
-{
+@Named(AllFilesFileSelector.ROLE_HINT)
+public class AllFilesFileSelector implements FileSelector {
     /**
      * The all files selectors role-hint: "all".
      */
     public static final String ROLE_HINT = "all";
 
-    public boolean isSelected( @Nonnull FileInfo fileInfo )
-    {
+    public boolean isSelected(@Nonnull FileInfo fileInfo) {
         return true;
     }
 }

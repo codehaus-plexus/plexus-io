@@ -22,7 +22,4 @@ import javax.inject.Named;
  * Alias for {@link PlexusIoFileResourceCollection}
  */
 @Named
-public class DefaultPlexusIoFileResourceCollection
-    extends PlexusIoFileResourceCollection
-{
-}
+public class DefaultPlexusIoFileResourceCollection extends PlexusIoFileResourceCollection {}

@@ -17,18 +17,18 @@ package org.codehaus.plexus.components.io.fileselectors;
  */
 
 import javax.annotation.Nonnull;
+
 import java.io.IOException;
 
 /**
  * Interface of a component, which selects/deselects files.
  */
-public interface FileSelector
-{
+public interface FileSelector {
     /**
      * Returns, whether the given file is selected.
      * @param fileInfo An instance of FileInfo with the files meta data.
      *   It is recommended, that the caller creates an instance
      *   of {@link org.codehaus.plexus.components.io.resources.PlexusIoResource}.
      */
-    boolean isSelected( @Nonnull FileInfo fileInfo ) throws IOException;
+    boolean isSelected(@Nonnull FileInfo fileInfo) throws IOException;
 }

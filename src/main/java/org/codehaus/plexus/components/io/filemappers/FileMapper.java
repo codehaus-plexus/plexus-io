@@ -19,16 +19,15 @@ package org.codehaus.plexus.components.io.filemappers;
 /**
  * Interface of a component, which may be used to map file names.
  */
-public interface FileMapper
-{
+public interface FileMapper {
     /**
      * Maps the given source name to a target name.
-     * 
+     *
      * @param pName
      *            The source name.
      * @return The target name.
      * @throws IllegalArgumentException
      *             The source name is null or empty.
      */
-    String getMappedFileName( String pName );
+    String getMappedFileName(String pName);
 }

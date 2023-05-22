@@ -22,9 +22,7 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 /**
  * Default implementation of a resource collection with attributes.
  */
-public abstract class AbstractPlexusIoResourceCollectionWithAttributes
-    extends AbstractPlexusIoResourceCollection
-{
+public abstract class AbstractPlexusIoResourceCollectionWithAttributes extends AbstractPlexusIoResourceCollection {
 
     private PlexusIoResourceAttributes defaultFileAttributes;
 
@@ -34,61 +32,47 @@ public abstract class AbstractPlexusIoResourceCollectionWithAttributes
 
     private PlexusIoResourceAttributes overrideDirAttributes;
 
-    protected AbstractPlexusIoResourceCollectionWithAttributes()
-    {
-    }
+    protected AbstractPlexusIoResourceCollectionWithAttributes() {}
 
-    protected PlexusIoResourceAttributes getDefaultFileAttributes()
-    {
+    protected PlexusIoResourceAttributes getDefaultFileAttributes() {
         return defaultFileAttributes;
     }
 
-    protected void setDefaultFileAttributes( final PlexusIoResourceAttributes defaultFileAttributes )
-    {
+    protected void setDefaultFileAttributes(final PlexusIoResourceAttributes defaultFileAttributes) {
         this.defaultFileAttributes = defaultFileAttributes;
     }
 
-    protected PlexusIoResourceAttributes getDefaultDirAttributes()
-    {
+    protected PlexusIoResourceAttributes getDefaultDirAttributes() {
         return defaultDirAttributes;
     }
 
-    protected void setDefaultDirAttributes( final PlexusIoResourceAttributes defaultDirAttributes )
-    {
+    protected void setDefaultDirAttributes(final PlexusIoResourceAttributes defaultDirAttributes) {
         this.defaultDirAttributes = defaultDirAttributes;
     }
 
-    protected PlexusIoResourceAttributes getOverrideFileAttributes()
-    {
+    protected PlexusIoResourceAttributes getOverrideFileAttributes() {
         return overrideFileAttributes;
     }
 
-    protected void setOverrideFileAttributes( final PlexusIoResourceAttributes overrideFileAttributes )
-    {
+    protected void setOverrideFileAttributes(final PlexusIoResourceAttributes overrideFileAttributes) {
         this.overrideFileAttributes = overrideFileAttributes;
     }
 
-    protected PlexusIoResourceAttributes getOverrideDirAttributes()
-    {
+    protected PlexusIoResourceAttributes getOverrideDirAttributes() {
         return overrideDirAttributes;
     }
 
-    protected void setOverrideDirAttributes( final PlexusIoResourceAttributes overrideDirAttributes )
-    {
+    protected void setOverrideDirAttributes(final PlexusIoResourceAttributes overrideDirAttributes) {
         this.overrideDirAttributes = overrideDirAttributes;
     }
 
-    protected PlexusIoResourceAttributes mergeAttributes( PlexusIoResourceAttributes currentAttrs, boolean isDirectory )
-    {
-        if ( isDirectory )
-        {
-            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideDirAttributes(), currentAttrs,
-                                                                           getDefaultDirAttributes() );
-        }
-        else
-        {
-            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes( getOverrideFileAttributes(), currentAttrs,
-                                                                           getDefaultFileAttributes() );
+    protected PlexusIoResourceAttributes mergeAttributes(PlexusIoResourceAttributes currentAttrs, boolean isDirectory) {
+        if (isDirectory) {
+            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes(
+                    getOverrideDirAttributes(), currentAttrs, getDefaultDirAttributes());
+        } else {
+            currentAttrs = PlexusIoResourceAttributeUtils.mergeAttributes(
+                    getOverrideFileAttributes(), currentAttrs, getDefaultFileAttributes());
         }
         return currentAttrs;
     }

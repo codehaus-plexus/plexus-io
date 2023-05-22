@@ -16,6 +16,7 @@
 package org.codehaus.plexus.components.io.attributes;
 
 import javax.annotation.Nonnull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,8 +26,7 @@ import java.nio.file.Path;
 /**
  * @author Kristian Rosenvold
  */
-public class SymlinkUtils
-{
+public class SymlinkUtils {
     /**
      * Reads the target of the symbolic link
      *
@@ -34,25 +34,16 @@ public class SymlinkUtils
      * @return A file that is the target of the symlink
      * @throws java.io.IOException
      */
-
-    public static @Nonnull
-    File readSymbolicLink( @Nonnull File symlink )
-        throws IOException
-    {
-        final java.nio.file.Path path = java.nio.file.Files.readSymbolicLink( symlink.toPath() );
+    public static @Nonnull File readSymbolicLink(@Nonnull File symlink) throws IOException {
+        final java.nio.file.Path path = java.nio.file.Files.readSymbolicLink(symlink.toPath());
         return path.toFile();
     }
 
-    public static @Nonnull
-    File createSymbolicLink( @Nonnull File symlink, File target )
-        throws IOException
-    {
+    public static @Nonnull File createSymbolicLink(@Nonnull File symlink, File target) throws IOException {
         Path link = symlink.toPath();
-        if ( !Files.exists( link, LinkOption.NOFOLLOW_LINKS ) )
-        {
-            link = java.nio.file.Files.createSymbolicLink( link, target.toPath() );
+        if (!Files.exists(link, LinkOption.NOFOLLOW_LINKS)) {
+            link = java.nio.file.Files.createSymbolicLink(link, target.toPath());
         }
         return link.toFile();
-
     }
 }

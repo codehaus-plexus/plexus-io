@@ -16,6 +16,12 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Iterator;
+
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
@@ -31,174 +37,143 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.Stream;
 
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Iterator;
-
 /**
  * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
  */
-public class PlexusIoProxyResourceCollection
-    extends AbstractPlexusIoResourceCollectionWithAttributes implements EncodingSupported
-{
+public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCollectionWithAttributes
+        implements EncodingSupported {
     private PlexusIoResourceCollection src;
 
-
-    public PlexusIoProxyResourceCollection( @Nonnull PlexusIoResourceCollection src )
-    {
+    public PlexusIoProxyResourceCollection(@Nonnull PlexusIoResourceCollection src) {
         this.src = src;
     }
 
     /**
      * Returns the archive to read.
      */
-    public PlexusIoResourceCollection getSrc()
-    {
+    public PlexusIoResourceCollection getSrc() {
         return src;
     }
 
-    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                      final int fileMode, final int dirMode )
-    {
-        setDefaultFileAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+    public void setDefaultAttributes(
+            final int uid,
+            final String userName,
+            final int gid,
+            final String groupName,
+            final int fileMode,
+            final int dirMode) {
+        setDefaultFileAttributes(new SimpleResourceAttributes(uid, userName, gid, groupName, fileMode));
 
-        setDefaultDirAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+        setDefaultDirAttributes(new SimpleResourceAttributes(uid, userName, gid, groupName, dirMode));
     }
 
-    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                       final int fileMode, final int dirMode )
-    {
-        setOverrideFileAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, fileMode ) );
+    public void setOverrideAttributes(
+            final int uid,
+            final String userName,
+            final int gid,
+            final String groupName,
+            final int fileMode,
+            final int dirMode) {
+        setOverrideFileAttributes(new SimpleResourceAttributes(uid, userName, gid, groupName, fileMode));
 
-        setOverrideDirAttributes( new SimpleResourceAttributes( uid, userName, gid, groupName, dirMode ) );
+        setOverrideDirAttributes(new SimpleResourceAttributes(uid, userName, gid, groupName, dirMode));
     }
 
     @Override
-    public void setStreamTransformer( InputStreamTransformer streamTransformer )
-    {
-        if ( src instanceof AbstractPlexusIoResourceCollection )
-        {
-            ( (AbstractPlexusIoResourceCollection) src ).setStreamTransformer( streamTransformer );
+    public void setStreamTransformer(InputStreamTransformer streamTransformer) {
+        if (src instanceof AbstractPlexusIoResourceCollection) {
+            ((AbstractPlexusIoResourceCollection) src).setStreamTransformer(streamTransformer);
         }
-        super.setStreamTransformer( streamTransformer );
+        super.setStreamTransformer(streamTransformer);
     }
 
-    protected FileSelector getDefaultFileSelector()
-    {
+    protected FileSelector getDefaultFileSelector() {
         final IncludeExcludeFileSelector fileSelector = new IncludeExcludeFileSelector();
-        fileSelector.setIncludes( getIncludes() );
-        fileSelector.setExcludes( getExcludes() );
-        fileSelector.setCaseSensitive( isCaseSensitive() );
-        fileSelector.setUseDefaultExcludes( isUsingDefaultExcludes() );
+        fileSelector.setIncludes(getIncludes());
+        fileSelector.setExcludes(getExcludes());
+        fileSelector.setCaseSensitive(isCaseSensitive());
+        fileSelector.setUseDefaultExcludes(isUsingDefaultExcludes());
         return fileSelector;
     }
 
-    private String getNonEmptyPrfix()
-    {
+    private String getNonEmptyPrfix() {
         String prefix = getPrefix();
-        if ( prefix != null && prefix.length() == 0 )
-        {
+        if (prefix != null && prefix.length() == 0) {
             return null;
         }
         return prefix;
-
     }
 
-    class FwdIterator
-        extends ForwardingIterator
-    {
+    class FwdIterator extends ForwardingIterator {
         Iterator<PlexusIoResource> iter;
 
         private final FileSelector fileSelector = getDefaultFileSelector();
 
         private final String prefix = getNonEmptyPrfix();
 
-        FwdIterator( Iterator<PlexusIoResource> resources )
-        {
-            super( resources );
+        FwdIterator(Iterator<PlexusIoResource> resources) {
+            super(resources);
             this.iter = resources;
         }
 
         /**
          * Returns the next resource or null if no next resource;
          */
-        protected PlexusIoResource getNextResource()
-            throws IOException
-        {
-            if ( !iter.hasNext() )
-                return null;
+        protected PlexusIoResource getNextResource() throws IOException {
+            if (!iter.hasNext()) return null;
             PlexusIoResource plexusIoResource = iter.next();
 
-            while ( ( !fileSelector.isSelected( plexusIoResource ) || !isSelected( plexusIoResource ) )
-                            || ( plexusIoResource.isDirectory() && !isIncludingEmptyDirectories() ) )
-            {
-                if ( !iter.hasNext() )
-                    return null;
+            while ((!fileSelector.isSelected(plexusIoResource) || !isSelected(plexusIoResource))
+                    || (plexusIoResource.isDirectory() && !isIncludingEmptyDirectories())) {
+                if (!iter.hasNext()) return null;
                 plexusIoResource = iter.next();
             }
 
             PlexusIoResourceAttributes attrs = null;
-            if ( plexusIoResource instanceof ResourceAttributeSupplier )
-            {
-                attrs = ( (ResourceAttributeSupplier) plexusIoResource ).getAttributes();
+            if (plexusIoResource instanceof ResourceAttributeSupplier) {
+                attrs = ((ResourceAttributeSupplier) plexusIoResource).getAttributes();
             }
-            if ( attrs == null )
-            {
+            if (attrs == null) {
                 attrs = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
             }
 
-            attrs = mergeAttributes( attrs, plexusIoResource.isDirectory() );
+            attrs = mergeAttributes(attrs, plexusIoResource.isDirectory());
 
-            if ( prefix != null )
-            {
+            if (prefix != null) {
                 final String name = plexusIoResource.getName();
 
                 final PlexusIoResourceAttributes attrs2 = attrs;
-                DualSupplier supplier = new DualSupplier()
-                {
-                    public String getName()
-                    {
+                DualSupplier supplier = new DualSupplier() {
+                    public String getName() {
                         return prefix + name;
                     }
 
-                    public PlexusIoResourceAttributes getAttributes()
-                    {
+                    public PlexusIoResourceAttributes getAttributes() {
                         return attrs2;
                     }
                 };
-                plexusIoResource = ProxyFactory.createProxy( plexusIoResource, supplier );
+                plexusIoResource = ProxyFactory.createProxy(plexusIoResource, supplier);
             }
             return plexusIoResource;
         }
     }
 
-    public Stream stream()
-    {
+    public Stream stream() {
         return getSrc().stream();
     }
 
-    public Iterator<PlexusIoResource> getResources()
-        throws IOException
-    {
-        return new FwdIterator( getSrc().getResources() );
+    public Iterator<PlexusIoResource> getResources() throws IOException {
+        return new FwdIterator(getSrc().getResources());
     }
 
-    abstract static class DualSupplier
-        implements NameSupplier, ResourceAttributeSupplier
-    {
+    abstract static class DualSupplier implements NameSupplier, ResourceAttributeSupplier {}
 
-    }
-
-    public String getName( final PlexusIoResource resource )
-    {
+    public String getName(final PlexusIoResource resource) {
         String name = resource.getName();
         final FileMapper[] mappers = getFileMappers();
-        if ( mappers != null )
-        {
-            for ( FileMapper mapper : mappers )
-            {
-                name = mapper.getMappedFileName( name );
+        if (mappers != null) {
+            for (FileMapper mapper : mappers) {
+                name = mapper.getMappedFileName(name);
             }
         }
         /*
@@ -208,22 +183,17 @@ public class PlexusIoProxyResourceCollection
         return name;
     }
 
-    public long getLastModified()
-        throws IOException
-    {
+    public long getLastModified() throws IOException {
         return src.getLastModified();
     }
 
-    public void setEncoding( Charset charset )
-    {
-        if ( src instanceof EncodingSupported )
-        {
-            ( (EncodingSupported) src ).setEncoding( charset );
+    public void setEncoding(Charset charset) {
+        if (src instanceof EncodingSupported) {
+            ((EncodingSupported) src).setEncoding(charset);
         }
     }
 
-    public boolean isConcurrentAccessSupported()
-    {
+    public boolean isConcurrentAccessSupported() {
         return src.isConcurrentAccessSupported();
     }
 }

@@ -16,30 +16,26 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
 import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
 /**
  * Default implementation of a resource collection.
  */
-public abstract class AbstractPlexusIoResourceCollection
-    implements PlexusIoResourceCollection
-{
+public abstract class AbstractPlexusIoResourceCollection implements PlexusIoResourceCollection {
 
-    static class IdentityTransformer
-        implements InputStreamTransformer
-    {
+    static class IdentityTransformer implements InputStreamTransformer {
         @Nonnull
-        public InputStream transform( @Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream )
-            throws IOException
-        {
+        public InputStream transform(@Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream)
+                throws IOException {
             return inputStream;
         }
     }
@@ -64,16 +60,13 @@ public abstract class AbstractPlexusIoResourceCollection
 
     private InputStreamTransformer streamTransformer = identityTransformer;
 
-    protected AbstractPlexusIoResourceCollection()
-    {
-    }
+    protected AbstractPlexusIoResourceCollection() {}
 
     /**
      * Sets a string of patterns, which excluded files
      * should match.
      */
-    public void setExcludes( String[] excludes )
-    {
+    public void setExcludes(String[] excludes) {
         this.excludes = excludes;
     }
 
@@ -81,8 +74,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns a string of patterns, which excluded files
      * should match.
      */
-    public String[] getExcludes()
-    {
+    public String[] getExcludes() {
         return excludes;
     }
 
@@ -90,8 +82,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets a set of file selectors, which should be used
      * to select the included files.
      */
-    public void setFileSelectors( FileSelector[] fileSelectors )
-    {
+    public void setFileSelectors(FileSelector[] fileSelectors) {
         this.fileSelectors = fileSelectors;
     }
 
@@ -99,25 +90,19 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns a set of file selectors, which should be used
      * to select the included files.
      */
-    public FileSelector[] getFileSelectors()
-    {
+    public FileSelector[] getFileSelectors() {
         return fileSelectors;
     }
 
-    public void setStreamTransformer( InputStreamTransformer streamTransformer )
-    {
-        if ( streamTransformer == null )
-        {
+    public void setStreamTransformer(InputStreamTransformer streamTransformer) {
+        if (streamTransformer == null) {
             this.streamTransformer = identityTransformer;
-        }
-        else
-        {
+        } else {
             this.streamTransformer = streamTransformer;
         }
     }
 
-    protected InputStreamTransformer getStreamTransformer()
-    {
+    protected InputStreamTransformer getStreamTransformer() {
         return streamTransformer;
     }
 
@@ -125,8 +110,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets a string of patterns, which included files
      * should match.
      */
-    public void setIncludes( String[] includes )
-    {
+    public void setIncludes(String[] includes) {
         this.includes = includes;
     }
 
@@ -134,8 +118,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns a string of patterns, which included files
      * should match.
      */
-    public String[] getIncludes()
-    {
+    public String[] getIncludes() {
         return includes;
     }
 
@@ -143,8 +126,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets the prefix, which the file sets contents shall
      * have.
      */
-    public void setPrefix( String prefix )
-    {
+    public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
@@ -152,8 +134,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns the prefix, which the file sets contents shall
      * have.
      */
-    public String getPrefix()
-    {
+    public String getPrefix() {
         return prefix;
     }
 
@@ -161,8 +142,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets, whether the include/exclude patterns are
      * case sensitive. Defaults to true.
      */
-    public void setCaseSensitive( boolean caseSensitive )
-    {
+    public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
     }
 
@@ -170,8 +150,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns, whether the include/exclude patterns are
      * case sensitive. Defaults to true.
      */
-    public boolean isCaseSensitive()
-    {
+    public boolean isCaseSensitive() {
         return caseSensitive;
     }
 
@@ -179,8 +158,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets, whether the default excludes are being
      * applied. Defaults to true.
      */
-    public void setUsingDefaultExcludes( boolean usingDefaultExcludes )
-    {
+    public void setUsingDefaultExcludes(boolean usingDefaultExcludes) {
         this.usingDefaultExcludes = usingDefaultExcludes;
     }
 
@@ -188,8 +166,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns, whether the default excludes are being
      * applied. Defaults to true.
      */
-    public boolean isUsingDefaultExcludes()
-    {
+    public boolean isUsingDefaultExcludes() {
         return usingDefaultExcludes;
     }
 
@@ -197,8 +174,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets, whether empty directories are being included. Defaults
      * to true.
      */
-    public void setIncludingEmptyDirectories( boolean includingEmptyDirectories )
-    {
+    public void setIncludingEmptyDirectories(boolean includingEmptyDirectories) {
         this.includingEmptyDirectories = includingEmptyDirectories;
     }
 
@@ -206,21 +182,15 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns, whether empty directories are being included. Defaults
      * to true.
      */
-    public boolean isIncludingEmptyDirectories()
-    {
+    public boolean isIncludingEmptyDirectories() {
         return includingEmptyDirectories;
     }
 
-    protected boolean isSelected( PlexusIoResource plexusIoResource )
-        throws IOException
-    {
+    protected boolean isSelected(PlexusIoResource plexusIoResource) throws IOException {
         FileSelector[] fileSelectors = getFileSelectors();
-        if ( fileSelectors != null )
-        {
-            for ( FileSelector fileSelector : fileSelectors )
-            {
-                if ( !fileSelector.isSelected( plexusIoResource ) )
-                {
+        if (fileSelectors != null) {
+            for (FileSelector fileSelector : fileSelectors) {
+                if (!fileSelector.isSelected(plexusIoResource)) {
                     return false;
                 }
             }
@@ -232,8 +202,7 @@ public abstract class AbstractPlexusIoResourceCollection
      * Returns the file name mappers, which are used to transform
      * the resource names.
      */
-    public FileMapper[] getFileMappers()
-    {
+    public FileMapper[] getFileMappers() {
         return fileMappers;
     }
 
@@ -241,76 +210,55 @@ public abstract class AbstractPlexusIoResourceCollection
      * Sets the file name mappers, which are used to transform
      * the resource names.
      */
-    public void setFileMappers( FileMapper[] fileMappers )
-    {
+    public void setFileMappers(FileMapper[] fileMappers) {
         this.fileMappers = fileMappers;
     }
 
-    public Iterator<PlexusIoResource> iterator()
-    {
-        try
-        {
+    public Iterator<PlexusIoResource> iterator() {
+        try {
             return getResources();
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( e );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public String getName( PlexusIoResource resource )
-    {
-        return getName( resource.getName() );
+    public String getName(PlexusIoResource resource) {
+        return getName(resource.getName());
     }
 
-    protected String getName( String resourceName )
-    {
+    protected String getName(String resourceName) {
         String name = resourceName;
         final FileMapper[] mappers = getFileMappers();
-        if ( mappers != null )
-        {
-            for ( FileMapper mapper : mappers )
-            {
-                name = mapper.getMappedFileName( name );
+        if (mappers != null) {
+            for (FileMapper mapper : mappers) {
+                name = mapper.getMappedFileName(name);
             }
         }
-        return PrefixFileMapper.getMappedFileName( getPrefix(), name );
+        return PrefixFileMapper.getMappedFileName(getPrefix(), name);
     }
 
-
-    public InputStream getInputStream( PlexusIoResource resource )
-        throws IOException
-    {
+    public InputStream getInputStream(PlexusIoResource resource) throws IOException {
         InputStream contents = resource.getContents();
-        return new ClosingInputStream( streamTransformer.transform( resource, contents ), contents );
+        return new ClosingInputStream(streamTransformer.transform(resource, contents), contents);
     }
 
-
-    public PlexusIoResource resolve( final PlexusIoResource resource )
-        throws IOException
-    {
-        final Deferred deferred = new Deferred( resource, this, streamTransformer != identityTransformer );
+    public PlexusIoResource resolve(final PlexusIoResource resource) throws IOException {
+        final Deferred deferred = new Deferred(resource, this, streamTransformer != identityTransformer);
         return deferred.asResource();
     }
 
-    public long getLastModified()
-        throws IOException
-    {
+    public long getLastModified() throws IOException {
         long lastModified = PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
-        for ( final Iterator iter = getResources(); iter.hasNext(); )
-        {
+        for (final Iterator iter = getResources(); iter.hasNext(); ) {
             final PlexusIoResource res = (PlexusIoResource) iter.next();
             long l = res.getLastModified();
-            if ( l == PlexusIoResource.UNKNOWN_MODIFICATION_DATE )
-            {
+            if (l == PlexusIoResource.UNKNOWN_MODIFICATION_DATE) {
                 return PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
             }
-            if ( lastModified == PlexusIoResource.UNKNOWN_MODIFICATION_DATE || l > lastModified )
-            {
+            if (lastModified == PlexusIoResource.UNKNOWN_MODIFICATION_DATE || l > lastModified) {
                 lastModified = l;
             }
         }
         return lastModified;
     }
-
 }

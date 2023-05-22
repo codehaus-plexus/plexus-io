@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.functions;
  * limitations under the License.
  */
 
-public interface SizeSupplier
-{
+public interface SizeSupplier {
     long getSize();
 }

@@ -15,45 +15,35 @@
  */
 package org.codehaus.plexus.components.io.resources.proxy;
 
-import org.codehaus.plexus.components.io.resources.PlexusIoResource;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-abstract class ForwardingIterator
-    implements Iterator<PlexusIoResource>, Closeable
-{
+import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+
+abstract class ForwardingIterator implements Iterator<PlexusIoResource>, Closeable {
     private final Object possiblyCloseable;
 
     private PlexusIoResource next = null;
 
-    ForwardingIterator( Object possiblyCloseable )
-    {
+    ForwardingIterator(Object possiblyCloseable) {
         this.possiblyCloseable = possiblyCloseable;
     }
 
-    public boolean hasNext()
-    {
-        if ( next == null )
-        {
-            try
-            {
+    public boolean hasNext() {
+        if (next == null) {
+            try {
                 next = getNextResource();
-            }
-            catch ( IOException e )
-            {
-                throw new RuntimeException( e );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         return next != null;
     }
 
-    public PlexusIoResource next()
-    {
-        if ( !hasNext() )
-        {
+    public PlexusIoResource next() {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         PlexusIoResource ret = next;
@@ -61,19 +51,14 @@ abstract class ForwardingIterator
         return ret;
     }
 
-    public void remove()
-    {
+    public void remove() {
         throw new UnsupportedOperationException();
     }
 
-    public void close()
-        throws IOException
-    {
-        if ( possiblyCloseable instanceof Closeable )
-        {
-            ( (Closeable) possiblyCloseable ).close();
+    public void close() throws IOException {
+        if (possiblyCloseable instanceof Closeable) {
+            ((Closeable) possiblyCloseable).close();
         }
-
     }
 
     /**

@@ -16,30 +16,28 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Named;
+
 import java.io.File;
 
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.MatchPatterns;
 import org.codehaus.plexus.util.SelectorUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Named;
-
 /**
  * This file selector uses a set of patterns for including/excluding
  * files.
  */
-@Named( IncludeExcludeFileSelector.ROLE_HINT )
-public class IncludeExcludeFileSelector
-    implements FileSelector
-{
+@Named(IncludeExcludeFileSelector.ROLE_HINT)
+public class IncludeExcludeFileSelector implements FileSelector {
     /**
      * The include/exclude file selectors role-hint: "standard".
      */
     public static final String ROLE_HINT = "standard";
 
-    private static final MatchPatterns ALL_INCLUDES = MatchPatterns.from( getCanonicalName( "**/*" ) );
+    private static final MatchPatterns ALL_INCLUDES = MatchPatterns.from(getCanonicalName("**/*"));
 
     private static final MatchPatterns ZERO_EXCLUDES = MatchPatterns.from();
 
@@ -63,9 +61,8 @@ public class IncludeExcludeFileSelector
      * @return <code>true</code> when the name matches against at least one
      *         exclude pattern, or <code>false</code> otherwise.
      */
-    protected boolean isExcluded( @Nonnull String name )
-    {
-        return computedExcludes.matches( name, isCaseSensitive );
+    protected boolean isExcluded(@Nonnull String name) {
+        return computedExcludes.matches(name, isCaseSensitive);
     }
 
     /**
@@ -81,35 +78,27 @@ public class IncludeExcludeFileSelector
      *                 list is given, all elements must be
      *                 non-<code>null</code>.
      */
-    public void setIncludes( @Nullable String[] includes )
-    {
+    public void setIncludes(@Nullable String[] includes) {
         this.includes = includes;
-        if ( includes == null )
-        {
+        if (includes == null) {
             computedIncludes = ALL_INCLUDES;
-        }
-        else
-        {
+        } else {
             String[] cleaned;
             cleaned = new String[includes.length];
-            for ( int i = 0; i < includes.length; i++ )
-            {
-                cleaned[i] = asPattern( includes[i] );
+            for (int i = 0; i < includes.length; i++) {
+                cleaned[i] = asPattern(includes[i]);
             }
-            computedIncludes = MatchPatterns.from( cleaned );
+            computedIncludes = MatchPatterns.from(cleaned);
         }
     }
 
-    private static @Nonnull String getCanonicalName( @Nonnull String pName )
-    {
-        return pName.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
+    private static @Nonnull String getCanonicalName(@Nonnull String pName) {
+        return pName.replace('/', File.separatorChar).replace('\\', File.separatorChar);
     }
 
-    private String asPattern( @Nonnull String pPattern )
-    {
-        String pattern = getCanonicalName( pPattern.trim() );
-        if ( pattern.endsWith( File.separator ) )
-        {
+    private String asPattern(@Nonnull String pPattern) {
+        String pattern = getCanonicalName(pPattern.trim());
+        if (pattern.endsWith(File.separator)) {
             pattern += "**";
         }
         return pattern;
@@ -124,8 +113,7 @@ public class IncludeExcludeFileSelector
      *         list is given, all elements must be
      *         non-<code>null</code>.
      */
-    public @Nullable String[] getIncludes()
-    {
+    public @Nullable String[] getIncludes() {
         return includes;
     }
 
@@ -141,28 +129,21 @@ public class IncludeExcludeFileSelector
      *                 should be excluded. If a non-<code>null</code> list is
      *                 given, all elements must be non-<code>null</code>.
      */
-    public void setExcludes( @Nullable String[] excludes )
-    {
+    public void setExcludes(@Nullable String[] excludes) {
         this.excludes = excludes;
         final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String[] {};
-        if ( excludes == null )
-        {
-            computedExcludes = MatchPatterns.from( defaultExcludes );
-        }
-        else
-        {
+        if (excludes == null) {
+            computedExcludes = MatchPatterns.from(defaultExcludes);
+        } else {
             String[] temp = new String[excludes.length + defaultExcludes.length];
-            for ( int i = 0; i < excludes.length; i++ )
-            {
-                temp[i] = asPattern( excludes[i] );
+            for (int i = 0; i < excludes.length; i++) {
+                temp[i] = asPattern(excludes[i]);
             }
 
-            if ( defaultExcludes.length > 0 )
-            {
-                System.arraycopy( defaultExcludes, 0, temp, excludes.length, defaultExcludes.length );
+            if (defaultExcludes.length > 0) {
+                System.arraycopy(defaultExcludes, 0, temp, excludes.length, defaultExcludes.length);
             }
-            computedExcludes = MatchPatterns.from( temp );
-
+            computedExcludes = MatchPatterns.from(temp);
         }
     }
 
@@ -174,8 +155,7 @@ public class IncludeExcludeFileSelector
      *         should be excluded. If a non-<code>null</code> list is
      *         given, all elements must be non-<code>null</code>.
      */
-    public @Nullable String[] getExcludes()
-    {
+    public @Nullable String[] getExcludes() {
         return excludes;
     }
 
@@ -186,10 +166,8 @@ public class IncludeExcludeFileSelector
      * @param isCaseSensitive Whether the pattern is case sensitive.
      * @return True, if the pattern matches, otherwise false
      */
-    protected boolean matchPath( @Nonnull String pattern, @Nonnull String name,
-                                 boolean isCaseSensitive )
-    {
-        return SelectorUtils.matchPath( pattern, name, isCaseSensitive );
+    protected boolean matchPath(@Nonnull String pattern, @Nonnull String name, boolean isCaseSensitive) {
+        return SelectorUtils.matchPath(pattern, name, isCaseSensitive);
     }
 
     /**
@@ -200,23 +178,20 @@ public class IncludeExcludeFileSelector
      * @return <code>true</code> when the name matches against at least one
      *         include pattern, or <code>false</code> otherwise.
      */
-    protected boolean isIncluded( @Nonnull String name )
-    {
-        return computedIncludes.matches( name, isCaseSensitive );
+    protected boolean isIncluded(@Nonnull String name) {
+        return computedIncludes.matches(name, isCaseSensitive);
     }
 
-    public boolean isSelected( @Nonnull FileInfo fileInfo )
-    {
-        final String name = getCanonicalName( fileInfo.getName() );
-        return isIncluded( name ) && !isExcluded( name );
+    public boolean isSelected(@Nonnull FileInfo fileInfo) {
+        final String name = getCanonicalName(fileInfo.getName());
+        return isIncluded(name) && !isExcluded(name);
     }
 
     /**
      * Returns, whether the include/exclude patterns are case sensitive.
      * @return True, if the patterns are case sensitive (default), or false.
      */
-    public boolean isCaseSensitive()
-    {
+    public boolean isCaseSensitive() {
         return isCaseSensitive;
     }
 
@@ -224,8 +199,7 @@ public class IncludeExcludeFileSelector
      * Sets, whether the include/exclude patterns are case sensitive.
      * @param caseSensitive True, if the patterns are case sensitive (default), or false.
      */
-    public void setCaseSensitive( boolean caseSensitive )
-    {
+    public void setCaseSensitive(boolean caseSensitive) {
         isCaseSensitive = caseSensitive;
     }
 
@@ -233,8 +207,7 @@ public class IncludeExcludeFileSelector
      * Returns, whether to use the default excludes, as specified by
      * {@link FileUtils#getDefaultExcludes()}.
      */
-    public boolean isUseDefaultExcludes()
-    {
+    public boolean isUseDefaultExcludes() {
         return useDefaultExcludes;
     }
 
@@ -242,9 +215,8 @@ public class IncludeExcludeFileSelector
      * Sets, whether to use the default excludes, as specified by
      * {@link FileUtils#getDefaultExcludes()}.
      */
-    public void setUseDefaultExcludes( boolean pUseDefaultExcludes )
-    {
+    public void setUseDefaultExcludes(boolean pUseDefaultExcludes) {
         useDefaultExcludes = pUseDefaultExcludes;
-        setExcludes( excludes );
+        setExcludes(excludes);
     }
 }

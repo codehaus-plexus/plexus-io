@@ -18,6 +18,17 @@ package org.codehaus.plexus.components.io.resources;
 
 import javax.inject.Named;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
@@ -25,26 +36,12 @@ import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-
 /**
  * Implementation of {@link PlexusIoResourceCollection} for the set
  * of files in a common directory.
  */
-@Named( PlexusIoFileResourceCollection.ROLE_HINT )
-public class PlexusIoFileResourceCollection
-    extends AbstractPlexusIoResourceCollectionWithAttributes
-{
+@Named(PlexusIoFileResourceCollection.ROLE_HINT)
+public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceCollectionWithAttributes {
     /**
      * Role hint of this component
      */
@@ -59,45 +56,33 @@ public class PlexusIoFileResourceCollection
      */
     private Comparator<String> filenameComparator;
 
-    public PlexusIoFileResourceCollection()
-    {
-    }
+    public PlexusIoFileResourceCollection() {}
 
-
-    public PlexusIoResource resolve( final PlexusIoResource resource )
-        throws IOException
-    {
+    public PlexusIoResource resolve(final PlexusIoResource resource) throws IOException {
         return resource;
     }
 
-
     @Override
-    public InputStream getInputStream( PlexusIoResource resource )
-        throws IOException
-    {
+    public InputStream getInputStream(PlexusIoResource resource) throws IOException {
         return resource.getContents();
     }
 
-
     @Override
-    public String getName( PlexusIoResource resource )
-    {
+    public String getName(PlexusIoResource resource) {
         return resource.getName();
     }
 
     /**
      * @param baseDir The base directory of the file collection
      */
-    public void setBaseDir( File baseDir )
-    {
+    public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
     }
 
     /**
      * @return Returns the file collections base directory.
      */
-    public File getBaseDir()
-    {
+    public File getBaseDir() {
         return baseDir;
     }
 
@@ -105,174 +90,149 @@ public class PlexusIoFileResourceCollection
      * @return Returns, whether symbolic links should be followed.
      * Defaults to true.
      */
-    public boolean isFollowingSymLinks()
-    {
+    public boolean isFollowingSymLinks() {
         return isFollowingSymLinks;
     }
 
     /**
      * @param pIsFollowingSymLinks whether symbolic links should be followed
      */
-    @SuppressWarnings({ "UnusedDeclaration" })
-    public void setFollowingSymLinks( boolean pIsFollowingSymLinks )
-    {
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void setFollowingSymLinks(boolean pIsFollowingSymLinks) {
         isFollowingSymLinks = pIsFollowingSymLinks;
     }
 
-    public void setDefaultAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                      final int fileMode, final int dirMode )
-    {
-        setDefaultFileAttributes( createDefaults( uid, userName, gid, groupName, fileMode ) );
+    public void setDefaultAttributes(
+            final int uid,
+            final String userName,
+            final int gid,
+            final String groupName,
+            final int fileMode,
+            final int dirMode) {
+        setDefaultFileAttributes(createDefaults(uid, userName, gid, groupName, fileMode));
 
-        setDefaultDirAttributes( createDefaults( uid, userName, gid, groupName, dirMode ) );
+        setDefaultDirAttributes(createDefaults(uid, userName, gid, groupName, dirMode));
     }
 
-    public void setOverrideAttributes( final int uid, final String userName, final int gid, final String groupName,
-                                       final int fileMode, final int dirMode )
-    {
-        setOverrideFileAttributes( createDefaults( uid, userName, gid, groupName, fileMode ) );
+    public void setOverrideAttributes(
+            final int uid,
+            final String userName,
+            final int gid,
+            final String groupName,
+            final int fileMode,
+            final int dirMode) {
+        setOverrideFileAttributes(createDefaults(uid, userName, gid, groupName, fileMode));
 
-        setOverrideDirAttributes( createDefaults( uid, userName, gid, groupName, dirMode ) );
+        setOverrideDirAttributes(createDefaults(uid, userName, gid, groupName, dirMode));
     }
 
-    private static PlexusIoResourceAttributes createDefaults( final int uid, final String userName, final int gid,
-                                                              final String groupName, final int mode )
-    {
-        return new SimpleResourceAttributes( uid, userName, gid, groupName,
-                mode >= 0 ? mode : PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE );
+    private static PlexusIoResourceAttributes createDefaults(
+            final int uid, final String userName, final int gid, final String groupName, final int mode) {
+        return new SimpleResourceAttributes(
+                uid, userName, gid, groupName, mode >= 0 ? mode : PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE);
     }
-
 
     @Override
-    public void setPrefix( String prefix )
-    {
+    public void setPrefix(String prefix) {
         char nonSeparator = File.separatorChar == '/' ? '\\' : '/';
-        super.setPrefix( StringUtils.replace( prefix, nonSeparator, File.separatorChar ) );
+        super.setPrefix(StringUtils.replace(prefix, nonSeparator, File.separatorChar));
     }
 
-    private void addResources( List<PlexusIoResource> result, String[] resources )
-        throws IOException
-    {
+    private void addResources(List<PlexusIoResource> result, String[] resources) throws IOException {
 
         final File dir = getBaseDir();
-        for ( String name : resources )
-        {
-            String sourceDir = name.replace( '\\', '/' );
-            File f = new File( dir, sourceDir );
+        for (String name : resources) {
+            String sourceDir = name.replace('\\', '/');
+            File f = new File(dir, sourceDir);
 
-            FileAttributes fattrs = new FileAttributes( f );
-            PlexusIoResourceAttributes attrs = mergeAttributes( fattrs, fattrs.isDirectory() );
+            FileAttributes fattrs = new FileAttributes(f);
+            PlexusIoResourceAttributes attrs = mergeAttributes(fattrs, fattrs.isDirectory());
 
-            String remappedName = getName( name );
+            String remappedName = getName(name);
 
             PlexusIoResource resource =
-                ResourceFactory.createResource( f, remappedName, null, getStreamTransformer(), attrs );
+                    ResourceFactory.createResource(f, remappedName, null, getStreamTransformer(), attrs);
 
-            if ( isSelected( resource ) )
-            {
-                result.add( resource );
+            if (isSelected(resource)) {
+                result.add(resource);
             }
         }
     }
 
-    public Stream stream()
-    {
-        return new Stream()
-        {
-            public void forEach( PlexusIoResourceConsumer resourceConsumer )
-                throws IOException
-            {
+    public Stream stream() {
+        return new Stream() {
+            public void forEach(PlexusIoResourceConsumer resourceConsumer) throws IOException {
                 Iterator<PlexusIoResource> resources = getResources();
-                while ( resources.hasNext() )
-                {
+                while (resources.hasNext()) {
                     PlexusIoResource next = resources.next();
-                    if ( isSelected( next ) )
-                    {
-                        resourceConsumer.accept( next );
+                    if (isSelected(next)) {
+                        resourceConsumer.accept(next);
                     }
                 }
-                if ( resources instanceof Closeable )
-                {
-                    ( (Closeable) resources ).close();
+                if (resources instanceof Closeable) {
+                    ((Closeable) resources).close();
                 }
-
             }
 
-            public void forEach( ExecutorService es, final PlexusIoResourceConsumer resourceConsumer )
-                throws IOException
-            {
+            public void forEach(ExecutorService es, final PlexusIoResourceConsumer resourceConsumer)
+                    throws IOException {
                 Iterator<PlexusIoResource> resources = getResources();
-                while ( resources.hasNext() )
-                {
+                while (resources.hasNext()) {
                     final PlexusIoResource next = resources.next();
-                    Callable future = new Callable()
-                    {
-                        public Object call()
-                            throws Exception
-                        {
-                            resourceConsumer.accept( next );
+                    Callable future = new Callable() {
+                        public Object call() throws Exception {
+                            resourceConsumer.accept(next);
                             return this;
                         }
                     };
-                    es.submit( future );
+                    es.submit(future);
                 }
-                if ( resources instanceof Closeable )
-                {
-                    ( (Closeable) resources ).close();
+                if (resources instanceof Closeable) {
+                    ((Closeable) resources).close();
                 }
-
             }
         };
-
     }
 
-    public Iterator<PlexusIoResource> getResources()
-        throws IOException
-    {
+    public Iterator<PlexusIoResource> getResources() throws IOException {
         final DirectoryScanner ds = new DirectoryScanner();
         final File dir = getBaseDir();
-        ds.setBasedir( dir );
+        ds.setBasedir(dir);
         final String[] inc = getIncludes();
-        if ( inc != null && inc.length > 0 )
-        {
-            ds.setIncludes( inc );
+        if (inc != null && inc.length > 0) {
+            ds.setIncludes(inc);
         }
         final String[] exc = getExcludes();
-        if ( exc != null && exc.length > 0 )
-        {
-            ds.setExcludes( exc );
+        if (exc != null && exc.length > 0) {
+            ds.setExcludes(exc);
         }
-        if ( isUsingDefaultExcludes() )
-        {
+        if (isUsingDefaultExcludes()) {
             ds.addDefaultExcludes();
         }
-        ds.setCaseSensitive( isCaseSensitive() );
-        ds.setFollowSymlinks( isFollowingSymLinks() );
-        ds.setFilenameComparator( filenameComparator );
+        ds.setCaseSensitive(isCaseSensitive());
+        ds.setFollowSymlinks(isFollowingSymLinks());
+        ds.setFilenameComparator(filenameComparator);
         ds.scan();
 
         final List<PlexusIoResource> result = new ArrayList<>();
-        if ( isIncludingEmptyDirectories() )
-        {
+        if (isIncludingEmptyDirectories()) {
             String[] dirs = ds.getIncludedDirectories();
-            addResources( result, dirs );
+            addResources(result, dirs);
         }
 
         String[] files = ds.getIncludedFiles();
-        addResources( result, files );
+        addResources(result, files);
         return result.iterator();
     }
 
-    public boolean isConcurrentAccessSupported()
-    {
+    public boolean isConcurrentAccessSupported() {
         return true;
     }
 
     /**
      * @since 3.2.0
      */
-    public void setFilenameComparator( Comparator<String> filenameComparator )
-    {
+    public void setFilenameComparator(Comparator<String> filenameComparator) {
         this.filenameComparator = filenameComparator;
     }
 }

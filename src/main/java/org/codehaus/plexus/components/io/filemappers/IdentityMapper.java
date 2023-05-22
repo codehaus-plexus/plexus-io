@@ -22,19 +22,17 @@ import javax.inject.Named;
 /**
  * Default implementation of {@link FileMapper}, which performs the identity mapping: All names are left unchanged.
  */
-@Named( IdentityMapper.ROLE_HINT )
-public class IdentityMapper extends AbstractFileMapper
-{
+@Named(IdentityMapper.ROLE_HINT)
+public class IdentityMapper extends AbstractFileMapper {
     /**
      * The identity mappers role-hint: "identity".
      */
     public static final String ROLE_HINT = "identity";
 
-    @Nonnull public String getMappedFileName( @Nonnull String pName )
-    {
-        if ( pName == null || pName.length() == 0 )
-        {
-            throw new IllegalArgumentException( "The source name must not be null." );
+    @Nonnull
+    public String getMappedFileName(@Nonnull String pName) {
+        if (pName == null || pName.length() == 0) {
+            throw new IllegalArgumentException("The source name must not be null.");
         }
         return pName;
     }

@@ -24,6 +24,4 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Named
-public class DefaultFileSelector extends AllFilesFileSelector
-{
-}
+public class DefaultFileSelector extends AllFilesFileSelector {}

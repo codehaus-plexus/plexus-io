@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-
 import javax.annotation.Nonnull;
 
 /**
@@ -25,16 +24,13 @@ import javax.annotation.Nonnull;
  * this might allow to extend the FileMapper interface later on
  * without loosing upwards compatibility.
  */
-public abstract class AbstractFileMapper implements FileMapper
-{
+public abstract class AbstractFileMapper implements FileMapper {
     /**
      * Checks the input and returns it without modifications.
      */
-    public @Nonnull String getMappedFileName( @Nonnull String pName )
-    {
-        if ( pName == null || pName.length() == 0 )
-        {
-            throw new IllegalArgumentException( "The source name must not be null." );
+    public @Nonnull String getMappedFileName(@Nonnull String pName) {
+        if (pName == null || pName.length() == 0) {
+            throw new IllegalArgumentException("The source name must not be null.");
         }
         return pName;
     }

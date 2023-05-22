@@ -16,21 +16,17 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-public class SimpleResourceAttributesTest
-    extends AbstractResourceAttributesTCK
-{
+public class SimpleResourceAttributesTest extends AbstractResourceAttributesTCK {
 
-    protected PlexusIoResourceAttributes newAttributes( int mode )
-    {
+    protected PlexusIoResourceAttributes newAttributes(int mode) {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
-        simpleResourceAttributes.setOctalMode( mode );
+        simpleResourceAttributes.setOctalMode(mode);
         return simpleResourceAttributes;
     }
 
-    protected PlexusIoResourceAttributes newAttributes( String mode )
-    {
+    protected PlexusIoResourceAttributes newAttributes(String mode) {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
-        simpleResourceAttributes.setOctalModeString( mode );
+        simpleResourceAttributes.setOctalModeString(mode);
         return simpleResourceAttributes;
     }
 }

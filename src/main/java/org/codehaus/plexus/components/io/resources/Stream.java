@@ -15,17 +15,15 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
-
 import java.io.IOException;
 
-public interface Stream
-{
+import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
+
+public interface Stream {
     /**
      * Invokes the #PlexusIoResourceConsumer for each resource in this collection
      * @param resourceConsumer The consumer of the resource
      * @throws java.io.IOException .
      */
-    void forEach( PlexusIoResourceConsumer resourceConsumer ) throws IOException;
-
+    void forEach(PlexusIoResourceConsumer resourceConsumer) throws IOException;
 }
