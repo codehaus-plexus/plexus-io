@@ -42,7 +42,7 @@ import org.codehaus.plexus.components.io.resources.Stream;
  */
 public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCollectionWithAttributes
         implements EncodingSupported {
-    private PlexusIoResourceCollection src;
+    private final PlexusIoResourceCollection src;
 
     public PlexusIoProxyResourceCollection(@Nonnull PlexusIoResourceCollection src) {
         this.src = src;
@@ -98,14 +98,14 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
 
     private String getNonEmptyPrfix() {
         String prefix = getPrefix();
-        if (prefix != null && prefix.length() == 0) {
+        if (prefix != null && prefix.isEmpty()) {
             return null;
         }
         return prefix;
     }
 
     class FwdIterator extends ForwardingIterator {
-        Iterator<PlexusIoResource> iter;
+        final Iterator<PlexusIoResource> iter;
 
         private final FileSelector fileSelector = getDefaultFileSelector();
 

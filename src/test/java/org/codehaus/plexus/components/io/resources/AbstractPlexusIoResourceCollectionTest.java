@@ -22,7 +22,7 @@ public class AbstractPlexusIoResourceCollectionTest {
     @Test
     void testGetIncludes() throws Exception {
         AbstractPlexusIoResourceCollection sut = new AbstractPlexusIoResourceCollection() {
-            public Iterator<PlexusIoResource> getResources() throws IOException {
+            public Iterator<PlexusIoResource> getResources() {
                 return Arrays.asList(getResource("r1"), getResource("r2")).iterator();
             }
 
@@ -57,11 +57,11 @@ public class AbstractPlexusIoResourceCollectionTest {
     private static PlexusIoResource getResource(final String r1) {
         return new AbstractPlexusIoResource(r1, 0, 0, true, false, true) {
             @Nonnull
-            public InputStream getContents() throws IOException {
+            public InputStream getContents() {
                 return new ByteArrayInputStream((r1 + "Payload").getBytes());
             }
 
-            public URL getURL() throws IOException {
+            public URL getURL() {
                 throw new IllegalStateException("Not implemented");
             }
         };

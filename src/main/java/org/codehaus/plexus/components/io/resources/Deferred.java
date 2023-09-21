@@ -40,7 +40,12 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
             throws IOException {
         this.resource = resource;
         this.owner = owner;
-        dfos = hasTransformer ? new DeferredFileOutputStream(5000000, "p-archiver", null, null) : null;
+        dfos = hasTransformer
+                ? DeferredFileOutputStream.builder()
+                        .setThreshold(5000000)
+                        .setPrefix("p-archiver")
+                        .get()
+                : null;
         if (dfos != null) {
             InputStream inputStream = owner.getInputStream(resource);
             IOUtils.copy(inputStream, dfos);

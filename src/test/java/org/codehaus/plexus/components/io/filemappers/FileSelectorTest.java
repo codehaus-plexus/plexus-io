@@ -49,11 +49,11 @@ public class FileSelectorTest {
             final String name = pInput[i];
             AbstractPlexusIoResource resource = new AbstractPlexusIoResource(name, 0, 0, true, false, true) {
                 @Nonnull
-                public InputStream getContents() throws IOException {
+                public InputStream getContents() {
                     throw new IllegalStateException("Not implemented");
                 }
 
-                public URL getURL() throws IOException {
+                public URL getURL() {
                     throw new IllegalStateException("Not implemented");
                 }
             };
@@ -121,7 +121,7 @@ public class FileSelectorTest {
     }
 
     @Test
-    void testIncludeExcludeFileSelector_SetExcludes() throws Exception {
+    void testIncludeExcludeFileSelector_SetExcludes() {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
 
         // Test that the setExcludes method does not modify the excludes.

@@ -6,7 +6,7 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 
 public class PlexusIoProxyResourceAttributes implements PlexusIoResourceAttributes {
 
-    PlexusIoResourceAttributes target;
+    final PlexusIoResourceAttributes target;
 
     public PlexusIoProxyResourceAttributes(PlexusIoResourceAttributes thisAttr) {
         this.target = thisAttr;
@@ -45,11 +45,6 @@ public class PlexusIoProxyResourceAttributes implements PlexusIoResourceAttribut
         return target.getUserId();
     }
 
-    /*    public String getOctalModeString()
-        {
-            return target.getOctalModeString();
-        }
-    */
     public boolean isOwnerWritable() {
         return target.isOwnerWritable();
     }

@@ -55,7 +55,7 @@ public class PrefixFileMapper extends AbstractFileMapper {
      * Performs the mapping of a file name by adding a prefix.
      */
     public static String getMappedFileName(String prefix, String name) {
-        if (prefix == null || prefix.length() == 0) {
+        if (prefix == null || prefix.isEmpty()) {
             return name;
         }
         return prefix + name;

@@ -42,7 +42,7 @@ public class PlexusIoProxyResourceCollectionTest {
     private final String[] SAMPLE_EXCLUDES = {"*.junk", "somwhere/**"};
 
     @Test
-    void testGetDefaultFileSelector() throws Exception {
+    void testGetDefaultFileSelector() {
         PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection(null);
 
         // This will throw an exception if there is a bug
@@ -75,11 +75,11 @@ public class PlexusIoProxyResourceCollectionTest {
         public PlexusIoResource next() {
             return new AbstractPlexusIoResource("fud", 123, 22, true, false, false) {
                 @Nonnull
-                public InputStream getContents() throws IOException {
+                public InputStream getContents() {
                     return null;
                 }
 
-                public URL getURL() throws IOException {
+                public URL getURL() {
                     return null;
                 }
             };
@@ -95,7 +95,7 @@ public class PlexusIoProxyResourceCollectionTest {
         final CloseableIterator closeableIterator = new CloseableIterator();
         PlexusIoProxyResourceCollection resCol =
                 new PlexusIoProxyResourceCollection(new AbstractPlexusIoResourceCollection() {
-                    public Iterator<PlexusIoResource> getResources() throws IOException {
+                    public Iterator<PlexusIoResource> getResources() {
                         return closeableIterator;
                     }
 

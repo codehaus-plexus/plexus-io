@@ -33,6 +33,7 @@ import java.util.Set;
 /**
  * @author Kristian Rosenvold
  */
+@SuppressWarnings("OctalInteger")
 public class AttributeUtils {
     /*
     Reads last-modified with proper failure handling if something goes wrong.
@@ -101,7 +102,6 @@ public class AttributeUtils {
 
     public static BasicFileAttributes getFileAttributes(Path path) throws IOException {
         if (isUnix(path)) {
-
             try {
                 return Files.readAttributes(path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
             } catch (UnsupportedOperationException ignore) {

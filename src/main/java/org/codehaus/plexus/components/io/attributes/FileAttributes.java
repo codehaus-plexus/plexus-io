@@ -112,9 +112,10 @@ public class FileAttributes implements PlexusIoResourceAttributes {
         this.octalMode = attrs.containsKey("mode")
                 ? (Integer) attrs.get("mode") & 0xfff
                 : PlexusIoResourceAttributes.UNKNOWN_OCTAL_MODE;
+        //noinspection unchecked
         this.permissions = attrs.containsKey("permissions")
                 ? (Set<PosixFilePermission>) attrs.get("permissions")
-                : Collections.<PosixFilePermission>emptySet();
+                : Collections.emptySet();
         this.size = (Long) attrs.get("size");
         this.lastModifiedTime = (FileTime) attrs.get("lastModifiedTime");
     }

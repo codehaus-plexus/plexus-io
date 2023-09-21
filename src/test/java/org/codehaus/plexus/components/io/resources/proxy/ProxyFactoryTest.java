@@ -58,11 +58,7 @@ public class ProxyFactoryTest {
     @Test
     void testCreateProxyWithContentSupplierOverride() throws Exception {
         final InputStream s = new ByteArrayInputStream(new byte[10]);
-        ContentSupplier ns = new ContentSupplier() {
-            public InputStream getContents() throws IOException {
-                return s;
-            }
-        };
+        ContentSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
         assertEquals(s, proxy.getContents());
     }
@@ -86,7 +82,7 @@ public class ProxyFactoryTest {
             super(file, file.getName(), attrs);
         }
 
-        public String getSymlinkDestination() throws IOException {
+        public String getSymlinkDestination() {
             throw new IllegalStateException("Unsupported");
         }
     }
