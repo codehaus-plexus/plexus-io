@@ -19,16 +19,16 @@ package org.codehaus.plexus.components.io.attributes;
 import java.io.File;
 
 import org.codehaus.plexus.util.Os;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Kristian Rosenvold
  */
 public class FileAttributesTest {
     @Test
-    public void testGetPosixFileAttributes() throws Exception {
+    void testGetPosixFileAttributes() throws Exception {
 
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             return;

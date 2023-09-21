@@ -6,17 +6,19 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 
 import org.codehaus.plexus.util.Os;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Kristian Rosenvold
  */
+@SuppressWarnings("OctalInteger")
 public class AttributeUtilsTest {
     @Test
-    public void testMiscPatterns() throws Exception {
+    void testMiscPatterns() {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0124);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_EXECUTE));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_WRITE));
@@ -24,7 +26,7 @@ public class AttributeUtilsTest {
     }
 
     @Test
-    public void testMorePatterns() throws Exception {
+    void testMorePatterns() {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0241);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_WRITE));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_READ));
@@ -32,7 +34,7 @@ public class AttributeUtilsTest {
     }
 
     @Test
-    public void testEvenMorePatterns() throws Exception {
+    void testEvenMorePatterns() throws Exception {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0412);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_READ));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_EXECUTE));
@@ -40,13 +42,13 @@ public class AttributeUtilsTest {
     }
 
     @Test
-    public void test777() throws Exception {
+    void test777() throws Exception {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0777);
-        assertTrue(permissions.size() == 9);
+        assertEquals(9, permissions.size());
     }
 
     @Test
-    public void testChmodBackAndForth() throws IOException {
+    void testChmodBackAndForth() throws IOException {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) return;
         final File bxx = File.createTempFile("bxx", "ff");
         AttributeUtils.chmod(bxx, 0422);

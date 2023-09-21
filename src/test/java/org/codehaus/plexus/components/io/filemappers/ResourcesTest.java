@@ -16,6 +16,8 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
+import javax.inject.Inject;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,27 +25,32 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection;
+import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
+import org.codehaus.plexus.testing.PlexusTest;
 import org.codehaus.plexus.util.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test case for resource collections.
  */
-public class ResourcesTest extends TestSupport {
+@PlexusTest
+public class ResourcesTest {
+
+    @Inject
+    PlexusContainer container;
+
     private static final String X_PATH = "x";
     private static final String A_PATH = X_PATH + "/a";
     private static final String B_PATH = X_PATH + "/b";
@@ -65,11 +72,11 @@ public class ResourcesTest extends TestSupport {
         final File aFile = new File(baseDir, A_PATH);
         FileUtils.mkdir(aFile.getParentFile().getPath());
         FileOutputStream fos = new FileOutputStream(aFile);
-        fos.write("0123456789".getBytes("US-ASCII"));
+        fos.write("0123456789".getBytes(StandardCharsets.US_ASCII));
         fos.close();
         final File bFile = new File(baseDir, B_PATH);
         fos = new FileOutputStream(bFile);
-        fos.write("abcdefghijklmnopqrstuvwxyz".getBytes("US-ASCII"));
+        fos.write("abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.US_ASCII));
         fos.close();
         final File yDir = new File(baseDir, Y_PATH);
         FileUtils.mkdir(yDir.getPath());
@@ -112,7 +119,7 @@ public class ResourcesTest extends TestSupport {
     }
 
     private void compare(InputStream in, File file) throws IOException {
-        try (InputStream fIn = new FileInputStream(file)) {
+        try (InputStream fIn = Files.newInputStream(file.toPath())) {
             for (; ; ) {
                 int i1 = in.read();
                 int i2 = fIn.read();
@@ -147,28 +154,28 @@ public class ResourcesTest extends TestSupport {
         boolean yPathSeen = false;
         boolean aFileSeen = false;
         boolean bFileSeen = false;
-        Iterator iter = plexusIoResourceCollection.getResources();
+        Iterator<PlexusIoResource> iter = plexusIoResourceCollection.getResources();
         while (iter.hasNext()) {
-            PlexusIoResource res = (PlexusIoResource) iter.next();
+            PlexusIoResource res = iter.next();
             final String resName = res.getName().replace(File.separatorChar, '/');
             if (res.isDirectory()) {
-                assertFalse("The directory " + resName + " is a file.", res.isFile());
+                assertFalse(res.isFile(), "The directory " + resName + " is a file.");
                 if (X_PATH.equals(resName)) {
                     xPathSeen = true;
                 } else if (Y_PATH.equals(resName)) {
                     yPathSeen = true;
-                } else if ("".equals(resName) || ".".equals(resName)) {
+                } else if (resName.isEmpty() || ".".equals(resName)) {
                     // Ignore me
                 } else {
                     fail("Unexpected directory entry: " + resName);
                 }
                 final File dir = new File(getFilesDir(), resName);
-                assertTrue("The directory " + dir + " doesn't exist.", dir.isDirectory());
+                assertTrue(dir.isDirectory(), "The directory " + dir + " doesn't exist.");
             } else {
-                assertTrue("The file " + resName + " isn't reported to be a file.", res.isFile());
-                assertTrue("The file " + resName + " doesn't exist.", res.isExisting());
+                assertTrue(res.isFile(), "The file " + resName + " isn't reported to be a file.");
+                assertTrue(res.isExisting(), "The file " + resName + " doesn't exist.");
                 final File f = new File(getFilesDir(), resName);
-                assertTrue("A file " + f + " doesn't exist.", f.isFile() && f.exists());
+                assertTrue(f.isFile() && f.exists(), "A file " + f + " doesn't exist.");
                 if (A_PATH.equals(resName)) {
                     aFileSeen = true;
                 } else if (B_PATH.equals(resName)) {
@@ -193,16 +200,10 @@ public class ResourcesTest extends TestSupport {
     }
 
     @Test
-    public void testFileCollection() throws Exception {
+    void testFileCollection() throws Exception {
         createFiles();
-        testFileResourceCollection((PlexusIoFileResourceCollection) lookup(PlexusIoResourceCollection.class));
+        testFileResourceCollection((PlexusIoFileResourceCollection) container.lookup(PlexusIoResourceCollection.class));
         testFileResourceCollection((PlexusIoFileResourceCollection)
-                lookup(PlexusIoResourceCollection.class, PlexusIoFileResourceCollection.ROLE_HINT));
-    }
-
-    private void testZipFileCollection(AbstractPlexusIoArchiveResourceCollection resourceCollection, File zipFile)
-            throws IOException {
-        resourceCollection.setFile(zipFile);
-        testPlexusIoResourceCollection(resourceCollection);
+                container.lookup(PlexusIoResourceCollection.class, PlexusIoFileResourceCollection.ROLE_HINT));
     }
 }

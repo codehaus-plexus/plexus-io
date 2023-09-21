@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Kristian Rosenvold
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class AbstractPlexusIoResourceCollectionTest {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void testGetIncludes() throws Exception {
+    void testGetIncludes() throws Exception {
         AbstractPlexusIoResourceCollection sut = new AbstractPlexusIoResourceCollection() {
             public Iterator<PlexusIoResource> getResources() throws IOException {
                 return Arrays.asList(getResource("r1"), getResource("r2")).iterator();

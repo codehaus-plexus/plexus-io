@@ -17,24 +17,33 @@ package org.codehaus.plexus.components.io.filemappers;
  */
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 
+import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
-import org.junit.Test;
+import org.codehaus.plexus.testing.PlexusTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test case for implementations of {@link FileSelector}.
  */
-public class FileSelectorTest extends TestSupport {
+@PlexusTest
+public class FileSelectorTest {
+
+    @Inject
+    PlexusContainer container;
+
     protected void testFileSelector(FileSelector pSelector, String[] pInput, boolean[] pOutput) throws IOException {
         for (int i = 0; i < pInput.length; i++) {
             final String name = pInput[i];
@@ -66,17 +75,15 @@ public class FileSelectorTest extends TestSupport {
 
     private boolean[] getAllTrues() {
         final boolean[] trues = new boolean[SAMPLES.length];
-        for (int i = 0; i < trues.length; i++) {
-            trues[i] = true;
-        }
+        Arrays.fill(trues, true);
         return trues;
     }
 
     @Test
-    public void testAllFilesFileSelector() throws Exception {
+    void testAllFilesFileSelector() throws Exception {
         testFileSelector(new AllFilesFileSelector());
-        testFileSelector((AllFilesFileSelector) lookup(FileSelector.class));
-        testFileSelector((AllFilesFileSelector) lookup(FileSelector.class, AllFilesFileSelector.ROLE_HINT));
+        testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.class));
+        testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.class, AllFilesFileSelector.ROLE_HINT));
     }
 
     protected boolean[] getIncludeGifs(String[] pSamples) {
@@ -107,13 +114,14 @@ public class FileSelectorTest extends TestSupport {
     }
 
     @Test
-    public void testIncludeExcludeFileSelector() throws Exception {
+    void testIncludeExcludeFileSelector() throws Exception {
         testFileSelector(new IncludeExcludeFileSelector());
-        testFileSelector((IncludeExcludeFileSelector) lookup(FileSelector.class, IncludeExcludeFileSelector.ROLE_HINT));
+        testFileSelector((IncludeExcludeFileSelector)
+                container.lookup(FileSelector.class, IncludeExcludeFileSelector.ROLE_HINT));
     }
 
     @Test
-    public void testIncludeExcludeFileSelector_SetExcludes() throws Exception {
+    void testIncludeExcludeFileSelector_SetExcludes() throws Exception {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
 
         // Test that the setExcludes method does not modify the excludes.

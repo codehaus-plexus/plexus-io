@@ -19,6 +19,7 @@ package org.codehaus.plexus.components.io.attributes;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.NoSuchFileException;
 import java.util.Map;
 
 import org.codehaus.plexus.util.Os;
@@ -26,21 +27,16 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("OctalInteger")
 public class PlexusIoResourceAttributeUtilsTest {
 
     @Test
-    public void testGetAttributesForThisTestClass() throws IOException {
+    void testGetAttributesForThisTestClass() throws IOException {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             System.out.println("WARNING: Unsupported OS, skipping test");
             return;
@@ -68,7 +64,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testDirectory() throws IOException, CommandLineException {
+    void testDirectory() throws IOException, CommandLineException {
 
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             return; // Nothing to do here.
@@ -110,7 +106,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testSrcResource() throws IOException {
+    void testSrcResource() throws IOException {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             return; // Nothing to do here.
         }
@@ -129,18 +125,15 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testNonExistingDirectory() {
-        File dir = new File("src/test/noSuchDirectory");
-        try {
+    void testNonExistingDirectory() {
+        assertThrows(NoSuchFileException.class, () -> {
+            File dir = new File("src/test/noSuchDirectory");
             PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true);
-            fail("We were supposed to get an io exceptions");
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
-        }
+        });
     }
 
     @Test
-    public void testMergeAttributesWithNullBase() {
+    void testMergeAttributesWithNullBase() {
         PlexusIoResourceAttributes override = new SimpleResourceAttributes(1001, "myUser", 1001, "test", 0);
         PlexusIoResourceAttributes defaults = new SimpleResourceAttributes(1000, "defaultUser", 1000, "defaultTest", 0);
 
@@ -152,7 +145,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testMergeAttributesWithNullOverrideGroup() {
+    void testMergeAttributesWithNullOverrideGroup() {
         final PlexusIoResourceAttributes override = new SimpleResourceAttributes(1001, "myUser", -1, null, 0);
         final PlexusIoResourceAttributes defaults =
                 new SimpleResourceAttributes(1000, "defaultUser", 1000, "defaultGroup", 0);
@@ -165,7 +158,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testMergeAttributesOverride() {
+    void testMergeAttributesOverride() {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes(-1, null, -1, null, -1);
         final PlexusIoResourceAttributes override =
@@ -174,23 +167,17 @@ public class PlexusIoResourceAttributeUtilsTest {
                 new SimpleResourceAttributes(3333, "defaultUser", 4444, "defaultGroup", 0444);
         final PlexusIoResourceAttributes base = new SimpleResourceAttributes(5555, "baseUser", 6666, "baseGroup", 0111);
 
-        PlexusIoResourceAttributes attributes;
-
         // When override is null, base is returned verbatim
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(null, null, null);
-        assertNull(attributes);
+        assertNull(PlexusIoResourceAttributeUtils.mergeAttributes(null, null, null));
 
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(null, null, defaults);
-        assertNull(attributes);
+        assertNull(PlexusIoResourceAttributeUtils.mergeAttributes(null, null, defaults));
 
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(null, base, null);
-        assertSame(base, attributes);
+        assertSame(base, PlexusIoResourceAttributeUtils.mergeAttributes(null, base, null));
 
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(null, base, defaults);
-        assertSame(base, attributes);
+        assertSame(base, PlexusIoResourceAttributeUtils.mergeAttributes(null, base, defaults));
 
         // Test cases when override is non-null
-        attributes = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, null);
+        PlexusIoResourceAttributes attributes = PlexusIoResourceAttributeUtils.mergeAttributes(override, null, null);
 
         assertEquals(Integer.valueOf(1111), attributes.getUserId());
         assertEquals("testUser", attributes.getUserName());
@@ -273,7 +260,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testFileAttributes() throws IOException {
+    void testFileAttributes() throws IOException {
         PlexusIoResourceAttributes attrs = getFileAttributes(new File("src/test/resources/symlinks/src/fileW.txt"));
         assertFalse(attrs.isSymbolicLink());
         assertTrue(StringUtils.isNotEmpty(attrs.getUserName()));
@@ -285,7 +272,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    public void testMergeAttributesDefault() {
+    void testMergeAttributesDefault() {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes(null, null, null, null, 0);
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes(-1, null, -1, null, -1);
         final PlexusIoResourceAttributes defaults =
