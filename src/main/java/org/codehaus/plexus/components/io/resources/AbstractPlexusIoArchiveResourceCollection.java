@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
-
 /**
  * Default implementation of {@link PlexusIoFileResourceCollection} for
  * zip files, tar files, etc.
@@ -106,19 +104,16 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     }
 
     public Stream stream() {
-        return new Stream() {
-            public void forEach(PlexusIoResourceConsumer resourceConsumer) throws IOException {
-
-                final Iterator<PlexusIoResource> it = getEntries();
-                while (it.hasNext()) {
-                    final PlexusIoResource res = it.next();
-                    if (isSelected(res)) {
-                        resourceConsumer.accept(res);
-                    }
+        return resourceConsumer -> {
+            Iterator<PlexusIoResource> it = getEntries();
+            while (it.hasNext()) {
+                final PlexusIoResource res = it.next();
+                if (isSelected(res)) {
+                    resourceConsumer.accept(res);
                 }
-                if (it instanceof Closeable) {
-                    ((Closeable) it).close();
-                }
+            }
+            if (it instanceof Closeable) {
+                ((Closeable) it).close();
             }
         };
     }

@@ -31,7 +31,7 @@ public class IdentityMapper extends AbstractFileMapper {
 
     @Nonnull
     public String getMappedFileName(@Nonnull String pName) {
-        if (pName == null || pName.length() == 0) {
+        if (pName == null || pName.isEmpty()) {
             throw new IllegalArgumentException("The source name must not be null.");
         }
         return pName;

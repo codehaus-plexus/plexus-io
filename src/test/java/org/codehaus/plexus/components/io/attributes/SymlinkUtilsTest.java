@@ -24,12 +24,13 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SymlinkUtilsTest {
-    File target = new File("target/symlinkCapabilities");
+    final File target = new File("target/symlinkCapabilities");
 
-    String expected = "This is a filed that we'll be symlinking to\n";
+    final String expected = "This is a filed that we'll be symlinking to\n";
 
     @BeforeEach
     public void setup() throws IOException {
@@ -38,14 +39,11 @@ public class SymlinkUtilsTest {
     }
 
     @Test
-    void testName() throws Exception {}
-
-    @Test
     void create_read_symbolic_link_to_file() throws Exception {
         File symlink = new File(target, "symlinkToTarget");
         File relativePath = createTargetFile(target);
         SymlinkUtils.createSymbolicLink(symlink, relativePath);
-        assertEquals(expected, FileUtils.readFileToString(symlink));
+        assertEquals(expected, FileUtils.readFileToString(symlink, UTF_8));
         assertEquals(new File("actualFile"), SymlinkUtils.readSymbolicLink(new File(target, "symlinkToTarget")));
     }
 
@@ -55,14 +53,14 @@ public class SymlinkUtilsTest {
         createTargetFile(subDir);
         File symlink = new File(target, "symlinkToDir");
         SymlinkUtils.createSymbolicLink(symlink, new File("aSubDir"));
-        assertEquals(expected, FileUtils.readFileToString(new File(symlink, "actualFile")));
+        assertEquals(expected, FileUtils.readFileToString(new File(symlink, "actualFile"), UTF_8));
         assertEquals(new File("aSubDir"), SymlinkUtils.readSymbolicLink(new File(target, "symlinkToDir")));
     }
 
     private File createTargetFile(File target) throws IOException {
         File relativePath = new File("actualFile");
         File actualFile = new File(target, relativePath.getPath());
-        FileUtils.write(actualFile, expected);
+        FileUtils.write(actualFile, expected, UTF_8);
         return relativePath;
     }
 }

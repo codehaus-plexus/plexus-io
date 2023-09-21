@@ -72,9 +72,6 @@ public interface PlexusIoResourceAttributes {
      */
     int getOctalMode();
 
-    // @Nonnull
-    // String getOctalModeString();
-
     /**
      * Indicates if this is a symbolic link element.
      * For file-based resource attributes this value may be always "false" for versions prior to java7.

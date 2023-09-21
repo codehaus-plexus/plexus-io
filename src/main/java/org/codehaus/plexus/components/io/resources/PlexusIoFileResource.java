@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 
 import org.apache.commons.io.IOUtils;
@@ -103,7 +104,10 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     private static DeferredFileOutputStream asDeferredStream(
             @Nonnull ContentSupplier supplier, @Nonnull InputStreamTransformer transToUse, PlexusIoResource resource)
             throws IOException {
-        DeferredFileOutputStream dfos = new DeferredFileOutputStream(5000000, "p-archiver", null, null);
+        DeferredFileOutputStream dfos = DeferredFileOutputStream.builder()
+                .setThreshold(5000000)
+                .setPrefix("p-archiver")
+                .get();
         InputStream inputStream = supplier.getContents();
         InputStream transformed = transToUse.transform(resource, inputStream);
         IOUtils.copy(transformed, dfos);
@@ -113,11 +117,7 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     }
 
     private static ContentSupplier getRootContentSupplier(final File file) {
-        return new ContentSupplier() {
-            public InputStream getContents() throws IOException {
-                return new FileInputStream(file);
-            }
-        };
+        return () -> Files.newInputStream(file.toPath());
     }
 
     public static String getName(File file) {

@@ -42,7 +42,7 @@ public class FileExtensionMapper extends AbstractFileMapper {
         if (pTargetExtension == null) {
             throw new IllegalArgumentException("The target extension is null.");
         }
-        if (pTargetExtension.length() == 0) {
+        if (pTargetExtension.isEmpty()) {
             throw new IllegalArgumentException("The target extension is empty.");
         }
         if (pTargetExtension.charAt(0) == '.') {

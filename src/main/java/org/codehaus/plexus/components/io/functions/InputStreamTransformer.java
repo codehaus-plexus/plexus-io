@@ -29,7 +29,7 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 public interface InputStreamTransformer {
     /**
      * Transform the supplied input stream into another input stream.
-     *
+     * <p>
      * The close method will be delegated through the entire call chain
      *
      * @param resource The p-io resource the stream is for

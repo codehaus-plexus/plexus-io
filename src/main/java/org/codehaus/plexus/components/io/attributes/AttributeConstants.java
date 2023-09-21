@@ -16,6 +16,7 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
+@SuppressWarnings("OctalInteger")
 public final class AttributeConstants {
 
     public static final int OCTAL_OWNER_READ = 0400;

@@ -7,16 +7,17 @@ import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SymlinkUtils;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
-import org.codehaus.plexus.util.Os;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlexusIoPlexusIoFileResourceTest {
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testRealSymlink() throws IOException {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) return;
         final File file = new File("src/test/resources/symlinks/src/symDir");
         PlexusIoResourceAttributes attrs = FileAttributes.uncached(file);
         assertTrue(attrs.isSymbolicLink());
@@ -30,8 +31,8 @@ public class PlexusIoPlexusIoFileResourceTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testSymSymlinkFile() throws IOException {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) return;
         final File file = new File("src/test/resources/symlinks/src/symSymR");
         PlexusIoResource r = ResourceFactory.createResource(file);
         assertTrue(r.isSymbolicLink());
@@ -45,8 +46,8 @@ public class PlexusIoPlexusIoFileResourceTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testSymlinkFile() throws IOException {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) return;
         final File file = new File("src/test/resources/symlinks/src/symR");
         PlexusIoResource r = ResourceFactory.createResource(file);
         assertTrue(r.isSymbolicLink());

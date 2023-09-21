@@ -108,7 +108,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
     protected String getName(File file) throws IOException {
         final String name = file.getPath();
         final String ext = getDefaultExtension();
-        if (ext != null && ext.length() > 0 && name.endsWith(ext)) {
+        if (ext != null && !ext.isEmpty() && name.endsWith(ext)) {
             return name.substring(0, name.length() - ext.length());
         }
         return name;

@@ -18,8 +18,9 @@ package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
 
-import org.codehaus.plexus.util.Os;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,14 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class FileAttributesTest {
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testGetPosixFileAttributes() throws Exception {
-
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            return;
-        }
-
         File file = new File(".");
-
         PlexusIoResourceAttributes fa = new FileAttributes(file);
         assertNotNull(fa);
     }

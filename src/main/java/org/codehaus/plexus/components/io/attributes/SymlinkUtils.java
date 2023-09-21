@@ -35,14 +35,13 @@ public class SymlinkUtils {
      * @throws java.io.IOException
      */
     public static @Nonnull File readSymbolicLink(@Nonnull File symlink) throws IOException {
-        final java.nio.file.Path path = java.nio.file.Files.readSymbolicLink(symlink.toPath());
-        return path.toFile();
+        return Files.readSymbolicLink(symlink.toPath()).toFile();
     }
 
     public static @Nonnull File createSymbolicLink(@Nonnull File symlink, File target) throws IOException {
         Path link = symlink.toPath();
         if (!Files.exists(link, LinkOption.NOFOLLOW_LINKS)) {
-            link = java.nio.file.Files.createSymbolicLink(link, target.toPath());
+            link = Files.createSymbolicLink(link, target.toPath());
         }
         return link.toFile();
     }

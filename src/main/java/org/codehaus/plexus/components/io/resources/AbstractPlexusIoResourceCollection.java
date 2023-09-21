@@ -249,9 +249,8 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
 
     public long getLastModified() throws IOException {
         long lastModified = PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
-        for (final Iterator iter = getResources(); iter.hasNext(); ) {
-            final PlexusIoResource res = (PlexusIoResource) iter.next();
-            long l = res.getLastModified();
+        for (Iterator<PlexusIoResource> iter = getResources(); iter.hasNext(); ) {
+            long l = iter.next().getLastModified();
             if (l == PlexusIoResource.UNKNOWN_MODIFICATION_DATE) {
                 return PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
             }

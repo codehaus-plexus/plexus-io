@@ -28,7 +28,7 @@ import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 
 class ResourceInvocationHandler implements InvocationHandler {
-    private PlexusIoResource testImpl;
+    private final PlexusIoResource testImpl;
 
     private final ContentSupplier contentSupplier;
     private final NameSupplier nameSupplier;

@@ -41,7 +41,7 @@ public class MergeFileMapper extends AbstractFileMapper {
         if (pName == null) {
             throw new IllegalArgumentException("The target name is null.");
         }
-        if (pName.length() == 0) {
+        if (pName.isEmpty()) {
             throw new IllegalArgumentException("The target name is empty.");
         }
         targetName = pName;

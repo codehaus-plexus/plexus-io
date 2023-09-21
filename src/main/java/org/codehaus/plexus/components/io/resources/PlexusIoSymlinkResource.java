@@ -87,10 +87,4 @@ public class PlexusIoSymlinkResource extends PlexusIoFileResource implements Sym
     public long getLastModified() {
         return targetResource.getLastModified();
     }
-
-    @Nonnull
-    @Override
-    public PlexusIoResourceAttributes getAttributes() {
-        return super.getAttributes();
-    }
 }

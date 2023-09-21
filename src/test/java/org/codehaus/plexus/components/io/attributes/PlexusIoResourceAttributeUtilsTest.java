@@ -22,12 +22,13 @@ import java.net.URL;
 import java.nio.file.NoSuchFileException;
 import java.util.Map;
 
-import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributeUtils.getFileAttributes;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,12 +37,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlexusIoResourceAttributeUtilsTest {
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testGetAttributesForThisTestClass() throws IOException {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            System.out.println("WARNING: Unsupported OS, skipping test");
-            return;
-        }
-
         URL resource = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource(getClass().getName().replace('.', '/') + ".class");
@@ -64,12 +61,8 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testDirectory() throws IOException, CommandLineException {
-
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            return; // Nothing to do here.
-        }
-
         URL resource = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource(getClass().getName().replace('.', '/') + ".class");
@@ -106,11 +99,8 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testSrcResource() throws IOException {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            return; // Nothing to do here.
-        }
-
         File dir = new File("src/test/resources/symlinks");
         final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
                 PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true);
@@ -260,15 +250,21 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
+    void testFileAttributesGeneric() throws IOException {
+        PlexusIoResourceAttributes attrs = getFileAttributes(new File("src/test/resources/symlinks/src/fileW.txt"));
+        assertFalse(attrs.isSymbolicLink());
+        assertTrue(StringUtils.isNotEmpty(attrs.getUserName()));
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
     void testFileAttributes() throws IOException {
         PlexusIoResourceAttributes attrs = getFileAttributes(new File("src/test/resources/symlinks/src/fileW.txt"));
         assertFalse(attrs.isSymbolicLink());
         assertTrue(StringUtils.isNotEmpty(attrs.getUserName()));
-        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-            assertTrue(StringUtils.isNotEmpty(attrs.getGroupName()));
-            assertNotNull(attrs.getGroupId());
-            assertNotNull(attrs.getUserId());
-        }
+        assertTrue(StringUtils.isNotEmpty(attrs.getGroupName()));
+        assertNotNull(attrs.getGroupId());
+        assertNotNull(attrs.getUserId());
     }
 
     @Test
