@@ -3,16 +3,16 @@ package org.codehaus.plexus.components.io.resources;
 import java.io.File;
 import java.util.Iterator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Kristian Rosenvold
  */
 public class PlexusIoFileSupplierResourceCollectionTest {
     @Test
-    public void testGetName() throws Exception {
+    void testGetName() throws Exception {
         PlexusIoFileResourceCollection coll = new PlexusIoFileResourceCollection();
         char nonSeparator = File.separatorChar == '/' ? '\\' : '/';
         coll.setPrefix("fud" + nonSeparator);

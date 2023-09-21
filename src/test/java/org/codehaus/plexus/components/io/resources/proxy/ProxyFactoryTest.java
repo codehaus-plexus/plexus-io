@@ -18,17 +18,14 @@ import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProxyFactoryTest {
 
     @Test
-    public void testCreateProxy() throws Exception {
+    void testCreateProxy() throws Exception {
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), null);
         assertTrue(proxy instanceof ResourceAttributeSupplier);
         assertTrue(proxy instanceof FileSupplier);
@@ -36,42 +33,30 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    public void testCreateProxyWithNameOverride() throws Exception {
-        NameSupplier ns = new NameSupplier() {
-            public String getName() {
-                return "fred";
-            }
-        };
+    void testCreateProxyWithNameOverride() throws Exception {
+        NameSupplier ns = () -> "fred";
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
         assertEquals("fred", proxy.getName());
     }
 
     @Test
-    public void testCreateProxyWithResourceAttributeOverride() throws Exception {
+    void testCreateProxyWithResourceAttributeOverride() throws Exception {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-        ResourceAttributeSupplier ns = new ResourceAttributeSupplier() {
-            public PlexusIoResourceAttributes getAttributes() {
-                return s;
-            }
-        };
+        ResourceAttributeSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
         assertSame(s, ((ResourceAttributeSupplier) proxy).getAttributes());
     }
 
     @Test
-    public void testCreateProxyWithSizeSupplierOverride() throws Exception {
+    void testCreateProxyWithSizeSupplierOverride() throws Exception {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-        SizeSupplier ns = new SizeSupplier() {
-            public long getSize() {
-                return 42;
-            }
-        };
+        SizeSupplier ns = () -> 42;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
         assertEquals(42, proxy.getSize());
     }
 
     @Test
-    public void testCreateProxyWithContentSupplierOverride() throws Exception {
+    void testCreateProxyWithContentSupplierOverride() throws Exception {
         final InputStream s = new ByteArrayInputStream(new byte[10]);
         ContentSupplier ns = new ContentSupplier() {
             public InputStream getContents() throws IOException {
@@ -83,12 +68,8 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    public void testCreateProxyWithSymlinkDestinationSupplierOverride() throws Exception {
-        SymlinkDestinationSupplier ns = new SymlinkDestinationSupplier() {
-            public String getSymlinkDestination() throws IOException {
-                return "mordor";
-            }
-        };
+    void testCreateProxyWithSymlinkDestinationSupplierOverride() throws Exception {
+        SymlinkDestinationSupplier ns = () -> "mordor";
         final PlexusIoResource proxy = ProxyFactory.createProxy(getDummySymlinkResource(), ns);
         assertEquals("mordor", ((SymlinkDestinationSupplier) proxy).getSymlinkDestination());
     }
@@ -100,7 +81,7 @@ public class ProxyFactoryTest {
         return new PlexusIoFileResource(file, "pom.xml", attrs) {};
     }
 
-    class Dummy extends PlexusIoFileResource implements SymlinkDestinationSupplier {
+    static class Dummy extends PlexusIoFileResource implements SymlinkDestinationSupplier {
         public Dummy(@Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs) throws IOException {
             super(file, file.getName(), attrs);
         }

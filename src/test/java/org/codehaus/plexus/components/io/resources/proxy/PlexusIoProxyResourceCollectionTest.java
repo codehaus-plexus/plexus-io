@@ -28,10 +28,10 @@ import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.Stream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test case for {@link PlexusIoProxyResourceCollection}.
@@ -42,7 +42,7 @@ public class PlexusIoProxyResourceCollectionTest {
     private final String[] SAMPLE_EXCLUDES = {"*.junk", "somwhere/**"};
 
     @Test
-    public void testGetDefaultFileSelector() throws Exception {
+    void testGetDefaultFileSelector() throws Exception {
         PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection(null);
 
         // This will throw an exception if there is a bug
@@ -55,12 +55,12 @@ public class PlexusIoProxyResourceCollectionTest {
         resCol.getDefaultFileSelector();
     }
 
-    class CloseableIterator implements Iterator<PlexusIoResource>, Closeable {
+    static class CloseableIterator implements Iterator<PlexusIoResource>, Closeable {
         boolean next = true;
 
         boolean closed = false;
 
-        public void close() throws IOException {
+        public void close() {
             closed = true;
         }
 
@@ -91,7 +91,7 @@ public class PlexusIoProxyResourceCollectionTest {
     }
 
     @Test
-    public void testClosing() throws IOException {
+    void testClosing() throws IOException {
         final CloseableIterator closeableIterator = new CloseableIterator();
         PlexusIoProxyResourceCollection resCol =
                 new PlexusIoProxyResourceCollection(new AbstractPlexusIoResourceCollection() {

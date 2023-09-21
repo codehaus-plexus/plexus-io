@@ -21,27 +21,27 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SymlinkUtilsTest {
     File target = new File("target/symlinkCapabilities");
 
     String expected = "This is a filed that we'll be symlinking to\n";
 
-    @Before
+    @BeforeEach
     public void setup() throws IOException {
         FileUtils.deleteDirectory(target);
         Files.createDirectories(target.toPath());
     }
 
     @Test
-    public void testName() throws Exception {}
+    void testName() throws Exception {}
 
     @Test
-    public void create_read_symbolic_link_to_file() throws Exception {
+    void create_read_symbolic_link_to_file() throws Exception {
         File symlink = new File(target, "symlinkToTarget");
         File relativePath = createTargetFile(target);
         SymlinkUtils.createSymbolicLink(symlink, relativePath);
@@ -50,7 +50,7 @@ public class SymlinkUtilsTest {
     }
 
     @Test
-    public void create_read_symbolic_link_to_directory() throws Exception {
+    void create_read_symbolic_link_to_directory() throws Exception {
         File subDir = new File(target, "aSubDir");
         createTargetFile(subDir);
         File symlink = new File(target, "symlinkToDir");
