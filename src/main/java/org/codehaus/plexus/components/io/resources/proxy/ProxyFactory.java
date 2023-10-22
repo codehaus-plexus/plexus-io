@@ -15,8 +15,6 @@
  */
 package org.codehaus.plexus.components.io.resources.proxy;
 
-import javax.annotation.Nonnull;
-
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +23,10 @@ import org.codehaus.plexus.components.io.functions.FileSupplier;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.jetbrains.annotations.NotNull;
 
 public class ProxyFactory {
-    public static PlexusIoResource createProxy(@Nonnull PlexusIoResource target, Object alternateSupplier) {
+    public static PlexusIoResource createProxy(@NotNull PlexusIoResource target, Object alternateSupplier) {
 
         List<Class> interfaces = new ArrayList<>();
         interfaces.add(PlexusIoResource.class);

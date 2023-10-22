@@ -15,8 +15,6 @@
  */
 package org.codehaus.plexus.components.io.resources.proxy;
 
-import javax.annotation.Nonnull;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -26,6 +24,7 @@ import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.jetbrains.annotations.NotNull;
 
 class ResourceInvocationHandler implements InvocationHandler {
     private final PlexusIoResource testImpl;
@@ -36,7 +35,7 @@ class ResourceInvocationHandler implements InvocationHandler {
     private final SymlinkDestinationSupplier symlinkDestinationSupplier;
     private final ResourceAttributeSupplier resourceAttributeSupplier;
 
-    public ResourceInvocationHandler(@Nonnull PlexusIoResource target, Object alternativeHandler) {
+    public ResourceInvocationHandler(@NotNull PlexusIoResource target, Object alternativeHandler) {
         this.testImpl = target;
         this.contentSupplier = asOrNull(alternativeHandler, ContentSupplier.class);
         this.nameSupplier = asOrNull(alternativeHandler, NameSupplier.class);

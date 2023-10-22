@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +27,7 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Abstract base class for compressed files, aka singleton
@@ -94,7 +93,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
         final PlexusIoResourceAttributes attributes = getAttributes(f);
 
         final ContentSupplier contentSupplier = new ContentSupplier() {
-            @Nonnull
+            @NotNull
             public InputStream getContents() throws IOException {
                 return getInputStream(f);
             }
@@ -116,7 +115,7 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
     protected abstract String getDefaultExtension();
 
-    protected abstract @Nonnull InputStream getInputStream(File file) throws IOException;
+    protected abstract @NotNull InputStream getInputStream(File file) throws IOException;
 
     public InputStream getInputStream(PlexusIoResource resource) throws IOException {
         InputStream contents = resource.getContents();

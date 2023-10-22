@@ -16,7 +16,7 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface PlexusIoResourceAttributes {
     int UNKNOWN_OCTAL_MODE = -1;

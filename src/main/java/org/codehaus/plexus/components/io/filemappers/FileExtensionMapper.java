@@ -16,8 +16,9 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Named;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An implementation of {@link FileMapper}, which changes the files extension.
@@ -60,8 +61,8 @@ public class FileExtensionMapper extends AbstractFileMapper {
         return targetExtension;
     }
 
-    @Nonnull
-    public String getMappedFileName(@Nonnull String pName) {
+    @NotNull
+    public String getMappedFileName(@NotNull String pName) {
         final String ext = getTargetExtension();
         if (ext == null) {
             throw new IllegalStateException("The target extension has not been set.");

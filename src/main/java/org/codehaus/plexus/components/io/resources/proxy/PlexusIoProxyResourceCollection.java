@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Iterator;
@@ -36,6 +34,7 @@ import org.codehaus.plexus.components.io.resources.EncodingSupported;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.Stream;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for an archives contents.
@@ -44,7 +43,7 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
         implements EncodingSupported {
     private final PlexusIoResourceCollection src;
 
-    public PlexusIoProxyResourceCollection(@Nonnull PlexusIoResourceCollection src) {
+    public PlexusIoProxyResourceCollection(@NotNull PlexusIoResourceCollection src) {
         this.src = src;
     }
 

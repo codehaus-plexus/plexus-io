@@ -16,11 +16,12 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Named;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Implementation of a file mapper, which uses regular expressions.
@@ -82,8 +83,8 @@ public class RegExpFileMapper extends AbstractFileMapper {
         replaceAll = pReplaceAll;
     }
 
-    @Nonnull
-    public String getMappedFileName(@Nonnull String pName) {
+    @NotNull
+    public String getMappedFileName(@NotNull String pName) {
         final String name = super.getMappedFileName(pName);
         if (pattern == null) {
             throw new IllegalStateException("The regular expression pattern has not been set.");

@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -26,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.plexus.util.FileUtils;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"NullableProblems"})
 public final class PlexusIoResourceAttributeUtils {
@@ -136,13 +135,13 @@ public final class PlexusIoResourceAttributeUtils {
         return getFileAttributesByPath(dir, true);
     }
 
-    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
-            @Nonnull File dir, boolean recursive) throws IOException {
+    public static @NotNull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
+            @NotNull File dir, boolean recursive) throws IOException {
         return getFileAttributesByPath(dir, recursive, false);
     }
 
-    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
-            @Nonnull File dir, boolean recursive, boolean followLinks) throws IOException {
+    public static @NotNull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
+            @NotNull File dir, boolean recursive, boolean followLinks) throws IOException {
         final List<String> fileAndDirectoryNames;
         if (recursive && dir.isDirectory()) {
             fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames(dir, null, null, true, true, true, true);

@@ -14,8 +14,9 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Named;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A file mapper, which maps by adding a suffix to the filename.
@@ -48,8 +49,8 @@ public class SuffixFileMapper extends AbstractFileMapper {
         this.suffix = suffix;
     }
 
-    @Nonnull
-    public String getMappedFileName(@Nonnull String pName) {
+    @NotNull
+    public String getMappedFileName(@NotNull String pName) {
         final String name = super.getMappedFileName(pName);
         if (suffix == null) {
             throw new IllegalStateException("The suffix has not been set.");

@@ -16,16 +16,16 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.jetbrains.annotations.NotNull;
+
 public abstract class PlexusIoURLResource extends AbstractPlexusIoResource {
     protected PlexusIoURLResource(
-            @Nonnull String name,
+            @NotNull String name,
             long lastModified,
             long size,
             boolean isFile,
@@ -34,7 +34,7 @@ public abstract class PlexusIoURLResource extends AbstractPlexusIoResource {
         super(name, lastModified, size, isFile, isDirectory, isExisting);
     }
 
-    @Nonnull
+    @NotNull
     public InputStream getContents() throws IOException {
         final URL url = getURL();
         try {
