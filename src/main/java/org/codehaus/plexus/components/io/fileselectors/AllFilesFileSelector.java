@@ -16,9 +16,10 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The default file selector: Selects all files.
@@ -31,7 +32,7 @@ public class AllFilesFileSelector implements FileSelector {
      */
     public static final String ROLE_HINT = "all";
 
-    public boolean isSelected(@Nonnull FileInfo fileInfo) {
+    public boolean isSelected(@NotNull FileInfo fileInfo) {
         return true;
     }
 }

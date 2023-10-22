@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Named;
 
 import java.io.File;
@@ -25,6 +23,8 @@ import java.io.File;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.MatchPatterns;
 import org.codehaus.plexus.util.SelectorUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * This file selector uses a set of patterns for including/excluding
@@ -61,7 +61,7 @@ public class IncludeExcludeFileSelector implements FileSelector {
      * @return <code>true</code> when the name matches against at least one
      *         exclude pattern, or <code>false</code> otherwise.
      */
-    protected boolean isExcluded(@Nonnull String name) {
+    protected boolean isExcluded(@NotNull String name) {
         return computedExcludes.matches(name, isCaseSensitive);
     }
 
@@ -92,11 +92,11 @@ public class IncludeExcludeFileSelector implements FileSelector {
         }
     }
 
-    private static @Nonnull String getCanonicalName(@Nonnull String pName) {
+    private static @NotNull String getCanonicalName(@NotNull String pName) {
         return pName.replace('/', File.separatorChar).replace('\\', File.separatorChar);
     }
 
-    private String asPattern(@Nonnull String pPattern) {
+    private String asPattern(@NotNull String pPattern) {
         String pattern = getCanonicalName(pPattern.trim());
         if (pattern.endsWith(File.separator)) {
             pattern += "**";
@@ -166,7 +166,7 @@ public class IncludeExcludeFileSelector implements FileSelector {
      * @param isCaseSensitive Whether the pattern is case sensitive.
      * @return True, if the pattern matches, otherwise false
      */
-    protected boolean matchPath(@Nonnull String pattern, @Nonnull String name, boolean isCaseSensitive) {
+    protected boolean matchPath(@NotNull String pattern, @NotNull String name, boolean isCaseSensitive) {
         return SelectorUtils.matchPath(pattern, name, isCaseSensitive);
     }
 
@@ -178,11 +178,11 @@ public class IncludeExcludeFileSelector implements FileSelector {
      * @return <code>true</code> when the name matches against at least one
      *         include pattern, or <code>false</code> otherwise.
      */
-    protected boolean isIncluded(@Nonnull String name) {
+    protected boolean isIncluded(@NotNull String name) {
         return computedIncludes.matches(name, isCaseSensitive);
     }
 
-    public boolean isSelected(@Nonnull FileInfo fileInfo) {
+    public boolean isSelected(@NotNull FileInfo fileInfo) {
         final String name = getCanonicalName(fileInfo.getName());
         return isIncluded(name) && !isExcluded(name);
     }

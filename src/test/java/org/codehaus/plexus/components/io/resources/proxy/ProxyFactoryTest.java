@@ -1,7 +1,5 @@
 package org.codehaus.plexus.components.io.resources.proxy;
 
-import javax.annotation.Nonnull;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +16,7 @@ import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoFileResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +77,7 @@ public class ProxyFactoryTest {
     }
 
     static class Dummy extends PlexusIoFileResource implements SymlinkDestinationSupplier {
-        public Dummy(@Nonnull File file, @Nonnull PlexusIoResourceAttributes attrs) throws IOException {
+        public Dummy(@NotNull File file, @NotNull PlexusIoResourceAttributes attrs) throws IOException {
             super(file, file.getName(), attrs);
         }
 

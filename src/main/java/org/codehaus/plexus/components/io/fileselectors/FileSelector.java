@@ -16,9 +16,9 @@ package org.codehaus.plexus.components.io.fileselectors;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Interface of a component, which selects/deselects files.
@@ -30,5 +30,5 @@ public interface FileSelector {
      *   It is recommended, that the caller creates an instance
      *   of {@link org.codehaus.plexus.components.io.resources.PlexusIoResource}.
      */
-    boolean isSelected(@Nonnull FileInfo fileInfo) throws IOException;
+    boolean isSelected(@NotNull FileInfo fileInfo) throws IOException;
 }

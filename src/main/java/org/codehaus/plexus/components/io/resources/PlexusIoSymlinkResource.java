@@ -1,7 +1,5 @@
 package org.codehaus.plexus.components.io.resources;
 
-import javax.annotation.Nonnull;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,33 +7,34 @@ import java.nio.file.Path;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
+import org.jetbrains.annotations.NotNull;
 
 public class PlexusIoSymlinkResource extends PlexusIoFileResource implements SymlinkDestinationSupplier {
     private final String symLinkDestination;
     private final PlexusIoFileResource targetResource;
 
-    PlexusIoSymlinkResource(@Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs)
+    PlexusIoSymlinkResource(@NotNull File symlinkfile, String name, @NotNull PlexusIoResourceAttributes attrs)
             throws IOException {
         this(symlinkfile, name, attrs, symlinkfile.toPath());
     }
 
     PlexusIoSymlinkResource(
-            @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs, Path linkPath)
+            @NotNull File symlinkfile, String name, @NotNull PlexusIoResourceAttributes attrs, Path linkPath)
             throws IOException {
         this(symlinkfile, name, attrs, linkPath, java.nio.file.Files.readSymbolicLink(linkPath));
     }
 
     private PlexusIoSymlinkResource(
-            @Nonnull File symlinkfile, String name, @Nonnull PlexusIoResourceAttributes attrs, Path path, Path linkPath)
+            @NotNull File symlinkfile, String name, @NotNull PlexusIoResourceAttributes attrs, Path path, Path linkPath)
             throws IOException {
         this(symlinkfile, name, attrs, linkPath.toString(), (PlexusIoFileResource)
                 ResourceFactory.createResource(path.resolveSibling(linkPath).toFile()));
     }
 
     private PlexusIoSymlinkResource(
-            @Nonnull File symlinkfile,
+            @NotNull File symlinkfile,
             String name,
-            @Nonnull PlexusIoResourceAttributes attrs,
+            @NotNull PlexusIoResourceAttributes attrs,
             String symLinkDestination,
             PlexusIoFileResource targetResource)
             throws IOException {

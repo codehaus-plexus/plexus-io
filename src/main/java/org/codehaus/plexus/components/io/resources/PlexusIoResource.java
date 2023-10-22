@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,6 +23,7 @@ import java.net.URL;
 import org.codehaus.plexus.components.io.fileselectors.FileInfo;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A resource is a file-like entity. It may be an actual file,
@@ -77,7 +76,7 @@ public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplie
      * Please note that this InputStream is unbuffered. Clients should wrap this in a
      * BufferedInputStream or attempt reading reasonably large chunks (8K+).
      */
-    @Nonnull
+    @NotNull
     InputStream getContents() throws IOException;
 
     /**

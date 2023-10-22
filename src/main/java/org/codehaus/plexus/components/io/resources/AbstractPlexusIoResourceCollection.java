@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -26,6 +24,7 @@ import org.codehaus.plexus.components.io.filemappers.FileMapper;
 import org.codehaus.plexus.components.io.filemappers.PrefixFileMapper;
 import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Default implementation of a resource collection.
@@ -33,8 +32,8 @@ import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 public abstract class AbstractPlexusIoResourceCollection implements PlexusIoResourceCollection {
 
     static class IdentityTransformer implements InputStreamTransformer {
-        @Nonnull
-        public InputStream transform(@Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream)
+        @NotNull
+        public InputStream transform(@NotNull PlexusIoResource resource, @NotNull InputStream inputStream)
                 throws IOException {
             return inputStream;
         }

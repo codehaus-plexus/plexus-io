@@ -1,8 +1,7 @@
 package org.codehaus.plexus.components.io.attributes.proxy;
 
-import javax.annotation.Nullable;
-
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
+import org.jetbrains.annotations.Nullable;
 
 public class PlexusIoProxyResourceAttributes implements PlexusIoResourceAttributes {
 

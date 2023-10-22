@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +34,7 @@ import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.FileSupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.requireNonNull;
 
@@ -44,28 +43,28 @@ import static java.util.Objects.requireNonNull;
  */
 public class PlexusIoFileResource extends AbstractPlexusIoResource implements ResourceAttributeSupplier, FileSupplier {
 
-    @Nonnull
+    @NotNull
     private final File file;
 
-    @Nonnull
+    @NotNull
     private final PlexusIoResourceAttributes attributes;
 
-    @Nonnull
+    @NotNull
     private final FileAttributes fileAttributes;
 
     private final ContentSupplier contentSupplier;
 
     private final DeferredFileOutputStream dfos;
 
-    protected PlexusIoFileResource(@Nonnull File file, @Nonnull String name, @Nonnull PlexusIoResourceAttributes attrs)
+    protected PlexusIoFileResource(@NotNull File file, @NotNull String name, @NotNull PlexusIoResourceAttributes attrs)
             throws IOException {
         this(file, name, attrs, null, null);
     }
 
     PlexusIoFileResource(
-            @Nonnull final File file,
-            @Nonnull String name,
-            @Nonnull PlexusIoResourceAttributes attrs,
+            @NotNull final File file,
+            @NotNull String name,
+            @NotNull PlexusIoResourceAttributes attrs,
             final ContentSupplier contentSupplier,
             final InputStreamTransformer streamTransformer)
             throws IOException {
@@ -73,10 +72,10 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     }
 
     PlexusIoFileResource(
-            @Nonnull final File file,
-            @Nonnull String name,
-            @Nonnull PlexusIoResourceAttributes attrs,
-            @Nonnull FileAttributes fileAttributes,
+            @NotNull final File file,
+            @NotNull String name,
+            @NotNull PlexusIoResourceAttributes attrs,
+            @NotNull FileAttributes fileAttributes,
             final ContentSupplier contentSupplier,
             final InputStreamTransformer streamTransformer)
             throws IOException {
@@ -102,7 +101,7 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     }
 
     private static DeferredFileOutputStream asDeferredStream(
-            @Nonnull ContentSupplier supplier, @Nonnull InputStreamTransformer transToUse, PlexusIoResource resource)
+            @NotNull ContentSupplier supplier, @NotNull InputStreamTransformer transToUse, PlexusIoResource resource)
             throws IOException {
         DeferredFileOutputStream dfos = DeferredFileOutputStream.builder()
                 .setThreshold(5000000)
@@ -127,12 +126,12 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     /**
      * Returns the resource file.
      */
-    @Nonnull
+    @NotNull
     public File getFile() {
         return file;
     }
 
-    @Nonnull
+    @NotNull
     public InputStream getContents() throws IOException {
         if (dfos == null) {
             return contentSupplier.getContents();
@@ -151,7 +150,7 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
         }
     }
 
-    @Nonnull
+    @NotNull
     public URL getURL() throws IOException {
         return getFile().toURI().toURL();
     }
@@ -182,12 +181,12 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
         return fileAttributes.isRegularFile();
     }
 
-    @Nonnull
+    @NotNull
     public PlexusIoResourceAttributes getAttributes() {
         return attributes;
     }
 
-    @Nonnull
+    @NotNull
     public FileAttributes getFileAttributes() {
         return fileAttributes;
     }

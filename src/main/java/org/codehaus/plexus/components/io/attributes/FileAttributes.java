@@ -16,9 +16,6 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,6 +28,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /*
  * File attributes
@@ -73,16 +73,16 @@ public class FileAttributes implements PlexusIoResourceAttributes {
      */
     @Deprecated
     public FileAttributes(
-            @Nonnull File file, @Nonnull Map<Integer, String> userCache, @Nonnull Map<Integer, String> groupCache)
+            @NotNull File file, @NotNull Map<Integer, String> userCache, @NotNull Map<Integer, String> groupCache)
             throws IOException {
         this(file);
     }
 
-    public FileAttributes(@Nonnull File file) throws IOException {
+    public FileAttributes(@NotNull File file) throws IOException {
         this(file, false);
     }
 
-    public FileAttributes(@Nonnull File file, boolean followLinks) throws IOException {
+    public FileAttributes(@NotNull File file, boolean followLinks) throws IOException {
         LinkOption[] options = followLinks ? FOLLOW_LINK_OPTIONS : NOFOLLOW_LINK_OPTIONS;
         Path path = file.toPath();
         Set<String> views = path.getFileSystem().supportedFileAttributeViews();
@@ -147,7 +147,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-    public static @Nonnull PlexusIoResourceAttributes uncached(@Nonnull File file) throws IOException {
+    public static @NotNull PlexusIoResourceAttributes uncached(@NotNull File file) throws IOException {
         return new FileAttributes(file);
     }
 

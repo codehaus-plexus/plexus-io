@@ -15,8 +15,6 @@
  */
 package org.codehaus.plexus.components.io.resources;
 
-import javax.annotation.Nonnull;
-
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +26,7 @@ import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.NameSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.resources.proxy.ProxyFactory;
+import org.jetbrains.annotations.NotNull;
 
 class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
     final DeferredFileOutputStream dfos;
@@ -53,7 +52,7 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
         }
     }
 
-    @Nonnull
+    @NotNull
     public InputStream getContents() throws IOException {
         if (dfos == null) {
             return resource.getContents();

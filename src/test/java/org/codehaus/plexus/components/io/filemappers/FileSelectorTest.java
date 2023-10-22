@@ -16,7 +16,6 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.testing.PlexusTest;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,7 +48,7 @@ public class FileSelectorTest {
         for (int i = 0; i < pInput.length; i++) {
             final String name = pInput[i];
             AbstractPlexusIoResource resource = new AbstractPlexusIoResource(name, 0, 0, true, false, true) {
-                @Nonnull
+                @NotNull
                 public InputStream getContents() {
                     throw new IllegalStateException("Not implemented");
                 }

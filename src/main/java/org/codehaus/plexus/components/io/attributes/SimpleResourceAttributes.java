@@ -16,7 +16,7 @@ package org.codehaus.plexus.components.io.attributes;
  * limitations under the License.
  */
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /*
  * A very simple pojo based PlexusIoResourceAttributes without any kind of backing

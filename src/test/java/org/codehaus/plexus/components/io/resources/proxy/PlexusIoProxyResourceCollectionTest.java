@@ -16,8 +16,6 @@ package org.codehaus.plexus.components.io.resources.proxy;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +26,7 @@ import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResource;
 import org.codehaus.plexus.components.io.resources.AbstractPlexusIoResourceCollection;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.Stream;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -74,7 +73,7 @@ public class PlexusIoProxyResourceCollectionTest {
 
         public PlexusIoResource next() {
             return new AbstractPlexusIoResource("fud", 123, 22, true, false, false) {
-                @Nonnull
+                @NotNull
                 public InputStream getContents() {
                     return null;
                 }

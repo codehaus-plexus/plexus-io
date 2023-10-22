@@ -15,12 +15,11 @@ package org.codehaus.plexus.components.io.functions;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import javax.annotation.Nonnull;
-
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Transform a stream into some other kind of stream. May be used to apply filtering or other
@@ -37,6 +36,6 @@ public interface InputStreamTransformer {
      * @return A transformed stream or possibly the supplied stream
      * @throws IOException
      */
-    @Nonnull
-    InputStream transform(@Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream) throws IOException;
+    @NotNull
+    InputStream transform(@NotNull PlexusIoResource resource, @NotNull InputStream inputStream) throws IOException;
 }

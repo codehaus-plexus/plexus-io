@@ -16,7 +16,7 @@ package org.codehaus.plexus.components.io.filemappers;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Abstract base class for deriving file mappers. It is recommended
@@ -28,7 +28,7 @@ public abstract class AbstractFileMapper implements FileMapper {
     /**
      * Checks the input and returns it without modifications.
      */
-    public @Nonnull String getMappedFileName(@Nonnull String pName) {
+    public @NotNull String getMappedFileName(@NotNull String pName) {
         if (pName == null || pName.isEmpty()) {
             throw new IllegalArgumentException("The source name must not be null.");
         }

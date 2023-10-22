@@ -16,9 +16,9 @@ package org.codehaus.plexus.components.io.functions;
  * limitations under the License.
  */
 
-import javax.annotation.Nonnull;
-
 import java.io.File;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Implemented by resources that are files on something filesystem-like.
@@ -28,6 +28,6 @@ public interface FileSupplier {
      * Supplies the file for this resource, not null.
      * @return The file
      */
-    @Nonnull
+    @NotNull
     File getFile();
 }
