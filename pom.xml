@@ -130,6 +130,28 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-scope-of-annotation-deps</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <searchTransitive>false</searchTransitive>
+                  <excludes>
+                    <exclude>org.jetbrains:annotations:*:*:compile</exclude>
+                  </excludes>
+                  <message>The annotation dependencies should be used with scope provided to prevent transitive inheritance and to prevent runtime inclusion</message>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
