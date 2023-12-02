@@ -21,5 +21,11 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Build with Maven
+    name: Build it
     uses: codehaus-plexus/.github/.github/workflows/maven.yml@master
+
+  deploy:
+    name: Deploy
+    needs: build
+    uses: codehaus-plexus/.github/.github/workflows/maven-deploy.yml@master
+    secrets: inherit
