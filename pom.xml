@@ -9,14 +9,14 @@
   </parent>
 
   <artifactId>plexus-io</artifactId>
-  <version>3.4.2-SNAPSHOT</version>
+  <version>3.4.2</version>
 
   <name>Plexus IO Components</name>
 
   <scm>
     <connection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</connection>
     <developerConnection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>plexus-io-3.4.2</tag>
     <url>http://github.com/codehaus-plexus/plexus-io</url>
   </scm>
   <issueManagement>
@@ -32,7 +32,7 @@
 
   <properties>
     <slf4jVersion>1.7.36</slf4jVersion>
-    <project.build.outputTimestamp>2023-02-28T16:42:48Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-12-23T23:42:28Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
