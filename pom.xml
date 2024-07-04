@@ -31,10 +31,25 @@
   </distributionManagement>
 
   <properties>
+    <eclipseSisuVersion>0.9.0.M3</eclipseSisuVersion>
     <slf4jVersion>1.7.36</slf4jVersion>
     <project.build.outputTimestamp>2023-12-23T23:42:41Z</project.build.outputTimestamp>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.sisu</groupId>
+        <artifactId>org.eclipse.sisu.inject</artifactId>
+        <version>${eclipseSisuVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.sisu</groupId>
+        <artifactId>org.eclipse.sisu.plexus</artifactId>
+        <version>${eclipseSisuVersion}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <!-- JSR330 -->
     <dependency>
@@ -88,7 +103,6 @@
     <dependency>
       <groupId>org.eclipse.sisu</groupId>
       <artifactId>org.eclipse.sisu.inject</artifactId>
-      <version>0.9.0.M3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
