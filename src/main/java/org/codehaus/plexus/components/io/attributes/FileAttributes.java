@@ -141,7 +141,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
             }
             this.userName = name;
         } else if (views.contains("owner")) {
-            this.userName = getPrincipalName(path, "unix:owner");
+            this.userName = getPrincipalName(path, "owner:owner");
         } else {
             this.userName = null;
         }
