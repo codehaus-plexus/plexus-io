@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -28,9 +29,10 @@ import java.nio.file.attribute.FileTime;
 import java.nio.file.attribute.PosixFilePermission;
 import java.security.Principal;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*
  * File attributes
@@ -68,6 +70,12 @@ public class FileAttributes implements PlexusIoResourceAttributes {
 
     private final FileTime lastModifiedTime;
 
+    private static final Map<FileSystem, Map<Integer, String>> UIDS_CACHE =
+            Collections.synchronizedMap(new WeakHashMap<>());
+
+    private static final Map<FileSystem, Map<Integer, String>> GIDS_CACHE =
+            Collections.synchronizedMap(new WeakHashMap<>());
+
     /**
      * @deprecated use {@link #FileAttributes(File)} and remove the unused userCache and groupCache parameters
      */
@@ -79,32 +87,64 @@ public class FileAttributes implements PlexusIoResourceAttributes {
     }
 
     public FileAttributes(@Nonnull File file) throws IOException {
-        this(file, false);
+        this(file.toPath(), false);
     }
 
     public FileAttributes(@Nonnull File file, boolean followLinks) throws IOException {
+        this(file.toPath(), followLinks);
+    }
+
+    private static Map<Integer, String> getUserCache(FileSystem fs) {
+        return UIDS_CACHE.computeIfAbsent(fs, f -> new ConcurrentHashMap<>());
+    }
+
+    private static Map<Integer, String> getGroupCache(FileSystem fs) {
+        return GIDS_CACHE.computeIfAbsent(fs, f -> new ConcurrentHashMap<>());
+    }
+
+    public FileAttributes(@Nonnull Path path, boolean followLinks) throws IOException {
         LinkOption[] options = followLinks ? FOLLOW_LINK_OPTIONS : NOFOLLOW_LINK_OPTIONS;
-        Path path = file.toPath();
         Set<String> views = path.getFileSystem().supportedFileAttributeViews();
         String names;
         if (views.contains("unix")) {
-            names = "unix:*";
+            names =
+                    "unix:gid,uid,isSymbolicLink,isRegularFile,isDirectory,isOther,mode,permissions,size,lastModifiedTime";
         } else if (views.contains("posix")) {
             names = "posix:*";
         } else {
             names = "basic:*";
         }
         Map<String, Object> attrs = Files.readAttributes(path, names, options);
-        if (!attrs.containsKey("group") && !attrs.containsKey("owner") && views.contains("owner")) {
-            Map<String, Object> ownerAttrs = Files.readAttributes(path, "owner:*", options);
-            Map<String, Object> newAttrs = new HashMap<>(attrs);
-            newAttrs.putAll(ownerAttrs);
-            attrs = newAttrs;
-        }
         this.groupId = (Integer) attrs.get("gid");
-        this.groupName = attrs.containsKey("group") ? ((Principal) attrs.get("group")).getName() : null;
+        if (attrs.containsKey("group")) {
+            this.groupName = ((Principal) attrs.get("group")).getName();
+        } else if (this.groupId != null) {
+            Map<Integer, String> cache = getGroupCache(path.getFileSystem());
+            String name = cache.get(this.groupId);
+            if (name == null) {
+                name = getPrincipalName(path, "unix:group");
+                cache.put(this.groupId, name);
+            }
+            this.groupName = name;
+        } else {
+            this.groupName = null;
+        }
         this.userId = (Integer) attrs.get("uid");
-        this.userName = attrs.containsKey("owner") ? ((Principal) attrs.get("owner")).getName() : null;
+        if (attrs.containsKey("owner")) {
+            this.userName = ((Principal) attrs.get("owner")).getName();
+        } else if (this.userId != null) {
+            Map<Integer, String> cache = getUserCache(path.getFileSystem());
+            String name = cache.get(this.userId);
+            if (name == null) {
+                name = getPrincipalName(path, "unix:owner");
+                cache.put(this.userId, name);
+            }
+            this.userName = name;
+        } else if (views.contains("owner")) {
+            this.userName = getPrincipalName(path, "unix:owner");
+        } else {
+            this.userName = null;
+        }
         this.symbolicLink = (Boolean) attrs.get("isSymbolicLink");
         this.regularFile = (Boolean) attrs.get("isRegularFile");
         this.directory = (Boolean) attrs.get("isDirectory");
@@ -118,6 +158,11 @@ public class FileAttributes implements PlexusIoResourceAttributes {
                 : Collections.emptySet();
         this.size = (Long) attrs.get("size");
         this.lastModifiedTime = (FileTime) attrs.get("lastModifiedTime");
+    }
+
+    private static String getPrincipalName(Path path, String attribute) throws IOException {
+        Object owner = Files.getAttribute(path, attribute, LinkOption.NOFOLLOW_LINKS);
+        return ((Principal) owner).getName();
     }
 
     public FileAttributes(
@@ -167,7 +212,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
 
     @Nullable
     public String getGroupName() {
-        return groupName;
+        return this.groupName;
     }
 
     public Integer getUserId() {
@@ -175,7 +220,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
     }
 
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
 
     public boolean isGroupExecutable() {
