@@ -212,7 +212,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
 
     @Nullable
     public String getGroupName() {
-        return this.groupName;
+        return groupName;
     }
 
     public Integer getUserId() {
@@ -220,7 +220,7 @@ public class FileAttributes implements PlexusIoResourceAttributes {
     }
 
     public String getUserName() {
-        return this.userName;
+        return userName;
     }
 
     public boolean isGroupExecutable() {
