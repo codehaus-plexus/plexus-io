@@ -12,3 +12,5 @@ For publishing [the site](https://codehaus-plexus.github.io/plexus-io/) do the f
 ```
 mvn -Preporting verify site-deploy
 ```
+
+Enjoy!
