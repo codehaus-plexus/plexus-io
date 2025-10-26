@@ -160,9 +160,16 @@ public class FileAttributes implements PlexusIoResourceAttributes {
         this.lastModifiedTime = (FileTime) attrs.get("lastModifiedTime");
     }
 
-    private static String getPrincipalName(Path path, String attribute) throws IOException {
-        Object owner = Files.getAttribute(path, attribute, LinkOption.NOFOLLOW_LINKS);
-        return ((Principal) owner).getName();
+    @Nullable
+    private static String getPrincipalName(Path path, String attribute) {
+        try {
+            Object owner = Files.getAttribute(path, attribute, LinkOption.NOFOLLOW_LINKS);
+            return ((Principal) owner).getName();
+        } catch (IOException e) {
+            // Some file systems (e.g., WSL2 mapped network drives) don't provide ownership information
+            // Return null instead of propagating the exception
+            return null;
+        }
     }
 
     public FileAttributes(
