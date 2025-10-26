@@ -108,11 +108,11 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
                 .setThreshold(5000000)
                 .setPrefix("p-archiver")
                 .get();
-        InputStream inputStream = supplier.getContents();
-        InputStream transformed = transToUse.transform(resource, inputStream);
-        IOUtils.copy(transformed, dfos);
-        IOUtils.closeQuietly(inputStream);
-        IOUtils.closeQuietly(transformed);
+        try (InputStream inputStream = supplier.getContents();
+                InputStream transformed = transToUse.transform(resource, inputStream);
+                DeferredFileOutputStream closeable = dfos) {
+            IOUtils.copy(transformed, dfos);
+        }
         return dfos;
     }
 
