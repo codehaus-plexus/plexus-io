@@ -17,6 +17,8 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
@@ -34,5 +36,21 @@ public class FileAttributesTest {
         File file = new File(".");
         PlexusIoResourceAttributes fa = new FileAttributes(file);
         assertNotNull(fa);
+    }
+
+    @Test
+    void testFileAttributesHandlesIOException() throws IOException {
+        // Test that FileAttributes can be constructed for a regular file
+        // even if ownership information is not available (e.g., WSL2 mapped network drives)
+        File tempFile = Files.createTempFile("plexus-io-test", ".tmp").toFile();
+        try {
+            // This should not throw even if ownership info is unavailable
+            PlexusIoResourceAttributes fa = new FileAttributes(tempFile);
+            assertNotNull(fa);
+            // The attributes object should be usable even if userName/groupName are null
+            assertNotNull(fa.toString());
+        } finally {
+            tempFile.delete();
+        }
     }
 }
