@@ -113,6 +113,7 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
         IOUtils.copy(transformed, dfos);
         IOUtils.closeQuietly(inputStream);
         IOUtils.closeQuietly(transformed);
+        dfos.close();
         return dfos;
     }
 

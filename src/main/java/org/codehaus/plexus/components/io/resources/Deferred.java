@@ -50,6 +50,7 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
             InputStream inputStream = owner.getInputStream(resource);
             IOUtils.copy(inputStream, dfos);
             IOUtils.closeQuietly(inputStream);
+            dfos.close();
         }
     }
 
