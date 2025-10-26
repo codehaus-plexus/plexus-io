@@ -79,9 +79,17 @@ public class PlexusIoFileResourceCollectionSymlinkTest {
         collection.setFollowingSymLinks(false);
 
         List<PlexusIoResource> resources = collectResources(collection);
-        // Should not follow the directory symlink, so fewer or no resources
-        // The exact behavior depends on DirectoryScanner
-        assertTrue(resources.size() >= 0);
+        // When not following symlinks, DirectoryScanner won't traverse into symDir
+        // so we expect fewer resources than when following
+        PlexusIoFileResourceCollection followCollection = new PlexusIoFileResourceCollection();
+        followCollection.setBaseDir(new File("src/test/resources/symlinks/src"));
+        followCollection.setIncludes(new String[] {"symDir/**"});
+        followCollection.setFollowingSymLinks(true);
+        List<PlexusIoResource> followResources = collectResources(followCollection);
+
+        assertTrue(
+                resources.size() < followResources.size(),
+                "Should have fewer resources when not following directory symlinks");
     }
 
     @Test
