@@ -22,25 +22,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProxyFactoryTest {
+class ProxyFactoryTest {
 
     @Test
-    void testCreateProxy() throws Exception {
+    void createProxy() throws Exception {
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), null);
-        assertTrue(proxy instanceof ResourceAttributeSupplier);
-        assertTrue(proxy instanceof FileSupplier);
+        assertInstanceOf(ResourceAttributeSupplier.class, proxy);
+        assertInstanceOf(FileSupplier.class, proxy);
         assertFalse(proxy instanceof SymlinkDestinationSupplier);
     }
 
     @Test
-    void testCreateProxyWithNameOverride() throws Exception {
+    void createProxyWithNameOverride() throws Exception {
         NameSupplier ns = () -> "fred";
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
         assertEquals("fred", proxy.getName());
     }
 
     @Test
-    void testCreateProxyWithResourceAttributeOverride() throws Exception {
+    void createProxyWithResourceAttributeOverride() throws Exception {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
         ResourceAttributeSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
@@ -48,7 +48,7 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    void testCreateProxyWithSizeSupplierOverride() throws Exception {
+    void createProxyWithSizeSupplierOverride() throws Exception {
         final PlexusIoResourceAttributes s = SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
         SizeSupplier ns = () -> 42;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
@@ -56,7 +56,7 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    void testCreateProxyWithContentSupplierOverride() throws Exception {
+    void createProxyWithContentSupplierOverride() throws Exception {
         final InputStream s = new ByteArrayInputStream(new byte[10]);
         ContentSupplier ns = () -> s;
         final PlexusIoResource proxy = ProxyFactory.createProxy(getPomResource(), ns);
@@ -64,7 +64,7 @@ public class ProxyFactoryTest {
     }
 
     @Test
-    void testCreateProxyWithSymlinkDestinationSupplierOverride() throws Exception {
+    void createProxyWithSymlinkDestinationSupplierOverride() throws Exception {
         SymlinkDestinationSupplier ns = () -> "mordor";
         final PlexusIoResource proxy = ProxyFactory.createProxy(getDummySymlinkResource(), ns);
         assertEquals("mordor", ((SymlinkDestinationSupplier) proxy).getSymlinkDestination());

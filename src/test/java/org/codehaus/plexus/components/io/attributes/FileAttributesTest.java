@@ -17,7 +17,6 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 
 import org.junit.jupiter.api.Test;
@@ -29,17 +28,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Kristian Rosenvold
  */
-public class FileAttributesTest {
+class FileAttributesTest {
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testGetPosixFileAttributes() throws Exception {
+    void getPosixFileAttributes() throws Exception {
         File file = new File(".");
         PlexusIoResourceAttributes fa = new FileAttributes(file);
         assertNotNull(fa);
     }
 
     @Test
-    void testFileAttributesHandlesIOException() throws IOException {
+    void fileAttributesHandlesIOException() throws Exception {
         // Test that FileAttributes can be constructed for a regular file
         // even if ownership information is not available (e.g., WSL2 mapped network drives)
         File tempFile = Files.createTempFile("plexus-io-test", ".tmp").toFile();

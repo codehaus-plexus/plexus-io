@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test case for resource collections.
  */
 @PlexusTest
-public class ResourcesTest {
+class ResourcesTest {
 
     @Inject
     PlexusContainer container;
@@ -132,11 +132,11 @@ public class ResourcesTest {
     }
 
     private void compare(PlexusIoResource res, File file) throws IOException {
-        assertTrue(res.getLastModified() != PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
+        assertNotSame(res.getLastModified(), PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
         if (res instanceof PlexusIoFileResource) {
             assertEquals(res.getLastModified() / 1000, file.lastModified() / 1000);
         }
-        assertTrue(res.getSize() != PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
+        assertNotSame(res.getSize(), PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
         assertEquals(res.getSize(), file.length());
         InputStream in = res.getContents();
         compare(in, file);
@@ -200,7 +200,7 @@ public class ResourcesTest {
     }
 
     @Test
-    void testFileCollection() throws Exception {
+    void fileCollection() throws Exception {
         createFiles();
         testFileResourceCollection((PlexusIoFileResourceCollection) container.lookup(PlexusIoResourceCollection.class));
         testFileResourceCollection((PlexusIoFileResourceCollection)

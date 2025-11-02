@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * Test case for implementations of {@link FileSelector}.
  */
 @PlexusTest
-public class FileSelectorTest {
+class FileSelectorTest {
 
     @Inject
     PlexusContainer container;
@@ -80,7 +80,7 @@ public class FileSelectorTest {
     }
 
     @Test
-    void testAllFilesFileSelector() throws Exception {
+    void allFilesFileSelector() throws Exception {
         testFileSelector(new AllFilesFileSelector());
         testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.class));
         testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.class, AllFilesFileSelector.ROLE_HINT));
@@ -114,14 +114,14 @@ public class FileSelectorTest {
     }
 
     @Test
-    void testIncludeExcludeFileSelector() throws Exception {
+    void includeExcludeFileSelector() throws Exception {
         testFileSelector(new IncludeExcludeFileSelector());
         testFileSelector((IncludeExcludeFileSelector)
                 container.lookup(FileSelector.class, IncludeExcludeFileSelector.ROLE_HINT));
     }
 
     @Test
-    void testIncludeExcludeFileSelector_SetExcludes() {
+    void includeExcludeFileSelectorSetExcludes() {
         IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
 
         // Test that the setExcludes method does not modify the excludes.

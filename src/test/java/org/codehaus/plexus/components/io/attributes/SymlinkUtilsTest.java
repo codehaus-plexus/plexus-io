@@ -25,15 +25,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SymlinkUtilsTest {
+class SymlinkUtilsTest {
     final File target = new File("target/symlinkCapabilities");
 
     final String expected = "This is a filed that we'll be symlinking to\n";
 
     @BeforeEach
-    public void setup() throws IOException {
+    void setup() throws IOException {
         FileUtils.deleteDirectory(target);
         Files.createDirectories(target.toPath());
     }

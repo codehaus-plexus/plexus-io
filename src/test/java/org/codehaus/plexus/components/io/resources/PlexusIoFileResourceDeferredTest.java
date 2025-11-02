@@ -1,7 +1,6 @@
 package org.codehaus.plexus.components.io.resources;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -20,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * This specifically tests the fix for issue #118 where temp files were deleted
  * before they could be accessed, causing FileNotFoundException.
  */
-public class PlexusIoFileResourceDeferredTest {
+class PlexusIoFileResourceDeferredTest {
 
     @TempDir
     File tempDir;
 
     @Test
-    void testFileResourceWithTransformerCanReadContentsMultipleTimes() throws IOException {
+    void fileResourceWithTransformerCanReadContentsMultipleTimes() throws Exception {
         // Create a test file with content larger than typical buffer size
         File testFile = new File(tempDir, "test-file.txt");
         byte[] largeContent = new byte[10000]; // 10KB
@@ -60,7 +59,7 @@ public class PlexusIoFileResourceDeferredTest {
     }
 
     @Test
-    void testFileResourceWithTransformerLargeFile() throws IOException {
+    void fileResourceWithTransformerLargeFile() throws Exception {
         // Create a large file that exceeds the DeferredFileOutputStream threshold (5MB)
         File testFile = new File(tempDir, "large-test-file.bin");
         byte[] chunk = new byte[1024 * 1024]; // 1MB chunks
@@ -94,7 +93,7 @@ public class PlexusIoFileResourceDeferredTest {
     }
 
     @Test
-    void testFileResourceWithTransformerSmallFile() throws IOException {
+    void fileResourceWithTransformerSmallFile() throws Exception {
         // Test with a small file that stays in memory (below 5MB threshold)
         File testFile = new File(tempDir, "small-test-file.txt");
         String content = "Hello, World!";

@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Kristian Rosenvold
  */
-public class PlexusIoFileSupplierResourceCollectionTest {
+class PlexusIoFileSupplierResourceCollectionTest {
     @Test
-    void testGetName() throws Exception {
+    void getName() throws Exception {
         PlexusIoFileResourceCollection coll = new PlexusIoFileResourceCollection();
         char nonSeparator = File.separatorChar == '/' ? '\\' : '/';
         coll.setPrefix("fud" + nonSeparator);

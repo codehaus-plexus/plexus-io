@@ -1,7 +1,6 @@
 package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 
@@ -17,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Kristian Rosenvold
  */
 @SuppressWarnings("OctalInteger")
-public class AttributeUtilsTest {
+class AttributeUtilsTest {
     @Test
-    void testMiscPatterns() {
+    void miscPatterns() {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0124);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_EXECUTE));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_WRITE));
@@ -27,7 +26,7 @@ public class AttributeUtilsTest {
     }
 
     @Test
-    void testMorePatterns() {
+    void morePatterns() {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0241);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_WRITE));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_READ));
@@ -35,7 +34,7 @@ public class AttributeUtilsTest {
     }
 
     @Test
-    void testEvenMorePatterns() {
+    void evenMorePatterns() {
         final Set<PosixFilePermission> permissions = AttributeUtils.getPermissions(0412);
         assertTrue(permissions.contains(PosixFilePermission.OWNER_READ));
         assertTrue(permissions.contains(PosixFilePermission.GROUP_EXECUTE));
@@ -50,7 +49,7 @@ public class AttributeUtilsTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testChmodBackAndForth() throws IOException {
+    void chmodBackAndForth() throws Exception {
         final File bxx = File.createTempFile("bxx", "ff");
         AttributeUtils.chmod(bxx, 0422);
         PlexusIoResourceAttributes firstAttrs = new FileAttributes(bxx);

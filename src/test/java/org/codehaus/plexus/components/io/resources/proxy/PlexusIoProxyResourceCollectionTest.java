@@ -19,7 +19,6 @@ package org.codehaus.plexus.components.io.resources.proxy;
 import javax.annotation.Nonnull;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
@@ -36,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test case for {@link PlexusIoProxyResourceCollection}.
  */
-public class PlexusIoProxyResourceCollectionTest {
+class PlexusIoProxyResourceCollectionTest {
     private final String[] SAMPLE_INCLUDES = {"junk.*", "test/**", "dir*/file.xml"};
 
     private final String[] SAMPLE_EXCLUDES = {"*.junk", "somwhere/**"};
 
     @Test
-    void testGetDefaultFileSelector() {
+    void getDefaultFileSelector() {
         PlexusIoProxyResourceCollection resCol = new PlexusIoProxyResourceCollection(null);
 
         // This will throw an exception if there is a bug
@@ -91,7 +90,7 @@ public class PlexusIoProxyResourceCollectionTest {
     }
 
     @Test
-    void testClosing() throws IOException {
+    void closing() throws Exception {
         final CloseableIterator closeableIterator = new CloseableIterator();
         PlexusIoProxyResourceCollection resCol =
                 new PlexusIoProxyResourceCollection(new AbstractPlexusIoResourceCollection() {

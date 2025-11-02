@@ -1,7 +1,6 @@
 package org.codehaus.plexus.components.io.resources;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
@@ -13,11 +12,11 @@ import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlexusIoPlexusIoFileResourceTest {
+class PlexusIoPlexusIoFileResourceTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testRealSymlink() throws IOException {
+    void realSymlink() throws Exception {
         final File file = new File("src/test/resources/symlinks/src/symDir");
         PlexusIoResourceAttributes attrs = FileAttributes.uncached(file);
         assertTrue(attrs.isSymbolicLink());
@@ -26,13 +25,13 @@ public class PlexusIoPlexusIoFileResourceTest {
         assertTrue(r.isDirectory());
         final File target = SymlinkUtils.readSymbolicLink(file);
         assertTrue(target.getName().endsWith("targetDir"));
-        assertTrue(r instanceof SymlinkDestinationSupplier);
+        assertInstanceOf(SymlinkDestinationSupplier.class, r);
         assertEquals("targetDir/", ((SymlinkDestinationSupplier) r).getSymlinkDestination());
     }
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testSymSymlinkFile() throws IOException {
+    void symSymlinkFile() throws Exception {
         final File file = new File("src/test/resources/symlinks/src/symSymR");
         PlexusIoResource r = ResourceFactory.createResource(file);
         assertTrue(r.isSymbolicLink());
@@ -40,14 +39,14 @@ public class PlexusIoPlexusIoFileResourceTest {
         PlexusIoResource rL = ((PlexusIoSymlinkResource) r).getLink();
         assertFalse(rL instanceof PlexusIoSymlinkResource);
         PlexusIoResource rT = ((PlexusIoSymlinkResource) r).getTarget();
-        assertTrue(rT instanceof PlexusIoSymlinkResource);
+        assertInstanceOf(PlexusIoSymlinkResource.class, rT);
         PlexusIoResource rTT = ((PlexusIoSymlinkResource) rT).getTarget();
         assertFalse(rTT instanceof PlexusIoSymlinkResource);
     }
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testSymlinkFile() throws IOException {
+    void symlinkFile() throws Exception {
         final File file = new File("src/test/resources/symlinks/src/symR");
         PlexusIoResource r = ResourceFactory.createResource(file);
         assertTrue(r.isSymbolicLink());

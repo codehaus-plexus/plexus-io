@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * Test case for the various file mappers.
  */
 @PlexusTest
-public class FileMapperTest {
+class FileMapperTest {
     @Inject
     PlexusContainer container;
 
@@ -85,7 +85,7 @@ public class FileMapperTest {
     };
 
     @Test
-    void testIdentityMapper() throws Exception {
+    void identityMapper() throws Exception {
         final String[] results = getIdentityResults();
         testFileMapper(new IdentityMapper(), SAMPLES, results);
     }
@@ -98,7 +98,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testDefaultMapper() throws Exception {
+    void defaultMapper() throws Exception {
         final String[] results = getIdentityResults();
         testFileMapper(container.lookup(FileMapper.class), SAMPLES, results);
         testFileMapper(container.lookup(FileMapper.class, IdentityMapper.ROLE_HINT), SAMPLES, results);
@@ -106,7 +106,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testFileExtensionMapper() throws Exception {
+    void fileExtensionMapper() throws Exception {
         final String[] results = getIdentityResults();
         for (int i = 2; i <= 10; i += 2) {
             results[i] += ".png";
@@ -127,7 +127,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testFlattenMapper() throws Exception {
+    void flattenMapper() throws Exception {
         final String[] results = getIdentityResults();
         results[4] = results[6] = results[8] = results[10] = results[2];
         results[5] = results[7] = results[9] = results[11] = results[3];
@@ -141,7 +141,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testMergeMapper() throws Exception {
+    void mergeMapper() throws Exception {
         final String[] results = getIdentityResults();
         final String targetName = "zgh";
         for (int i = 2; i < results.length; i++) {
@@ -153,7 +153,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testPrefixMapper() throws Exception {
+    void prefixMapper() throws Exception {
         final String prefix = "x7Rtf";
         final String[] results = getIdentityResults();
         testFileMapper(new PrefixFileMapper(), SAMPLES, results);
@@ -172,7 +172,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testSuffixMapper() throws Exception {
+    void suffixMapper() throws Exception {
         final String suffix = "suffix";
         String[] samples = Arrays.copyOf(SAMPLES, SAMPLES.length + 2);
         samples[samples.length - 2] = "archive.tar.gz";
@@ -208,7 +208,7 @@ public class FileMapperTest {
     }
 
     @Test
-    void testRegExpFileMapper() throws Exception {
+    void regExpFileMapper() throws Exception {
         final String[] results = getIdentityResults();
         results[3] = "xyz.jpg";
         results[5] = "b/xyz.jpg";
