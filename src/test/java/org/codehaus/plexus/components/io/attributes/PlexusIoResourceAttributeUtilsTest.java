@@ -17,13 +17,11 @@ package org.codehaus.plexus.components.io.attributes;
  */
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.NoSuchFileException;
 import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.jupiter.api.Test;
@@ -34,11 +32,11 @@ import static org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttri
 import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("OctalInteger")
-public class PlexusIoResourceAttributeUtilsTest {
+class PlexusIoResourceAttributeUtilsTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testGetAttributesForThisTestClass() throws IOException {
+    void getAttributesForThisTestClass() throws Exception {
         URL resource = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource(getClass().getName().replace('.', '/') + ".class");
@@ -62,7 +60,7 @@ public class PlexusIoResourceAttributeUtilsTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testDirectory() throws IOException, CommandLineException {
+    void directory() throws Exception {
         URL resource = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource(getClass().getName().replace('.', '/') + ".class");
@@ -100,7 +98,7 @@ public class PlexusIoResourceAttributeUtilsTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testSrcResource() throws IOException {
+    void srcResource() throws Exception {
         File dir = new File("src/test/resources/symlinks");
         final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
                 PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true);
@@ -115,15 +113,14 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    void testNonExistingDirectory() {
-        assertThrows(NoSuchFileException.class, () -> {
-            File dir = new File("src/test/noSuchDirectory");
-            PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true);
-        });
+    void nonExistingDirectory() {
+        File dir = new File("src/test/noSuchDirectory");
+        assertThrows(
+                NoSuchFileException.class, () -> PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true));
     }
 
     @Test
-    void testMergeAttributesWithNullBase() {
+    void mergeAttributesWithNullBase() {
         PlexusIoResourceAttributes override = new SimpleResourceAttributes(1001, "myUser", 1001, "test", 0);
         PlexusIoResourceAttributes defaults = new SimpleResourceAttributes(1000, "defaultUser", 1000, "defaultTest", 0);
 
@@ -135,7 +132,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    void testMergeAttributesWithNullOverrideGroup() {
+    void mergeAttributesWithNullOverrideGroup() {
         final PlexusIoResourceAttributes override = new SimpleResourceAttributes(1001, "myUser", -1, null, 0);
         final PlexusIoResourceAttributes defaults =
                 new SimpleResourceAttributes(1000, "defaultUser", 1000, "defaultGroup", 0);
@@ -148,7 +145,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    void testMergeAttributesOverride() {
+    void mergeAttributesOverride() {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes();
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes(-1, null, -1, null, -1);
         final PlexusIoResourceAttributes override =
@@ -250,7 +247,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    void testFileAttributesGeneric() throws IOException {
+    void fileAttributesGeneric() throws Exception {
         PlexusIoResourceAttributes attrs = getFileAttributes(new File("src/test/resources/symlinks/src/fileW.txt"));
         assertFalse(attrs.isSymbolicLink());
         assertTrue(StringUtils.isNotEmpty(attrs.getUserName()));
@@ -258,7 +255,7 @@ public class PlexusIoResourceAttributeUtilsTest {
 
     @Test
     @DisabledOnOs(OS.WINDOWS)
-    void testFileAttributes() throws IOException {
+    void fileAttributes() throws Exception {
         PlexusIoResourceAttributes attrs = getFileAttributes(new File("src/test/resources/symlinks/src/fileW.txt"));
         assertFalse(attrs.isSymbolicLink());
         assertTrue(StringUtils.isNotEmpty(attrs.getUserName()));
@@ -268,7 +265,7 @@ public class PlexusIoResourceAttributeUtilsTest {
     }
 
     @Test
-    void testMergeAttributesDefault() {
+    void mergeAttributesDefault() {
         final PlexusIoResourceAttributes blank = new SimpleResourceAttributes(null, null, null, null, 0);
         final PlexusIoResourceAttributes invalid = new SimpleResourceAttributes(-1, null, -1, null, -1);
         final PlexusIoResourceAttributes defaults =

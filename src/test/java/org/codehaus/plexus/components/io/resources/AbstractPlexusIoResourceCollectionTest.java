@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Kristian Rosenvold
  */
-public class AbstractPlexusIoResourceCollectionTest {
+class AbstractPlexusIoResourceCollectionTest {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    void testGetIncludes() throws Exception {
+    void getIncludes() throws Exception {
         AbstractPlexusIoResourceCollection sut = new AbstractPlexusIoResourceCollection() {
             public Iterator<PlexusIoResource> getResources() {
                 return Arrays.asList(getResource("r1"), getResource("r2")).iterator();
