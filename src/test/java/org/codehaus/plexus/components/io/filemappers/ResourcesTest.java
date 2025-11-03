@@ -67,7 +67,7 @@ public class ResourcesTest {
 
     private void createFiles() throws IOException {
         final File baseDir = getFilesDir();
-        FileUtils.deleteDirectory(baseDir);
+        org.apache.commons.io.FileUtils.deleteDirectory(baseDir);
         FileUtils.mkdir(baseDir.getPath());
         final File aFile = new File(baseDir, A_PATH);
         FileUtils.mkdir(aFile.getParentFile().getPath());
