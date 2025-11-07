@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * Test case for resource collections.</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  @PlexusTest
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="ResourcesTest" href="../../../../../../org/codehaus/plexus/components/io/filemappers/ResourcesTest.html#ResourcesTest">ResourcesTest</a> {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <strong class="jxr_keyword">class</strong> <a name="ResourcesTest" href="../../../../../../org/codehaus/plexus/components/io/filemappers/ResourcesTest.html#ResourcesTest">ResourcesTest</a> {
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>      @Inject
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>      PlexusContainer container;
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> createFiles() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          <strong class="jxr_keyword">final</strong> File baseDir = getFilesDir();
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>          FileUtils.deleteDirectory(baseDir);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          org.apache.commons.io.FileUtils.deleteDirectory(baseDir);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          FileUtils.mkdir(baseDir.getPath());
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          <strong class="jxr_keyword">final</strong> File aFile = <strong class="jxr_keyword">new</strong> File(baseDir, A_PATH);
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>          FileUtils.mkdir(aFile.getParentFile().getPath());
@@ -140,11 +140,11 @@
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>     }
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> 
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compare(PlexusIoResource res, File file) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>         assertTrue(res.getLastModified() != PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         assertNotSame(res.getLastModified(), PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>         <strong class="jxr_keyword">if</strong> (res instanceof PlexusIoFileResource) {
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>             assertEquals(res.getLastModified() / 1000, file.lastModified() / 1000);
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>         }
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>         assertTrue(res.getSize() != PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>         assertNotSame(res.getSize(), PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>         assertEquals(res.getSize(), file.length());
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>         InputStream in = res.getContents();
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>         compare(in, file);
@@ -208,7 +208,7 @@
 <a class="jxr_linenumber" name="L200" href="#L200">200</a>     }
 <a class="jxr_linenumber" name="L201" href="#L201">201</a> 
 <a class="jxr_linenumber" name="L202" href="#L202">202</a>     @Test
-<a class="jxr_linenumber" name="L203" href="#L203">203</a>     <strong class="jxr_keyword">void</strong> testFileCollection() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>     <strong class="jxr_keyword">void</strong> fileCollection() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L204" href="#L204">204</a>         createFiles();
 <a class="jxr_linenumber" name="L205" href="#L205">205</a>         testFileResourceCollection((PlexusIoFileResourceCollection) container.lookup(PlexusIoResourceCollection.<strong class="jxr_keyword">class</strong>));
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>         testFileResourceCollection((PlexusIoFileResourceCollection)

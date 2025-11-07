@@ -25,25 +25,42 @@
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.io.File;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.condition.DisabledOnOs;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.condition.OS;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertNotNull;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * @author Kristian Rosenvold</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="FileAttributesTest" href="../../../../../../org/codehaus/plexus/components/io/attributes/FileAttributesTest.html#FileAttributesTest">FileAttributesTest</a> {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      @Test
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      @DisabledOnOs(OS.WINDOWS)
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">void</strong> testGetPosixFileAttributes() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>          File file = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"."</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>          PlexusIoResourceAttributes fa = <strong class="jxr_keyword">new</strong> FileAttributes(file);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>          assertNotNull(fa);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>      }
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  }
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.nio.file.Files;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.condition.DisabledOnOs;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.condition.OS;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertNotNull;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> * @author Kristian Rosenvold</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">class</strong> <a name="FileAttributesTest" href="../../../../../../org/codehaus/plexus/components/io/attributes/FileAttributesTest.html#FileAttributesTest">FileAttributesTest</a> {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      @Test
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      @DisabledOnOs(OS.WINDOWS)
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">void</strong> getPosixFileAttributes() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          File file = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"."</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          PlexusIoResourceAttributes fa = <strong class="jxr_keyword">new</strong> FileAttributes(file);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          assertNotNull(fa);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      @Test
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">void</strong> fileAttributesHandlesIOException() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>          <em class="jxr_comment">// Test that FileAttributes can be constructed for a regular file</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <em class="jxr_comment">// even if ownership information is not available (e.g., WSL2 mapped network drives)</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          File tempFile = Files.createTempFile(<span class="jxr_string">"plexus-io-test"</span>, <span class="jxr_string">".tmp"</span>).toFile();
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>              <em class="jxr_comment">// This should not throw even if ownership info is unavailable</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>              PlexusIoResourceAttributes fa = <strong class="jxr_keyword">new</strong> FileAttributes(tempFile);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>              assertNotNull(fa);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>              <em class="jxr_comment">// The attributes object should be usable even if userName/groupName are null</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>              assertNotNull(fa.toString());
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          } <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              tempFile.delete();
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          }
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  }
 </pre>
 <hr/>
 <div id="footer">© 2001–2025 <a href="https://codehaus-plexus.github.io/">Codehaus Plexus</a></div>

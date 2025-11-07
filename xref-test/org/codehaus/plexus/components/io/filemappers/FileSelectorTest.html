@@ -47,7 +47,7 @@
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * Test case for implementations of {@link FileSelector}.</em>
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  @PlexusTest
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="FileSelectorTest" href="../../../../../../org/codehaus/plexus/components/io/filemappers/FileSelectorTest.html#FileSelectorTest">FileSelectorTest</a> {
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">class</strong> <a name="FileSelectorTest" href="../../../../../../org/codehaus/plexus/components/io/filemappers/FileSelectorTest.html#FileSelectorTest">FileSelectorTest</a> {
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>      @Inject
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>      PlexusContainer container;
@@ -88,7 +88,7 @@
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>      }
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>      @Test
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>      <strong class="jxr_keyword">void</strong> testAllFilesFileSelector() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      <strong class="jxr_keyword">void</strong> allFilesFileSelector() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>          testFileSelector(<strong class="jxr_keyword">new</strong> AllFilesFileSelector());
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>          testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.<strong class="jxr_keyword">class</strong>));
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>          testFileSelector((AllFilesFileSelector) container.lookup(FileSelector.<strong class="jxr_keyword">class</strong>, AllFilesFileSelector.ROLE_HINT));
@@ -122,14 +122,14 @@
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>     }
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     @Test
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>     <strong class="jxr_keyword">void</strong> testIncludeExcludeFileSelector() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>     <strong class="jxr_keyword">void</strong> includeExcludeFileSelector() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>         testFileSelector(<strong class="jxr_keyword">new</strong> IncludeExcludeFileSelector());
 <a class="jxr_linenumber" name="L119" href="#L119">119</a>         testFileSelector((IncludeExcludeFileSelector)
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>                 container.lookup(FileSelector.<strong class="jxr_keyword">class</strong>, IncludeExcludeFileSelector.ROLE_HINT));
 <a class="jxr_linenumber" name="L121" href="#L121">121</a>     }
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> 
 <a class="jxr_linenumber" name="L123" href="#L123">123</a>     @Test
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>     <strong class="jxr_keyword">void</strong> testIncludeExcludeFileSelector_SetExcludes() {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     <strong class="jxr_keyword">void</strong> includeExcludeFileSelectorSetExcludes() {
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>         IncludeExcludeFileSelector selector = <strong class="jxr_keyword">new</strong> IncludeExcludeFileSelector();
 <a class="jxr_linenumber" name="L126" href="#L126">126</a> 
 <a class="jxr_linenumber" name="L127" href="#L127">127</a>         <em class="jxr_comment">// Test that the setExcludes method does not modify the excludes.</em>
