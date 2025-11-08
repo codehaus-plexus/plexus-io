@@ -132,11 +132,11 @@ class ResourcesTest {
     }
 
     private void compare(PlexusIoResource res, File file) throws IOException {
-        assertNotSame(res.getLastModified(), PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
+        assertNotSame(PlexusIoResource.UNKNOWN_MODIFICATION_DATE, res.getLastModified());
         if (res instanceof PlexusIoFileResource) {
             assertEquals(res.getLastModified() / 1000, file.lastModified() / 1000);
         }
-        assertNotSame(res.getSize(), PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
+        assertNotSame(PlexusIoResource.UNKNOWN_RESOURCE_SIZE, res.getSize());
         assertEquals(res.getSize(), file.length());
         InputStream in = res.getContents();
         compare(in, file);
