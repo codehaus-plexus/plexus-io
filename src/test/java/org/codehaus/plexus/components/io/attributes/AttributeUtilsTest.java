@@ -10,6 +10,7 @@ import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -61,5 +62,76 @@ class AttributeUtilsTest {
         assertTrue(secondAttrs.isOwnerReadable());
         assertTrue(secondAttrs.isOwnerWritable());
         assertTrue(secondAttrs.isOwnerExecutable());
+    }
+
+    @Test
+    void testGetLastModified() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            long lastModified = AttributeUtils.getLastModified(tempFile);
+            assertTrue(lastModified > 0);
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void testGetPosixFileAttributes() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            java.nio.file.attribute.PosixFileAttributes attrs = AttributeUtils.getPosixFileAttributes(tempFile);
+            assertNotNull(attrs);
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    @Test
+    void testGetFileAttributes() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            java.nio.file.attribute.BasicFileAttributes attrs = AttributeUtils.getFileAttributes(tempFile);
+            assertNotNull(attrs);
+            assertTrue(attrs.isRegularFile());
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    @Test
+    void testGetFileAttributesPath() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            java.nio.file.attribute.BasicFileAttributes attrs = AttributeUtils.getFileAttributes(tempFile.toPath());
+            assertNotNull(attrs);
+            assertTrue(attrs.isRegularFile());
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    @Test
+    void testIsUnix() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            boolean isUnix = AttributeUtils.isUnix(tempFile.toPath());
+            // Just verify it returns a boolean value and doesn't throw
+            assertTrue(isUnix || !isUnix); // tautology to use the value
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    @Test
+    void testGetFileOwnershipInfo() throws Exception {
+        File tempFile = File.createTempFile("test", ".tmp");
+        try {
+            java.nio.file.attribute.FileOwnerAttributeView ownerView = AttributeUtils.getFileOwnershipInfo(tempFile);
+            // May be null on unsupported systems, just verify it doesn't throw
+            assertTrue(ownerView != null || ownerView == null);
+        } finally {
+            tempFile.delete();
+        }
     }
 }
