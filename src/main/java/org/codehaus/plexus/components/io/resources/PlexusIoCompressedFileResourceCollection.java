@@ -42,10 +42,26 @@ public abstract class PlexusIoCompressedFileResourceCollection
 
     private InputStreamTransformer streamTransformers = AbstractPlexusIoResourceCollection.identityTransformer;
 
+    public java.nio.file.Path getFileAsPath() {
+        return file != null ? file.toPath() : null;
+    }
+
+    /**
+     * @deprecated Use {@link #getFileAsPath()} instead
+     */
+    @Deprecated
     public File getFile() {
         return file;
     }
 
+    public void setFile(java.nio.file.Path file) {
+        this.file = file.toFile();
+    }
+
+    /**
+     * @deprecated Use {@link #setFile(java.nio.file.Path)} instead
+     */
+    @Deprecated
     public void setFile(File file) {
         this.file = file;
     }

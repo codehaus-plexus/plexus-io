@@ -30,19 +30,45 @@ public class SymlinkUtils {
     /**
      * Reads the target of the symbolic link
      *
+     * @param symlink A path that is a symlink
+     * @return A path that is the target of the symlink
+     * @throws java.io.IOException
+     * @deprecated Use {@link Files#readSymbolicLink(Path)} directly
+     */
+    @Deprecated
+    public static @Nonnull Path readSymbolicLink(@Nonnull Path symlink) throws IOException {
+        return Files.readSymbolicLink(symlink);
+    }
+
+    /**
+     * Reads the target of the symbolic link
+     *
      * @param symlink A file that is a symlink
      * @return A file that is the target of the symlink
      * @throws java.io.IOException
+     * @deprecated Use {@link Files#readSymbolicLink(Path)} directly
      */
+    @Deprecated
     public static @Nonnull File readSymbolicLink(@Nonnull File symlink) throws IOException {
-        return Files.readSymbolicLink(symlink.toPath()).toFile();
+        return readSymbolicLink(symlink.toPath()).toFile();
     }
 
-    public static @Nonnull File createSymbolicLink(@Nonnull File symlink, File target) throws IOException {
-        Path link = symlink.toPath();
-        if (!Files.exists(link, LinkOption.NOFOLLOW_LINKS)) {
-            link = Files.createSymbolicLink(link, target.toPath());
+    /**
+     * @deprecated Use {@link Files#createSymbolicLink(Path, Path, java.nio.file.attribute.FileAttribute[])} directly
+     */
+    @Deprecated
+    public static @Nonnull Path createSymbolicLink(@Nonnull Path symlink, Path target) throws IOException {
+        if (!Files.exists(symlink, LinkOption.NOFOLLOW_LINKS)) {
+            return Files.createSymbolicLink(symlink, target);
         }
-        return link.toFile();
+        return symlink;
+    }
+
+    /**
+     * @deprecated Use {@link Files#createSymbolicLink(Path, Path, java.nio.file.attribute.FileAttribute[])} directly
+     */
+    @Deprecated
+    public static @Nonnull File createSymbolicLink(@Nonnull File symlink, File target) throws IOException {
+        return createSymbolicLink(symlink.toPath(), target.toPath()).toFile();
     }
 }

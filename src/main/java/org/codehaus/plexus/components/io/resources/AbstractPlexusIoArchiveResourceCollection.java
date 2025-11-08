@@ -35,15 +35,33 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     protected AbstractPlexusIoArchiveResourceCollection() {}
 
     /**
-     * Sets the zip file
+     * Sets the archive file
      */
+    public void setFile(java.nio.file.Path file) {
+        this.file = file.toFile();
+    }
+
+    /**
+     * Sets the archive file
+     * @deprecated Use {@link #setFile(java.nio.file.Path)} instead
+     */
+    @Deprecated
     public void setFile(File file) {
         this.file = file;
     }
 
     /**
-     * Returns the zip file
+     * Returns the archive file as a Path
      */
+    public java.nio.file.Path getFileAsPath() {
+        return file != null ? file.toPath() : null;
+    }
+
+    /**
+     * Returns the archive file
+     * @deprecated Use {@link #getFileAsPath()} instead
+     */
+    @Deprecated
     public File getFile() {
         return file;
     }

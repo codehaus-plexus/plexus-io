@@ -18,6 +18,7 @@ package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
@@ -50,6 +51,30 @@ class FileAttributesTest {
             assertNotNull(fa.toString());
         } finally {
             tempFile.delete();
+        }
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void getPosixFileAttributesWithPath() throws Exception {
+        Path path = java.nio.file.Paths.get(".");
+        PlexusIoResourceAttributes fa = new FileAttributes(path);
+        assertNotNull(fa);
+    }
+
+    @Test
+    void fileAttributesHandlesIOExceptionWithPath() throws Exception {
+        // Test that FileAttributes can be constructed for a regular file using Path
+        // even if ownership information is not available (e.g., WSL2 mapped network drives)
+        Path tempPath = Files.createTempFile("plexus-io-test", ".tmp");
+        try {
+            // This should not throw even if ownership info is unavailable
+            PlexusIoResourceAttributes fa = new FileAttributes(tempPath);
+            assertNotNull(fa);
+            // The attributes object should be usable even if userName/groupName are null
+            assertNotNull(fa.toString());
+        } finally {
+            Files.deleteIfExists(tempPath);
         }
     }
 }

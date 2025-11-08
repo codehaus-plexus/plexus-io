@@ -20,6 +20,7 @@ import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -118,36 +119,48 @@ public final class PlexusIoResourceAttributeUtils {
         return (mode & targetMode) != 0;
     }
 
+    public static PlexusIoResourceAttributes getFileAttributes(Path path) throws IOException {
+        return getFileAttributes(path, false);
+    }
+
+    public static PlexusIoResourceAttributes getFileAttributes(Path path, boolean followLinks) throws IOException {
+        return new FileAttributes(path, followLinks);
+    }
+
+    /**
+     * @deprecated Use {@link #getFileAttributes(Path)} instead
+     */
+    @Deprecated
     public static PlexusIoResourceAttributes getFileAttributes(File file) throws IOException {
-        return getFileAttributes(file, false);
+        return getFileAttributes(file.toPath(), false);
     }
 
+    /**
+     * @deprecated Use {@link #getFileAttributes(Path, boolean)} instead
+     */
+    @Deprecated
     public static PlexusIoResourceAttributes getFileAttributes(File file, boolean followLinks) throws IOException {
-        Map<String, PlexusIoResourceAttributes> byPath = getFileAttributesByPath(file, false, followLinks);
-        final PlexusIoResourceAttributes o = byPath.get(file.getAbsolutePath());
-        if (o == null) {
-            // We're on a crappy old java version (5) or the OS from hell. Just "fail".
-            return SimpleResourceAttributes.lastResortDummyAttributesForBrokenOS();
-        }
-        return o;
+        return getFileAttributes(file.toPath(), followLinks);
     }
 
-    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(File dir) throws IOException {
+    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(Path dir)
+            throws IOException {
         return getFileAttributesByPath(dir, true);
     }
 
     public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
-            @Nonnull File dir, boolean recursive) throws IOException {
+            @Nonnull Path dir, boolean recursive) throws IOException {
         return getFileAttributesByPath(dir, recursive, false);
     }
 
     public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
-            @Nonnull File dir, boolean recursive, boolean followLinks) throws IOException {
+            @Nonnull Path dir, boolean recursive, boolean followLinks) throws IOException {
         final List<String> fileAndDirectoryNames;
-        if (recursive && dir.isDirectory()) {
-            fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames(dir, null, null, true, true, true, true);
+        File dirAsFile = dir.toFile();
+        if (recursive && java.nio.file.Files.isDirectory(dir)) {
+            fileAndDirectoryNames = FileUtils.getFileAndDirectoryNames(dirAsFile, null, null, true, true, true, true);
         } else {
-            fileAndDirectoryNames = Collections.singletonList(dir.getAbsolutePath());
+            fileAndDirectoryNames = Collections.singletonList(dirAsFile.getAbsolutePath());
         }
 
         final Map<String, PlexusIoResourceAttributes> attributesByPath = new LinkedHashMap<>();
@@ -156,5 +169,31 @@ public final class PlexusIoResourceAttributeUtils {
             attributesByPath.put(fileAndDirectoryName, new FileAttributes(new File(fileAndDirectoryName), followLinks));
         }
         return attributesByPath;
+    }
+
+    /**
+     * @deprecated Use {@link #getFileAttributesByPath(Path)} instead
+     */
+    @Deprecated
+    public static Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(File dir) throws IOException {
+        return getFileAttributesByPath(dir.toPath(), true);
+    }
+
+    /**
+     * @deprecated Use {@link #getFileAttributesByPath(Path, boolean)} instead
+     */
+    @Deprecated
+    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
+            @Nonnull File dir, boolean recursive) throws IOException {
+        return getFileAttributesByPath(dir.toPath(), recursive, false);
+    }
+
+    /**
+     * @deprecated Use {@link #getFileAttributesByPath(Path, boolean, boolean)} instead
+     */
+    @Deprecated
+    public static @Nonnull Map<String, PlexusIoResourceAttributes> getFileAttributesByPath(
+            @Nonnull File dir, boolean recursive, boolean followLinks) throws IOException {
+        return getFileAttributesByPath(dir.toPath(), recursive, followLinks);
     }
 }

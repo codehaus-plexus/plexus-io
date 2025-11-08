@@ -38,20 +38,35 @@ public class AttributeUtils {
     /*
     Reads last-modified with proper failure handling if something goes wrong.
      */
-    public static long getLastModified(@Nonnull File file) {
+    public static long getLastModified(@Nonnull Path path) {
         try {
-            BasicFileAttributes basicFileAttributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            BasicFileAttributes basicFileAttributes = Files.readAttributes(path, BasicFileAttributes.class);
             return basicFileAttributes.lastModifiedTime().toMillis();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void chmod(@Nonnull File file, int mode) throws IOException {
-        final Path path = file.toPath();
+    /**
+     * @deprecated Use {@link #getLastModified(Path)} instead
+     */
+    @Deprecated
+    public static long getLastModified(@Nonnull File file) {
+        return getLastModified(file.toPath());
+    }
+
+    public static void chmod(@Nonnull Path path, int mode) throws IOException {
         if (!Files.isSymbolicLink(path)) {
             Files.setPosixFilePermissions(path, getPermissions(mode));
         }
+    }
+
+    /**
+     * @deprecated Use {@link #chmod(Path, int)} instead
+     */
+    @Deprecated
+    public static void chmod(@Nonnull File file, int mode) throws IOException {
+        chmod(file.toPath(), mode);
     }
 
     @Nonnull
@@ -90,14 +105,22 @@ public class AttributeUtils {
         return perms;
     }
 
+    /**
+     * @deprecated Use {@link Files#readAttributes(Path, Class, java.nio.file.LinkOption...)} directly
+     */
+    @Deprecated
     @Nonnull
-    public static PosixFileAttributes getPosixFileAttributes(@Nonnull File file) throws IOException {
-        return Files.readAttributes(file.toPath(), PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+    public static PosixFileAttributes getPosixFileAttributes(@Nonnull Path path) throws IOException {
+        return Files.readAttributes(path, PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
     }
 
+    /**
+     * @deprecated Use {@link Files#readAttributes(Path, Class, java.nio.file.LinkOption...)} directly
+     */
+    @Deprecated
     @Nonnull
-    public static BasicFileAttributes getFileAttributes(@Nonnull File file) throws IOException {
-        return getFileAttributes(file.toPath());
+    public static PosixFileAttributes getPosixFileAttributes(@Nonnull File file) throws IOException {
+        return getPosixFileAttributes(file.toPath());
     }
 
     public static BasicFileAttributes getFileAttributes(Path path) throws IOException {
@@ -111,16 +134,38 @@ public class AttributeUtils {
         return Files.readAttributes(path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
     }
 
+    /**
+     * @deprecated Use {@link #getFileAttributes(Path)} instead
+     */
+    @Deprecated
+    @Nonnull
+    public static BasicFileAttributes getFileAttributes(@Nonnull File file) throws IOException {
+        return getFileAttributes(file.toPath());
+    }
+
     public static boolean isUnix(Path path) {
         return path.getFileSystem().supportedFileAttributeViews().contains("unix");
     }
 
+    /**
+     * @deprecated Use {@link Files#getFileAttributeView(Path, Class, java.nio.file.LinkOption...)} directly
+     */
+    @Deprecated
     @Nullable
-    public static FileOwnerAttributeView getFileOwnershipInfo(@Nonnull File file) throws IOException {
+    public static FileOwnerAttributeView getFileOwnershipInfo(@Nonnull Path path) throws IOException {
         try {
-            return Files.getFileAttributeView(file.toPath(), FileOwnerAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+            return Files.getFileAttributeView(path, FileOwnerAttributeView.class, LinkOption.NOFOLLOW_LINKS);
         } catch (UnsupportedOperationException e) {
             return null;
         }
+    }
+
+    /**
+     * @deprecated Use {@link Files#getFileAttributeView(Path, Class, java.nio.file.LinkOption...)} directly
+     */
+    @Deprecated
+    @Nullable
+    public static FileOwnerAttributeView getFileOwnershipInfo(@Nonnull File file) throws IOException {
+        return getFileOwnershipInfo(file.toPath());
     }
 }

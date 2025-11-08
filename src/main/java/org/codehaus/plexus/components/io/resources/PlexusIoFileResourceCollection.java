@@ -75,13 +75,31 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
     /**
      * @param baseDir The base directory of the file collection
      */
+    public void setBaseDir(java.nio.file.Path baseDir) {
+        this.baseDir = baseDir.toFile();
+    }
+
+    /**
+     * @param baseDir The base directory of the file collection
+     * @deprecated Use {@link #setBaseDir(java.nio.file.Path)} instead
+     */
+    @Deprecated
     public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
     }
 
     /**
-     * @return Returns the file collections base directory.
+     * @return Returns the file collections base directory as a Path.
      */
+    public java.nio.file.Path getBaseDirAsPath() {
+        return baseDir != null ? baseDir.toPath() : null;
+    }
+
+    /**
+     * @return Returns the file collections base directory.
+     * @deprecated Use {@link #getBaseDirAsPath()} instead
+     */
+    @Deprecated
     public File getBaseDir() {
         return baseDir;
     }

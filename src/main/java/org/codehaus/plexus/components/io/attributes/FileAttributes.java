@@ -86,12 +86,24 @@ public class FileAttributes implements PlexusIoResourceAttributes {
         this(file);
     }
 
+    /**
+     * @deprecated Use {@link #FileAttributes(Path)} instead
+     */
+    @Deprecated
     public FileAttributes(@Nonnull File file) throws IOException {
         this(file.toPath(), false);
     }
 
+    /**
+     * @deprecated Use {@link #FileAttributes(Path, boolean)} instead
+     */
+    @Deprecated
     public FileAttributes(@Nonnull File file, boolean followLinks) throws IOException {
         this(file.toPath(), followLinks);
+    }
+
+    public FileAttributes(@Nonnull Path path) throws IOException {
+        this(path, false);
     }
 
     private static Map<Integer, String> getUserCache(FileSystem fs) {
@@ -199,8 +211,16 @@ public class FileAttributes implements PlexusIoResourceAttributes {
         this.lastModifiedTime = lastModifiedTime;
     }
 
+    public static @Nonnull PlexusIoResourceAttributes uncached(@Nonnull Path path) throws IOException {
+        return new FileAttributes(path);
+    }
+
+    /**
+     * @deprecated Use {@link #uncached(Path)} instead
+     */
+    @Deprecated
     public static @Nonnull PlexusIoResourceAttributes uncached(@Nonnull File file) throws IOException {
-        return new FileAttributes(file);
+        return uncached(file.toPath());
     }
 
     @Nullable

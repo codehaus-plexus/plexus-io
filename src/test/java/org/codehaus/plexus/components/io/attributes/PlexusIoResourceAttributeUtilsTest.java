@@ -19,6 +19,7 @@ package org.codehaus.plexus.components.io.attributes;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Map;
 
 import org.codehaus.plexus.util.StringUtils;
@@ -325,5 +326,51 @@ class PlexusIoResourceAttributeUtilsTest {
         assertNull(attributes.getGroupId());
         assertNull(attributes.getGroupName());
         assertEquals(0, attributes.getOctalMode());
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void getAttributesForThisTestClassWithPath() throws Exception {
+        URL resource = Thread.currentThread()
+                .getContextClassLoader()
+                .getResource(getClass().getName().replace('.', '/') + ".class");
+
+        if (resource == null) {
+            throw new IllegalStateException("SOMETHING IS VERY WRONG. CANNOT FIND THIS TEST CLASS IN THE CLASSLOADER.");
+        }
+
+        Path path = java.nio.file.Paths.get(resource.getPath().replaceAll("%20", " "));
+
+        Map<String, PlexusIoResourceAttributes> attrs =
+                PlexusIoResourceAttributeUtils.getFileAttributesByPath(path, true);
+
+        PlexusIoResourceAttributes fileAttrs = attrs.get(path.toFile().getAbsolutePath());
+
+        assertNotNull(fileAttrs);
+        assertTrue(fileAttrs.isOwnerReadable());
+        assertEquals(System.getProperty("user.name"), fileAttrs.getUserName());
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void srcResourceWithPath() throws Exception {
+        Path dir = java.nio.file.Paths.get("src/test/resources/symlinks");
+        final Map<String, PlexusIoResourceAttributes> fileAttributesByPathScreenScrape =
+                PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true);
+        assertNotNull(fileAttributesByPathScreenScrape);
+        PlexusIoResourceAttributes pr = null;
+        for (String s : fileAttributesByPathScreenScrape.keySet()) {
+            if (s.endsWith("targetFile.txt")) pr = fileAttributesByPathScreenScrape.get(s);
+        }
+        assertNotNull(pr);
+
+        assertTrue(pr.getOctalMode() > 0);
+    }
+
+    @Test
+    void nonExistingDirectoryWithPath() {
+        Path dir = java.nio.file.Paths.get("src/test/noSuchDirectory");
+        assertThrows(
+                NoSuchFileException.class, () -> PlexusIoResourceAttributeUtils.getFileAttributesByPath(dir, true));
     }
 }

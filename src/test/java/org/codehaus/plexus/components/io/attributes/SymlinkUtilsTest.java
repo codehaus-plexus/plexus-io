@@ -19,6 +19,7 @@ package org.codehaus.plexus.components.io.attributes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,27 @@ class SymlinkUtilsTest {
         SymlinkUtils.createSymbolicLink(symlink, new File("aSubDir"));
         assertEquals(expected, FileUtils.readFileToString(new File(symlink, "actualFile"), UTF_8));
         assertEquals(new File("aSubDir"), SymlinkUtils.readSymbolicLink(new File(target, "symlinkToDir")));
+    }
+
+    @Test
+    void create_read_symbolic_link_to_file_with_path() throws Exception {
+        Path symlink = target.toPath().resolve("symlinkToTarget");
+        File relativePath = createTargetFile(target);
+        SymlinkUtils.createSymbolicLink(symlink, relativePath.toPath());
+        assertEquals(expected, FileUtils.readFileToString(symlink.toFile(), UTF_8));
+        assertEquals(java.nio.file.Paths.get("actualFile"), SymlinkUtils.readSymbolicLink(symlink));
+    }
+
+    @Test
+    void create_read_symbolic_link_to_directory_with_path() throws Exception {
+        File subDir = new File(target, "aSubDir");
+        createTargetFile(subDir);
+        Path symlink = target.toPath().resolve("symlinkToDir");
+        SymlinkUtils.createSymbolicLink(symlink, java.nio.file.Paths.get("aSubDir"));
+        assertEquals(
+                expected,
+                FileUtils.readFileToString(symlink.resolve("actualFile").toFile(), UTF_8));
+        assertEquals(java.nio.file.Paths.get("aSubDir"), SymlinkUtils.readSymbolicLink(symlink));
     }
 
     private File createTargetFile(File target) throws IOException {

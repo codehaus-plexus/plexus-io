@@ -1,6 +1,8 @@
 package org.codehaus.plexus.components.io.attributes;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 
@@ -51,6 +53,22 @@ class AttributeUtilsTest {
     @DisabledOnOs(OS.WINDOWS)
     void chmodBackAndForth() throws Exception {
         final File bxx = File.createTempFile("bxx", "ff");
+        AttributeUtils.chmod(bxx, 0422);
+        PlexusIoResourceAttributes firstAttrs = new FileAttributes(bxx);
+        assertTrue(firstAttrs.isOwnerReadable());
+        assertFalse(firstAttrs.isOwnerWritable());
+        assertFalse(firstAttrs.isOwnerExecutable());
+        AttributeUtils.chmod(bxx, 0777);
+        PlexusIoResourceAttributes secondAttrs = new FileAttributes(bxx);
+        assertTrue(secondAttrs.isOwnerReadable());
+        assertTrue(secondAttrs.isOwnerWritable());
+        assertTrue(secondAttrs.isOwnerExecutable());
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void chmodBackAndForthWithPath() throws Exception {
+        final Path bxx = Files.createTempFile("bxx", "ff");
         AttributeUtils.chmod(bxx, 0422);
         PlexusIoResourceAttributes firstAttrs = new FileAttributes(bxx);
         assertTrue(firstAttrs.isOwnerReadable());
