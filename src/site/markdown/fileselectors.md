@@ -1,63 +1,46 @@
+# File Selectors
 
- --------------
- File Selectors
- --------------
+A file selector is a plexus component, which allows to select certain files out of a given set. For example, the [Plexus Archiver](http://plexus.codehaus.org/plexus-archiver) uses file selectors to select the files being archived out of a base directory. Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
 
-File Selectors
+File mappers are implementing the interface [FileSelector](./apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html).
 
-  A file selector is a plexus component, which allows to select certain
-  files out of a given set. For example, the {{{http://plexus.codehaus.org/plexus-archiver}Plexus Archiver}}
-  uses file selectors to select the files being archived out of a base directory.
-  Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
+Available file selectors are
 
-  File mappers are implementing the interface
-  {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html}FileSelector}}.
+- The [All Files Selector](#All_Files_Selector); it uses the role hints "default", or "all".
+- The [Standard File Selector](#Standard_File_Selector); its role hint is "standard".
 
-  Available file selectors are
+## <a id="All_Files_Selector"></a>All Files Selector
 
-  * The {{{#All Files Selector}All Files Selector}}; it uses the role hints
-    "default", or "all".
+The [selector for all files](./apidocs/org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.html) doesn't exclude any files. It is mainly useful when you want to avoid the value null for a file selector.
 
-  * The {{{#Standard File Selector}Standard File Selector}}; its role hint
-    is "standard".
+A configuration snippet for using the selector for all files would look like this:
 
-* {All Files Selector}
+```
+<fileSelector implementation="org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector"/>
+```
 
-  The {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/AllFilesFileSelector.html}selector
-  for all files}} doesn't exclude any files. It is mainly useful when you want to avoid the
-  value null for a file selector.
+The selector for all files uses the role hints "all", or "default".
 
-  A configuration snippet for using the selector for all files would look like this:
+## <a id="Standard_File_Selector"></a>Standard File Selector
 
------------------------------------------------------------------------------
-  <fileSelector implementation="org.codehaus.plexus.components.io.fileselectors.AllFilesFileSelector"/>
------------------------------------------------------------------------------
+The [standard file selector](./apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector) selects files based on include/exclude patterns.
 
-  The selector for all files uses the role hints "all", or "default".
+A configuration snippet for using the standard file selector would look like this:
 
-* {Standard File Selector}
+```
+<fileSelector implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+  <includes>
+    <include>**/*.gif</include>
+    <include>**/*.png</include>
+    <include>**/*.jpg</include>
+    <include>**/*.jpeg</include>
+  </includes>
+  <excludes>
+    <exclude>bar/</exclude>
+  </excludes>
+  <useDefaultExcludes>true</useDefaultExcludes>
+  <caseSensitive>false</caseSensitive>
+</fileSelector>
+```
 
-  The {{{./apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector}
-  standard file selector}} selects files based on include/exclude patterns.
-
-  A configuration snippet for using the standard file selector would look like this:
-
------------------------------------------------------------------------------
-  <fileSelector implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-    <includes>
-      <include>**/*.gif</include>
-      <include>**/*.png</include>
-      <include>**/*.jpg</include>
-      <include>**/*.jpeg</include>
-    </includes>
-    <excludes>
-      <exclude>bar/</exclude>
-    </excludes>
-    <useDefaultExcludes>true</useDefaultExcludes>
-    <caseSensitive>false</caseSensitive>
-  </fileSelector>
------------------------------------------------------------------------------
-
-  This would include all image files, with the exception of those in the
-  directory <<<bar>>>. The default excludes (for example <<<CVS/>>>) would
-  apply and file names would be treated case insensitive.
+This would include all image files, with the exception of those in the directory `bar`. The default excludes (for example `CVS/`) would apply and file names would be treated case insensitive.
