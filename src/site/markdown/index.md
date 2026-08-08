@@ -1,3 +1,7 @@
+---
+title: Introduction
+---
+
 # Plexus IO
 
 Plexus IO is a set of plexus components, which are designed for use in I/O operations. These I/O operations are doing nothing spectacular. For example, [Commons IO](http://jakarta.apache.org/commons/io) is a much more powerful library in the same area. However, the implementation as a plexus component allows reuse in Maven.
