@@ -1,3 +1,7 @@
+---
+title: File Selectors
+---
+
 # File Selectors
 
 A file selector is a plexus component, which allows to select certain files out of a given set. For example, the [Plexus Archiver](http://plexus.codehaus.org/plexus-archiver) uses file selectors to select the files being archived out of a base directory. Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
