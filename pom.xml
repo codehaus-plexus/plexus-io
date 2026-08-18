@@ -12,6 +12,8 @@
   <version>3.6.1-SNAPSHOT</version>
 
   <name>Plexus IO Components</name>
+  <description>A component providing a uniform view of file, archive and in-memory resources, with selectors and
+    mappers to filter and rename them.</description>
 
   <scm>
     <connection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</connection>
