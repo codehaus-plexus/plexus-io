@@ -140,11 +140,11 @@
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>     }
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> 
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compare(PlexusIoResource res, File file) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>         assertNotSame(res.getLastModified(), PlexusIoResource.UNKNOWN_MODIFICATION_DATE);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>         assertNotSame(PlexusIoResource.UNKNOWN_MODIFICATION_DATE, res.getLastModified());
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>         <strong class="jxr_keyword">if</strong> (res instanceof PlexusIoFileResource) {
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>             assertEquals(res.getLastModified() / 1000, file.lastModified() / 1000);
 <a class="jxr_linenumber" name="L138" href="#L138">138</a>         }
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>         assertNotSame(res.getSize(), PlexusIoResource.UNKNOWN_RESOURCE_SIZE);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>         assertNotSame(PlexusIoResource.UNKNOWN_RESOURCE_SIZE, res.getSize());
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>         assertEquals(res.getSize(), file.length());
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>         InputStream in = res.getContents();
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>         compare(in, file);
@@ -217,6 +217,6 @@
 <a class="jxr_linenumber" name="L209" href="#L209">209</a> }
 </pre>
 <hr/>
-<div id="footer">© 2001–2025 <a href="https://codehaus-plexus.github.io/">Codehaus Plexus</a></div>
+<div id="footer">© 2001–2026 <a href="https://codehaus-plexus.github.io/">Codehaus Plexus</a></div>
 </body>
 </html>
