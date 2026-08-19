@@ -16,8 +16,8 @@
     mappers to filter and rename them.</description>
 
   <scm>
-    <connection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</connection>
-    <developerConnection>scm:git:git@github.com:codehaus-plexus/plexus-io.git</developerConnection>
+    <connection>scm:git:https://github.com/codehaus-plexus/plexus-io.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
     <tag>HEAD</tag>
     <url>http://github.com/codehaus-plexus/plexus-io</url>
   </scm>
