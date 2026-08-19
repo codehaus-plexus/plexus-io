@@ -21,7 +21,6 @@ bug fixes and dependency updates.
 <dependency>
   <groupId>org.codehaus.plexus</groupId>
   <artifactId>plexus-io</artifactId>
-  <version>3.6.0</version>
 </dependency>
 ```
 
