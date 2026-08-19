@@ -145,7 +145,7 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
             String sourceDir = name.replace('\\', '/');
             File f = new File(dir, sourceDir);
 
-            FileAttributes fattrs = new FileAttributes(f);
+            FileAttributes fattrs = new FileAttributes(f, isFollowingSymLinks());
             PlexusIoResourceAttributes attrs = mergeAttributes(fattrs, fattrs.isDirectory());
 
             String remappedName = getName(name);
