@@ -25,11 +25,12 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
+import org.codehaus.plexus.components.io.functions.HardLinkIdentitySupplier;
 import org.codehaus.plexus.components.io.functions.NameSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
 import org.codehaus.plexus.components.io.resources.proxy.ProxyFactory;
 
-class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
+class Deferred implements ContentSupplier, NameSupplier, SizeSupplier, HardLinkIdentitySupplier {
     final DeferredFileOutputStream dfos;
 
     final PlexusIoResource resource;
@@ -85,6 +86,19 @@ class Deferred implements ContentSupplier, NameSupplier, SizeSupplier {
 
     public String getName() {
         return owner.getName(resource);
+    }
+
+    /**
+     * Preserves source identity only when this wrapper has not transformed the contents.
+     *
+     * @return the source identity, or null after transformation
+     * @throws IOException if the source identity cannot be read
+     */
+    @Override
+    public Object getHardLinkIdentity() throws IOException {
+        return dfos == null && resource instanceof HardLinkIdentitySupplier
+                ? ((HardLinkIdentitySupplier) resource).getHardLinkIdentity()
+                : null;
     }
 
     public PlexusIoResource asResource() {

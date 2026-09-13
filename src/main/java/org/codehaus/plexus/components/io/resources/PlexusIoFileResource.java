@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -34,6 +37,7 @@ import org.codehaus.plexus.components.io.attributes.FileAttributes;
 import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
 import org.codehaus.plexus.components.io.functions.FileSupplier;
+import org.codehaus.plexus.components.io.functions.HardLinkIdentitySupplier;
 import org.codehaus.plexus.components.io.functions.InputStreamTransformer;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 
@@ -42,7 +46,8 @@ import static java.util.Objects.requireNonNull;
 /**
  * Implementation of {@link PlexusIoResource} for files.
  */
-public class PlexusIoFileResource extends AbstractPlexusIoResource implements ResourceAttributeSupplier, FileSupplier {
+public class PlexusIoFileResource extends AbstractPlexusIoResource
+        implements ResourceAttributeSupplier, FileSupplier, HardLinkIdentitySupplier {
 
     @Nonnull
     private final File file;
@@ -54,6 +59,8 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     private final FileAttributes fileAttributes;
 
     private final ContentSupplier contentSupplier;
+
+    private final boolean originalContent;
 
     private final DeferredFileOutputStream dfos;
 
@@ -97,6 +104,8 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
 
         boolean hasTransformer = streamTransformer != null && streamTransformer != identityTransformer;
         InputStreamTransformer transToUse = streamTransformer != null ? streamTransformer : identityTransformer;
+
+        originalContent = contentSupplier == null && !hasTransformer;
 
         dfos = hasTransformer && file.isFile() ? asDeferredStream(this.contentSupplier, transToUse, this) : null;
     }
@@ -203,6 +212,28 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource implements Re
     @Override
     public boolean isSymbolicLink() {
         return getAttributes().isSymbolicLink();
+    }
+
+    /**
+     * Identifies an untransformed regular file without following symbolic links.
+     * Subclasses that change content must explicitly supply their own guarantee.
+     *
+     * @return a filesystem-scoped file identity, or null for unknown content
+     * @throws IOException if the file attributes cannot be read
+     */
+    @Override
+    public Object getHardLinkIdentity() throws IOException {
+        // A backing file alone does not describe custom suppliers or transformed bytes.
+        if (!originalContent || getClass() != PlexusIoFileResource.class) {
+            return null;
+        }
+        BasicFileAttributes attrs =
+                Files.readAttributes(file.toPath(), BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+        if (!attrs.isRegularFile() || attrs.fileKey() == null) {
+            return null;
+        }
+        // Include the observed content version so a changed source cannot reuse an old payload.
+        return Arrays.asList(file.toPath().getFileSystem(), attrs.fileKey(), attrs.size(), attrs.lastModifiedTime());
     }
 
     protected DeferredFileOutputStream getDfos() {
