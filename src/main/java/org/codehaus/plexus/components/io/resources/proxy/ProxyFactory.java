@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.plexus.components.io.functions.FileSupplier;
+import org.codehaus.plexus.components.io.functions.HardLinkIdentitySupplier;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.functions.SymlinkDestinationSupplier;
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
@@ -31,6 +32,9 @@ public class ProxyFactory {
 
         List<Class> interfaces = new ArrayList<>();
         interfaces.add(PlexusIoResource.class);
+        if (target instanceof HardLinkIdentitySupplier || alternateSupplier instanceof HardLinkIdentitySupplier) {
+            interfaces.add(HardLinkIdentitySupplier.class);
+        }
         if (target instanceof SymlinkDestinationSupplier) interfaces.add(SymlinkDestinationSupplier.class);
         if (target instanceof FileSupplier) interfaces.add(FileSupplier.class);
         if (target instanceof ResourceAttributeSupplier) interfaces.add(ResourceAttributeSupplier.class);

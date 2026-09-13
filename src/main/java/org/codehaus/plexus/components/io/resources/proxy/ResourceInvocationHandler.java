@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import org.codehaus.plexus.components.io.functions.ContentSupplier;
+import org.codehaus.plexus.components.io.functions.HardLinkIdentitySupplier;
 import org.codehaus.plexus.components.io.functions.NameSupplier;
 import org.codehaus.plexus.components.io.functions.ResourceAttributeSupplier;
 import org.codehaus.plexus.components.io.functions.SizeSupplier;
@@ -30,6 +31,8 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 class ResourceInvocationHandler implements InvocationHandler {
     private final PlexusIoResource testImpl;
 
+    private final HardLinkIdentitySupplier hardLinkIdentitySupplier;
+
     private final ContentSupplier contentSupplier;
     private final NameSupplier nameSupplier;
     private final SizeSupplier sizeSupplier;
@@ -38,6 +41,7 @@ class ResourceInvocationHandler implements InvocationHandler {
 
     public ResourceInvocationHandler(@Nonnull PlexusIoResource target, Object alternativeHandler) {
         this.testImpl = target;
+        this.hardLinkIdentitySupplier = asOrNull(alternativeHandler, HardLinkIdentitySupplier.class);
         this.contentSupplier = asOrNull(alternativeHandler, ContentSupplier.class);
         this.nameSupplier = asOrNull(alternativeHandler, NameSupplier.class);
         this.sizeSupplier = asOrNull(alternativeHandler, SizeSupplier.class);
@@ -53,6 +57,15 @@ class ResourceInvocationHandler implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String name = method.getName();
+        if ("getHardLinkIdentity".equals(name)) {
+            // Replacing contents invalidates identity unless the wrapper explicitly preserves it.
+            if (hardLinkIdentitySupplier != null) {
+                return hardLinkIdentitySupplier.getHardLinkIdentity();
+            }
+            return contentSupplier == null && sizeSupplier == null && testImpl instanceof HardLinkIdentitySupplier
+                    ? ((HardLinkIdentitySupplier) testImpl).getHardLinkIdentity()
+                    : null;
+        }
         if (contentSupplier != null && "getContents".equals(name)) {
             return contentSupplier.getContents();
         }
