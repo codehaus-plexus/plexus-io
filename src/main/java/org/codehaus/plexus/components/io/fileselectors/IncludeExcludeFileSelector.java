@@ -93,12 +93,20 @@ public class IncludeExcludeFileSelector implements FileSelector {
     }
 
     private static @Nonnull String getCanonicalName(@Nonnull String pName) {
-        return pName.replace('/', File.separatorChar).replace('\\', File.separatorChar);
+        return getCanonicalName(pName, File.separatorChar);
     }
 
-    private String asPattern(@Nonnull String pPattern) {
-        String pattern = getCanonicalName(pPattern.trim());
-        if (pattern.endsWith(File.separator)) {
+    private static @Nonnull String getCanonicalName(@Nonnull String pName, char separatorChar) {
+        return pName.replace('/', separatorChar).replace('\\', separatorChar);
+    }
+
+    private static String asPattern(@Nonnull String pPattern) {
+        return asPattern(pPattern, File.separatorChar);
+    }
+
+    private static String asPattern(@Nonnull String pPattern, char separatorChar) {
+        String pattern = getCanonicalName(pPattern.trim(), separatorChar);
+        if (pattern.endsWith(String.valueOf(separatorChar))) {
             pattern += "**";
         }
         return pattern;
@@ -132,19 +140,25 @@ public class IncludeExcludeFileSelector implements FileSelector {
     public void setExcludes(@Nullable String[] excludes) {
         this.excludes = excludes;
         final String[] defaultExcludes = useDefaultExcludes ? FileUtils.getDefaultExcludes() : new String[] {};
-        if (excludes == null) {
-            computedExcludes = MatchPatterns.from(defaultExcludes);
-        } else {
-            String[] temp = new String[excludes.length + defaultExcludes.length];
-            for (int i = 0; i < excludes.length; i++) {
-                temp[i] = asPattern(excludes[i]);
-            }
+        computedExcludes = MatchPatterns.from(asExcludePatterns(excludes, defaultExcludes, File.separatorChar));
+    }
 
-            if (defaultExcludes.length > 0) {
-                System.arraycopy(defaultExcludes, 0, temp, excludes.length, defaultExcludes.length);
-            }
-            computedExcludes = MatchPatterns.from(temp);
+    /**
+     * Converts the user's exclude patterns and the default excludes into patterns
+     * that use the given separator, the same separator {@link #isSelected(FileInfo)}
+     * uses for the names it matches.
+     */
+    static String[] asExcludePatterns(
+            @Nullable String[] excludes, @Nonnull String[] defaultExcludes, char separatorChar) {
+        final int count = excludes == null ? 0 : excludes.length;
+        final String[] patterns = new String[count + defaultExcludes.length];
+        for (int i = 0; i < count; i++) {
+            patterns[i] = asPattern(excludes[i], separatorChar);
         }
+        for (int i = 0; i < defaultExcludes.length; i++) {
+            patterns[count + i] = asPattern(defaultExcludes[i], separatorChar);
+        }
+        return patterns;
     }
 
     /**
