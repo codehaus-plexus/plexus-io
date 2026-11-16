@@ -25,7 +25,7 @@ import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 abstract class ForwardingIterator implements Iterator<PlexusIoResource>, Closeable {
     private final Object possiblyCloseable;
 
-    private PlexusIoResource next = null;
+    private PlexusIoResource next;
 
     ForwardingIterator(Object possiblyCloseable) {
         this.possiblyCloseable = possiblyCloseable;

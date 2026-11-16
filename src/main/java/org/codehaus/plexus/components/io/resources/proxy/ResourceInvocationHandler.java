@@ -51,8 +51,11 @@ class ResourceInvocationHandler implements InvocationHandler {
 
     @SuppressWarnings("unchecked")
     private static <T> T asOrNull(Object instance, Class<T> clazz) {
-        if (instance != null && clazz.isAssignableFrom(instance.getClass())) return (T) instance;
-        else return null;
+        if (instance != null && clazz.isAssignableFrom(instance.getClass())) {
+            return (T) instance;
+        } else {
+            return null;
+        }
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

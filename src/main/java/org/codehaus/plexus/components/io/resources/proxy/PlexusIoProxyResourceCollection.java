@@ -120,12 +120,16 @@ public class PlexusIoProxyResourceCollection extends AbstractPlexusIoResourceCol
          * Returns the next resource or null if no next resource;
          */
         protected PlexusIoResource getNextResource() throws IOException {
-            if (!iter.hasNext()) return null;
+            if (!iter.hasNext()) {
+                return null;
+            }
             PlexusIoResource plexusIoResource = iter.next();
 
             while ((!fileSelector.isSelected(plexusIoResource) || !isSelected(plexusIoResource))
                     || (plexusIoResource.isDirectory() && !isIncludingEmptyDirectories())) {
-                if (!iter.hasNext()) return null;
+                if (!iter.hasNext()) {
+                    return null;
+                }
                 plexusIoResource = iter.next();
             }
 
