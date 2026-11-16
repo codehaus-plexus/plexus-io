@@ -59,10 +59,12 @@ class PlexusIoProxyResourceCollectionTest {
 
         boolean closed;
 
+        @Override
         public void close() {
             closed = true;
         }
 
+        @Override
         public boolean hasNext() {
             if (next) {
                 next = false;
@@ -71,19 +73,23 @@ class PlexusIoProxyResourceCollectionTest {
             return false;
         }
 
+        @Override
         public PlexusIoResource next() {
             return new AbstractPlexusIoResource("fud", 123, 22, true, false, false) {
                 @Nonnull
+                @Override
                 public InputStream getContents() {
                     return null;
                 }
 
+                @Override
                 public URL getURL() {
                     return null;
                 }
             };
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -94,14 +100,17 @@ class PlexusIoProxyResourceCollectionTest {
         final CloseableIterator closeableIterator = new CloseableIterator();
         PlexusIoProxyResourceCollection resCol =
                 new PlexusIoProxyResourceCollection(new AbstractPlexusIoResourceCollection() {
+                    @Override
                     public Iterator<PlexusIoResource> getResources() {
                         return closeableIterator;
                     }
 
+                    @Override
                     public Stream stream() {
                         throw new UnsupportedOperationException();
                     }
 
+                    @Override
                     public boolean isConcurrentAccessSupported() {
                         return true;
                     }

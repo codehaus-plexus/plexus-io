@@ -82,6 +82,7 @@ class ProxyFactoryTest {
             super(file, file.getName(), attrs);
         }
 
+        @Override
         public String getSymlinkDestination() {
             throw new IllegalStateException("Unsupported");
         }

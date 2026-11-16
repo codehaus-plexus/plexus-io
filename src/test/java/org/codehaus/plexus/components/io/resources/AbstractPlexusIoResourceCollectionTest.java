@@ -22,14 +22,17 @@ class AbstractPlexusIoResourceCollectionTest {
     @Test
     void getIncludes() throws Exception {
         AbstractPlexusIoResourceCollection sut = new AbstractPlexusIoResourceCollection() {
+            @Override
             public Iterator<PlexusIoResource> getResources() {
                 return Arrays.asList(getResource("r1"), getResource("r2")).iterator();
             }
 
+            @Override
             public Stream stream() {
                 throw new UnsupportedOperationException();
             }
 
+            @Override
             public boolean isConcurrentAccessSupported() {
                 return true;
             }
@@ -37,6 +40,7 @@ class AbstractPlexusIoResourceCollectionTest {
 
         sut.setStreamTransformer(new InputStreamTransformer() {
             @Nonnull
+            @Override
             public InputStream transform(@Nonnull PlexusIoResource resource, @Nonnull final InputStream inputStream)
                     throws IOException {
                 final byte[] buf = new byte[2];
@@ -57,10 +61,12 @@ class AbstractPlexusIoResourceCollectionTest {
     private static PlexusIoResource getResource(final String r1) {
         return new AbstractPlexusIoResource(r1, 0, 0, true, false, true) {
             @Nonnull
+            @Override
             public InputStream getContents() {
                 return new ByteArrayInputStream((r1 + "Payload").getBytes());
             }
 
+            @Override
             public URL getURL() {
                 throw new IllegalStateException("Not implemented");
             }

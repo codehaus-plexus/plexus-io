@@ -44,6 +44,7 @@ public class PlexusIoSymlinkResource extends PlexusIoFileResource implements Sym
         this.targetResource = targetResource;
     }
 
+    @Override
     public String getSymlinkDestination() throws IOException {
         return symLinkDestination;
     }

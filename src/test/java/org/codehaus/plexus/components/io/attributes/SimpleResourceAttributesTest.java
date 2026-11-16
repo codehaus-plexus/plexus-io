@@ -18,12 +18,14 @@ package org.codehaus.plexus.components.io.attributes;
 
 public class SimpleResourceAttributesTest extends AbstractResourceAttributesTCK {
 
+    @Override
     protected PlexusIoResourceAttributes newAttributes(int mode) {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
         simpleResourceAttributes.setOctalMode(mode);
         return simpleResourceAttributes;
     }
 
+    @Override
     protected PlexusIoResourceAttributes newAttributes(String mode) {
         final SimpleResourceAttributes simpleResourceAttributes = new SimpleResourceAttributes();
         simpleResourceAttributes.setOctalModeString(mode);

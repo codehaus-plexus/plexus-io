@@ -57,16 +57,19 @@ public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplie
      * Returns the resources size, if known. Otherwise returns
      * {@link #UNKNOWN_RESOURCE_SIZE}.
      */
+    @Override
     long getSize();
 
     /**
      * Returns, whether the {@link FileInfo} refers to a file.
      */
+    @Override
     boolean isFile();
 
     /**
      * Returns, whether the {@link FileInfo} refers to a directory.
      */
+    @Override
     boolean isDirectory();
 
     /**
@@ -78,6 +81,7 @@ public interface PlexusIoResource extends FileInfo, SizeSupplier, ContentSupplie
      * BufferedInputStream or attempt reading reasonably large chunks (8K+).
      */
     @Nonnull
+    @Override
     InputStream getContents() throws IOException;
 
     /**

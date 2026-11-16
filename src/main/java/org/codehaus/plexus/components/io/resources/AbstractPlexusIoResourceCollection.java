@@ -34,6 +34,7 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
 
     static class IdentityTransformer implements InputStreamTransformer {
         @Nonnull
+        @Override
         public InputStream transform(@Nonnull PlexusIoResource resource, @Nonnull InputStream inputStream)
                 throws IOException {
             return inputStream;
@@ -214,6 +215,7 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
         this.fileMappers = fileMappers;
     }
 
+    @Override
     public Iterator<PlexusIoResource> iterator() {
         try {
             return getResources();
@@ -222,6 +224,7 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
         }
     }
 
+    @Override
     public String getName(PlexusIoResource resource) {
         return getName(resource.getName());
     }
@@ -237,16 +240,19 @@ public abstract class AbstractPlexusIoResourceCollection implements PlexusIoReso
         return PrefixFileMapper.getMappedFileName(getPrefix(), name);
     }
 
+    @Override
     public InputStream getInputStream(PlexusIoResource resource) throws IOException {
         InputStream contents = resource.getContents();
         return new ClosingInputStream(streamTransformer.transform(resource, contents), contents);
     }
 
+    @Override
     public PlexusIoResource resolve(final PlexusIoResource resource) throws IOException {
         final Deferred deferred = new Deferred(resource, this, streamTransformer != identityTransformer);
         return deferred.asResource();
     }
 
+    @Override
     public long getLastModified() throws IOException {
         long lastModified = PlexusIoResource.UNKNOWN_MODIFICATION_DATE;
         for (Iterator<PlexusIoResource> iter = getResources(); iter.hasNext(); ) {

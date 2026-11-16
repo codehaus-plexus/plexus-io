@@ -58,6 +58,7 @@ public class MergeFileMapper extends AbstractFileMapper {
     }
 
     @Nonnull
+    @Override
     public String getMappedFileName(@Nonnull String pName) {
         final String name = getTargetName();
         if (name == null) {

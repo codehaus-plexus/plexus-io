@@ -35,6 +35,7 @@ public abstract class PlexusIoURLResource extends AbstractPlexusIoResource {
     }
 
     @Nonnull
+    @Override
     public InputStream getContents() throws IOException {
         final URL url = getURL();
         try {
@@ -50,5 +51,6 @@ public abstract class PlexusIoURLResource extends AbstractPlexusIoResource {
         return url != null ? url.toExternalForm() : "url=null";
     }
 
+    @Override
     public abstract URL getURL() throws IOException;
 }

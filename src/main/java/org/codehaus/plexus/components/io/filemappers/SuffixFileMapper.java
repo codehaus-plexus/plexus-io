@@ -49,6 +49,7 @@ public class SuffixFileMapper extends AbstractFileMapper {
     }
 
     @Nonnull
+    @Override
     public String getMappedFileName(@Nonnull String pName) {
         final String name = super.getMappedFileName(pName);
         if (suffix == null) {

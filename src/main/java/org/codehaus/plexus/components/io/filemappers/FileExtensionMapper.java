@@ -61,6 +61,7 @@ public class FileExtensionMapper extends AbstractFileMapper {
     }
 
     @Nonnull
+    @Override
     public String getMappedFileName(@Nonnull String pName) {
         final String ext = getTargetExtension();
         if (ext == null) {
