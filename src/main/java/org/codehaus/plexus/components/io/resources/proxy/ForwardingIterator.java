@@ -31,6 +31,7 @@ abstract class ForwardingIterator implements Iterator<PlexusIoResource>, Closeab
         this.possiblyCloseable = possiblyCloseable;
     }
 
+    @Override
     public boolean hasNext() {
         if (next == null) {
             try {
@@ -42,6 +43,7 @@ abstract class ForwardingIterator implements Iterator<PlexusIoResource>, Closeab
         return next != null;
     }
 
+    @Override
     public PlexusIoResource next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
@@ -51,10 +53,12 @@ abstract class ForwardingIterator implements Iterator<PlexusIoResource>, Closeab
         return ret;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void close() throws IOException {
         if (possiblyCloseable instanceof Closeable) {
             ((Closeable) possiblyCloseable).close();

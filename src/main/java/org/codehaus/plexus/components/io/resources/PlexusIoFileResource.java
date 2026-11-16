@@ -137,11 +137,13 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource
      * Returns the resource file.
      */
     @Nonnull
+    @Override
     public File getFile() {
         return file;
     }
 
     @Nonnull
+    @Override
     public InputStream getContents() throws IOException {
         if (dfos == null) {
             return contentSupplier.getContents();
@@ -161,10 +163,12 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource
     }
 
     @Nonnull
+    @Override
     public URL getURL() throws IOException {
         return getFile().toURI().toURL();
     }
 
+    @Override
     public long getSize() {
         if (dfos == null) {
             return fileAttributes.getSize();
@@ -176,10 +180,12 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource
         }
     }
 
+    @Override
     public boolean isDirectory() {
         return fileAttributes.isDirectory();
     }
 
+    @Override
     public boolean isExisting() {
         if (attributes instanceof FileAttributes) {
             return true;
@@ -187,11 +193,13 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource
         return getFile().exists();
     }
 
+    @Override
     public boolean isFile() {
         return fileAttributes.isRegularFile();
     }
 
     @Nonnull
+    @Override
     public PlexusIoResourceAttributes getAttributes() {
         return attributes;
     }
@@ -201,6 +209,7 @@ public class PlexusIoFileResource extends AbstractPlexusIoResource
         return fileAttributes;
     }
 
+    @Override
     public long getLastModified() {
         FileTime lastModified = fileAttributes.getLastModifiedTime();
         if (lastModified != null) {

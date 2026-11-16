@@ -35,6 +35,7 @@ public interface FileInfo extends NameSupplier {
      * is expected to be a relative name and the path components must
      * be separated by {@link java.io.File#pathSeparator}
      */
+    @Override
     String getName();
 
     /**

@@ -196,6 +196,7 @@ public class IncludeExcludeFileSelector implements FileSelector {
         return computedIncludes.matches(name, isCaseSensitive);
     }
 
+    @Override
     public boolean isSelected(@Nonnull FileInfo fileInfo) {
         final String name = getCanonicalName(fileInfo.getName());
         return isIncluded(name) && !isExcluded(name);

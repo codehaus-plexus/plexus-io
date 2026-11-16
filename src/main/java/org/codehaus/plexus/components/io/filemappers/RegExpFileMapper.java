@@ -83,6 +83,7 @@ public class RegExpFileMapper extends AbstractFileMapper {
     }
 
     @Nonnull
+    @Override
     public String getMappedFileName(@Nonnull String pName) {
         final String name = super.getMappedFileName(pName);
         if (pattern == null) {

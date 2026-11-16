@@ -59,60 +59,74 @@ public class SimpleResourceAttributes implements PlexusIoResourceAttributes {
 
     SimpleResourceAttributes() {}
 
+    @Override
     public int getOctalMode() {
         return mode;
     }
 
     @Nullable
+    @Override
     public Integer getGroupId() {
         return gid;
     }
 
     @Nullable
+    @Override
     public String getGroupName() {
         return groupName;
     }
 
+    @Override
     public Integer getUserId() {
         return uid;
     }
 
+    @Override
     public String getUserName() {
         return userName;
     }
 
+    @Override
     public boolean isGroupExecutable() {
         return PlexusIoResourceAttributeUtils.isGroupExecutableInOctal(mode);
     }
 
+    @Override
     public boolean isGroupReadable() {
         return PlexusIoResourceAttributeUtils.isGroupReadableInOctal(mode);
     }
 
+    @Override
     public boolean isGroupWritable() {
         return PlexusIoResourceAttributeUtils.isGroupWritableInOctal(mode);
     }
 
+    @Override
     public boolean isOwnerExecutable() {
         return PlexusIoResourceAttributeUtils.isOwnerExecutableInOctal(mode);
     }
 
+    @Override
     public boolean isOwnerReadable() {
         return PlexusIoResourceAttributeUtils.isOwnerReadableInOctal(mode);
     }
 
+    @Override
     public boolean isOwnerWritable() {
         return PlexusIoResourceAttributeUtils.isOwnerWritableInOctal(mode);
     }
 
+    @Override
     public boolean isWorldExecutable() {
         return PlexusIoResourceAttributeUtils.isWorldExecutableInOctal(mode);
     }
 
+    @Override
     public boolean isWorldReadable() {
         return PlexusIoResourceAttributeUtils.isWorldReadableInOctal(mode);
     }
 
+    @Override
     public boolean isWorldWritable() {
         return PlexusIoResourceAttributeUtils.isWorldWritableInOctal(mode);
     }
@@ -151,6 +165,7 @@ public class SimpleResourceAttributes implements PlexusIoResourceAttributes {
         return this;
     }
 
+    @Override
     public String toString() {
         return String.format(
                 "%nResource Attributes:%n------------------------------%nuser: %s%ngroup: %s%nuid: %d%ngid: %d%nmode: %06o",
@@ -165,6 +180,7 @@ public class SimpleResourceAttributes implements PlexusIoResourceAttributes {
         this.isSymbolicLink = isSymbolicLink;
     }
 
+    @Override
     public boolean isSymbolicLink() {
         return isSymbolicLink;
     }

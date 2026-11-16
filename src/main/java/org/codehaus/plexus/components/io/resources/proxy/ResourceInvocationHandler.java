@@ -58,6 +58,7 @@ class ResourceInvocationHandler implements InvocationHandler {
         }
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String name = method.getName();
         if ("getHardLinkIdentity".equals(name)) {

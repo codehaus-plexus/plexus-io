@@ -32,6 +32,7 @@ public class PrefixFileMapper extends AbstractFileMapper {
     private String prefix;
 
     @Nonnull
+    @Override
     public String getMappedFileName(@Nonnull String name) {
         final String s = super.getMappedFileName(name); // Check for null, etc.
         return getMappedFileName(prefix, s);

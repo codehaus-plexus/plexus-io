@@ -28,6 +28,7 @@ public abstract class AbstractFileMapper implements FileMapper {
     /**
      * Checks the input and returns it without modifications.
      */
+    @Override
     public @Nonnull String getMappedFileName(@Nonnull String pName) {
         if (pName == null || pName.isEmpty()) {
             throw new IllegalArgumentException("The source name must not be null.");

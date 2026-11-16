@@ -59,10 +59,12 @@ class IncludeExcludeFileSelectorTest {
     private static AbstractPlexusIoResource resource(String name) {
         return new AbstractPlexusIoResource(name, 0, 0, true, false, true) {
             @Nonnull
+            @Override
             public InputStream getContents() {
                 throw new IllegalStateException("Not implemented");
             }
 
+            @Override
             public URL getURL() {
                 throw new IllegalStateException("Not implemented");
             }

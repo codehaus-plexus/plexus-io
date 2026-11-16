@@ -31,6 +31,7 @@ public class AllFilesFileSelector implements FileSelector {
      */
     public static final String ROLE_HINT = "all";
 
+    @Override
     public boolean isSelected(@Nonnull FileInfo fileInfo) {
         return true;
     }

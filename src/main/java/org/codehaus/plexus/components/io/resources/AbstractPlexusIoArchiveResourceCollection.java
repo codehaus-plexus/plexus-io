@@ -37,6 +37,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     /**
      * Sets the zip file
      */
+    @Override
     public void setFile(File file) {
         this.file = file;
     }
@@ -44,6 +45,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
     /**
      * Returns the zip file
      */
+    @Override
     public File getFile() {
         return file;
     }
@@ -55,6 +57,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
      */
     protected abstract Iterator<PlexusIoResource> getEntries() throws IOException;
 
+    @Override
     public Iterator<PlexusIoResource> getResources() throws IOException {
         return new FilteringIterator();
     }
@@ -81,10 +84,12 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             return false;
         }
 
+        @Override
         public boolean hasNext() {
             return doNext();
         }
 
+        @Override
         public PlexusIoResource next() {
             if (next == null) {
                 doNext();
@@ -94,10 +99,12 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
             return res;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void close() throws IOException {
             if (it instanceof Closeable) {
                 ((Closeable) it).close();
@@ -105,6 +112,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         }
     }
 
+    @Override
     public Stream stream() {
         return resourceConsumer -> {
             Iterator<PlexusIoResource> it = getEntries();
@@ -120,6 +128,7 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         };
     }
 
+    @Override
     public long getLastModified() throws IOException {
         File f = getFile();
         return f == null ? PlexusIoResource.UNKNOWN_MODIFICATION_DATE : f.lastModified();
