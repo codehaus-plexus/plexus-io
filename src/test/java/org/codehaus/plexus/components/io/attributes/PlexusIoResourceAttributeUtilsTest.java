@@ -105,7 +105,9 @@ class PlexusIoResourceAttributeUtilsTest {
         assertNotNull(fileAttributesByPathScreenScrape);
         PlexusIoResourceAttributes pr = null;
         for (String s : fileAttributesByPathScreenScrape.keySet()) {
-            if (s.endsWith("targetFile.txt")) pr = fileAttributesByPathScreenScrape.get(s);
+            if (s.endsWith("targetFile.txt")) {
+                pr = fileAttributesByPathScreenScrape.get(s);
+            }
         }
         assertNotNull(pr);
 

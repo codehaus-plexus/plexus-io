@@ -24,8 +24,11 @@ import javax.annotation.Nonnull;
 public abstract class AbstractPlexusIoResource implements PlexusIoResource {
     private final String name;
 
-    private final long lastModified, size;
-    private final boolean isFile, isDirectory, isExisting;
+    private final long lastModified;
+    private final long size;
+    private final boolean isFile;
+    private final boolean isDirectory;
+    private final boolean isExisting;
 
     protected AbstractPlexusIoResource(
             @Nonnull String name,

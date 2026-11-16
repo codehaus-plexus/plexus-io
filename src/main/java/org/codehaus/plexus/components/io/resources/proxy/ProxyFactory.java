@@ -35,9 +35,15 @@ public class ProxyFactory {
         if (target instanceof HardLinkIdentitySupplier || alternateSupplier instanceof HardLinkIdentitySupplier) {
             interfaces.add(HardLinkIdentitySupplier.class);
         }
-        if (target instanceof SymlinkDestinationSupplier) interfaces.add(SymlinkDestinationSupplier.class);
-        if (target instanceof FileSupplier) interfaces.add(FileSupplier.class);
-        if (target instanceof ResourceAttributeSupplier) interfaces.add(ResourceAttributeSupplier.class);
+        if (target instanceof SymlinkDestinationSupplier) {
+            interfaces.add(SymlinkDestinationSupplier.class);
+        }
+        if (target instanceof FileSupplier) {
+            interfaces.add(FileSupplier.class);
+        }
+        if (target instanceof ResourceAttributeSupplier) {
+            interfaces.add(ResourceAttributeSupplier.class);
+        }
 
         return (PlexusIoResource) Proxy.newProxyInstance(
                 PlexusIoResource.class.getClassLoader(),

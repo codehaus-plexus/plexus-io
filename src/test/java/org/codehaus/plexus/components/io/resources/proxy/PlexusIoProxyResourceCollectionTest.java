@@ -57,7 +57,7 @@ class PlexusIoProxyResourceCollectionTest {
     static class CloseableIterator implements Iterator<PlexusIoResource>, Closeable {
         boolean next = true;
 
-        boolean closed = false;
+        boolean closed;
 
         public void close() {
             closed = true;

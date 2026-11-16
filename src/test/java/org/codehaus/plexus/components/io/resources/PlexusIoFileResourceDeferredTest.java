@@ -35,10 +35,9 @@ class PlexusIoFileResourceDeferredTest {
         Files.write(testFile.toPath(), largeContent);
 
         // Create a transformer that modifies the content
-        InputStreamTransformer transformer = (resource, inputStream) -> {
-            // Simple transformer that reads and returns the same content
-            return inputStream;
-        };
+        InputStreamTransformer transformer = (resource, inputStream) ->
+                // Simple transformer that reads and returns the same content
+                inputStream;
 
         // Create PlexusIoFileResource with transformer
         PlexusIoFileResource resource =

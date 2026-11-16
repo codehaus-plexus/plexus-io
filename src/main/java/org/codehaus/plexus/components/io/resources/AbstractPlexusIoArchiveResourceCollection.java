@@ -86,7 +86,9 @@ public abstract class AbstractPlexusIoArchiveResourceCollection extends Abstract
         }
 
         public PlexusIoResource next() {
-            if (next == null) doNext();
+            if (next == null) {
+                doNext();
+            }
             PlexusIoResource res = next;
             next = null;
             return res;
