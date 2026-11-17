@@ -37,7 +37,6 @@ import org.codehaus.plexus.components.io.resources.PlexusIoFileResourceCollectio
 import org.codehaus.plexus.components.io.resources.PlexusIoResource;
 import org.codehaus.plexus.components.io.resources.PlexusIoResourceCollection;
 import org.codehaus.plexus.testing.PlexusTest;
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,9 +67,9 @@ class ResourcesTest {
     private void createFiles() throws IOException {
         final File baseDir = getFilesDir();
         org.apache.commons.io.FileUtils.deleteDirectory(baseDir);
-        FileUtils.mkdir(baseDir.getPath());
+        Files.createDirectories(baseDir.toPath());
         final File aFile = new File(baseDir, A_PATH);
-        FileUtils.mkdir(aFile.getParentFile().getPath());
+        Files.createDirectories(aFile.getParentFile().toPath());
         FileOutputStream fos = new FileOutputStream(aFile);
         fos.write("0123456789".getBytes(StandardCharsets.US_ASCII));
         fos.close();
@@ -79,7 +78,7 @@ class ResourcesTest {
         fos.write("abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.US_ASCII));
         fos.close();
         final File yDir = new File(baseDir, Y_PATH);
-        FileUtils.mkdir(yDir.getPath());
+        Files.createDirectories(yDir.toPath());
     }
 
     private void addDirToZipFile(ZipOutputStream zos, File dir, String path) throws IOException {
