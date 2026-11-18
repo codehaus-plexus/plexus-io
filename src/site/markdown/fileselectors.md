@@ -4,9 +4,9 @@ title: File Selectors
 
 # File Selectors
 
-A file selector is a plexus component, which allows to select certain files out of a given set. For example, the [Plexus Archiver](http://plexus.codehaus.org/plexus-archiver) uses file selectors to select the files being archived out of a base directory. Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
+A file selector is a plexus component, which allows to select certain files out of a given set. For example, the [Plexus Archiver](https://codehaus-plexus.github.io/plexus-archiver/) uses file selectors to select the files being archived out of a base directory. Its counterpart, the Plexus Unarchiver allows to restrict the files to unarchive.
 
-File mappers are implementing the interface [FileSelector](./apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html).
+File selectors are implementing the interface [FileSelector](./apidocs/org/codehaus/plexus/components/io/fileselectors/FileSelector.html).
 
 Available file selectors are
 
@@ -27,12 +27,12 @@ The selector for all files uses the role hints "all", or "default".
 
 ## <a id="Standard_File_Selector"></a>Standard File Selector
 
-The [standard file selector](./apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector) selects files based on include/exclude patterns.
+The [standard file selector](./apidocs/org/codehaus/plexus/components/io/fileselectors/IncludeExcludeFileSelector.html) selects files based on include/exclude patterns.
 
 A configuration snippet for using the standard file selector would look like this:
 
 ```
-<fileSelector implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+<fileSelector implementation="org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector">
   <includes>
     <include>**/*.gif</include>
     <include>**/*.png</include>
