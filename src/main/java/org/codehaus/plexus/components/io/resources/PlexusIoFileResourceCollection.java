@@ -34,7 +34,6 @@ import org.codehaus.plexus.components.io.attributes.PlexusIoResourceAttributes;
 import org.codehaus.plexus.components.io.attributes.SimpleResourceAttributes;
 import org.codehaus.plexus.components.io.functions.PlexusIoResourceConsumer;
 import org.codehaus.plexus.util.DirectoryScanner;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Implementation of {@link PlexusIoResourceCollection} for the set
@@ -136,7 +135,7 @@ public class PlexusIoFileResourceCollection extends AbstractPlexusIoResourceColl
     @Override
     public void setPrefix(String prefix) {
         char nonSeparator = File.separatorChar == '/' ? '\\' : '/';
-        super.setPrefix(StringUtils.replace(prefix, nonSeparator, File.separatorChar));
+        super.setPrefix(prefix.replace(nonSeparator, File.separatorChar));
     }
 
     private void addResources(List<PlexusIoResource> result, String[] resources) throws IOException {
