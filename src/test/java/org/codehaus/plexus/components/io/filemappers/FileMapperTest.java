@@ -25,7 +25,8 @@ import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.testing.PlexusTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test case for the various file mappers.
@@ -39,32 +40,24 @@ class FileMapperTest {
         for (int i = 0; i < pInput.length; i++) {
             final String input = pInput[i];
             final String output = pOutput[i];
-            final String result;
             try {
                 if (output == null) {
-                    try {
-                        pMapper.getMappedFileName(input);
-                        fail("Expected IllegalArgumentException for mapper "
-                                + pMapper.getClass().getName() + " and input: " + input);
-                    } catch (IllegalArgumentException e) {
-                        // Ok
-                    }
+                    assertThrows(
+                            IllegalArgumentException.class,
+                            () -> pMapper.getMappedFileName(input),
+                            "Expected IllegalArgumentException for mapper "
+                                    + pMapper.getClass().getName() + " and input: " + input);
                     continue;
                 }
-                result = pMapper.getMappedFileName(input);
-                if (output.equals(result)) {
-                    continue;
-                }
+                assertEquals(
+                        output,
+                        pMapper.getMappedFileName(input),
+                        "Mapper " + pMapper.getClass().getName() + " failed for input nr. " + i + ", " + input);
             } catch (Throwable t) {
                 throw new UndeclaredThrowableException(
                         t,
                         "Mapper " + pMapper.getClass().getName() + " failed for input " + input + ": "
                                 + t.getMessage());
-            }
-            if (!output.equals(result)) {
-                fail("Mapper " + pMapper.getClass().getName() + " failed for input nr. " + i
-                        + ", " + input + ": Expected " + output
-                        + ", got " + result);
             }
         }
     }

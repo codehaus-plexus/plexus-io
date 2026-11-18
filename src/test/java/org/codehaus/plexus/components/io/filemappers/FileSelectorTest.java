@@ -33,7 +33,6 @@ import org.codehaus.plexus.testing.PlexusTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test case for implementations of {@link FileSelector}.
@@ -60,11 +59,10 @@ class FileSelectorTest {
                 }
             };
             boolean result = pSelector.isSelected(resource);
-            if (result != pOutput[i]) {
-                fail("Test fails for selector " + pSelector.getClass().getName()
-                        + " and input " + name + ": Expected "
-                        + pOutput[i]);
-            }
+            assertEquals(
+                    pOutput[i],
+                    result,
+                    "Test fails for selector " + pSelector.getClass().getName() + " and input " + name);
         }
     }
 
